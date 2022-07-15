@@ -1,16 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Sequelize, DataTypes } from "sequelize";
+import { Options } from "sequelize/types";
+
+import configDB from "./../config/config";
 
 const basename = path.basename(__filename);
+
 const env: string = process.env.NODE_ENV || "development";
-import configDB from "./../config/config";
-const config = configDB[env];
+
+const config: Options = configDB[env as keyof typeof configDB];
 
 let db: any = {};
 let sequelize: Sequelize = new Sequelize(
-	config.database,
-	config.username,
+	config.database!,
+	config.username!,
 	config.password,
 	config
 );
@@ -37,4 +41,4 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-export default db;
+export = db;

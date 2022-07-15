@@ -1,8 +1,15 @@
-import dotenv, { config } from "dotenv";
+import dotenv from "dotenv";
+import { Options } from "sequelize/types";
 
 dotenv.config();
 
-const configDB: any = {
+interface ConfigTs {
+	development: Options;
+	test: Options;
+	production: Options;
+}
+
+const configDB: ConfigTs = {
 	development: {
 		username: process.env.DB_USER,
 		password: process.env.DB_PASSWORD,
@@ -10,9 +17,7 @@ const configDB: any = {
 		host: process.env.DB_HOST,
 		dialect: "mariadb",
 		dialectOptions: {
-			collation: "UTF8MB4_UNICODE_CI",
 			charset: "utf8",
-			multipleStatements: true,
 		},
 		define: {
 			timestamps: false,
@@ -25,9 +30,7 @@ const configDB: any = {
 		host: process.env.DB_HOST,
 		dialect: "mariadb",
 		dialectOptions: {
-			collation: "UTF8MB4_UNICODE_CI",
 			charset: "utf8",
-			multipleStatements: true,
 		},
 		define: {
 			timestamps: false,
@@ -40,7 +43,6 @@ const configDB: any = {
 		host: process.env.DB_HOST,
 		dialect: "mariadb",
 		dialectOptions: {
-			collation: "UTF8MB4_UNICODE_CI",
 			charset: "utf8",
 			multipleStatements: true,
 		},
@@ -50,4 +52,4 @@ const configDB: any = {
 		},
 	},
 };
-export default configDB;
+export = configDB;
