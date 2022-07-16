@@ -1,14 +1,14 @@
 import { QueryInterface, DataTypes, QueryTypes } from "sequelize";
 
 module.exports = {
-	up: (queryInterface: QueryInterface): Promise<void> =>
-		queryInterface.sequelize.transaction(async (transaction) => {
+	up: async (queryInterface: QueryInterface): Promise<void> =>
+		await queryInterface.sequelize.transaction(async (transaction) => {
 			const models: any = await import("../models/index");
-			// await new Promise((r) => setTimeout(r, 1000));
-			// models.default.User.tableName
+
+			await new Promise((r) => setTimeout(r, 0)); // need to wait for the end of event loop, because models won't load in time (inside forEach loop of await import() in models/index) without this
 
 			return await queryInterface.createTable(
-				"users",
+				models.default.User.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -36,7 +36,7 @@ module.exports = {
 					RoleId: {
 						type: DataTypes.INTEGER,
 						references: {
-							model: "roles",
+							model: models.default.Role.tableName,
 							key: "id",
 						},
 					},
