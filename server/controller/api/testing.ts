@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 // const { Op } = require("sequelize");
-import models from "../../models/index";
+
+import { models } from "../../models/index";
 
 export const test = async function (
 	req: Request,

@@ -1,14 +1,15 @@
-import { QueryInterface, DataTypes, QueryTypes } from "sequelize";
+import { QueryInterface, DataTypes, Sequelize, ModelDefined } from "sequelize";
+
+import { dbModels } from "../../types/server/models/db";
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> =>
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			const models: any = await import("../models/index");
-
-			await new Promise((r) => setTimeout(r, 0)); // need to wait for the end of event loop, because models won't load in time (inside forEach loop of await import() in models/index) without this
+			const models: dbModels = (await import("../models/index")).models;
+			await new Promise((r) => setTimeout(r, 0)); // need to wait for the end of event loop, because models won't load in time (inside forEach loop of await import() in models/index) without
 
 			return await queryInterface.createTable(
-				models.default.User.tableName,
+				models.User.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -36,7 +37,7 @@ module.exports = {
 					RoleId: {
 						type: DataTypes.INTEGER,
 						references: {
-							model: models.default.Role.tableName,
+							model: models.Role.tableName,
 							key: "id",
 						},
 					},
@@ -70,7 +71,10 @@ module.exports = {
 
 	down: (queryInterface: QueryInterface): Promise<void> =>
 		queryInterface.sequelize.transaction(async (transaction) => {
-			const models: any = await import("../models/index");
-			return await queryInterface.dropTable("users", { transaction });
+			const models: dbModels = (await import("../models/index")).models;
+			await new Promise((r) => setTimeout(r, 0)); // need to wait for the end of event loop, because models won't load in time (inside forEach loop of await import() in models/index) without
+			return await queryInterface.dropTable(models.User.tableName, {
+				transaction,
+			});
 		}),
 };

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { Sequelize, DataTypes, Model, ModelDefined } from "sequelize";
+import { Sequelize, DataTypes, ModelDefined } from "sequelize";
 import { Options } from "sequelize/types";
 
 import configDB from "./../config/config";
@@ -11,18 +11,12 @@ const env: string = process.env.NODE_ENV || "development";
 
 const config: Options = configDB[env as keyof typeof configDB];
 
-// type "Model" doesn't work, that's why it doesn't make really sense to type this
-interface dbModels {
-	sequelize?: Sequelize;
-	Sequelize?: typeof Sequelize;
-	[key: string]:
-		| Sequelize
-		| typeof Sequelize
-		| undefined
-		| ModelDefined<Sequelize, typeof Sequelize>;
-}
+import { dbConnection } from "../../types/server/models/db";
 
-let db: any = {};
+const db: dbConnection = {
+	models: {},
+};
+
 let sequelize: Sequelize = new Sequelize(
 	config.database!,
 	config.username!,
@@ -38,17 +32,18 @@ fs.readdirSync(__dirname)
 	})
 	.forEach(async (file) => {
 		let modelExport = await import(path.join(__dirname, file));
-		console.log(modelExport);
 
 		let model: ModelDefined<Sequelize, typeof Sequelize> = modelExport.default(
 			sequelize,
 			DataTypes
 		);
 
-		db[model.name] = model;
+		db.models[model.name] = model;
 	});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-export = db;
+const models = db.models;
+
+export { db, models };
