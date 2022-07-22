@@ -13,20 +13,10 @@ import { Request } from "express";
 
 import crypto from "node:crypto";
 
-interface UserType
-	extends Model<InferAttributes<UserType>, InferCreationAttributes<UserType>> {
-	id: CreationOptional<number>;
-	nickname?: string;
-	email: string;
-	password: string;
-	refreshTokenSalt: string;
-	RoleId: number;
-	domainId?: number;
-	active: boolean;
-}
+import { User } from "../../types/server/models/db";
 
 export default (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
-	const User = sequelize.define<UserType>(
+	const User = sequelize.define<User>(
 		"User",
 		{
 			id: {

@@ -39,7 +39,19 @@ fs.readdirSync(__dirname)
 		);
 
 		db.models[model.name] = model;
+
+		db.models.Role?.hasOne(db.models.User);
+		console.log(db.models);
 	});
+
+// https://sequelize.org/docs/v6/other-topics/typescript/
+
+/* ModelDefined.prototype.associate = function (db) {};
+Object.keys(db.models).forEach((modelName) => {
+	if (db.models[modelName].associate) {
+		db.models[modelName].associate(db);
+	}
+}); */
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

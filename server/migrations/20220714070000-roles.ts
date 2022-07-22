@@ -7,9 +7,10 @@ module.exports = {
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			const models: dbModels = (await import("../models/index")).models;
 			await new Promise((r) => setTimeout(r, 0)); // need to wait for the end of event loop, because models won't load in time (inside forEach loop of await import() in models/index) without
+			console.log(models);
 
 			return await queryInterface.createTable(
-				models.User.tableName,
+				models.Role.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -17,48 +18,14 @@ module.exports = {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					nickname: {
-						type: DataTypes.STRING(255),
+					name: {
+						type: DataTypes.STRING(63),
 						unique: true,
 						allowNull: true,
 					},
-					email: {
-						type: DataTypes.STRING,
+					type: {
+						type: DataTypes.STRING(63),
 						allowNull: true,
-					},
-					password: {
-						type: DataTypes.STRING,
-						allowNull: false,
-					},
-					refreshTokenSalt: {
-						type: DataTypes.STRING(20),
-						allowNull: false,
-					},
-					RoleId: {
-						type: DataTypes.INTEGER,
-						references: {
-							model: models.Role.tableName,
-							key: "id",
-						},
-					},
-					domainId: {
-						type: DataTypes.INTEGER.UNSIGNED,
-					},
-					active: {
-						type: DataTypes.BOOLEAN,
-						allowNull: false,
-						defaultValue: true,
-					},
-					createdAt: {
-						allowNull: false,
-						type: DataTypes.DATE,
-					},
-					updatedAt: {
-						allowNull: false,
-						type: DataTypes.DATE,
-					},
-					deletedAt: {
-						type: DataTypes.DATE,
 					},
 				},
 				{
