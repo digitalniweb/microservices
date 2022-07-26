@@ -1,15 +1,13 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { dbModels } from "../../types/server/models/db";
+import User from "../models/user";
+import Role from "../models/role";
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> =>
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			const models: dbModels = (await import("../models/index")).models;
-			await new Promise((r) => setTimeout(r, 0)); // need to wait for the end of event loop, because models won't load in time (inside forEach loop of await import() in models/index) without
-
 			return await queryInterface.createTable(
-				models.User.tableName,
+				User.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -37,7 +35,7 @@ module.exports = {
 					RoleId: {
 						type: DataTypes.INTEGER,
 						references: {
-							model: models.Role.tableName,
+							model: Role.tableName,
 							key: "id",
 						},
 					},
@@ -71,9 +69,7 @@ module.exports = {
 
 	down: (queryInterface: QueryInterface): Promise<void> =>
 		queryInterface.sequelize.transaction(async (transaction) => {
-			const models: dbModels = (await import("../models/index")).models;
-			await new Promise((r) => setTimeout(r, 0)); // need to wait for the end of event loop, because models won't load in time (inside forEach loop of await import() in models/index) without
-			return await queryInterface.dropTable(models.User.tableName, {
+			return await queryInterface.dropTable(User.tableName, {
 				transaction,
 			});
 		}),

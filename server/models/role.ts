@@ -1,41 +1,39 @@
 "use strict";
 
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes } from "sequelize";
 
-import { models } from "./index";
+import db from "./index";
 
 import { Role } from "../../types/server/models/db";
 
-export default async (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
-	const Role = sequelize.define<Role>(
-		"Role",
-		{
-			id: {
-				type: dataTypes.INTEGER.UNSIGNED,
-				primaryKey: true,
-				autoIncrement: true,
-			},
-			name: {
-				type: dataTypes.STRING,
-				allowNull: false,
-			},
-			type: {
-				// login type - /admin or /modules
-				type: dataTypes.STRING,
-				allowNull: false,
-			},
+import User from "./user";
+
+const Role = db.define<Role>(
+	"Role",
+	{
+		id: {
+			type: DataTypes.INTEGER.UNSIGNED,
+			primaryKey: true,
+			autoIncrement: true,
 		},
-		{
-			timestamps: false, // createdAt, updatedAt
-			paranoid: false, // deletedAt
-			// freezeTableName: true,
-			// tableName: 'Role',
-		}
-	);
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		type: {
+			// login type to web section -> /admin or /modules
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+	},
+	{
+		timestamps: false, // createdAt, updatedAt
+		paranoid: false, // deletedAt
+		// freezeTableName: true,
+		// tableName: 'Roles',
+	}
+);
 
-	/* Role.associate = function (models) {
-		Role.hasOne(models.User);
-	}; */
+Role.hasMany(User);
 
-	return Role;
-};
+export default Role;

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-// const { Op } = require("sequelize");
 
-import { models } from "../../models/index";
+import User from "../../models/user";
+import Role from "../../models/role";
 
 export const test = async function (
 	req: Request,
@@ -9,7 +9,13 @@ export const test = async function (
 	next: NextFunction
 ) {
 	try {
-		let user = await models.User.findOne();
+		let user = await Role.findOne({
+			include: [
+				{
+					model: User,
+				},
+			],
+		});
 		return res.send(user);
 	} catch (error) {
 		return next(error);
@@ -61,7 +67,7 @@ export const testPost = async function (
 	next: NextFunction
 ) {
 	try {
-		return res.send(req.body);
+		return res.send("a");
 	} catch (error) {
 		next({ error, code: 500, message: "Test error users ms" });
 	}

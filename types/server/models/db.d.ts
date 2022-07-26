@@ -7,16 +7,9 @@ import {
 	InferAttributes,
 	InferCreationAttributes,
 } from "sequelize";
-export interface dbModels {
-	[key: string]: ModelDefined<Sequelize, typeof Sequelize>;
-}
-export interface dbConnection {
-	sequelize?: Sequelize;
-	Sequelize?: typeof Sequelize;
-	models: dbModels;
-}
 
-// models
+/* models */
+
 export interface User
 	extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 	id: CreationOptional<number>;
@@ -27,9 +20,9 @@ export interface User
 	RoleId: ForeignKey<Role["id"]>;
 	domainId?: number;
 	active: boolean;
-	/* createdAt: CreationOptional<Date>;
-	updatedAt: CreationOptional<Date>;
-	deletedAt?: Date; */
+	createdAt?: CreationOptional<Date>;
+	updatedAt?: CreationOptional<Date>;
+	deletedAt?: Date;
 }
 
 export interface Role
@@ -43,7 +36,7 @@ export interface Role
 
 	user: NonAttribute<User>;
 
-	associations?: {
+	/* associations?: {
 		user: Association<Role, User>;
-	};
+	}; */
 }

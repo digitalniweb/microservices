@@ -1,108 +1,102 @@
 "use strict";
 // const { customBELogger } = require("./../../customFunctions/logger");
 
-import {
-	Sequelize,
-	Model,
-	DataTypes,
-	CreationOptional,
-	InferAttributes,
-	InferCreationAttributes,
-} from "sequelize";
+import { DataTypes } from "sequelize";
 import { Request } from "express";
 
 import crypto from "node:crypto";
 
+import db from "./index";
+
 import { User } from "../../types/server/models/db";
 
-export default (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
-	const User = sequelize.define<User>(
-		"User",
-		{
-			id: {
-				type: dataTypes.INTEGER.UNSIGNED,
-				primaryKey: true,
-				autoIncrement: true,
-			},
-			nickname: {
-				type: dataTypes.STRING,
-				allowNull: true,
-				validate: {
-					len: [0, 255],
-				},
-			},
-			email: {
-				type: DataTypes.STRING,
-				validate: {
-					isEmail: true,
-				},
-			},
-			password: {
-				type: DataTypes.STRING,
-			},
-			refreshTokenSalt: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				validate: {
-					len: [20, 20],
-				},
-			},
-			RoleId: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-			},
-			domainId: {
-				type: DataTypes.INTEGER,
-				allowNull: true,
-			},
-			active: {
-				type: DataTypes.BOOLEAN,
-				defaultValue: true,
-				allowNull: false,
+const User = db.define<User>(
+	"User",
+	{
+		id: {
+			type: DataTypes.INTEGER.UNSIGNED,
+			primaryKey: true,
+			autoIncrement: true,
+		},
+		nickname: {
+			type: DataTypes.STRING,
+			allowNull: true,
+			validate: {
+				len: [0, 255],
 			},
 		},
-		{
-			timestamps: true, // createdAt, updatedAt
-			paranoid: true, // deletedAt
-		}
-	);
-	User.beforeValidate((user) => {
-		if (!user.refreshTokenSalt)
-			user.refreshTokenSalt = crypto
-				.randomBytes(17)
-				.toString("base64")
-				.slice(0, 20);
-	});
-
-	User.beforeCreate(async (user) => {
-		user.password = await hashUserPassword(user.password);
-		user.refreshTokenSalt = createRefreshTokenSalt();
-	});
-
-	// 'beforeUpdate' hook is called when instance.save() or instance.update() is used
-	// when model.update() is used 'beforeBulkUpdate' will is called
-	User.beforeBulkUpdate(async (options: any) => {
-		if (options.attributes.password)
-			options.attributes.password = await hashUserPassword(
-				options.attributes.password
-			);
-
-		// this will change refreshTokenSalt only if I explicitly create 'refreshTokenSalt' (with any truthy value) attribute in model.update() method. I don't want 'refreshTokenSalt' to be changed every time because by changing it user would get logged out.
-		if (options.attributes.refreshTokenSalt)
-			options.attributes.refreshTokenSalt = createRefreshTokenSalt();
-	});
-
-	async function hashUserPassword(password: string): Promise<string> {
-		return await crypto
-			.createHash("sha512")
-			.update(password, "utf8")
-			.digest("base64");
+		email: {
+			type: DataTypes.STRING,
+			validate: {
+				isEmail: true,
+			},
+		},
+		password: {
+			type: DataTypes.STRING,
+		},
+		refreshTokenSalt: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			validate: {
+				len: [20, 20],
+			},
+		},
+		RoleId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		domainId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
+		active: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: true,
+			allowNull: false,
+		},
+	},
+	{
+		timestamps: true, // createdAt, updatedAt
+		paranoid: true, // deletedAt
 	}
-	function createRefreshTokenSalt() {
-		return crypto.randomBytes(17).toString("base64").slice(0, 20);
-	}
+);
+User.beforeValidate((user: User) => {
+	if (!user.refreshTokenSalt)
+		user.refreshTokenSalt = crypto
+			.randomBytes(17)
+			.toString("base64")
+			.slice(0, 20);
+});
 
-	/* User.prototype.authenticate = async function (
+User.beforeCreate(async (user: User) => {
+	user.password = await hashUserPassword(user.password);
+	user.refreshTokenSalt = createRefreshTokenSalt();
+});
+
+// 'beforeUpdate' hook is called when instance.save() or instance.update() is used
+// when model.update() is used 'beforeBulkUpdate' will is called
+User.beforeBulkUpdate(async (options: any) => {
+	if (options.attributes.password)
+		options.attributes.password = await hashUserPassword(
+			options.attributes.password
+		);
+
+	// this will change refreshTokenSalt only if I explicitly create 'refreshTokenSalt' (with any truthy value) attribute in model.update() method. I don't want 'refreshTokenSalt' to be changed every time because by changing it user would get logged out.
+	if (options.attributes.refreshTokenSalt)
+		options.attributes.refreshTokenSalt = createRefreshTokenSalt();
+});
+
+async function hashUserPassword(password: string): Promise<string> {
+	return await crypto
+		.createHash("sha512")
+		.update(password, "utf8")
+		.digest("base64");
+}
+function createRefreshTokenSalt() {
+	return crypto.randomBytes(17).toString("base64").slice(0, 20);
+}
+
+/* User.prototype.authenticate = async function (
 		login: string,
 		password: string,
 		req: Request
@@ -163,7 +157,7 @@ export default (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
 	return User;
 }; */
 
-	/* module.exports = (sequelize: Sequelize, DataTypes: DataType) => {
+/* module.exports = (sequelize: Sequelize, DataTypes: DataType) => {
 	let modelAttributes = {
 		id: {
 			type: DataTypes.INTEGER,
@@ -306,5 +300,5 @@ export default (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
 		// });
 	};
  */
-	return User;
-};
+
+export default User;
