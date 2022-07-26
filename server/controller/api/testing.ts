@@ -9,14 +9,18 @@ export const test = async function (
 	next: NextFunction
 ) {
 	try {
-		let user = await Role.findOne({
+		let role = await Role.findOne({
 			include: [
 				{
 					model: User,
 				},
 			],
 		});
-		return res.send(user);
+		return res.send(role);
+		/* let role = await Role.findOne();
+		let user = await role?.getUsers();
+
+		return res.send(user); */
 	} catch (error) {
 		return next(error);
 	}
