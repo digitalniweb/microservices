@@ -19,7 +19,7 @@ const User = db.define<User>(
 			autoIncrement: true,
 		},
 		nickname: {
-			type: DataTypes.STRING,
+			type: new DataTypes.STRING(255),
 			allowNull: true,
 			validate: {
 				len: [0, 255],
@@ -35,7 +35,7 @@ const User = db.define<User>(
 			type: DataTypes.STRING,
 		},
 		refreshTokenSalt: {
-			type: DataTypes.STRING,
+			type: new DataTypes.STRING(20),
 			allowNull: false,
 			validate: {
 				len: [20, 20],

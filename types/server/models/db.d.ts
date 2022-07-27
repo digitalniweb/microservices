@@ -7,6 +7,7 @@ import {
 	InferAttributes,
 	InferCreationAttributes,
 	HasManyGetAssociationsMixin,
+	HasManyCreateAssociationMixin,
 	NonAttribute,
 } from "sequelize";
 
@@ -18,7 +19,7 @@ export interface User
 	nickname?: string;
 	email: string;
 	password: string;
-	refreshTokenSalt: string;
+	refreshTokenSalt: CreationOptional<string>;
 	RoleId: ForeignKey<Role["id"]>;
 	domainId?: number;
 	active: boolean;
@@ -28,19 +29,16 @@ export interface User
 }
 
 export interface Role
-	extends Model<
-		InferAttributes<Role, { omit: "Users" }>,
-		InferCreationAttributes<Role, { omit: "Users" }>
-	> {
+	extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
 	id: CreationOptional<number>;
 	name: string;
 	type: "admin" | "user";
 
 	Users: NonAttribute<User[]>;
-
 	/* associations: {
 		Users: Association<Role, User>;
 	}; */
 
 	getUsers: HasManyGetAssociationsMixin<User>;
+	createUser: HasManyCreateAssociationMixin<User>;
 }
