@@ -1,11 +1,12 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Role from "../models/role";
+import { Role as RoleType } from "../../types/server/models/db";
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> =>
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable(
+			return await queryInterface.createTable<RoleType>(
 				Role.tableName,
 				{
 					id: {
@@ -17,7 +18,7 @@ module.exports = {
 					name: {
 						type: DataTypes.STRING(63),
 						unique: true,
-						allowNull: true,
+						allowNull: false,
 					},
 					type: {
 						type: DataTypes.STRING(63),

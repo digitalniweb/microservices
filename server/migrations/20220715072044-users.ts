@@ -1,12 +1,13 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import User from "../models/user";
+import { User as UserType } from "../../types/server/models/db";
 import Role from "../models/role";
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> =>
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable(
+			return await queryInterface.createTable<UserType>(
 				User.tableName,
 				{
 					id: {

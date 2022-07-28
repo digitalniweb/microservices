@@ -29,14 +29,11 @@ export = {
 						type: "user",
 					},
 				];
-				const roles: RoleType[] = await Role.bulkCreate<RoleType>(
-					rolesObjects,
-					{
-						validate: true,
-						individualHooks: true,
-						transaction,
-					}
-				);
+				await Role.bulkCreate<RoleType>(rolesObjects, {
+					validate: true,
+					individualHooks: true,
+					transaction,
+				});
 			} catch (error) {
 				console.log(error);
 			}
