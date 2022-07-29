@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import User from "../../models/user";
 import Role from "../../models/role";
+import Tenant from "../../models/tenant";
 
 export const test = async function (
 	req: Request,
@@ -10,13 +11,22 @@ export const test = async function (
 ) {
 	try {
 		let role = await Role.findOne({
+			where: {
+				id: 39,
+			},
 			include: [
 				{
 					model: User,
+					include: [{ model: Tenant }],
 				},
 			],
 		});
-		return res.send(role);
+		// console.log(role?.Users[0]?.Tenant);
+
+		//let tenant = await Tenant.findOne();
+
+		// return res.send(role);
+		return res.send(await role?.Users[0]?.Tenant?.getUser());
 		/* let role = await Role.findOne();
 		let user = await role?.getUsers();
 

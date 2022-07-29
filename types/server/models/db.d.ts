@@ -9,10 +9,37 @@ import {
 	HasManyGetAssociationsMixin,
 	HasManyCreateAssociationMixin,
 	NonAttribute,
+	CreationAttributes,
+	moel,
+	BelongsToGetAssociationMixin,
+	ModelAttributes,
+	AssociationOptions,
 } from "sequelize";
 
 /* models */
 
+export interface Tenant
+	extends Model<InferAttributes<Tenant>, InferCreationAttributes<Tenant>> {
+	id: CreationOptional<number>;
+	UserId: ForeignKey<User["id"]>;
+	countryId?: number;
+	academicDegree?: string;
+	firstName: string;
+	lastName: string;
+	telephone: string;
+	city: string;
+	zip: string;
+	streetAddress: string;
+	houseNumber: number;
+	landRegistryNumber: number;
+	company: boolean;
+	companyName?: string;
+	tin?: string;
+	vatId?: string;
+	subscribeNewsletters: boolean;
+
+	getUser: BelongsToGetAssociationMixin<User>;
+}
 export interface User
 	extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 	id: CreationOptional<number>;
@@ -26,6 +53,7 @@ export interface User
 	createdAt?: CreationOptional<Date>;
 	updatedAt?: CreationOptional<Date>;
 	deletedAt?: Date;
+	Tenant?: Tenant;
 }
 
 export interface Role

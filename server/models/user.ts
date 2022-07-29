@@ -9,6 +9,7 @@ import crypto from "node:crypto";
 import db from "./index";
 
 import { User } from "../../types/server/models/db";
+import Tenant from "./tenant";
 
 const User = db.define<User>(
 	"User",
@@ -95,6 +96,9 @@ async function hashUserPassword(password: string): Promise<string> {
 function createRefreshTokenSalt() {
 	return crypto.randomBytes(17).toString("base64").slice(0, 20);
 }
+
+Tenant.belongsTo(User);
+User.hasOne(Tenant);
 
 /* User.prototype.authenticate = async function (
 		login: string,
