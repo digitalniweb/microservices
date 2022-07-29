@@ -2,10 +2,10 @@ import User from "../models/user";
 import UAParser, { IResult } from "ua-parser-js";
 import validator from "validator";
 import { Op, literal } from "sequelize";
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { CustomRequest } from "./../../types/server/customRequest";
 
-import sleep from "../../helperFunctions/sleep";
+import sleep from "../../custom/functions/sleep";
 
 const wrongLoginAttempt =
 	require("../../customFunctions/wrongLoginAttempt").default;

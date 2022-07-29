@@ -1,5 +1,5 @@
 import LoginLog from "../server/models/loginLog";
-import sleep from "../helperFunctions/sleep";
+import sleep from "../functions/sleep";
 
 export default async function wrongLoginAttempt(
 	req,

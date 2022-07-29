@@ -1,5 +1,5 @@
 import validator from "validator";
-import { Response, NextFunction, Request } from "express";
+import { Response, NextFunction } from "express";
 import { CustomRequest } from "./../../types/server/customRequest";
 
 export default async (
