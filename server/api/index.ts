@@ -6,6 +6,7 @@ import testingRoutes from "./testing";
 /* router.use("/websites", checkAuth, require("./websites"));
 router.use("/languages", checkAuth, require("./languages")); */
 
+router.use("/users", checkAuth, require("./users"));
 router.use("/testing", checkAuth, testingRoutes);
 
 export const apiRoutes = router;

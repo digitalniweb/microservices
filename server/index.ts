@@ -3,12 +3,16 @@ import dotenv from "dotenv";
 
 import { apiRoutes } from "./api";
 
+import languageSetter from "./middleware/language-setter";
+
 dotenv.config();
 
 const app: Express = express();
 //so we can use req.body in POST methods to get posted parameters (e.g. req.body.name)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(languageSetter);
 
 app.use("/api/", apiRoutes);
 
