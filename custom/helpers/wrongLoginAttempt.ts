@@ -1,11 +1,13 @@
-import LoginLog from "../server/models/loginLog";
+import LoginLog from "./../../server/models/loginLog";
 import sleep from "../functions/sleep";
 
+import { Request, NextFunction } from "express";
+
 export default async function wrongLoginAttempt(
-	req,
-	next,
-	loginAttempt,
-	errorObject
+	req: Request,
+	next: NextFunction,
+	loginAttempt: any,
+	errorObject: any
 ) {
 	try {
 		loginAttempt.successful = 0;

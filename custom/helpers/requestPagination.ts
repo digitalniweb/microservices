@@ -1,3 +1,5 @@
+import { stripUndefined } from "./../../types/functions/stripUndefined";
+
 type paginationOptions = {
 	limit?: number;
 	sort?: "ASC" | "DESC";
@@ -6,6 +8,17 @@ type paginationOptions = {
 	orderType?: "priority" | "position"; // only if sortBy = "order". Then "priority" - highest number first; "position" - lowest number first
 	search?: string;
 };
+
+type exportedPaginationOptions = stripUndefined<paginationOptions>;
+
+/* interface exportedPaginationOptions extends paginationOptions {
+	limit: number;
+	sort: "ASC" | "DESC";
+	page: number;
+	sortBy: string;
+	orderType: "priority" | "position";
+	search: string;
+} */
 
 export const requestPagination = function (
 	paginationOptions: paginationOptions
@@ -27,6 +40,7 @@ export const requestPagination = function (
 		sort,
 		page,
 		sortBy,
+		orderType,
 		search,
-	} as paginationOptions;
+	} as exportedPaginationOptions;
 };

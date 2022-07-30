@@ -5,7 +5,7 @@ type requestLanguageExpansion = {
 	languageId: number | null;
 };
 
-type requestAntispam = {
+type requestAntispamExpansion = {
 	loginAttempt: any;
 	loginAttemptsCount: any;
 	maxLoginAttempts: any;
@@ -13,5 +13,5 @@ type requestAntispam = {
 
 export interface CustomRequest extends Request {
 	lang?: requestLanguageExpansion;
-	antispam?: requestAntispam;
+	antispam?: requestAntispamExpansion;
 }
