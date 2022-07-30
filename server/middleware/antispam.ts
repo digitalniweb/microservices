@@ -37,7 +37,7 @@ const loginAntispam = function () {
 				["blockedTill", "DESC"],
 			];
 			let limit = 3; // limit I let same IP address perform an attack - I want to still remain the IP whitelisted till there is 'limit' confirmed attacks from multiple sources (changing user agent or some other shananigans). If the atacker is noob I can let the IP whitelisted for others
-			let blacklistedUser = await Blacklist.findOne({
+			/* let blacklistedUser = await Blacklist.findOne({
 				attributes: ["blockedTill", "reason"],
 				where: {
 					blocked: true,
@@ -282,7 +282,7 @@ const loginAntispam = function () {
 				loginAttempt,
 				loginAttemptsCount,
 				maxLoginAttempts,
-			};
+			}; */
 			return next();
 		} catch (error) {
 			return next({

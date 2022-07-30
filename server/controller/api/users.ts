@@ -34,7 +34,7 @@ exports.allUsers = async function (
 		next({ error, code: 500, message: "Couldn't load users." });
 	}
 };
-
+/* 
 exports.refreshtoken = async function (
 	req: Request,
 	res: Response,
@@ -221,32 +221,32 @@ exports.register = async function (
 	next: NextFunction
 ) {
 	try {
-		/* 
+		
 		// this works, but I don't know if transactions work (maybe they do .save({transaction}))
-		let test = User.build(
-			{
-				email: "testtenant@test.cz",
-				nickname: "testtenant",
-				password: "123456789",
-				RoleId: 4,
-				domainId: 1,
-				Tenant: {
-					firstName: "test2",
-					lastName: "tenant2",
-					telephone: "123456789",
-					city: "Prostějov",
-					zip: "79604",
-					streetAddress: "Václava Špály",
-					houseNumber: 3,
-				},
-			},
-			{
-				include: [{ model: Tenant }],
-			}
-		);
-		let user = await test.save();
+		// let test = User.build(
+		// 	{
+		// 		email: "testtenant@test.cz",
+		// 		nickname: "testtenant",
+		// 		password: "123456789",
+		// 		RoleId: 4,
+		// 		domainId: 1,
+		// 		Tenant: {
+		// 			firstName: "test2",
+		// 			lastName: "tenant2",
+		// 			telephone: "123456789",
+		// 			city: "Prostějov",
+		// 			zip: "79604",
+		// 			streetAddress: "Václava Špály",
+		// 			houseNumber: 3,
+		// 		},
+		// 	},
+		// 	{
+		// 		include: [{ model: Tenant }],
+		// 	}
+		// );
+		// let user = await test.save();
 	
-		return res.send(user); */
+		// return res.send(user);
 		await db.transaction(async (transaction) => {
 			let { email, password, nickname, Tenant } = req.body.formdata;
 			let insertData = {
@@ -284,12 +284,12 @@ exports.register = async function (
 		});
 		return res.send({ message: "Registration complete" });
 	} catch (error: Error) {
-		/* 
+		
 		// when validation or uniqueness in DB is broken
-		let errors = error.errors.reduce((accumulator, currentObject) => {
-			accumulator[currentObject.path] = currentObject.message;
-			return accumulator;
-		}, {}); */
+		// let errors = error.errors.reduce((accumulator, currentObject) => {
+		// 	accumulator[currentObject.path] = currentObject.message;
+		// 	return accumulator;
+		// }, {});
 		let errorMessage = "Something went wrong while register";
 		if (error.errors && error.errors[0]?.path === "email")
 			errorMessage = "This email address is taken.";
@@ -355,15 +355,16 @@ exports.registerAdmin = async function (
 		});
 		return res.send({ message: "Registration complete" });
 	} catch (error: any) {
-		/* 
+		
 		// when validation or uniqueness in DB is broken
-		let errors = error.errors.reduce((accumulator, currentObject) => {
-			accumulator[currentObject.path] = currentObject.message;
-			return accumulator;
-		}, {}); */
+		// let errors = error.errors.reduce((accumulator, currentObject) => {
+		// 	accumulator[currentObject.path] = currentObject.message;
+		// 	return accumulator;
+		// }, {});
 		let errorMessage = "Something went wrong while register";
 		if (error?.errors && error?.errors[0]?.path === "email")
 			errorMessage = "This email address is taken.";
 		next({ error, code: 500, message: errorMessage });
 	}
 };
+ */

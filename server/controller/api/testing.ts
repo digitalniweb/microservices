@@ -12,7 +12,7 @@ export const test = async function (
 	try {
 		let role = await Role.findOne({
 			where: {
-				id: 39,
+				id: 4,
 			},
 			include: [
 				{
@@ -25,8 +25,8 @@ export const test = async function (
 
 		//let tenant = await Tenant.findOne();
 
-		// return res.send(role);
-		return res.send(await role?.Users[0]?.Tenant?.getUser());
+		return res.send(role);
+		// return res.send(await role?.Users[0]?.Tenant?.getUser());
 		/* let role = await Role.findOne();
 		let user = await role?.getUsers();
 
