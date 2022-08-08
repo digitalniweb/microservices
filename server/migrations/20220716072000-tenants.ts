@@ -1,7 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Tenant from "../models/tenant";
-import { Tenant as TenantType } from "../../types/server/models/db";
+import { users } from "../../types/models";
+import TenantType = users.Tenant;
+
 import User from "../models/user";
 
 module.exports = {

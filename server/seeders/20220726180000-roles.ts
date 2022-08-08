@@ -1,6 +1,8 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { Role as RoleType } from "../../types/server/models/db";
+import { users } from "../../types/models";
+import RoleType = users.Role;
+
 import Role from "../models/role";
 
 export = {

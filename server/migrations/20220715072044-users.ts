@@ -1,7 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import User from "../models/user";
-import { User as UserType } from "../../types/server/models/db";
+import { users } from "../../types/models";
+import UserType = users.User;
+
 import Role from "../models/role";
 
 module.exports = {

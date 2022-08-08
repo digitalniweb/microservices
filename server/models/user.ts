@@ -8,7 +8,9 @@ import crypto from "node:crypto";
 
 import db from "./index";
 
-import { User } from "../../types/server/models/db";
+import { users } from "../../types/models";
+import User = users.User;
+
 import Tenant from "./tenant";
 
 const User = db.define<User>(

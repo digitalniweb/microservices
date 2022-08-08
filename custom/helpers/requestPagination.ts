@@ -1,4 +1,4 @@
-import { stripUndefined } from "./../../types/functions/stripUndefined";
+import { stripUndefined } from "../../types/customFunctions";
 
 type paginationOptions = {
 	limit?: number;

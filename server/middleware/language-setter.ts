@@ -1,12 +1,8 @@
 import validator from "validator";
-import { Response, NextFunction } from "express";
-import { CustomRequest } from "./../../types/server/customRequest";
+import { Response, NextFunction, Request } from "express";
+// import { CustomRequest } from "./../../types/express";
 
-export default async (
-	req: CustomRequest,
-	res: Response,
-	next: NextFunction
-) => {
+export default async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const skipGetURLsStarting = [
 			"_nuxt",

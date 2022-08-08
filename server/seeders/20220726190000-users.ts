@@ -3,10 +3,10 @@ import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 // import { Role as RoleType } from "../../types/server/models/db";
 import Role from "../models/role";
 
-import {
-	User as UserType,
-	Tenant as TenantType,
-} from "../../types/server/models/db";
+import { users } from "../../types/models";
+import TenantType = users.Tenant;
+import UserType = users.User;
+
 import Tenant from "../models/tenant";
 import User from "../models/user";
 

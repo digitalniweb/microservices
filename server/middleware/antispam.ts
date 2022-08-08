@@ -2,8 +2,8 @@ import User from "../models/user";
 import UAParser, { IResult } from "ua-parser-js";
 import validator from "validator";
 import { Op, literal } from "sequelize";
-import { Response, NextFunction } from "express";
-import { CustomRequest } from "./../../types/server/customRequest";
+import { Response, NextFunction, Request } from "express";
+// import { CustomRequest } from "./../../types/server/customRequest";
 
 import sleep from "../../custom/functions/sleep";
 
@@ -11,7 +11,7 @@ const wrongLoginAttempt =
 	require("../../customFunctions/wrongLoginAttempt").default;
 
 const loginAntispam = function () {
-	return async (req: CustomRequest, res: Response, next: NextFunction) => {
+	return async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			let userAgent = UAParser(req.headers["user-agent"]);
 			if (

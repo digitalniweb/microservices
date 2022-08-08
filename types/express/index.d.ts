@@ -1,4 +1,3 @@
-import { Request } from "express";
 type requestLanguageExpansion = {
 	header: string;
 	code: string;
@@ -11,7 +10,13 @@ type requestAntispamExpansion = {
 	maxLoginAttempts: any;
 };
 
-export interface CustomRequest extends Request {
+/* export interface CustomRequest extends Request {
 	lang?: requestLanguageExpansion;
 	antispam?: requestAntispamExpansion;
+} */
+declare namespace Express {
+	export interface Request {
+		lang?: requestLanguageExpansion;
+		antispam?: requestAntispamExpansion;
+	}
 }

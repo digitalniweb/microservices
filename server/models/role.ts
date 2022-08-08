@@ -4,7 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "./index";
 
-import { Role } from "../../types/server/models/db";
+import { users } from "../../types/models";
+import Role = users.Role;
 
 import User from "./user";
 

@@ -1,7 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Role from "../models/role";
-import { Role as RoleType } from "../../types/server/models/db";
+
+import { users } from "../../types/models";
+import RoleType = users.Role;
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> =>
