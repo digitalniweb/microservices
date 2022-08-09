@@ -1,6 +1,6 @@
 const models = require("../../models/index");
 import db from "./../../models/index";
-import User from "./../../models/user";
+import User from "./../../models/users/user";
 import isObjectEmpty from "./../../../custom/functions/isObjectEmpty";
 import wrongLoginAttempt from "../../../custom/helpers/wrongLoginAttempt";
 import { Request, Response, NextFunction } from "express";

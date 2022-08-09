@@ -1,13 +1,18 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import User from "../models/user";
+import User from "../models/users/user";
 import { users } from "../../types/models";
 import UserType = users.User;
 
-import Role from "../models/role";
+import Role from "../models/users/role";
+
+import { microservices } from "./../../types";
+const microservice: Array<microservices> = ["users"];
 
 module.exports = {
-	up: async (queryInterface: QueryInterface): Promise<void> =>
+	up: async (queryInterface: QueryInterface): Promise<void> => {
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<UserType>(
 				User.tableName,
@@ -68,12 +73,16 @@ module.exports = {
 					transaction,
 				}
 			);
-		}),
+		});
+	},
 
-	down: (queryInterface: QueryInterface): Promise<void> =>
-		queryInterface.sequelize.transaction(async (transaction) => {
+	down: async (queryInterface: QueryInterface): Promise<void> => {
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+			return;
+		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(User.tableName, {
 				transaction,
 			});
-		}),
+		});
+	},
 };

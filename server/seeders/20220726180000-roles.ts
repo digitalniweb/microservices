@@ -3,10 +3,15 @@ import { QueryInterface, CreationAttributes } from "sequelize";
 import { users } from "../../types/models";
 import RoleType = users.Role;
 
-import Role from "../models/role";
+import Role from "../models/users/role";
+
+import { microservices } from "./../../types";
+const microservice: Array<microservices> = ["users"];
 
 export = {
-	up: async (queryInterface: QueryInterface): Promise<void> =>
+	up: async (queryInterface: QueryInterface): Promise<void> => {
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				const rolesObjects: CreationAttributes<RoleType>[] = [
@@ -39,13 +44,17 @@ export = {
 			} catch (error) {
 				console.log(error);
 			}
-		}),
-	down: (queryInterface: QueryInterface): Promise<void> =>
-		queryInterface.sequelize.transaction(async (transaction) => {
+		});
+	},
+	down: async (queryInterface: QueryInterface): Promise<void> => {
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+			return;
+		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				await queryInterface.bulkDelete(Role.tableName, {}, {});
 			} catch (error) {
 				console.log(error);
 			}
-		}),
+		});
+	},
 };

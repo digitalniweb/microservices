@@ -1,13 +1,18 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Tenant from "../models/tenant";
+import Tenant from "../models/users/tenant";
 import { users } from "../../types/models";
 import TenantType = users.Tenant;
 
-import User from "../models/user";
+import User from "../models/users/user";
+
+import { microservices } from "./../../types";
+const microservice: Array<microservices> = ["users"];
 
 module.exports = {
-	up: async (queryInterface: QueryInterface): Promise<void> =>
+	up: async (queryInterface: QueryInterface): Promise<void> => {
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<TenantType>(
 				Tenant.tableName,
@@ -97,12 +102,16 @@ module.exports = {
 					transaction,
 				}
 			);
-		}),
+		});
+	},
 
-	down: (queryInterface: QueryInterface): Promise<void> =>
-		queryInterface.sequelize.transaction(async (transaction) => {
+	down: async (queryInterface: QueryInterface): Promise<void> => {
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+			return;
+		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(Tenant.tableName, {
 				transaction,
 			});
-		}),
+		});
+	},
 };

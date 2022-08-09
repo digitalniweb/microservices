@@ -1,5 +1,3 @@
-import { stripUndefined } from "../../types/customFunctions";
-
 type paginationOptions = {
 	limit?: number;
 	sort?: "ASC" | "DESC";
@@ -9,7 +7,7 @@ type paginationOptions = {
 	search?: string;
 };
 
-type exportedPaginationOptions = stripUndefined<paginationOptions>;
+type exportedPaginationOptions = Required<paginationOptions>;
 
 /* interface exportedPaginationOptions extends paginationOptions {
 	limit: number;

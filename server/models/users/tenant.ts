@@ -3,9 +3,9 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "./index";
+import db from "./../index";
 
-import { users } from "../../types/models";
+import { users } from "../../../types/models";
 import Tenant = users.Tenant;
 
 const Tenant = db.define<Tenant>(

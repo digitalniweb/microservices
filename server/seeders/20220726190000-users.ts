@@ -1,17 +1,22 @@
 import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 
 // import { Role as RoleType } from "../../types/server/models/db";
-import Role from "../models/role";
+import Role from "../models/users/role";
 
 import { users } from "../../types/models";
 import TenantType = users.Tenant;
 import UserType = users.User;
 
-import Tenant from "../models/tenant";
-import User from "../models/user";
+import Tenant from "../models/users/tenant";
+import User from "../models/users/user";
+
+import { microservices } from "./../../types";
+const microservice: Array<microservices> = ["users"];
 
 export = {
-	up: async (queryInterface: QueryInterface): Promise<void> =>
+	up: async (queryInterface: QueryInterface): Promise<void> => {
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				let superadminRole = await Role.findOne({
@@ -86,13 +91,17 @@ export = {
 					active: true,
 				},
 			]; */
-		}),
-	down: (queryInterface: QueryInterface): Promise<void> =>
-		queryInterface.sequelize.transaction(async (transaction) => {
+		});
+	},
+	down: async (queryInterface: QueryInterface): Promise<void> => {
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+			return;
+		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				await queryInterface.bulkDelete(User.tableName, {}, {});
 			} catch (error) {
 				console.log(error);
 			}
-		}),
+		});
+	},
 };

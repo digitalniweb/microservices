@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 
-import User from "../../models/user";
-import Role from "../../models/role";
-import Tenant from "../../models/tenant";
+import User from "../../models/users/user";
+import Role from "../../models/users/role";
+import Tenant from "../../models/users/tenant";
 
 export const test = async function (
 	req: Request,

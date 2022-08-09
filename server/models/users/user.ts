@@ -6,9 +6,9 @@ import { Request } from "express";
 
 import crypto from "node:crypto";
 
-import db from "./index";
+import db from "./../index";
 
-import { users } from "../../types/models";
+import { users } from "../../../types/models";
 import User = users.User;
 
 import Tenant from "./tenant";
