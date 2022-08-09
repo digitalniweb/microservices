@@ -36,5 +36,6 @@ const Role = db.define<Role>(
 );
 
 Role.hasMany(User);
+User.belongsTo(Role);
 
 export default Role;

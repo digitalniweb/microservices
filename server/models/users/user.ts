@@ -102,66 +102,15 @@ function createRefreshTokenSalt() {
 Tenant.belongsTo(User);
 User.hasOne(Tenant);
 
-/* User.prototype.authenticate = async function (
-		login: string,
-		password: string,
-		req: Request
-	) {
-		// !!! this returns all data including password and refreshSalt !!!
-		// You need to decide in calling method what to do with these information. Remove some of them before sending to user (as in api/controller/users -> authenticate) etc.
-		try {
-			const models = await import("./index");
-			const user = await User.findOne({
-				where: { email: login, active: 1 },
-				paranoid: true,
-				include: [
-					{
-						attributes: ["name", "type"],
-						model: models.Role,
-					},
-					{
-						attributes: ["name"],
-						model: models.Privilege,
-					},
-				],
-			});
+// User.hasOne(models.Tenant);
 
-			if (user === null) return false;
-			if (
-				!(
-					crypto
-						.createHash("sha512")
-						.update(password, "utf8")
-						.digest("base64") ===
-					crypto
-						.createHash("sha512")
-						.update(user.password, "utf8")
-						.digest("base64")
-				)
-			)
-				return false;
-			return user;
-		} catch (error) {
-			// customBELogger({
-			// 	error,
-			// 	code: 500,
-			// 	message: "User authentication failed",
-			// });
-			return false;
-		}
-	};
-
-	// User.hasOne(models.Tenant);
-
-	// User.associate = function (models) {
-	// 	User.hasOne(models.Tenant);
-	// 	User.belongsTo(models.Role);
-	// 	User.belongsToMany(models.Privilege, {
-	// 		through: models.UserPrivilege.tableName,
-	// 	});
-	// };
-	return User;
-}; */
+// User.associate = function (models) {
+// 	User.hasOne(models.Tenant);
+// 	User.belongsTo(models.Role);
+// 	User.belongsToMany(models.Privilege, {
+// 		through: models.UserPrivilege.tableName,
+// 	});
+// };
 
 /* module.exports = (sequelize: Sequelize, DataTypes: DataType) => {
 	let modelAttributes = {

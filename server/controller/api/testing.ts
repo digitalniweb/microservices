@@ -4,12 +4,17 @@ import User from "../../models/users/user";
 import Role from "../../models/users/role";
 import Tenant from "../../models/users/tenant";
 
+import { userAuthenticate } from "../../../custom/helpers/userAuthenticate";
+
 export const test = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
 	try {
+		let auth = await userAuthenticate("admin@digitalniweb.cz", "123456789");
+		return res.send(auth);
+
 		let role = await Role.findOne({
 			where: {
 				id: 4,
