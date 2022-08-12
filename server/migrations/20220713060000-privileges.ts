@@ -11,7 +11,7 @@ const microservice: Array<microservices> = ["users"];
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
-			return;
+			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<PrivilegeType>(
 				Privilege.tableName,
@@ -43,7 +43,7 @@ module.exports = {
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
-			return;
+			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(Privilege.tableName, {
 				transaction,

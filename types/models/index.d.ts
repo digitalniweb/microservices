@@ -100,3 +100,16 @@ export namespace users {
 		PrivilegeId: CreationOptional<number>;
 	}
 }
+
+export namespace websites {
+	export interface Language
+		extends Model<
+			InferAttributes<Language>,
+			InferCreationAttributes<Language>
+		> {
+		id: CreationOptional<number>;
+		name: string;
+		code: string;
+		icon: string;
+	}
+}

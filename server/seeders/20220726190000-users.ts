@@ -58,6 +58,31 @@ export = {
 					transaction,
 				});
 
+				let adminsPrivileges = await Privilege.findAll({
+					where: {
+						name: [
+							"articles",
+							"menu",
+							"webinformation",
+							"owner-information",
+							"url-information",
+							"analytics-marketing",
+						],
+					},
+				});
+
+				await User.create(usersData[1], {
+					transaction,
+				});
+
+				let admin = await User.create(usersData[2], {
+					transaction,
+				});
+
+				await admin.addPrivileges(adminsPrivileges, {
+					transaction,
+				});
+
 				const user: CreationAttributes<UserType> = {
 					email: "tenant@digitalniweb.cz",
 					password: "123456789",
@@ -81,27 +106,6 @@ export = {
 
 				await tenantRole?.createUser(user, {
 					include: [{ model: Tenant, transaction } as IncludeOptions],
-					transaction,
-				});
-
-				let adminsPrivileges = await Privilege.findAll({
-					where: {
-						name: [
-							"articles",
-							"menu",
-							"webinformation",
-							"owner-information",
-							"url-information",
-							"analytics-marketing",
-						],
-					},
-				});
-
-				let admin = await User.create(usersData[2], {
-					transaction,
-				});
-
-				await admin.addPrivileges(adminsPrivileges, {
 					transaction,
 				});
 			} catch (error) {

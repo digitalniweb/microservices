@@ -1,20 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Role from "../models/users/role";
+import Language from "../models/websites/language";
+import { websites } from "../../types/models";
+import TenantType = websites.Language;
 
-import { users } from "../../types/models";
-import RoleType = users.Role;
-
-import { microservices } from "./../../types";
-const microservice: Array<microservices> = ["users"];
+import { microservices } from "../../types";
+const microservice: Array<microservices> = ["websites"];
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<RoleType>(
-				Role.tableName,
+			return await queryInterface.createTable<TenantType>(
+				Language.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -22,14 +21,17 @@ module.exports = {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					name: {
-						type: DataTypes.STRING(63),
-						unique: true,
+					code: {
 						allowNull: false,
+						type: DataTypes.STRING(7),
 					},
-					type: {
+					name: {
+						allowNull: false,
 						type: DataTypes.STRING(63),
-						allowNull: true,
+					},
+					icon: {
+						allowNull: false,
+						type: DataTypes.STRING,
 					},
 				},
 				{
@@ -45,7 +47,7 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Role.tableName, {
+			return await queryInterface.dropTable(Language.tableName, {
 				transaction,
 			});
 		});
