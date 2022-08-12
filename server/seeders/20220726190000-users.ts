@@ -9,6 +9,7 @@ import UserType = users.User;
 
 import Tenant from "../models/users/tenant";
 import User from "../models/users/user";
+import Privilege from "../models/users/privilege";
 
 import { microservices } from "./../../types";
 const microservice: Array<microservices> = ["users"];
@@ -19,20 +20,38 @@ export = {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				let superadminRole = await Role.findOne({
-					where: { name: "superadmin" },
-					transaction,
-				});
-				await superadminRole?.createUser(
+				const usersData: Array<CreationAttributes<UserType>> = [
 					{
 						email: "admin@digitalniweb.cz",
 						nickname: "Programmer",
 						password: "123456789",
+						RoleId: 1,
 						domainId: 1,
 						active: true,
 					},
-					{ transaction }
-				);
+					{
+						email: "owner@test.cz",
+						nickname: "owner",
+						password: "123456789",
+						RoleId: 2,
+						domainId: 1,
+						active: true,
+					},
+					{
+						email: "admin@test.cz",
+						nickname: "admin",
+						password: "123456789",
+						RoleId: 3,
+						domainId: 1,
+						active: true,
+					},
+				];
+
+				let superadminRole = await Role.findOne({
+					where: { name: "superadmin" },
+					transaction,
+				});
+				await superadminRole?.createUser(usersData[0], { transaction });
 
 				let tenantRole = await Role.findOne({
 					where: { name: "tenant" },
@@ -62,6 +81,27 @@ export = {
 
 				await tenantRole?.createUser(user, {
 					include: [{ model: Tenant, transaction } as IncludeOptions],
+					transaction,
+				});
+
+				let adminsPrivileges = await Privilege.findAll({
+					where: {
+						name: [
+							"articles",
+							"menu",
+							"webinformation",
+							"owner-information",
+							"url-information",
+							"analytics-marketing",
+						],
+					},
+				});
+
+				let admin = await User.create(usersData[2], {
+					transaction,
+				});
+
+				await admin.addPrivileges(adminsPrivileges, {
 					transaction,
 				});
 			} catch (error) {

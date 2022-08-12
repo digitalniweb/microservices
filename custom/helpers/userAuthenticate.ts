@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import Role from "./../../server/models/users/role";
 import User from "./../../server/models/users/user";
-// import Privilege from "./../../server/models/users/privilege";
+import Privilege from "./../../server/models/users/privilege";
 
 export async function userAuthenticate(login: string, password: string) {
 	// !!! this returns all data including password and refreshSalt !!!
@@ -15,10 +15,10 @@ export async function userAuthenticate(login: string, password: string) {
 					attributes: ["name", "type"],
 					model: Role,
 				},
-				/* {
+				{
 					attributes: ["name"],
 					model: Privilege,
-				}, */
+				},
 			],
 		});
 

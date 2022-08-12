@@ -8,6 +8,7 @@ import {
 	InferCreationAttributes,
 	HasManyGetAssociationsMixin,
 	HasManyCreateAssociationMixin,
+	HasManyAddAssociationsMixin,
 	NonAttribute,
 	CreationAttributes,
 	moel,
@@ -55,6 +56,9 @@ export namespace users {
 		updatedAt?: CreationOptional<Date>;
 		deletedAt?: Date;
 		Tenant?: Tenant;
+		Privileges: NonAttribute<Privilege[]>;
+
+		addPrivileges?: HasManyAddAssociationsMixin<Privilege[]>;
 	}
 
 	export interface Role
@@ -70,5 +74,29 @@ export namespace users {
 
 		getUsers: HasManyGetAssociationsMixin<User>;
 		createUser: HasManyCreateAssociationMixin<User>;
+	}
+
+	export interface Privilege
+		extends Model<
+			InferAttributes<Privilege>,
+			InferCreationAttributes<Privilege>
+		> {
+		id: CreationOptional<number>;
+		name: string;
+		type: "admin" | "user";
+
+		Users: NonAttribute<User[]>;
+
+		/* getUsers: HasManyGetAssociationsMixin<User>;
+		createUser: HasManyCreateAssociationMixin<User>; */
+	}
+
+	export interface UserPrivilege
+		extends Model<
+			InferAttributes<UserPrivilege>,
+			InferCreationAttributes<UserPrivilege>
+		> {
+		UserId: CreationOptional<number>;
+		PrivilegeId: CreationOptional<number>;
 	}
 }

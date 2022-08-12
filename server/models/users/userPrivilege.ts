@@ -1,0 +1,28 @@
+"use strict";
+
+import { DataTypes } from "sequelize";
+
+import db from "../index";
+
+import { users } from "../../../types/models";
+import UserPrivilege = users.UserPrivilege;
+
+const UserPrivilege = db.define<UserPrivilege>(
+	"UserPrivilege",
+	{
+		UserId: {
+			type: DataTypes.INTEGER.UNSIGNED,
+			allowNull: false,
+		},
+		PrivilegeId: {
+			type: DataTypes.INTEGER.UNSIGNED,
+			allowNull: false,
+		},
+	},
+	{
+		timestamps: false, // createdAt, updatedAt
+		paranoid: false, // deletedAt
+	}
+);
+
+export default UserPrivilege;

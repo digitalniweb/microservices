@@ -12,6 +12,8 @@ import { users } from "../../../types/models";
 import User = users.User;
 
 import Tenant from "./tenant";
+import Privilege from "./privilege";
+import UserPrivilege from "./userPrivilege";
 
 const User = db.define<User>(
 	"User",
@@ -100,6 +102,7 @@ function createRefreshTokenSalt() {
 }
 
 Tenant.belongsTo(User);
+
 User.hasOne(Tenant);
 
 // User.hasOne(models.Tenant);
