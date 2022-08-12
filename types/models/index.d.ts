@@ -58,7 +58,7 @@ export namespace users {
 		Tenant?: Tenant;
 		Privileges: NonAttribute<Privilege[]>;
 
-		addPrivileges?: HasManyAddAssociationsMixin<Privilege[]>;
+		addPrivileges: HasManyAddAssociationsMixin<Privilege, number>;
 	}
 
 	export interface Role
