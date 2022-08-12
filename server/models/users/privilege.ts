@@ -32,18 +32,14 @@ const Privilege = db.define<Privilege>(
 	{
 		timestamps: false, // createdAt, updatedAt
 		paranoid: false, // deletedAt
-		// freezeTableName: true,
-		// tableName: 'Privileges',
 	}
 );
+Privilege.belongsToMany(User, {
+	through: UserPrivilege.tableName,
+});
 
 User.belongsToMany(Privilege, {
 	through: UserPrivilege.tableName,
 });
 
-Privilege.hasMany(User);
-
-Privilege.belongsToMany(User, {
-	through: UserPrivilege.tableName,
-});
 export default Privilege;

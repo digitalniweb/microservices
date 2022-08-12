@@ -86,9 +86,6 @@ export namespace users {
 		type: "admin" | "user";
 
 		Users: NonAttribute<User[]>;
-
-		/* getUsers: HasManyGetAssociationsMixin<User>;
-		createUser: HasManyCreateAssociationMixin<User>; */
 	}
 
 	export interface UserPrivilege
@@ -98,6 +95,23 @@ export namespace users {
 		> {
 		UserId: CreationOptional<number>;
 		PrivilegeId: CreationOptional<number>;
+	}
+	export interface Blacklist
+		extends Model<
+			InferAttributes<Blacklist>,
+			InferCreationAttributes<Blacklist>
+		> {
+		id: CreationOptional<number>;
+		service: string;
+		type: string;
+		value: string;
+		reason?: string;
+		otherData?: Object;
+		blockedTill?: Date;
+		type: "admin" | "user";
+
+		createdAt?: CreationOptional<Date>;
+		deletedAt?: Date;
 	}
 }
 

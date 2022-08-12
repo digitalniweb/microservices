@@ -1,19 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Language from "../models/websites/language";
-import { websites } from "../../types/models";
-import LanguageType = websites.Language;
+import Blacklist from "../models/users/Blacklist";
+import { users } from "../../types/models";
+import BlacklistType = users.Blacklist;
 
 import { microservices } from "../../types";
-const microservice: Array<microservices> = ["websites"];
+const microservice: Array<microservices> = ["users"];
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<LanguageType>(
-				Language.tableName,
+			return await queryInterface.createTable<BlacklistType>(
+				Blacklist.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -21,17 +21,33 @@ module.exports = {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					code: {
-						allowNull: false,
-						type: DataTypes.STRING(7),
-					},
-					name: {
-						allowNull: false,
-						type: DataTypes.STRING(63),
-					},
-					icon: {
-						allowNull: false,
+					service: {
 						type: DataTypes.STRING,
+						allowNull: false,
+					},
+					type: {
+						type: DataTypes.STRING,
+						allowNull: false,
+					},
+					value: {
+						type: DataTypes.STRING,
+						allowNull: false,
+					},
+					reason: {
+						type: DataTypes.STRING,
+					},
+					blockedTill: {
+						type: DataTypes.DATE,
+					},
+					otherData: {
+						type: DataTypes.JSON,
+					},
+					createdAt: {
+						allowNull: false,
+						type: DataTypes.DATE,
+					},
+					deletedAt: {
+						type: DataTypes.DATE,
 					},
 				},
 				{
@@ -47,7 +63,7 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Language.tableName, {
+			return await queryInterface.dropTable(Blacklist.tableName, {
 				transaction,
 			});
 		});

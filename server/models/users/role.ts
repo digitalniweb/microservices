@@ -8,6 +8,8 @@ import { users } from "../../../types/models";
 import Role = users.Role;
 
 import User from "./user";
+import Privilege from "./privilege";
+import UserPrivilege from "./userPrivilege";
 
 const Role = db.define<Role>(
 	"Role",
@@ -34,6 +36,12 @@ const Role = db.define<Role>(
 		// tableName: 'Roles',
 	}
 );
+
+/* User.belongsToMany(Privilege, {
+	through: UserPrivilege.tableName,
+});
+
+Privilege.hasMany(User); */
 
 Role.hasMany(User);
 User.belongsTo(Role);

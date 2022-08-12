@@ -102,7 +102,6 @@ function createRefreshTokenSalt() {
 }
 
 Tenant.belongsTo(User);
-
 User.hasOne(Tenant);
 
 // User.hasOne(models.Tenant);
