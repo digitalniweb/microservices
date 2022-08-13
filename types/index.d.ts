@@ -1,3 +1,8 @@
+import { CreationAttributes } from "sequelize/types";
+
+import { users } from "./models";
+import LoginLog = users.LoginLog;
+
 export type microservices = "users" | "websites";
 
 export type possibleRoles =
@@ -6,3 +11,5 @@ export type possibleRoles =
 	| "admin"
 	| "tenant"
 	| "user";
+
+export interface loginAttempt extends CreationAttributes<LoginLog> {}

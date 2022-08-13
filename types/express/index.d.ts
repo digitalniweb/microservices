@@ -1,3 +1,4 @@
+import { loginAttempt } from "./../index";
 type requestLanguageExpansion = {
 	header: string;
 	code: string;
@@ -5,15 +6,10 @@ type requestLanguageExpansion = {
 };
 
 type requestAntispamExpansion = {
-	loginAttempt: any;
+	loginAttempt: loginAttempt;
 	loginAttemptsCount: any;
 	maxLoginAttempts: any;
 };
-
-/* export interface CustomRequest extends Request {
-	lang?: requestLanguageExpansion;
-	antispam?: requestAntispamExpansion;
-} */
 
 declare namespace Express {
 	export interface Request {
@@ -26,3 +22,6 @@ declare namespace Express {
 		};
 	}
 }
+
+export as namespace Express;
+export = Express;

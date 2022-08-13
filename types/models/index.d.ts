@@ -120,7 +120,7 @@ export namespace users {
 		> {
 		id: CreationOptional<number>;
 		userLogin: string;
-		UserId: number;
+		UserId?: number | null;
 		ip: string;
 		userAgent: Object;
 		successful: boolean;

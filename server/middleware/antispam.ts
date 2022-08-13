@@ -3,14 +3,14 @@ import UAParser, { IResult } from "ua-parser-js";
 import validator from "validator";
 import { Op, literal, Order } from "sequelize";
 import { Response, NextFunction, Request } from "express";
-// import { CustomRequest } from "./../../types/server/customRequest";
+
+import { loginAttempt } from "./../../types";
 
 import sleep from "../../custom/functions/sleep";
 import LoginLog from "../models/users/loginLog";
 import Blacklist from "../models/users/Blacklist";
 
-const wrongLoginAttempt =
-	require("../../customFunctions/wrongLoginAttempt").default;
+import wrongLoginAttempt from "../../custom/helpers/wrongLoginAttempt";
 
 const loginAntispam = function () {
 	return async (req: Request, res: Response, next: NextFunction) => {
@@ -106,19 +106,12 @@ const loginAntispam = function () {
 					},
 				});
 			}
-			type loginAttempt = {
-				userLogin: string;
-				UserId: number | null | undefined;
-				ip: string;
-				userAgent: IResult;
-				successful: 1 | 0;
-			};
 			let loginAttempt: loginAttempt = {
 				userLogin: req.body.login,
 				UserId: null,
 				ip: req.ip,
 				userAgent,
-				successful: 1,
+				successful: true,
 			};
 
 			let maxLoginAttempts = 4; // max failed login attempts for same login / account
