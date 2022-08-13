@@ -12,4 +12,4 @@ router.post("/refreshtoken", controller.refreshtoken);
 router.post("/", controller.register);
 router.post("/admin/", controller.registerAdmin);
 
-module.exports = router;
+export = router;

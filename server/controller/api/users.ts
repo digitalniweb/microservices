@@ -1,4 +1,3 @@
-const models = require("../../models/index");
 import db from "./../../models/index";
 
 import User from "./../../models/users/user";

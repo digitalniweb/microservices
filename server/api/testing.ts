@@ -11,4 +11,4 @@ router.post("/", controller.testPost);
 router.post("/", checkAuth(), controller.addRedirect);
 router.delete("/", checkAuth(), controller.deleteRedirect); */
 
-export default router;
+export = router;

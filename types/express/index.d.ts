@@ -7,8 +7,8 @@ type requestLanguageExpansion = {
 
 type requestAntispamExpansion = {
 	loginAttempt: loginAttempt;
-	loginAttemptsCount: any;
-	maxLoginAttempts: any;
+	loginAttemptsCount: number;
+	maxLoginAttempts: number;
 };
 
 declare namespace Express {

@@ -2,6 +2,7 @@
 import sleep from "../functions/sleep";
 
 import { Request, NextFunction } from "express";
+import LoginLog from "../../server/models/users/loginLog";
 
 export default async function wrongLoginAttempt(
 	req: Request,
@@ -11,7 +12,7 @@ export default async function wrongLoginAttempt(
 ) {
 	try {
 		loginAttempt.successful = 0;
-		// await LoginLog.create(loginAttempt);
+		await LoginLog.create(loginAttempt);
 		await sleep();
 		return next({
 			code: 401,
