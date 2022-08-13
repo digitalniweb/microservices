@@ -34,7 +34,6 @@ export async function userAuthenticate(login: string, password: string) {
 			return false;
 		return user;
 	} catch (error) {
-		console.log(error);
 		// customBELogger({
 		// 	error,
 		// 	code: 500,

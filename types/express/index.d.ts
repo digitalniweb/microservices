@@ -14,9 +14,15 @@ type requestAntispamExpansion = {
 	lang?: requestLanguageExpansion;
 	antispam?: requestAntispamExpansion;
 } */
+
 declare namespace Express {
 	export interface Request {
 		lang?: requestLanguageExpansion;
 		antispam?: requestAntispamExpansion;
+		userVerified?: {
+			id: number;
+			roles: possibleRoles[];
+			privileges: string[];
+		};
 	}
 }

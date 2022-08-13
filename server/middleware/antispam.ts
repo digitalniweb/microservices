@@ -1,11 +1,13 @@
 import User from "../models/users/user";
 import UAParser, { IResult } from "ua-parser-js";
 import validator from "validator";
-import { Op, literal } from "sequelize";
+import { Op, literal, Order } from "sequelize";
 import { Response, NextFunction, Request } from "express";
 // import { CustomRequest } from "./../../types/server/customRequest";
 
 import sleep from "../../custom/functions/sleep";
+import LoginLog from "../models/users/loginLog";
+import Blacklist from "../models/users/Blacklist";
 
 const wrongLoginAttempt =
 	require("../../customFunctions/wrongLoginAttempt").default;
@@ -32,27 +34,25 @@ const loginAntispam = function () {
 					message: "Wrong login.",
 				});
 			}
-			let order = [
+			let order: Order = [
 				literal("`Blacklist`.`blockedTill` IS NULL DESC"),
 				["blockedTill", "DESC"],
 			];
 			let limit = 3; // limit I let same IP address perform an attack - I want to still remain the IP whitelisted till there is 'limit' confirmed attacks from multiple sources (changing user agent or some other shananigans). If the atacker is noob I can let the IP whitelisted for others
-			/* let blacklistedUser = await Blacklist.findOne({
-				attributes: ["blockedTill", "reason"],
-				where: {
-					blocked: true,
-					blockedTill: {
-						[Op.or]: {
-							[Op.gt]: new Date(),
-							[Op.eq]: null,
+			let blacklistedUser: InstanceType<typeof Blacklist> | null =
+				await Blacklist.findOne({
+					attributes: ["blockedTill", "reason"],
+					where: {
+						blockedTill: {
+							[Op.or]: {
+								[Op.gt]: new Date(),
+							},
 						},
+						service: "login",
+						type: "userMail",
+						value: req.body.login,
 					},
-					service: "login",
-					type: "userMail",
-					value: req.body.login,
-				},
-				order,
-			});
+				});
 			if (blacklistedUser) {
 				return next({
 					code: 401,
@@ -63,28 +63,27 @@ const loginAntispam = function () {
 					},
 				});
 			}
-			let blacklistedIP = await Blacklist.findAll({
-				attributes: ["blockedTill", "reason", "otherData"],
-				where: {
-					blocked: true,
-					blockedTill: {
-						[Op.or]: {
-							[Op.gt]: new Date(),
-							[Op.eq]: null,
+			let blacklistedIP: Array<InstanceType<typeof Blacklist>> | null =
+				await Blacklist.findAll({
+					attributes: ["blockedTill", "reason", "otherData"],
+					where: {
+						blockedTill: {
+							[Op.or]: {
+								[Op.gt]: new Date(),
+							},
 						},
+						service: "login",
+						type: "IP",
+						value: req.ip,
 					},
-					service: "login",
-					type: "IP",
-					value: req.ip,
-				},
-				order,
-				limit,
-			});
+					paranoid: true,
+					order,
+					limit,
+				});
 
 			if (
 				blacklistedIP.some(
-					(blacklist: Blacklist) =>
-						blacklist.otherData.userAgent == userAgent.ua
+					(blacklist) => blacklist?.otherData?.userAgent == userAgent.ua
 				)
 			) {
 				await sleep();
@@ -282,7 +281,7 @@ const loginAntispam = function () {
 				loginAttempt,
 				loginAttemptsCount,
 				maxLoginAttempts,
-			}; */
+			};
 			return next();
 		} catch (error) {
 			return next({

@@ -106,12 +106,26 @@ export namespace users {
 		type: string;
 		value: string;
 		reason?: string;
-		otherData?: Object;
-		blockedTill?: Date;
+		otherData?: any;
+		blockedTill: Date;
 		type: "admin" | "user";
 
 		createdAt?: CreationOptional<Date>;
 		deletedAt?: Date;
+	}
+	export interface LoginLog
+		extends Model<
+			InferAttributes<LoginLog>,
+			InferCreationAttributes<LoginLog>
+		> {
+		id: CreationOptional<number>;
+		userLogin: string;
+		UserId: number;
+		ip: string;
+		userAgent: Object;
+		successful: boolean;
+
+		createdAt?: CreationOptional<Date>;
 	}
 }
 

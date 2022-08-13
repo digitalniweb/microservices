@@ -1,13 +1,25 @@
 const models = require("../../models/index");
 import db from "./../../models/index";
+
 import User from "./../../models/users/user";
+import Role from "../../models/users/role";
+import Privilege from "../../models/users/privilege";
+import LoginLog from "../../models/users/loginLog";
+import Tenant from "../../models/users/tenant";
+
 import isObjectEmpty from "./../../../custom/functions/isObjectEmpty";
 import wrongLoginAttempt from "../../../custom/helpers/wrongLoginAttempt";
 import { Request, Response, NextFunction } from "express";
 import { requestPagination } from "../../../custom/helpers/requestPagination";
-import { IncludeOptions } from "sequelize";
+import { CreationAttributes, IncludeOptions, InferAttributes } from "sequelize";
 
-exports.allUsers = async function (
+import { possibleRoles } from "./../../../types";
+import { users } from "./../../../types/models";
+import UserType = users.User;
+
+import { userAuthenticate } from "../../../custom/helpers/userAuthenticate";
+
+export const allUsers = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -34,8 +46,8 @@ exports.allUsers = async function (
 		next({ error, code: 500, message: "Couldn't load users." });
 	}
 };
-/* 
-exports.refreshtoken = async function (
+
+export const refreshtoken = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -63,39 +75,40 @@ exports.refreshtoken = async function (
 		next({ error, code: 500, message: "Couldn't get refresh token user." });
 	}
 };
-exports.authenticate = async function (
+export const authenticate = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
 	try {
-		const user = await User.authenticate(
-			req.body.login,
-			req.body.password,
-			req
-		);
+		const user = await userAuthenticate(req.body.login, req.body.password);
 
 		if (!user) {
-			return wrongLoginAttempt(req, next, req.antispam.loginAttempt, {
+			return wrongLoginAttempt(req, next, req?.antispam?.loginAttempt, {
 				message: "neplatné přihlášení",
-				loginAttemptsCount: req.antispam.loginAttemptsCount,
-				maxLoginAttempts: req.antispam.maxLoginAttempts,
+				loginAttemptsCount: req?.antispam?.loginAttemptsCount,
+				maxLoginAttempts: req?.antispam?.maxLoginAttempts,
 			});
 		}
 
 		let deleteAttributes = ["password", "deletedAt"];
-		for (const property in user.dataValues) {
-			if (deleteAttributes.includes(property)) delete user.dataValues[property];
+		for (const property in user.getDataValue) {
+			if (deleteAttributes.includes(property))
+				/* user.setDataValue(
+					property as keyof InferAttributes<UserType>,
+					undefined
+				); */
+				delete user[property as keyof InferAttributes<UserType>];
 		}
 
-		await LoginLog.create(req.antispam.loginAttempt);
+		await LoginLog.create(req?.antispam?.loginAttempt);
 		return res.send(user);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't authenticate user." });
 	}
 };
 
-exports.getUser = async function (
+export const getUser = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -116,7 +129,7 @@ exports.getUser = async function (
 	}
 };
 
-exports.getTenant = async function (
+export const getTenant = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -143,7 +156,7 @@ exports.getTenant = async function (
 	}
 };
 
-exports.editUserProfile = async function (
+export const editUserProfile = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -152,15 +165,15 @@ exports.editUserProfile = async function (
 		let { formdata } = req.body;
 		let { Tenant } = formdata;
 		if (Tenant) delete formdata.Tenant;
-		let id = req.userVerified.id;
+		let id = req?.userVerified?.id;
 		if (formdata.role !== undefined) {
 			// only certain authorized users can change roles: owner, admin, superadmin
 			// and they can assign only same or smaller level of authorization
 			if (
 				!["owner", "superadmin"].some((userRole) =>
-					req.userVerified.roles.includes(userRole)
+					req?.userVerified?.roles.includes(userRole)
 				) &&
-				!(req.userVerified.roles.includes("admin") && true) // !!!!! instead of '&& true' should be priviliges check of creating new users with maximum of priviliges they have. The same is in registration.js register
+				!(req?.userVerified?.roles.includes("admin") && true) // !!!!! instead of '&& true' should be priviliges check of creating new users with maximum of priviliges they have. The same is in registration.js register
 			)
 				throw {
 					code: 403,
@@ -192,7 +205,7 @@ exports.editUserProfile = async function (
 	}
 };
 
-exports.findUser = async function (
+export const findUser = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -215,13 +228,12 @@ exports.findUser = async function (
 	}
 };
 // associations https://sequelize.org/master/manual/assocs.html
-exports.register = async function (
+export const register = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
 	try {
-		
 		// this works, but I don't know if transactions work (maybe they do .save({transaction}))
 		// let test = User.build(
 		// 	{
@@ -245,13 +257,16 @@ exports.register = async function (
 		// 	}
 		// );
 		// let user = await test.save();
-	
+
 		// return res.send(user);
 		await db.transaction(async (transaction) => {
 			let { email, password, nickname, Tenant } = req.body.formdata;
-			let insertData = {
+			let insertData: CreationAttributes<UserType> = {
 				email,
 				password,
+				nickname: undefined,
+				Tenant: undefined,
+				active: true,
 			};
 			let userRole = "user";
 			let includeInfo = [];
@@ -270,7 +285,7 @@ exports.register = async function (
 				transaction,
 			});
 
-			let result = await usersRole.createUser(
+			let result = await usersRole?.createUser(
 				{
 					...insertData,
 				},
@@ -283,8 +298,7 @@ exports.register = async function (
 			return result;
 		});
 		return res.send({ message: "Registration complete" });
-	} catch (error: Error) {
-		
+	} catch (error: any) {
 		// when validation or uniqueness in DB is broken
 		// let errors = error.errors.reduce((accumulator, currentObject) => {
 		// 	accumulator[currentObject.path] = currentObject.message;
@@ -297,7 +311,7 @@ exports.register = async function (
 	}
 };
 
-exports.registerAdmin = async function (
+export const registerAdmin = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -317,10 +331,15 @@ exports.registerAdmin = async function (
 				password,
 				role,
 				active: true,
+				nickname: undefined,
 			};
 			if (nickname !== undefined) insertData.nickname = nickname;
 
-			if (role.some((userRole) => ["superadmin", "owner"].includes(userRole))) {
+			if (
+				role.some((userRole: possibleRoles) =>
+					["superadmin", "owner"].includes(userRole)
+				)
+			) {
 				throw {
 					code: 401,
 					message: "Unauthorized request. Roles are not permitted.",
@@ -330,15 +349,15 @@ exports.registerAdmin = async function (
 
 			let intersectedPrivileges = [];
 			// if 'admin' then check if he has privileges to manage users
-			if (req.userVerified.roles.includes("admin")) {
-				if (!req.userVerified.privileges.includes("users"))
+			if (req?.userVerified?.roles.includes("admin")) {
+				if (!req?.userVerified?.privileges.includes("users"))
 					throw {
 						code: 401,
 						message: "Unauthorized request.",
 						finalResponse: true,
 					};
-				intersectedPrivileges = req.userVerified.privileges.filter(
-					(privilege) => privileges.includes(privilege)
+				intersectedPrivileges = req?.userVerified?.privileges.filter(
+					(privilege: string) => privileges.includes(privilege)
 				);
 				if (intersectedPrivileges)
 					throw {
@@ -355,7 +374,6 @@ exports.registerAdmin = async function (
 		});
 		return res.send({ message: "Registration complete" });
 	} catch (error: any) {
-		
 		// when validation or uniqueness in DB is broken
 		// let errors = error.errors.reduce((accumulator, currentObject) => {
 		// 	accumulator[currentObject.path] = currentObject.message;
@@ -367,4 +385,3 @@ exports.registerAdmin = async function (
 		next({ error, code: 500, message: errorMessage });
 	}
 };
- */

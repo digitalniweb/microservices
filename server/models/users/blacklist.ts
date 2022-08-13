@@ -38,7 +38,7 @@ const Blacklist = db.define<Blacklist>(
 		},
 		blockedTill: {
 			type: DataTypes.DATE,
-			allowNull: true, // null = indefinitely
+			allowNull: false, // indefinitely = high date
 		},
 	},
 	{

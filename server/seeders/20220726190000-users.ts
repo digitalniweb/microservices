@@ -111,30 +111,6 @@ export = {
 			} catch (error) {
 				console.log(error);
 			}
-
-			/* const usersData: CreationAttributes<UserType>[] = [
-				{
-					email: "admin@digitalniweb.cz",
-					nickname: "Programmer",
-					password: "123456789",
-					domainId: 1,
-					active: true,
-				},
-				{
-					email: "owner@test.cz",
-					nickname: "owner",
-					password: "123456789",
-					domainId: 1,
-					active: true,
-				},
-				{
-					email: "admin@test.cz",
-					nickname: "admin",
-					password: "123456789",
-					domainId: 1,
-					active: true,
-				},
-			]; */
 		});
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
