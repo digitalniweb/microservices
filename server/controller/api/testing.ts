@@ -15,7 +15,7 @@ export const test = async function (
 		let auth = await userAuthenticate("admin@digitalniweb.cz", "123456789");
 		return res.send(auth);
 
-		let role = await Role.findOne({
+		/* let role = await Role.findOne({
 			where: {
 				id: 4,
 			},
@@ -30,12 +30,17 @@ export const test = async function (
 
 		//let tenant = await Tenant.findOne();
 
-		return res.send(role);
+		return res.send(role); */
 		// return res.send(await role?.Users[0]?.Tenant?.getUser());
 		/* let role = await Role.findOne();
 		let user = await role?.getUsers();
 
 		return res.send(user); */
+
+		/* let user = await User.findOne();
+		let userRole = await user?.getRole();
+
+		return res.send(userRole); */
 	} catch (error) {
 		return next(error);
 	}

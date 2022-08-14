@@ -15,6 +15,7 @@ import {
 	BelongsToGetAssociationMixin,
 	ModelAttributes,
 	AssociationOptions,
+	HasOneGetAssociationMixin,
 } from "sequelize";
 
 /* models */
@@ -59,6 +60,7 @@ export namespace users {
 		Privileges: NonAttribute<Privilege[]>;
 
 		addPrivileges: HasManyAddAssociationsMixin<Privilege, number>;
+		getRole: HasOneGetAssociationMixin<Role>;
 	}
 
 	export interface Role
@@ -139,5 +141,18 @@ export namespace websites {
 		name: string;
 		code: string;
 		icon: string;
+	}
+	export interface AppType
+		extends Model<InferAttributes<AppType>, InferCreationAttributes<AppType>> {
+		id: CreationOptional<number>;
+		name: string;
+	}
+	export interface App
+		extends Model<InferAttributes<App>, InferCreationAttributes<App>> {
+		id: CreationOptional<number>;
+		parentId?: number;
+		name: string;
+		port?: number;
+		AppTypeId: CreationOptional<number>;
 	}
 }
