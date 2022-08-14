@@ -7,7 +7,7 @@ import RoleType = users.Role;
 import PrivilegeType = users.Privilege;
 
 import db from "./../../models/index";
-import { CreationAttributes, WhereOptions } from "sequelize/types";
+import { WhereOptions } from "sequelize/types";
 
 export const allList = async function (
 	req: Request,
@@ -15,11 +15,11 @@ export const allList = async function (
 	next: NextFunction
 ) {
 	try {
-		// select: roles/privileges
-		// type: user/admin
+		// select: roles/privileges/(all)
+		// type: user/admin/(all)
 		const { select = "all", type = "all" } = req.query;
 		let data = db.transaction(async (transaction) => {
-			let data = [];
+			let data = [] as Array<Promise<RoleType[]> | Promise<PrivilegeType[]>>;
 			let where: WhereOptions<RoleType> = {};
 			if (type !== "all") where.type = type as string;
 			if (select === "all" || select === "roles")
@@ -39,14 +39,22 @@ export const allList = async function (
 					})
 				);
 			if (data.length === 0) return false;
-			let loadedList: any = await Promise.all(data);
-			let list = {} as any;
+			let loadedList = await Promise.all(data);
+			type listType = {
+				roles?: RoleType[];
+				privileges?: PrivilegeType[];
+			};
+			let list = {} as listType;
 			if (select === "all") {
-				list.roles = loadedList[0];
-				list.privileges = loadedList[1];
+				list.roles = loadedList[0] as RoleType[];
+				list.privileges = loadedList[1] as PrivilegeType[];
 			} else {
-				list[select as string] = loadedList[0];
+				list[select as keyof listType] =
+					loadedList[0] as RoleType[] extends RoleType[]
+						? RoleType[]
+						: PrivilegeType[];
 			}
+
 			return list;
 		});
 		return res.send(data);
