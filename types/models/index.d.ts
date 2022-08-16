@@ -16,6 +16,7 @@ import {
 	ModelAttributes,
 	AssociationOptions,
 	HasOneGetAssociationMixin,
+	HasManySetAssociationsMixin,
 } from "sequelize";
 
 /* models */
@@ -154,5 +155,27 @@ export namespace websites {
 		name: string;
 		port?: number;
 		AppTypeId: CreationOptional<number>;
+	}
+
+	export interface Url
+		extends Model<InferAttributes<Url>, InferCreationAttributes<Url>> {
+		id: CreationOptional<number>;
+		url: string;
+		WebsiteId?: string;
+	}
+
+	export interface Website
+		extends Model<InferAttributes<Website>, InferCreationAttributes<Website>> {
+		id: CreationOptional<number>;
+		uniqueName: CreationOptional<string>;
+		MainUrlId?: number;
+		userId?: number;
+		AppId?: number;
+		MainLanguageId?: number;
+		active: boolean;
+		testingMode: boolean;
+		paused: boolean;
+
+		setAliases: HasManySetAssociationsMixin<Url, number>;
 	}
 }
