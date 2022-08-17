@@ -1,7 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Blacklist from "./../../models/users/Blacklist";
-import { users } from "./../../../types/models";
+import { users } from "./../../../types/models/users";
 import BlacklistType = users.Blacklist;
 
 import { microservices } from "./../../../types";

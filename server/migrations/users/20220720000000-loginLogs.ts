@@ -2,7 +2,7 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 import LoginLog from "./../../models/users/LoginLog";
 import User from "./../../models/users/user";
-import { users } from "./../../../types/models";
+import { users } from "./../../../types/models/users";
 import LoginLogType = users.LoginLog;
 
 import { microservices } from "./../../../types";

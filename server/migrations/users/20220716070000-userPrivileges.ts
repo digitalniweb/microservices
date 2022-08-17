@@ -4,7 +4,7 @@ import UserPrivilege from "./../../models/users/userPrivilege";
 import Privilege from "./../../models/users/privilege";
 import User from "./../../models/users/user";
 
-import { users } from "./../../../types/models";
+import { users } from "./../../../types/models/users";
 import UserPrivilegeType = users.UserPrivilege;
 
 import { microservices } from "./../../../types";

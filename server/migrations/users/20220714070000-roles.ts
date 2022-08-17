@@ -2,7 +2,7 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 import Role from "./../../models/users/role";
 
-import { users } from "./../../../types/models";
+import { users } from "./../../../types/models/users";
 import RoleType = users.Role;
 
 import { microservices } from "./../../../types";

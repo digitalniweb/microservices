@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import Privilege from "../../models/users/privilege";
 import Role from "../../models/users/role";
 
-import { users } from "../../../types/models";
+import { users } from "../../../types/models/users";
 import RoleType = users.Role;
 import PrivilegeType = users.Privilege;
 

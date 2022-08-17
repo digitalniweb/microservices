@@ -1,7 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Tenant from "./../../models/users/tenant";
-import { users } from "./../../../types/models";
+import { users } from "./../../../types/models/users";
 import TenantType = users.Tenant;
 
 import User from "./../../models/users/user";

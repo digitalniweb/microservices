@@ -1,7 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import AppType from "./../../models/websites/AppType";
-import { websites } from "./../../../types/models";
+import { websites } from "./../../../types/models/websites";
 import AppTypeType = websites.AppType;
 
 import { microservices } from "./../../../types";

@@ -4,7 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { websites } from "../../../types/models";
+import { websites } from "../../../types/models/websites";
 import Website = websites.Website;
 
 import Url from "./url";

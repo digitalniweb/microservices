@@ -6,7 +6,7 @@ import db from "../index";
 
 import User from "./user";
 
-import { users } from "../../../types/models";
+import { users } from "../../../types/models/users";
 import LoginLog = users.LoginLog;
 
 const LoginLog = db.define<LoginLog>(

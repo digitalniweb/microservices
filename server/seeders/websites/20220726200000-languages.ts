@@ -3,7 +3,7 @@ import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 // import { Role as RoleType } from "../../types/server/models/db";
 import Role from "../../models/users/role";
 
-import { websites } from "../../../types/models";
+import { websites } from "../../../types/models/websites";
 import LanguageType = websites.Language;
 
 import Language from "../../models/websites/language";

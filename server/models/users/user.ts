@@ -8,7 +8,7 @@ import crypto from "node:crypto";
 
 import db from "./../index";
 
-import { users } from "../../../types/models";
+import { users } from "../../../types/models/users";
 import User = users.User;
 
 import Tenant from "./tenant";

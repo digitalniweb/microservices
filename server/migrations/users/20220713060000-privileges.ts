@@ -2,7 +2,7 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 import Privilege from "../../models/users/privilege";
 
-import { users } from "../../../types/models";
+import { users } from "../../../types/models/users";
 import PrivilegeType = users.Privilege;
 
 import { microservices } from "../../../types";

@@ -1,7 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import User from "./../../models/users/user";
-import { users } from "./../../../types/models";
+import { users } from "./../../../types/models/users";
 import UserType = users.User;
 
 import Role from "./../../models/users/role";

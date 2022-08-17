@@ -4,7 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { websites } from "../../../types/models";
+import { websites } from "../../../types/models/websites";
 import Language = websites.Language;
 
 const Language = db.define<Language>(

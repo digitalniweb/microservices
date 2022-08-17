@@ -4,7 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { websites } from "../../../types/models";
+import { websites } from "../../../types/models/websites";
 import AppType = websites.AppType;
 
 const AppType = db.define<AppType>(

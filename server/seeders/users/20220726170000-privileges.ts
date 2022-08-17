@@ -1,6 +1,6 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { users } from "../../../types/models";
+import { users } from "../../../types/models/users";
 import PrivilegeType = users.Privilege;
 
 import Privilege from "../../models/users/privilege";

@@ -1,7 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Language from "./../../models/websites/language";
-import { websites } from "./../../../types/models";
+import { websites } from "./../../../types/models/websites";
 import LanguageType = websites.Language;
 
 import { microservices } from "./../../../types";
