@@ -12,8 +12,8 @@ import { Request, Response, NextFunction } from "express";
 import { requestPagination } from "../../../custom/helpers/requestPagination";
 import { CreationAttributes, IncludeOptions, InferAttributes } from "sequelize";
 
-import { possibleRoles } from "./../../../types";
-import { users } from "./../../../types/models";
+import { loginAttempt, possibleRoles } from "./../../../types";
+import { users } from "./../../../types/models/users";
 import UserType = users.User;
 
 import { userAuthenticate } from "../../../custom/helpers/userAuthenticate";
