@@ -1,11 +1,13 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Privilege from "../models/users/privilege";
+import UserPrivilege from "./../../models/users/userPrivilege";
+import Privilege from "./../../models/users/privilege";
+import User from "./../../models/users/user";
 
-import { users } from "../../types/models";
-import PrivilegeType = users.Privilege;
+import { users } from "./../../../types/models";
+import UserPrivilegeType = users.UserPrivilege;
 
-import { microservices } from "../../types";
+import { microservices } from "./../../../types";
 const microservice: Array<microservices> = ["users"];
 
 module.exports = {
@@ -13,23 +15,22 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<PrivilegeType>(
-				Privilege.tableName,
+			return await queryInterface.createTable<UserPrivilegeType>(
+				UserPrivilege.tableName,
 				{
-					id: {
-						allowNull: false,
-						autoIncrement: true,
-						primaryKey: true,
+					UserId: {
 						type: DataTypes.INTEGER,
+						references: {
+							model: User.tableName,
+							key: "id",
+						},
 					},
-					name: {
-						type: DataTypes.STRING(63),
-						unique: true,
-						allowNull: false,
-					},
-					type: {
-						type: DataTypes.STRING(63),
-						allowNull: true,
+					PrivilegeId: {
+						type: DataTypes.INTEGER,
+						references: {
+							model: Privilege.tableName,
+							key: "id",
+						},
 					},
 				},
 				{
@@ -45,7 +46,7 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Privilege.tableName, {
+			return await queryInterface.dropTable(UserPrivilege.tableName, {
 				transaction,
 			});
 		});

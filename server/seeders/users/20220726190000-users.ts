@@ -1,17 +1,17 @@
 import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 
 // import { Role as RoleType } from "../../types/server/models/db";
-import Role from "../models/users/role";
+import Role from "../../models/users/role";
 
-import { users } from "../../types/models";
+import { users } from "../../../types/models";
 import TenantType = users.Tenant;
 import UserType = users.User;
 
-import Tenant from "../models/users/tenant";
-import User from "../models/users/user";
-import Privilege from "../models/users/privilege";
+import Tenant from "../../models/users/tenant";
+import User from "../../models/users/user";
+import Privilege from "../../models/users/privilege";
 
-import { microservices } from "./../../types";
+import { microservices } from "./../../../types";
 const microservice: Array<microservices> = ["users"];
 
 export = {

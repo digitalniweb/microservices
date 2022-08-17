@@ -1,8 +1,13 @@
 const path = require("path");
+require("dotenv").config();
 
 module.exports = {
 	config: path.resolve("dist/server/config", "config.js"),
 	"models-path": path.resolve("dist/server", "models"),
-	"seeders-path": path.resolve("dist/server", "seeders"),
-	"migrations-path": path.resolve("dist/server", "migrations"),
+	"seeders-path": path.resolve(
+		"dist/server/seeders/" + process.env.MICROSERVICE_NAME
+	),
+	"migrations-path": path.resolve(
+		"dist/server/migrations/" + process.env.MICROSERVICE_NAME
+	),
 };

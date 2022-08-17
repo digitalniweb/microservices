@@ -1,19 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Blacklist from "../models/users/Blacklist";
-import { users } from "../../types/models";
-import BlacklistType = users.Blacklist;
+import Language from "./../../models/websites/language";
+import { websites } from "./../../../types/models";
+import LanguageType = websites.Language;
 
-import { microservices } from "../../types";
-const microservice: Array<microservices> = ["users"];
+import { microservices } from "./../../../types";
+const microservice: Array<microservices> = ["websites"];
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<BlacklistType>(
-				Blacklist.tableName,
+			return await queryInterface.createTable<LanguageType>(
+				Language.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -21,33 +21,17 @@ module.exports = {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					service: {
-						type: DataTypes.STRING,
+					code: {
 						allowNull: false,
+						type: DataTypes.STRING(7),
 					},
-					type: {
-						type: DataTypes.STRING,
+					name: {
 						allowNull: false,
+						type: DataTypes.STRING(63),
 					},
-					value: {
-						type: DataTypes.STRING,
+					icon: {
 						allowNull: false,
-					},
-					reason: {
 						type: DataTypes.STRING,
-					},
-					blockedTill: {
-						type: DataTypes.DATE,
-					},
-					otherData: {
-						type: DataTypes.JSON,
-					},
-					createdAt: {
-						allowNull: false,
-						type: DataTypes.DATE,
-					},
-					deletedAt: {
-						type: DataTypes.DATE,
 					},
 				},
 				{
@@ -63,7 +47,7 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Blacklist.tableName, {
+			return await queryInterface.dropTable(Language.tableName, {
 				transaction,
 			});
 		});

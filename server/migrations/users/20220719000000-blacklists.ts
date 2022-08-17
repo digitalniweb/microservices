@@ -1,11 +1,10 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Role from "../models/users/role";
+import Blacklist from "./../../models/users/Blacklist";
+import { users } from "./../../../types/models";
+import BlacklistType = users.Blacklist;
 
-import { users } from "../../types/models";
-import RoleType = users.Role;
-
-import { microservices } from "./../../types";
+import { microservices } from "./../../../types";
 const microservice: Array<microservices> = ["users"];
 
 module.exports = {
@@ -13,8 +12,8 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<RoleType>(
-				Role.tableName,
+			return await queryInterface.createTable<BlacklistType>(
+				Blacklist.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -22,14 +21,33 @@ module.exports = {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					name: {
-						type: DataTypes.STRING(63),
-						unique: true,
+					service: {
+						type: DataTypes.STRING,
 						allowNull: false,
 					},
 					type: {
-						type: DataTypes.STRING(63),
-						allowNull: true,
+						type: DataTypes.STRING,
+						allowNull: false,
+					},
+					value: {
+						type: DataTypes.STRING,
+						allowNull: false,
+					},
+					reason: {
+						type: DataTypes.STRING,
+					},
+					blockedTill: {
+						type: DataTypes.DATE,
+					},
+					otherData: {
+						type: DataTypes.JSON,
+					},
+					createdAt: {
+						allowNull: false,
+						type: DataTypes.DATE,
+					},
+					deletedAt: {
+						type: DataTypes.DATE,
 					},
 				},
 				{
@@ -45,7 +63,7 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Role.tableName, {
+			return await queryInterface.dropTable(Blacklist.tableName, {
 				transaction,
 			});
 		});

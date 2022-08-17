@@ -1,11 +1,11 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { users } from "../../types/models";
+import { users } from "../../../types/models";
 import PrivilegeType = users.Privilege;
 
-import Privilege from "../models/users/privilege";
+import Privilege from "../../models/users/privilege";
 
-import { microservices } from "../../types";
+import { microservices } from "../../../types";
 const microservice: Array<microservices> = ["users"];
 
 export = {
@@ -73,6 +73,7 @@ export = {
 	down: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;
+
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				await queryInterface.bulkDelete(Privilege.tableName, {}, {});

@@ -1,11 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import LoginLog from "../models/users/LoginLog";
-import User from "../models/users/user";
-import { users } from "../../types/models";
+import LoginLog from "./../../models/users/LoginLog";
+import User from "./../../models/users/user";
+import { users } from "./../../../types/models";
 import LoginLogType = users.LoginLog;
 
-import { microservices } from "../../types";
+import { microservices } from "./../../../types";
 const microservice: Array<microservices> = ["users"];
 
 module.exports = {

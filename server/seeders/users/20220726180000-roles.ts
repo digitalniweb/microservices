@@ -1,11 +1,11 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { users } from "../../types/models";
+import { users } from "../../../types/models";
 import RoleType = users.Role;
 
-import Role from "../models/users/role";
+import Role from "../../models/users/role";
 
-import { microservices } from "./../../types";
+import { microservices } from "./../../../types";
 const microservice: Array<microservices> = ["users"];
 
 export = {
