@@ -3,7 +3,9 @@ require("dotenv").config();
 
 module.exports = {
 	config: path.resolve("dist/server/config", "config.js"),
-	"models-path": path.resolve("dist/server", "models"),
+	"models-path": path.resolve(
+		"dist/servermodels/" + process.env.MICROSERVICE_NAME
+	),
 	"seeders-path": path.resolve(
 		"dist/server/seeders/" + process.env.MICROSERVICE_NAME
 	),

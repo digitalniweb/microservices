@@ -8,11 +8,10 @@ import { websites } from "../../../types/models";
 import Website = websites.Website;
 
 import Url from "./url";
-import App from "./app";
 import Language from "./language";
-/* import Module from "./module";
+import Module from "./module";
 import WebsiteModule from "./websiteModule";
-import WebsiteLanguageMutation from "./websiteLanguageMutation"; */
+import WebsiteLanguageMutation from "./websiteLanguageMutation";
 
 const Website = db.define<Website>(
 	"Website",
@@ -87,12 +86,12 @@ Website.addHook(
 	}
 );
 
-/* Website.belongsTo(Language, { as: "MainLanguage" });
+Website.belongsTo(Language, { as: "MainLanguage" });
 Website.belongsToMany(Module, {
 	through: WebsiteModule.tableName,
 });
 Website.belongsToMany(Language, {
 	through: WebsiteLanguageMutation.tableName,
-}); */
+});
 
 export default Website;

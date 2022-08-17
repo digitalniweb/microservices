@@ -178,4 +178,45 @@ export namespace websites {
 
 		setAliases: HasManySetAssociationsMixin<Url, number>;
 	}
+	export interface Module
+		extends Model<InferAttributes<Module>, InferCreationAttributes<Module>> {
+		id: CreationOptional<number>;
+		name: string;
+		active: boolean;
+		dedicatedTable: boolean;
+		usersRoleId?: number;
+	}
+	export interface ModulesPagesLanguage
+		extends Model<
+			InferAttributes<ModulesPagesLanguage>,
+			InferCreationAttributes<ModulesPagesLanguage>
+		> {
+		id: CreationOptional<number>;
+		ModuleId: CreationOptional<number>;
+		LanguageId: CreationOptional<number>;
+		url: string;
+		title?: string;
+		description?: string;
+		headline?: string;
+		image?: string;
+		content?: string;
+		translations?: any;
+	}
+
+	export interface WebsiteModule
+		extends Model<
+			InferAttributes<WebsiteModule>,
+			InferCreationAttributes<WebsiteModule>
+		> {
+		WebsiteId: CreationOptional<number>;
+		ModuleId: CreationOptional<number>;
+	}
+	export interface WebsiteLanguageMutation
+		extends Model<
+			InferAttributes<WebsiteLanguageMutation>,
+			InferCreationAttributes<WebsiteLanguageMutation>
+		> {
+		WebsiteId: CreationOptional<number>;
+		LanguageId: CreationOptional<number>;
+	}
 }
