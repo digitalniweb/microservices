@@ -17,6 +17,9 @@ import {
 	HasOneGetAssociationMixin,
 	HasManySetAssociationsMixin,
 	ForeignKey,
+	BelongsToCreateAssociationMixin,
+	BelongsToSetAssociationMixin,
+	BelongsToManySetAssociationsMixin,
 } from "sequelize";
 export namespace websites {
 	export interface Language
@@ -61,8 +64,16 @@ export namespace websites {
 		active: boolean;
 		testingMode: boolean;
 		paused: boolean;
+		createdAt?: CreationOptional<Date>;
+		updatedAt?: CreationOptional<Date>;
+		deletedAt?: Date;
 
 		setAliases: HasManySetAssociationsMixin<Url, number>;
+		createAlias: HasManyCreateAssociationMixin<Url, "id">;
+		createMainUrl: BelongsToCreateAssociationMixin<Url>;
+		setMainLanguage: BelongsToSetAssociationMixin<Language, number>;
+		setLanguages: BelongsToManySetAssociationsMixin<Language, number>;
+		setApp: BelongsToSetAssociationMixin<App, number>;
 	}
 	export interface Module
 		extends Model<InferAttributes<Module>, InferCreationAttributes<Module>> {
@@ -103,6 +114,14 @@ export namespace websites {
 			InferCreationAttributes<WebsiteLanguageMutation>
 		> {
 		WebsiteId: CreationOptional<number>;
+		LanguageId: CreationOptional<number>;
+	}
+	export interface AppLanguage
+		extends Model<
+			InferAttributes<AppLanguage>,
+			InferCreationAttributes<AppLanguage>
+		> {
+		AppId: CreationOptional<number>;
 		LanguageId: CreationOptional<number>;
 	}
 }

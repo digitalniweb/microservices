@@ -19,14 +19,14 @@ module.exports = {
 				UserPrivilege.tableName,
 				{
 					UserId: {
-						type: DataTypes.INTEGER,
+						type: DataTypes.INTEGER.UNSIGNED,
 						references: {
 							model: User.tableName,
 							key: "id",
 						},
 					},
 					PrivilegeId: {
-						type: DataTypes.INTEGER,
+						type: DataTypes.INTEGER.UNSIGNED,
 						references: {
 							model: Privilege.tableName,
 							key: "id",

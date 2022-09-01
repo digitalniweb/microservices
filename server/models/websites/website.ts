@@ -8,6 +8,7 @@ import { websites } from "../../../types/models/websites";
 import Website = websites.Website;
 
 import Url from "./url";
+import App from "./app";
 import Language from "./language";
 import Module from "./module";
 import WebsiteModule from "./websiteModule";
@@ -86,6 +87,9 @@ Website.addHook(
 	}
 );
 
+Website.belongsTo(App);
+Website.belongsTo(Url, { as: "MainUrl" });
+Website.hasMany(Url, { as: "Alias" });
 Website.belongsTo(Language, { as: "MainLanguage" });
 Website.belongsToMany(Module, {
 	through: WebsiteModule.tableName,

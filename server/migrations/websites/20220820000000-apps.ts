@@ -20,7 +20,7 @@ module.exports = {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER,
+						type: DataTypes.INTEGER.UNSIGNED,
 					},
 					parentId: {
 						type: DataTypes.INTEGER.UNSIGNED,
@@ -34,7 +34,7 @@ module.exports = {
 						type: DataTypes.SMALLINT.UNSIGNED,
 					},
 					AppTypeId: {
-						type: DataTypes.INTEGER,
+						type: DataTypes.INTEGER.UNSIGNED,
 						references: {
 							model: AppType.tableName,
 							key: "id",

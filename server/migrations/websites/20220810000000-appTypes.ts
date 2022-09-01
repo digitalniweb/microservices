@@ -19,7 +19,7 @@ module.exports = {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER,
+						type: DataTypes.INTEGER.UNSIGNED,
 					},
 					name: {
 						type: DataTypes.STRING,
