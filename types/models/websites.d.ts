@@ -20,6 +20,7 @@ import {
 	BelongsToCreateAssociationMixin,
 	BelongsToSetAssociationMixin,
 	BelongsToManySetAssociationsMixin,
+	HasOneSetAssociationMixin,
 } from "sequelize";
 export namespace websites {
 	export interface Language
@@ -36,6 +37,8 @@ export namespace websites {
 		extends Model<InferAttributes<AppType>, InferCreationAttributes<AppType>> {
 		id: CreationOptional<number>;
 		name: string;
+
+		createApp: HasManyCreateAssociationMixin<App, "id">;
 	}
 	export interface App
 		extends Model<InferAttributes<App>, InferCreationAttributes<App>> {
@@ -44,6 +47,9 @@ export namespace websites {
 		name: string;
 		port?: number;
 		AppTypeId: CreationOptional<number>;
+
+		setParent: HasOneSetAssociationMixin<App, "id">;
+		setLanguages: BelongsToManySetAssociationsMixin<Language, number>;
 	}
 
 	export interface Url

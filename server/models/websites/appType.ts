@@ -6,6 +6,7 @@ import db from "../index";
 
 import { websites } from "../../../types/models/websites";
 import AppType = websites.AppType;
+import App from "./app";
 
 const AppType = db.define<AppType>(
 	"AppType",
@@ -30,5 +31,7 @@ const AppType = db.define<AppType>(
 		// freezeTableName: true,
 	}
 );
+
+AppType.hasMany(App);
 
 export default AppType;
