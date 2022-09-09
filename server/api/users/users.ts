@@ -1,8 +1,8 @@
 import express from "express";
 const router = express.Router();
-import * as controller from "../controller/api/users";
+import * as controller from "../../controller/api/users/users";
 
-import { loginAntispam } from "./../middleware/antispam";
+import { loginAntispam } from "../../middleware/antispam";
 
 router.get("/", controller.allUsers);
 router.get("/user/:id", controller.getUser);

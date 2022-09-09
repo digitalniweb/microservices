@@ -1,7 +1,7 @@
 import express, { Express, ErrorRequestHandler } from "express";
 import dotenv from "dotenv";
 
-import apiRoutes from "./api";
+import apiRoutes from "./api/websites";
 
 import languageSetter from "./middleware/language-setter";
 

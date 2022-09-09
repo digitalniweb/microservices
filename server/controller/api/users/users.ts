@@ -1,22 +1,22 @@
-import db from "./../../models/index";
+import db from "../../../models/index";
 
-import User from "./../../models/users/user";
-import Role from "../../models/users/role";
-import Privilege from "../../models/users/privilege";
-import LoginLog from "../../models/users/loginLog";
-import Tenant from "../../models/users/tenant";
+import User from "../../../models/users/user";
+import Role from "../../../models/users/role";
+import Privilege from "../../../models/users/privilege";
+import LoginLog from "../../../models/users/loginLog";
+import Tenant from "../../../models/users/tenant";
 
-import isObjectEmpty from "./../../../custom/functions/isObjectEmpty";
-import wrongLoginAttempt from "../../../custom/helpers/wrongLoginAttempt";
+import isObjectEmpty from "../../../../custom/functions/isObjectEmpty";
+import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt";
 import { Request, Response, NextFunction } from "express";
-import { requestPagination } from "../../../custom/helpers/requestPagination";
+import { requestPagination } from "../../../../custom/helpers/requestPagination";
 import { CreationAttributes, IncludeOptions, InferAttributes } from "sequelize";
 
-import { loginAttempt, possibleRoles } from "./../../../types";
-import { users } from "./../../../types/models/users";
+import { loginAttempt, possibleRoles } from "../../../../types";
+import { users } from "../../../../types/models/users";
 import UserType = users.User;
 
-import { userAuthenticate } from "../../../custom/helpers/userAuthenticate";
+import { userAuthenticate } from "../../../../custom/helpers/userAuthenticate";
 
 export const allUsers = async function (
 	req: Request,
