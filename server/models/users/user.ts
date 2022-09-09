@@ -17,7 +17,7 @@ const User = db.define<User>(
 	"User",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},

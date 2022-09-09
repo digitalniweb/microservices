@@ -74,7 +74,7 @@ export namespace websites {
 		updatedAt?: CreationOptional<Date>;
 		deletedAt?: Date;
 
-		setAliases: HasManySetAssociationsMixin<Url, number>;
+		setAlias: HasManySetAssociationsMixin<Url, number>;
 		createAlias: HasManyCreateAssociationMixin<Url, "id">;
 		createMainUrl: BelongsToCreateAssociationMixin<Url>;
 		setMainLanguage: BelongsToSetAssociationMixin<Language, number>;

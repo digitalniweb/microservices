@@ -12,7 +12,7 @@ const AppType = db.define<AppType>(
 	"AppType",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
@@ -33,5 +33,6 @@ const AppType = db.define<AppType>(
 );
 
 AppType.hasMany(App);
+App.belongsTo(AppType);
 
 export default AppType;

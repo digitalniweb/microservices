@@ -38,10 +38,10 @@ module.exports = {
 						allowNull: true,
 					},
 					userId: {
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 					},
 					AppId: {
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 						references: {
 							model: App.tableName,
 							key: "id",
@@ -49,7 +49,7 @@ module.exports = {
 						allowNull: true,
 					},
 					MainLanguageId: {
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 						references: {
 							model: Language.tableName,
 							key: "id",

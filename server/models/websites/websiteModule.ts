@@ -8,14 +8,14 @@ import { websites } from "../../../types/models/websites";
 import WebsiteModule = websites.WebsiteModule;
 
 const WebsiteModule = db.define<WebsiteModule>(
-	"Website",
+	"WebsiteModule",
 	{
 		WebsiteId: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 		ModuleId: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 	},

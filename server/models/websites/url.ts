@@ -12,7 +12,7 @@ const Url = db.define<Url>(
 	"Url",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
@@ -35,9 +35,5 @@ const Url = db.define<Url>(
 		paranoid: false, // deletedAt
 	}
 );
-
-// I need to use other name than 'url' (I'll use 'alias'), because otherwise it conflicts on names and special methods ('.addUrl' etc.) don't work because of the two way bindings. Url <-> Website . I need to use '.addAlias' etc.
-Website.hasMany(Url, { as: "Alias" });
-Website.belongsTo(Url, { as: "MainUrl" });
 
 export default Url;

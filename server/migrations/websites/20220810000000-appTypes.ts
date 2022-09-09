@@ -1,6 +1,6 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import AppType from "./../../models/websites/AppType";
+import AppType from "./../../models/websites/appType";
 import { websites } from "./../../../types/models/websites";
 import AppTypeType = websites.AppType;
 
@@ -19,7 +19,7 @@ module.exports = {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 					},
 					name: {
 						type: DataTypes.STRING,

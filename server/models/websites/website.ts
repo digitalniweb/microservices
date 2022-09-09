@@ -18,7 +18,7 @@ const Website = db.define<Website>(
 	"Website",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
@@ -83,18 +83,21 @@ Website.addHook(
 			where: { id: currentMainUrlId },
 		});
 
-		if (addedMainUrl) await website.setAliases([addedMainUrl]);
+		if (addedMainUrl) await website.setAlias([addedMainUrl]);
 	}
 );
 
-Website.belongsTo(App);
+// I need to use other name than 'url' (I'll use 'alias'), because otherwise it conflicts on names and special methods ('.addUrl' etc.) don't work because of the two way bindings. Url <-> Website . I need to use '.addAlias' etc.
+Website.hasMany(Url, { as: "Alias" });
+
 Website.belongsTo(Url, { as: "MainUrl" });
-Website.belongsTo(Language, { as: "MainLanguage" });
+
 Website.belongsToMany(Module, {
 	through: WebsiteModule.tableName,
 });
-Website.belongsToMany(Language, {
-	through: WebsiteLanguageMutation.tableName,
+
+Module.belongsToMany(Website, {
+	through: WebsiteModule.tableName,
 });
 
 export default Website;

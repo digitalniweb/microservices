@@ -15,7 +15,7 @@ const Privilege = db.define<Privilege>(
 	"Privilege",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},

@@ -19,7 +19,7 @@ module.exports = {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 					},
 					code: {
 						allowNull: false,

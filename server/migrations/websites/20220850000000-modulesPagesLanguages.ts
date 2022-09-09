@@ -6,6 +6,7 @@ import { websites } from "../../../types/models/websites";
 import ModulesPagesLanguageType = websites.ModulesPagesLanguage;
 
 import { microservices } from "../../../types";
+import Module from "../../models/websites/module";
 const microservice: Array<microservices> = ["websites"];
 
 module.exports = {
@@ -33,7 +34,7 @@ module.exports = {
 					ModuleId: {
 						type: DataTypes.INTEGER,
 						references: {
-							model: ModulesPagesLanguage.getTableName(),
+							model: Module.getTableName(),
 							key: "id",
 						},
 						allowNull: false,

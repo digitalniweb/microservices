@@ -20,14 +20,14 @@ module.exports = {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 					},
 					userLogin: {
 						type: DataTypes.STRING,
 						allowNull: false,
 					},
 					UserId: {
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 						references: {
 							model: User.tableName,
 							key: "id",

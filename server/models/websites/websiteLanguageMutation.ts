@@ -8,14 +8,14 @@ import { websites } from "../../../types/models/websites";
 import WebsiteLanguageMutation = websites.WebsiteLanguageMutation;
 
 const WebsiteLanguageMutation = db.define<WebsiteLanguageMutation>(
-	"Website",
+	"WebsiteLanguageMutation",
 	{
 		WebsiteId: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 		LanguageId: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 	},

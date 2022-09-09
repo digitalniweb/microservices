@@ -11,11 +11,11 @@ const UserPrivilege = db.define<UserPrivilege>(
 	"UserPrivilege",
 	{
 		UserId: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 		PrivilegeId: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 	},

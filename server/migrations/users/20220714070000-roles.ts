@@ -20,7 +20,7 @@ module.exports = {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 					},
 					name: {
 						type: DataTypes.STRING(63),

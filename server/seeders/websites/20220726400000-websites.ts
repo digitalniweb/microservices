@@ -14,11 +14,11 @@ export = {
 			try {
 				let digitalniwebWebsite = await Website.create({
 					uniqueName: require("crypto")
-						.randomBytes(10)
+						.randomBytes(11)
 						.toString("base64")
 						.replace(/[^\w]/g, "")
-						.slice(0, 10)
-						.padEnd(10, "0"),
+						.slice(0, 14)
+						.padEnd(14, "0"),
 					active: true,
 					testingMode: false,
 					paused: false,
@@ -68,7 +68,7 @@ export = {
 
 				if (process.env.NODE_ENV === "development") {
 					let digitalniwebTenantWebsite = await Website.create({
-						uniqueName: "0123456789",
+						uniqueName: "01234567891234",
 						active: true,
 						testingMode: false,
 						paused: false,

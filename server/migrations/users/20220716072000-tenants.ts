@@ -21,10 +21,10 @@ module.exports = {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 					},
 					UserId: {
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 						references: {
 							model: User.tableName,
 							key: "id",
@@ -48,7 +48,7 @@ module.exports = {
 						type: DataTypes.STRING(20),
 					},
 					countryId: {
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 						/*
 							// must get done - table in DB for countries with IDs and translations which the APP accepts 
 							references: {

@@ -13,7 +13,7 @@ const LoginLog = db.define<LoginLog>(
 	"LoginLog",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},

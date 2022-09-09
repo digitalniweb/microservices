@@ -21,7 +21,7 @@ module.exports = {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 					},
 					nickname: {
 						type: DataTypes.STRING(255),
@@ -41,14 +41,14 @@ module.exports = {
 						allowNull: false,
 					},
 					RoleId: {
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 						references: {
 							model: Role.tableName,
 							key: "id",
 						},
 					},
 					domainId: {
-						type: DataTypes.INTEGER.UNSIGNED,
+						type: DataTypes.INTEGER,
 					},
 					active: {
 						type: DataTypes.BOOLEAN,

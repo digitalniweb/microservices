@@ -14,7 +14,7 @@ const Module = db.define<Module>(
 	"Module",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
@@ -45,8 +45,6 @@ const Module = db.define<Module>(
 );
 
 Module.hasMany(ModulesPagesLanguage);
-Module.belongsToMany(Website, {
-	through: WebsiteModule.tableName,
-});
+ModulesPagesLanguage.belongsTo(Module);
 
 export default Module;

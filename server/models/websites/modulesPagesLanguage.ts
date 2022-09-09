@@ -10,10 +10,10 @@ import Language from "./language";
 import Module from "./module";
 
 const ModulesPagesLanguage = db.define<ModulesPagesLanguage>(
-	"Module",
+	"ModulesPagesLanguage",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
@@ -56,8 +56,5 @@ const ModulesPagesLanguage = db.define<ModulesPagesLanguage>(
 		paranoid: false, // deletedAt
 	}
 );
-
-ModulesPagesLanguage.belongsTo(Language);
-ModulesPagesLanguage.belongsTo(Module);
 
 export default ModulesPagesLanguage;

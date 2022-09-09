@@ -7,7 +7,7 @@ import db from "../index";
 import { websites } from "../../../types/models/websites";
 import App = websites.App;
 import Website from "./website";
-import AppType from "./AppType";
+import AppType from "./appType";
 import Language from "./language";
 import AppLanguage from "./appLanguage";
 
@@ -15,7 +15,7 @@ const App = db.define<App>(
 	"App",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
@@ -49,7 +49,6 @@ const App = db.define<App>(
 
 Website.belongsTo(App);
 
-App.belongsTo(AppType);
 App.belongsTo(App, { as: "parent", foreignKey: "parentId" });
 
 App.hasOne(App, {

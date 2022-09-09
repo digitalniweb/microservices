@@ -6,12 +6,15 @@ import db from "../index";
 
 import { websites } from "../../../types/models/websites";
 import Language = websites.Language;
+import ModulesPagesLanguage from "./modulesPagesLanguage";
+import WebsiteLanguageMutation from "./websiteLanguageMutation";
+import Website from "./website";
 
 const Language = db.define<Language>(
 	"Language",
 	{
 		id: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
@@ -38,5 +41,12 @@ const Language = db.define<Language>(
 		// freezeTableName: true,
 	}
 );
+
+ModulesPagesLanguage.belongsTo(Language);
+
+Website.belongsTo(Language, { as: "MainLanguage" });
+Website.belongsToMany(Language, {
+	through: WebsiteLanguageMutation.tableName,
+});
 
 export default Language;
