@@ -95,8 +95,7 @@ const customBELogger = function (
 	} else {
 		console.log(customErrorObject);
 	}
-	return req ? { errorCode, responseObject } : true;
+	return { errorCode, responseObject };
 };
 
-exports.customBELogger = customBELogger;
-exports.logger = logger;
+export { customBELogger, logger };
