@@ -21,7 +21,7 @@ class AppCache {
 		return AppCache.#_instance;
 	}
 
-	get(key: string, namespace = "") {
+	get(key: string, namespace = ""): string | undefined {
 		key = `${namespace ? namespace + this.#namespaceSeparator : ""}${key}`;
 		return this.#cache.get(key);
 	}
@@ -31,7 +31,7 @@ class AppCache {
 		this.#cache.set(key, value);
 	}
 
-	has(key: string, namespace: string) {
+	has(key: string, namespace: string): boolean {
 		key = `${namespace ? namespace + this.#namespaceSeparator : ""}${key}`;
 		return this.#cache.has(key);
 	}

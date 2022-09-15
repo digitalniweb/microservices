@@ -8,6 +8,7 @@ import PrivilegeType = users.Privilege;
 
 import db from "../../../models/index";
 import { WhereOptions } from "sequelize/types";
+import { authorizationListType } from "../../../../types/authorization";
 
 export const allList = async function (
 	req: Request,
@@ -40,16 +41,12 @@ export const allList = async function (
 				);
 			if (data.length === 0) return false;
 			let loadedList = await Promise.all(data);
-			type listType = {
-				roles?: RoleType[];
-				privileges?: PrivilegeType[];
-			};
-			let list = {} as listType;
+			let list = {} as authorizationListType;
 			if (select === "all") {
 				list.roles = loadedList[0] as RoleType[];
 				list.privileges = loadedList[1] as PrivilegeType[];
 			} else {
-				list[select as keyof listType] =
+				list[select as keyof authorizationListType] =
 					loadedList[0] as RoleType[] extends RoleType[]
 						? RoleType[]
 						: PrivilegeType[];

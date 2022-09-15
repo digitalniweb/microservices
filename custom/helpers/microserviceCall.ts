@@ -8,7 +8,7 @@ interface msCallOptions {
 	microservice: microservices;
 	protocol?: string;
 	host?: string;
-	port: number;
+	port?: number;
 	path: string;
 	method?: HTTPMethods;
 	data?: { [key: string]: any };
