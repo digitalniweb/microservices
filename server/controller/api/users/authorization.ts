@@ -19,7 +19,7 @@ export const allList = async function (
 		// select: roles/privileges/(all)
 		// type: user/admin/(all)
 		const { select = "all", type = "all" } = req.query;
-		let data = db.transaction(async (transaction) => {
+		let data = await db.transaction(async (transaction) => {
 			let data = [] as Array<Promise<RoleType[]> | Promise<PrivilegeType[]>>;
 			let where: WhereOptions<RoleType> = {};
 			if (type !== "all") where.type = type as string;
