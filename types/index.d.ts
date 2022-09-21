@@ -3,7 +3,7 @@ import { CreationAttributes } from "sequelize/types";
 import { users } from "./models/users";
 import LoginLog = users.LoginLog;
 
-export type microservices = "users" | "websites";
+export type microservices = "users" | "websites" | "invoices";
 
 export type possibleRoles =
 	| "superadmin"
