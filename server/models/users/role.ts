@@ -8,8 +8,6 @@ import { users } from "../../../types/models/users";
 import Role = users.Role;
 
 import User from "./user";
-import Privilege from "./privilege";
-import UserPrivilege from "./userPrivilege";
 
 const Role = db.define<Role>(
 	"Role",

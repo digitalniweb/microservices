@@ -49,6 +49,16 @@ export namespace invoices {
 		createdAt?: CreationOptional<Date>;
 		CreditBalanceTypeId: ForeignKey<CreditBalanceType["id"]>;
 	}
+	export interface CreditBalanceModule
+		extends Model<
+			InferAttributes<CreditBalanceModule>,
+			InferCreationAttributes<CreditBalanceModule>
+		> {
+		id: CreationOptional<number>;
+		CreditBalanceLogId: number;
+		moduleId: number;
+	}
+
 	export interface CreditBalanceType
 		extends Model<
 			InferAttributes<CreditBalanceType>,
@@ -68,10 +78,10 @@ export namespace invoices {
 		sign: string; // €
 		code: string; // EUR
 	}
-	export interface CurrencyLanguages
+	export interface CurrencyLanguage
 		extends Model<
-			InferAttributes<CurrencyLanguages>,
-			InferCreationAttributes<CurrencyLanguages>
+			InferAttributes<CurrencyLanguage>,
+			InferCreationAttributes<CurrencyLanguage>
 		> {
 		id: CreationOptional<number>;
 		CurrencyId: ForeignKey<Currency["id"]>;

@@ -4,29 +4,26 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { websites } from "../../../types/models/websites";
-import Url = websites.Url;
+import { invoices } from "../../../types/models/invoices";
+import Currency = invoices.Currency;
 
-const Url = db.define<Url>(
-	"Url",
+const Currency = db.define<Currency>(
+	"Currency",
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		url: {
+		sign: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
-			validate: {
-				len: [4, 255],
-			},
 		},
-		WebsiteId: {
-			type: DataTypes.INTEGER,
-			allowNull: true,
-			defaultValue: null,
+		code: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
 		},
 	},
 	{
@@ -35,4 +32,4 @@ const Url = db.define<Url>(
 	}
 );
 
-export default Url;
+export default Currency;

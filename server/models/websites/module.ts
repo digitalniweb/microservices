@@ -6,9 +6,7 @@ import db from "../index";
 
 import { websites } from "../../../types/models/websites";
 import Module = websites.Module;
-import Website from "./website";
 import ModulesPagesLanguage from "./modulesPagesLanguage";
-import WebsiteModule from "./WebsiteModule";
 
 const Module = db.define<Module>(
 	"Module",

@@ -4,29 +4,29 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { websites } from "../../../types/models/websites";
-import Url = websites.Url;
+import { invoices } from "../../../types/models/invoices";
+import CreditBalanceType = invoices.CreditBalanceType;
 
-const Url = db.define<Url>(
-	"Url",
+const CreditBalanceType = db.define<CreditBalanceType>(
+	"CreditBalanceType",
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		url: {
+		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
-			validate: {
-				len: [4, 255],
-			},
 		},
-		WebsiteId: {
-			type: DataTypes.INTEGER,
+		description: {
+			type: DataTypes.STRING,
 			allowNull: true,
-			defaultValue: null,
+		},
+		creditGain: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
 		},
 	},
 	{
@@ -35,4 +35,4 @@ const Url = db.define<Url>(
 	}
 );
 
-export default Url;
+export default CreditBalanceType;

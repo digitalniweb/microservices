@@ -8,11 +8,8 @@ import { websites } from "../../../types/models/websites";
 import Website = websites.Website;
 
 import Url from "./url";
-import App from "./app";
-import Language from "./language";
 import Module from "./module";
 import WebsiteModule from "./websiteModule";
-import WebsiteLanguageMutation from "./websiteLanguageMutation";
 
 const Website = db.define<Website>(
 	"Website",

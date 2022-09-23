@@ -2,7 +2,6 @@
 // const { customBELogger } = require("./../../customFunctions/logger");
 
 import { DataTypes } from "sequelize";
-import { Request } from "express";
 
 import crypto from "node:crypto";
 

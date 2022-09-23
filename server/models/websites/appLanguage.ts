@@ -6,7 +6,6 @@ import db from "../index";
 
 import { websites } from "../../../types/models/websites";
 import AppLanguage = websites.AppLanguage;
-import Website from "./website";
 
 const AppLanguage = db.define<AppLanguage>(
 	"AppLanguage",

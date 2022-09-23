@@ -7,7 +7,6 @@ import db from "../index";
 import { websites } from "../../../types/models/websites";
 import App = websites.App;
 import Website from "./website";
-import AppType from "./appType";
 import Language from "./language";
 import AppLanguage from "./appLanguage";
 

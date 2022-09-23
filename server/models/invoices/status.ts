@@ -4,29 +4,21 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { websites } from "../../../types/models/websites";
-import Url = websites.Url;
+import { invoices } from "../../../types/models/invoices";
+import Status = invoices.Status;
 
-const Url = db.define<Url>(
-	"Url",
+const Status = db.define<Status>(
+	"Status",
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		url: {
+		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
-			validate: {
-				len: [4, 255],
-			},
-		},
-		WebsiteId: {
-			type: DataTypes.INTEGER,
-			allowNull: true,
-			defaultValue: null,
 		},
 	},
 	{
@@ -35,4 +27,4 @@ const Url = db.define<Url>(
 	}
 );
 
-export default Url;
+export default Status;
