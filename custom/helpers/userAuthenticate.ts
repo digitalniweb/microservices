@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import Role from "./../../server/models/users/role";
 import User from "./../../server/models/users/user";
 import Privilege from "./../../server/models/users/privilege";
+import { customBELogger } from "./logger";
 
 export async function userAuthenticate(login: string, password: string) {
 	// !!! this returns all data including password and refreshSalt !!!
@@ -34,11 +35,11 @@ export async function userAuthenticate(login: string, password: string) {
 			return false;
 		return user;
 	} catch (error) {
-		// customBELogger({
-		// 	error,
-		// 	code: 500,
-		// 	message: "User authentication failed",
-		// });
+		customBELogger({
+			error,
+			code: 500,
+			message: "User authentication failed",
+		});
 		return false;
 	}
 }

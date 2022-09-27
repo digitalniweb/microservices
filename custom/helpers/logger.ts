@@ -54,7 +54,7 @@ type customErrorObject = {
 	error: any;
 	code: number;
 	message: string;
-	data: any;
+	data?: any;
 };
 
 const customBELogger = function (
