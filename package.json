@@ -7,7 +7,8 @@
 		"clearDist": "npx rimraf dist",
 		"build": "npm run clearDist && npx tsc",
 		"start": "node dist/server/index.js",
-		"dev": "concurrently \"npm run clearDist && npx tsc --watch\" \"nodemon -q dist/server/index.js\""
+		"dev": "concurrently \"npm run clearDist && npx tsc --watch\" \"nodemon -q dist/server/index.js\"",
+		"devNotWatch": "npm run clearDist && npx tsc && npm run start"
 	},
 	"keywords": [],
 	"author": "",

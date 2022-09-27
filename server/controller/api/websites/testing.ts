@@ -12,6 +12,7 @@ export const test = async function (
 ) {
 	try {
 		console.log(redis.status);
+		await redis.mset({ k1: "v1", k2: "v2" });
 		let redisGet = await redis.get("testkey");
 		let returnValue = { getV: redisGet, setV: undefined };
 		let redisSet: any;
