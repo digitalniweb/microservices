@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 // https://github.com/luin/ioredis/blob/HEAD/examples/ttl.js
 // https://github.com/luin/ioredis
-import redis from "../../../../custom/helpers/redis";
+import redis from "../../../../custom/helpers/serverCache";
 // By default, it will connect to localhost:6379.
 
 export const test = async function (
@@ -11,7 +11,6 @@ export const test = async function (
 	next: NextFunction
 ) {
 	try {
-		console.log(redis.status);
 		await redis.mset({ k1: "v1", k2: "v2" });
 		let redisGet = await redis.get("testkey");
 		let returnValue = { getV: redisGet, setV: undefined };

@@ -10,6 +10,7 @@
 		"skipLibCheck": true,
 		"typeRoots": ["./types"],
 		"suppressImplicitAnyIndexErrors": true
+		// "strictPropertyInitialization": false
 		// "strictNullChecks": false,
 	}
 }
