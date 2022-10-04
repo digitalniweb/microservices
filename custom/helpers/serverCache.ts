@@ -1,4 +1,9 @@
-import IoRedis, { RedisKey, Callback, RedisValue } from "ioredis";
+import IoRedis, {
+	RedisKey,
+	Callback,
+	RedisValue,
+	RedisCommander,
+} from "ioredis";
 
 class ServerCache {
 	static #_instance: ServerCache;
@@ -17,15 +22,18 @@ class ServerCache {
 	}
 
 	get(key: RedisKey, callback?: Callback) {
-		return this.#cache.get(key, callback);
+		let args = [...arguments] as Parameters<RedisCommander["get"]>;
+		return this.#cache.get(...args);
 	}
 
 	set(key: RedisKey, value: RedisValue, callback?: Callback) {
-		return this.#cache.set(key, value, callback);
+		let args = [...arguments] as Parameters<RedisCommander["set"]>;
+		return this.#cache.set(...args);
 	}
 
 	mset(object: object, callback?: Callback) {
-		return this.#cache.mset(object, callback);
+		let args = [...arguments] as Parameters<RedisCommander["mset"]>;
+		return this.#cache.mset(...args);
 	}
 }
 

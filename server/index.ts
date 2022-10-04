@@ -8,6 +8,9 @@ import languageSetter from "./middleware/language-setter";
 
 import { customBELogger } from "./../custom/helpers/logger";
 
+import serverInit from "./serverInit/index";
+serverInit();
+
 dotenv.config();
 
 const app: Express = express();

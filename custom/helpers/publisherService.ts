@@ -20,9 +20,11 @@ class Publisher {
 	publish<Type extends Parameters<RedisCommander["publish"]>>(
 		channel: Type[0],
 		message: Type[1],
-		callback: Type[2]
+		callback?: Type[2]
 	) {
-		return this.#publisher.publish(channel, message, callback);
+		let args = [...arguments] as Parameters<RedisCommander["publish"]>;
+
+		return this.#publisher.publish(...args);
 	}
 
 	on<Type extends Parameters<EventEmitter["on"]>>(
