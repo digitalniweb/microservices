@@ -90,11 +90,11 @@ Website.hasMany(Url, { as: "Alias" });
 Website.belongsTo(Url, { as: "MainUrl" });
 
 Website.belongsToMany(Module, {
-	through: WebsiteModule.tableName,
+	through: WebsiteModule,
 });
 
 Module.belongsToMany(Website, {
-	through: WebsiteModule.tableName,
+	through: WebsiteModule,
 });
 
 export default Website;

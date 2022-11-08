@@ -21,6 +21,7 @@ import {
 	BelongsToSetAssociationMixin,
 	BelongsToManySetAssociationsMixin,
 	HasOneSetAssociationMixin,
+	BelongsToManyAddAssociationMixin,
 } from "sequelize";
 export namespace websites {
 	export interface Language
@@ -80,6 +81,8 @@ export namespace websites {
 		setMainLanguage: BelongsToSetAssociationMixin<Language, number>;
 		setLanguages: BelongsToManySetAssociationsMixin<Language, number>;
 		setApp: BelongsToSetAssociationMixin<App, number>;
+		addModule: BelongsToManyAddAssociationMixin<Module, number>;
+		setModules: BelongsToManySetAssociationsMixin<Module, number>;
 	}
 	export interface Module
 		extends Model<InferAttributes<Module>, InferCreationAttributes<Module>> {
@@ -88,6 +91,8 @@ export namespace websites {
 		active: boolean;
 		dedicatedTable: boolean;
 		usersRoleId?: number;
+		addWebsite: BelongsToManyAddAssociationMixin<Website, number>;
+		setWebsites: BelongsToManySetAssociationsMixin<Website, number>;
 	}
 	export interface ModulesPagesLanguage
 		extends Model<
@@ -113,6 +118,9 @@ export namespace websites {
 		> {
 		WebsiteId: CreationOptional<number>;
 		ModuleId: CreationOptional<number>;
+		createdAt?: CreationOptional<Date>;
+		updatedAt?: CreationOptional<Date>;
+		deletedAt?: Date;
 	}
 	export interface WebsiteLanguageMutation
 		extends Model<

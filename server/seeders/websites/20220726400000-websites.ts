@@ -1,4 +1,4 @@
-import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
+import { QueryInterface } from "sequelize";
 
 import { microservices } from "../../../types";
 import App from "../../models/websites/app";

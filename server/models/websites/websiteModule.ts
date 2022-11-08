@@ -20,8 +20,8 @@ const WebsiteModule = db.define<WebsiteModule>(
 		},
 	},
 	{
-		timestamps: false,
-		paranoid: false,
+		timestamps: true,
+		paranoid: true,
 	}
 );
 

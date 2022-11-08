@@ -32,6 +32,17 @@ module.exports = {
 							key: "id",
 						},
 					},
+					createdAt: {
+						allowNull: false,
+						type: DataTypes.DATE,
+					},
+					updatedAt: {
+						allowNull: false,
+						type: DataTypes.DATE,
+					},
+					deletedAt: {
+						type: DataTypes.DATE,
+					},
 				},
 				{
 					charset: "utf8mb4",
