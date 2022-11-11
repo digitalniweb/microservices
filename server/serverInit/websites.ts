@@ -1,6 +1,7 @@
 /* import Publisher from "./../../custom/helpers/publisherService";
 import Subscriber from "./../../custom/helpers/subscriberService"; */
-// import cron from "node-cron";
+import cron from "node-cron";
+import { billingModules } from "../../custom/helpers/billing";
 export default async function () {
 	/* let subscriber = Subscriber;
 	console.log(await subscriber.subscribe("test-channel"));
@@ -10,7 +11,10 @@ export default async function () {
 		console.log(`Received ${message} from ${channel}`);
 	});
 	console.log("websites serverInit"); */
-	/* cron.schedule("0 * * * * *", () => {
-		console.log("running every minute 1, 2, 4 and 5");
-	}); */
+
+	// billingModules();
+	cron.schedule("0 2 * * *", () => {
+		// 2 am every day
+		billingModules();
+	});
 }

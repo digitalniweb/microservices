@@ -7,6 +7,7 @@ import db from "../index";
 import { websites } from "../../../types/models/websites";
 import Module = websites.Module;
 import ModulesPagesLanguage from "./modulesPagesLanguage";
+import WebsiteModule from "./websiteModule";
 
 const Module = db.define<Module>(
 	"Module",
@@ -35,6 +36,10 @@ const Module = db.define<Module>(
 			allowNull: true,
 			defaultValue: null,
 		},
+		creditCostDay: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt
@@ -44,5 +49,6 @@ const Module = db.define<Module>(
 
 Module.hasMany(ModulesPagesLanguage);
 ModulesPagesLanguage.belongsTo(Module);
+WebsiteModule.belongsTo(Module);
 
 export default Module;

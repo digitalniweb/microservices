@@ -32,11 +32,20 @@ module.exports = {
 							key: "id",
 						},
 					},
-					createdAt: {
+					active: {
 						allowNull: false,
-						type: DataTypes.DATE,
+						type: DataTypes.BOOLEAN,
+						defaultValue: true,
 					},
-					updatedAt: {
+					billingDay: {
+						allowNull: false,
+						type: DataTypes.INTEGER,
+						validate: {
+							min: 1,
+							max: 31,
+						},
+					},
+					createdAt: {
 						allowNull: false,
 						type: DataTypes.DATE,
 					},

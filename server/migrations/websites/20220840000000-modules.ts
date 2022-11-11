@@ -40,6 +40,10 @@ module.exports = {
 						type: DataTypes.INTEGER,
 						allowNull: true,
 					},
+					creditCostDay: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+					},
 				},
 				{
 					charset: "utf8mb4",

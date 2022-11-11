@@ -22,6 +22,7 @@ import {
 	BelongsToManySetAssociationsMixin,
 	HasOneSetAssociationMixin,
 	BelongsToManyAddAssociationMixin,
+	BelongsToManyAddAssociationsMixin,
 } from "sequelize";
 export namespace websites {
 	export interface Language
@@ -82,6 +83,7 @@ export namespace websites {
 		setLanguages: BelongsToManySetAssociationsMixin<Language, number>;
 		setApp: BelongsToSetAssociationMixin<App, number>;
 		addModule: BelongsToManyAddAssociationMixin<Module, number>;
+		addModules: BelongsToManyAddAssociationsMixin<Module, number>;
 		setModules: BelongsToManySetAssociationsMixin<Module, number>;
 	}
 	export interface Module
@@ -91,6 +93,7 @@ export namespace websites {
 		active: boolean;
 		dedicatedTable: boolean;
 		usersRoleId?: number;
+		creditCostDay?: number;
 		addWebsite: BelongsToManyAddAssociationMixin<Website, number>;
 		setWebsites: BelongsToManySetAssociationsMixin<Website, number>;
 	}
@@ -118,8 +121,9 @@ export namespace websites {
 		> {
 		WebsiteId: CreationOptional<number>;
 		ModuleId: CreationOptional<number>;
+		active: boolean;
+		billingDay: number;
 		createdAt?: CreationOptional<Date>;
-		updatedAt?: CreationOptional<Date>;
 		deletedAt?: Date;
 	}
 	export interface WebsiteLanguageMutation

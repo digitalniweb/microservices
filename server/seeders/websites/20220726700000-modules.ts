@@ -1,4 +1,4 @@
-import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
+import { QueryInterface } from "sequelize";
 
 import { microservices } from "../../../types";
 import Website from "../../models/websites/website";
@@ -13,11 +13,19 @@ export = {
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				// https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
-				let photogalleryModule = await Module.create({
-					name: "photogallery",
+				let photoGalleryModule = await Module.create({
+					name: "photoGallery",
+					active: true,
+					dedicatedTable: true,
+					creditCostDay: 2,
+				});
+
+				let newsModule = await Module.create({
+					name: "news",
 					active: true,
 					dedicatedTable: true,
 				});
+
 				if (process.env.NODE_ENV === "development") {
 					let testWebsite = await Website.findOne({
 						where: {
@@ -38,11 +46,20 @@ export = {
 					/* 
 					// this works as well
 					if (testWebsite)
-						await photogalleryModule.setWebsites([testWebsite], {
+						await photoGalleryModule.setWebsites([testWebsite], {
 							through: { deletedAt: Date() },
 						}); */
 
-					if (testWebsite) await testWebsite.setModules([photogalleryModule]);
+					// if (testWebsite) await testWebsite.setModules([photoGalleryModule]);
+
+					let today = new Date();
+					let billingDay = new Date(
+						today.setDate(today.getDate() + 14)
+					).getDate(); // first 14 days are for free
+					if (testWebsite)
+						await testWebsite.addModules([photoGalleryModule, newsModule], {
+							through: { billingDay },
+						});
 				}
 			} catch (error) {
 				console.log(error);

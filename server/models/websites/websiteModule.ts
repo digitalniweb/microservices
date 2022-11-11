@@ -18,9 +18,23 @@ const WebsiteModule = db.define<WebsiteModule>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
+		active: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: true,
+		},
+		billingDay: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			validate: {
+				min: 1,
+				max: 31,
+			},
+		},
 	},
 	{
 		timestamps: true,
+		updatedAt: false,
 		paranoid: true,
 	}
 );
