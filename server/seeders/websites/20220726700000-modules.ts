@@ -4,6 +4,7 @@ import { microservices } from "../../../types";
 import Website from "../../models/websites/website";
 import Module from "../../models/websites/module";
 import Url from "../../models/websites/url";
+import { addDays } from "date-fns";
 const microservice: Array<microservices> = ["websites"];
 
 export = {
@@ -17,7 +18,7 @@ export = {
 					name: "photoGallery",
 					active: true,
 					dedicatedTable: true,
-					creditCostDay: 2,
+					creditsCost: 30,
 				});
 
 				let newsModule = await Module.create({
@@ -53,9 +54,7 @@ export = {
 					// if (testWebsite) await testWebsite.setModules([photoGalleryModule]);
 
 					let today = new Date();
-					let billingDay = new Date(
-						today.setDate(today.getDate() + 14)
-					).getDate(); // first 14 days are for free
+					let billingDay = addDays(today, 14).getDate(); // 14 days for free
 					if (testWebsite)
 						await testWebsite.addModules([photoGalleryModule, newsModule], {
 							through: { billingDay },

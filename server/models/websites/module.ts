@@ -36,7 +36,7 @@ const Module = db.define<Module>(
 			allowNull: true,
 			defaultValue: null,
 		},
-		creditCostDay: {
+		creditsCost: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
 		},
