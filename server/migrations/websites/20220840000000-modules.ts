@@ -40,7 +40,7 @@ module.exports = {
 						type: DataTypes.INTEGER,
 						allowNull: true,
 					},
-					creditCostDay: {
+					creditsCost: {
 						type: DataTypes.INTEGER,
 						allowNull: true,
 					},

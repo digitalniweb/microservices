@@ -93,7 +93,7 @@ export namespace websites {
 		active: boolean;
 		dedicatedTable: boolean;
 		usersRoleId?: number;
-		creditCostDay?: number;
+		creditsCost?: number; // per month
 		addWebsite: BelongsToManyAddAssociationMixin<Website, number>;
 		setWebsites: BelongsToManySetAssociationsMixin<Website, number>;
 	}
