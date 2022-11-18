@@ -1,11 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Currency from "../../models/invoices/currency";
-import { invoices } from "../../../types/models/invoices";
-import LanguageType = invoices.Currency;
+import Currency from "../../models/billings/currency";
+import { billings } from "../../../types/models/billings";
+import LanguageType = billings.Currency;
 
 import { microservices } from "../../../types";
-const microservice: Array<microservices> = ["invoices"];
+const microservice: Array<microservices> = ["billings"];
 
 module.exports = {
 	up: async (queryInterface: QueryInterface): Promise<void> => {

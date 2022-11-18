@@ -4,32 +4,29 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { invoices } from "../../../types/models/invoices";
-import Currency = invoices.Currency;
+import { billings } from "../../../types/models/billings";
+import CurrencyLanguage = billings.CurrencyLanguage;
 
-const Currency = db.define<Currency>(
-	"Currency",
+const CurrencyLanguage = db.define<CurrencyLanguage>(
+	"CurrencyLanguage",
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		sign: {
-			type: DataTypes.STRING,
+		CurrencyId: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
-			unique: true,
-			validate: {
-				len: [1, 4],
-			},
 		},
-		code: {
+		languageId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
-			validate: {
-				len: [3, 3],
-			},
 		},
 	},
 	{
@@ -38,4 +35,4 @@ const Currency = db.define<Currency>(
 	}
 );
 
-export default Currency;
+export default CurrencyLanguage;
