@@ -1,12 +1,11 @@
 import express, { Express, ErrorRequestHandler } from "express";
 import dotenv from "dotenv";
 
-import apiRoutesWebsites from "./api/websites";
-import apiRoutesUsers from "./api/users";
-
 import languageSetter from "./middleware/language-setter";
 
 import { customBELogger } from "./../custom/helpers/logger";
+
+import apiRoutes from "./api/";
 
 import serverInit from "./serverInit/index";
 serverInit();
@@ -21,10 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(languageSetter);
 
-if (process.env.MICROSERVICE_NAME == "websites")
-	app.use("/api/", apiRoutesWebsites);
-else if (process.env.MICROSERVICE_NAME == "users")
-	app.use("/api/", apiRoutesUsers);
+app.use("/api/", apiRoutes);
+
 
 app.use(<ErrorRequestHandler>((err, req, res, next) => {
 	// in express middleware throw error in catch block: next({ error, code: 500, message: "Can't load api" });
@@ -33,6 +30,10 @@ app.use(<ErrorRequestHandler>((err, req, res, next) => {
 }));
 
 const port = process.env.PORT;
-app.listen(port, () => {
-	console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+if (port)
+	app.listen(port, () => {
+		console.log(`Server is running at http://localhost:${ port }`);
+	});
+else {
+	console.log(`You haven't spicified port!`);
+}
