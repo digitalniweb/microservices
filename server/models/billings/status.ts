@@ -4,8 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { invoices } from "../../../types/models/invoices";
-import Status = invoices.Status;
+import { billings } from "../../../types/models/billings";
+import Status = billings.Status;
 
 const Status = db.define<Status>(
 	"Status",

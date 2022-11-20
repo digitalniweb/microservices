@@ -4,8 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { invoices } from "../../../types/models/invoices";
-import CreditBalanceLog = invoices.CreditBalanceLog;
+import { billings } from "../../../types/models/billings";
+import CreditBalanceLog = billings.CreditBalanceLog;
 
 const CreditBalanceLog = db.define<CreditBalanceLog>(
 	"CreditBalanceLog",

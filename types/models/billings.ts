@@ -1,24 +1,11 @@
 import {
-	Sequelize,
-	ModelDefined,
-	Association,
 	Model,
 	CreationOptional,
 	InferAttributes,
 	InferCreationAttributes,
-	HasManyGetAssociationsMixin,
-	HasManyCreateAssociationMixin,
-	HasManyAddAssociationsMixin,
-	NonAttribute,
-	CreationAttributes,
-	BelongsToGetAssociationMixin,
-	ModelAttributes,
-	AssociationOptions,
-	HasOneGetAssociationMixin,
-	HasManySetAssociationsMixin,
 	ForeignKey,
 } from "sequelize";
-export namespace invoices {
+export namespace billings {
 	export interface Invoice
 		extends Model<InferAttributes<Invoice>, InferCreationAttributes<Invoice>> {
 		id: CreationOptional<number>;

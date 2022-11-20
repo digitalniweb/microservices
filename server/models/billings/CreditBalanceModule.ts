@@ -4,8 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index";
 
-import { invoices } from "../../../types/models/invoices";
-import CreditBalanceModule = invoices.CreditBalanceModule;
+import { billings } from "../../../types/models/billings";
+import CreditBalanceModule = billings.CreditBalanceModule;
 
 const CreditBalanceModule = db.define<CreditBalanceModule>(
 	"CreditBalanceModule",
