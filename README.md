@@ -1,6 +1,6 @@
 # Migrations
 
-- documentation: https://sequelize.org/docs/v6/other-topics/migrations/
+- [documentation](https://https://sequelize.org/docs/v6/other-topics/migrations/)
 
 Migrations have dedicated table in database unlike seeders
 
@@ -11,7 +11,7 @@ Migrations have dedicated table in database unlike seeders
 ## Down
 
 revert the most recent migration (from DB):
-    
+
     npx sequelize-cli db:migrate:undo
 
 revert all:
@@ -20,7 +20,7 @@ revert all:
 
 # Seeders
 
-- documentation: https://sequelize.org/docs/v6/other-topics/migrations/
+- [documentation](https://https://sequelize.org/docs/v6/other-topics/migrations/)
 
 ## Up
 
