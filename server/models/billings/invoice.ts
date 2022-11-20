@@ -6,6 +6,9 @@ import db from "../index";
 
 import { billings } from "../../../types/models/billings";
 import Invoice = billings.Invoice;
+import Currency from "./currency";
+import Status from "./status";
+import CreditBalanceLog from "./creditBalanceLog";
 
 const Invoice = db.define<Invoice>(
 	"Invoice",
@@ -46,5 +49,9 @@ const Invoice = db.define<Invoice>(
 		paranoid: true, // deletedAt
 	}
 );
+
+Invoice.belongsTo(Currency);
+Invoice.belongsTo(Status);
+Invoice.belongsTo(CreditBalanceLog);
 
 export default Invoice;

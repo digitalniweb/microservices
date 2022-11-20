@@ -6,6 +6,7 @@ import db from "../index";
 
 import { billings } from "../../../types/models/billings";
 import CreditBalanceModule = billings.CreditBalanceModule;
+import CreditBalanceLog from "./creditBalanceLog";
 
 const CreditBalanceModule = db.define<CreditBalanceModule>(
 	"CreditBalanceModule",
@@ -29,5 +30,7 @@ const CreditBalanceModule = db.define<CreditBalanceModule>(
 		paranoid: false, // deletedAt
 	}
 );
+
+CreditBalanceModule.belongsTo(CreditBalanceLog);
 
 export default CreditBalanceModule;

@@ -6,6 +6,7 @@ import db from "../index";
 
 import { billings } from "../../../types/models/billings";
 import CurrencyLanguage = billings.CurrencyLanguage;
+import Currency from "./currency";
 
 const CurrencyLanguage = db.define<CurrencyLanguage>(
 	"CurrencyLanguage",
@@ -34,5 +35,7 @@ const CurrencyLanguage = db.define<CurrencyLanguage>(
 		paranoid: false, // deletedAt
 	}
 );
+
+CurrencyLanguage.belongsTo(Currency);
 
 export default CurrencyLanguage;

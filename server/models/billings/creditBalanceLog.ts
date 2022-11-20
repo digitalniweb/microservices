@@ -6,6 +6,7 @@ import db from "../index";
 
 import { billings } from "../../../types/models/billings";
 import CreditBalanceLog = billings.CreditBalanceLog;
+import CreditBalanceType from "./creditBalanceType";
 
 const CreditBalanceLog = db.define<CreditBalanceLog>(
 	"CreditBalanceLog",
@@ -38,5 +39,7 @@ const CreditBalanceLog = db.define<CreditBalanceLog>(
 		paranoid: false, // deletedAt
 	}
 );
+
+CreditBalanceLog.belongsTo(CreditBalanceType);
 
 export default CreditBalanceLog;
