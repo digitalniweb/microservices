@@ -20,6 +20,10 @@ const CreditBalanceLog = db.define<CreditBalanceLog>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
+		appId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
 		websiteId: {
 			type: DataTypes.INTEGER,
 			allowNull: true,

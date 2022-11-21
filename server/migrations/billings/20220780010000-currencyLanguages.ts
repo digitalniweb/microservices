@@ -5,6 +5,7 @@ import { billings } from "../../../types/models/billings";
 import CurrencyLanguageType = billings.CurrencyLanguage;
 
 import { microservices } from "../../../types";
+import Currency from "../../models/billings/currency";
 const microservice: Array<microservices> = ["billings"];
 
 module.exports = {
@@ -24,6 +25,10 @@ module.exports = {
 					CurrencyId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
+						references: {
+							model: Currency.tableName,
+							key: "id",
+						},
 					},
 					languageId: {
 						type: DataTypes.INTEGER,

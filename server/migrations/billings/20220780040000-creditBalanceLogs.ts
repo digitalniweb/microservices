@@ -21,6 +21,10 @@ module.exports = {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
+					appId: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+					},
 					userId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,

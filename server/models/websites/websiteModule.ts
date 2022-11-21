@@ -10,6 +10,11 @@ import WebsiteModule = websites.WebsiteModule;
 const WebsiteModule = db.define<WebsiteModule>(
 	"WebsiteModule",
 	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
 		WebsiteId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,

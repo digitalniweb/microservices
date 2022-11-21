@@ -5,6 +5,9 @@ import { billings } from "../../../types/models/billings";
 import InvoiceType = billings.Invoice;
 
 import { microservices } from "../../../types";
+import CreditBalanceLog from "../../models/billings/creditBalanceLog";
+import Status from "../../models/billings/status";
+import Currency from "../../models/billings/currency";
 const microservice: Array<microservices> = ["billings"];
 
 module.exports = {
@@ -33,14 +36,26 @@ module.exports = {
 					CurrencyId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
+						references: {
+							model: Currency.tableName,
+							key: "id",
+						},
 					},
 					StatusId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
+						references: {
+							model: Status.tableName,
+							key: "id",
+						},
 					},
 					CreditBalanceLogId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
+						references: {
+							model: CreditBalanceLog.tableName,
+							key: "id",
+						},
 					},
 					dueDate: {
 						type: DataTypes.DATE,

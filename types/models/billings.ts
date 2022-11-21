@@ -32,6 +32,7 @@ export namespace billings {
 		id: CreationOptional<number>;
 		userId: number;
 		websiteId: number;
+		appId: number;
 		creditDifference: number;
 		createdAt?: CreationOptional<Date>;
 		CreditBalanceTypeId: ForeignKey<CreditBalanceType["id"]>;

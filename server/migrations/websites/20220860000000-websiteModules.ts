@@ -18,6 +18,12 @@ module.exports = {
 			return await queryInterface.createTable<WebsiteModuleType>(
 				WebsiteModule.tableName,
 				{
+					id: {
+						allowNull: false,
+						autoIncrement: true,
+						primaryKey: true,
+						type: DataTypes.INTEGER,
+					},
 					WebsiteId: {
 						type: DataTypes.INTEGER,
 						references: {

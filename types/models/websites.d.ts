@@ -119,6 +119,7 @@ export namespace websites {
 			InferAttributes<WebsiteModule>,
 			InferCreationAttributes<WebsiteModule>
 		> {
+		id: CreationOptional<number>;
 		WebsiteId: CreationOptional<number>;
 		ModuleId: CreationOptional<number>;
 		active: boolean;
