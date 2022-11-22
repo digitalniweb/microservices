@@ -24,10 +24,6 @@ const CreditBalanceType = db.define<CreditBalanceType>(
 			type: DataTypes.STRING,
 			allowNull: true,
 		},
-		creditGain: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt

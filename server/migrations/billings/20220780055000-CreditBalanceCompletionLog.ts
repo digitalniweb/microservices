@@ -1,8 +1,8 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import CreditBalanceType from "../../models/billings/creditBalanceType";
+import CreditBalanceCompletionLog from "../../models/billings/creditBalanceCompletionLog";
 import { billings } from "../../../types/models/billings";
-import CreditBalanceTypeType = billings.CreditBalanceType;
+import CreditBalanceCompletionLogType = billings.CreditBalanceCompletionLog;
 
 import { microservices } from "../../../types";
 const microservice: Array<microservices> = ["billings"];
@@ -12,8 +12,8 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<CreditBalanceTypeType>(
-				CreditBalanceType.tableName,
+			return await queryInterface.createTable<CreditBalanceCompletionLogType>(
+				CreditBalanceCompletionLog.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -21,14 +21,22 @@ module.exports = {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					name: {
-						type: DataTypes.STRING,
+					appId: {
+						type: DataTypes.INTEGER,
 						allowNull: false,
-						unique: true,
 					},
-					description: {
-						type: DataTypes.STRING,
-						allowNull: true,
+					CreditBalanceTypeId: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+					},
+					completed: {
+						type: DataTypes.BOOLEAN,
+						allowNull: false,
+						defaultValue: false,
+					},
+					createdAt: {
+						allowNull: false,
+						type: DataTypes.DATE,
 					},
 				},
 				{
@@ -44,9 +52,12 @@ module.exports = {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(CreditBalanceType.tableName, {
-				transaction,
-			});
+			return await queryInterface.dropTable(
+				CreditBalanceCompletionLog.tableName,
+				{
+					transaction,
+				}
+			);
 		});
 	},
 };

@@ -30,12 +30,23 @@ export namespace billings {
 			InferCreationAttributes<CreditBalanceLog>
 		> {
 		id: CreationOptional<number>;
+		CreditBalanceTypeId: ForeignKey<CreditBalanceType["id"]>;
+		appId: number;
 		userId: number;
 		websiteId: number;
-		appId: number;
 		creditDifference: number;
 		createdAt?: CreationOptional<Date>;
+	}
+	export interface CreditBalanceCompletionLog
+		extends Model<
+			InferAttributes<CreditBalanceCompletionLog>,
+			InferCreationAttributes<CreditBalanceCompletionLog>
+		> {
+		id: CreationOptional<number>;
 		CreditBalanceTypeId: ForeignKey<CreditBalanceType["id"]>;
+		appId: number;
+		completed: boolean;
+		createdAt?: CreationOptional<Date>;
 	}
 	export interface CreditBalanceModule
 		extends Model<
@@ -54,8 +65,7 @@ export namespace billings {
 		> {
 		id: CreationOptional<number>;
 		name: string;
-		description: string;
-		creditGain: boolean; // true addition, false subtraction
+		description?: string;
 	}
 	export interface Currency
 		extends Model<
