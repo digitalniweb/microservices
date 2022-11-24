@@ -11,6 +11,7 @@ class ServerCache {
 	#cache: IoRedis;
 
 	constructor() {
+		// https://www.javatpoint.com/redis-all-commands (redis commands(not IoRedis'))
 		this.#cache = new IoRedis();
 	}
 
@@ -34,6 +35,15 @@ class ServerCache {
 	mset(object: object, callback?: Callback) {
 		let args = [...arguments] as Parameters<RedisCommander["mset"]>;
 		return this.#cache.mset(...args);
+	}
+	hmset(key: RedisKey, object: object, callback?: Callback) {
+		let args = [...arguments] as Parameters<RedisCommander["hmset"]>;
+		return this.#cache.hmset(...args);
+	}
+
+	hgetall(key: RedisKey, callback?: Callback) {
+		let args = [...arguments] as Parameters<RedisCommander["hgetall"]>;
+		return this.#cache.hgetall(...args);
 	}
 }
 
