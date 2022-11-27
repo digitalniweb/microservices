@@ -3,6 +3,7 @@ import axios from "axios";
 import { Request } from "express";
 import { HTTPMethods } from "../../types/httpMethods";
 import { microservices } from "../../types";
+import serviceRegistryRedis from "../serviceRegistryRedis";
 
 interface msCallOptions {
 	microservice: microservices;
@@ -34,15 +35,10 @@ export default async function microserviceCall(
 	let finalPath = "";
 	// change to service registry (+ need to make service discovery) - microservice where the ports and urls (and protocol etc.) are stored + cache it for some time, don't call it every time
 	if (microservice) {
-		let microservicesMap = {
-			users: "http://localhost:3030",
-			websites: "http://localhost:3031",
-		};
-		if (!(microservice in microservicesMap))
-			throw `There is no such microservice '${microservice}'`;
-		finalPath = microservicesMap[microservice];
+		let service = await serviceRegistryRedis.find(microservice);
+		finalPath = `http://localhost:${ service.port }`;
 	} else {
-		finalPath = `${protocol}://${host}${port ? ":" + port : port}`;
+		finalPath = `${ protocol }://${ host }${ port ? ":" + port : port }`;
 	}
 	finalPath += path;
 
