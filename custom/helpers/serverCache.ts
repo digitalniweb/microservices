@@ -4,15 +4,74 @@ import IoRedis, {
 	RedisValue,
 	RedisCommander,
 } from "ioredis";
+import { customBELogger } from "./logger";
 
 class ServerCache {
 	static #_instance: ServerCache;
 
 	#cache: IoRedis;
 
+	// number of errors occurred
+	#errors: { [key: string]: number } = {};
+
+	// if IoRedis is not disconnected, then it tries to connect to Redis indefinitely
+	#disconnectOnCrash: boolean = false;
+	#disconnectNumberOfTries: number = 20;
+
 	constructor() {
 		// https://www.javatpoint.com/redis-all-commands (redis commands(not IoRedis'))
 		this.#cache = new IoRedis();
+		this.#cache.on("error", (e) => {
+			if (!(e.code in this.#errors)) {
+				this.#errors[e.code] = 0;
+			}
+			this.#errors[e.code]++;
+			if (e.code === "ECONNREFUSED") {
+				let disconnectedMessage = `Microservice '${
+					process.env.MICROSERVICE_NAME || process.env.SERVICE_NAME
+				}' can't connect to Redis!`;
+				if (this.#disconnectOnCrash) {
+					if (this.#errors[e.code] >= this.#disconnectNumberOfTries) {
+						// !!! there should also be some kind of notification in here that redis isn't working on this microservice
+						customBELogger({
+							error: {
+								message: disconnectedMessage,
+							},
+						});
+						this.#cache.disconnect();
+					}
+				} else {
+					if (this.#errors[e.code] == this.#disconnectNumberOfTries) {
+						// !!! there should also be some kind of notification in here that redis isn't working on this microservice
+						customBELogger({
+							error: {
+								message: disconnectedMessage,
+							},
+						});
+					}
+				}
+			}
+		});
+
+		this.#cache.on("connect", () => {
+			if ("ECONNREFUSED" in this.#errors) delete this.#errors["ECONNREFUSED"];
+			customBELogger({
+				message: `Redis connected to '${process.env.MICROSERVICE_NAME}'`,
+			});
+		});
+	}
+
+	async connect() {
+		try {
+			this.#cache.connect();
+		} catch (error) {
+			customBELogger({
+				error,
+				message: `Microservice '${
+					process.env.MICROSERVICE_NAME || process.env.SERVICE_NAME
+				}' couldn't connect to Redis!`,
+			});
+		}
 	}
 
 	static getInstance(): ServerCache {
@@ -36,7 +95,11 @@ class ServerCache {
 		let args = [...arguments] as Parameters<RedisCommander["mset"]>;
 		return this.#cache.mset(...args);
 	}
-	hset(key: RedisKey, hashKey: string | number, ...fields: (RedisKey | number)[]) {
+	hset(
+		key: RedisKey,
+		hashKey: string | number,
+		...fields: (RedisKey | number)[]
+	) {
 		let args = [...arguments] as Parameters<RedisCommander["hset"]>;
 		return this.#cache.hset(...args);
 	}

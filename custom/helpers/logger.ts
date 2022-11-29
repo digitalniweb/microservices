@@ -51,9 +51,9 @@ const logger = createLogger({
 });
 
 type customErrorObject = {
-	error: any;
+	error?: any;
 	code?: number | string;
-	message: string;
+	message?: string;
 	data?: any;
 };
 
@@ -70,8 +70,6 @@ const customBELogger = function (
 		customErrorObject?.error?.message ||
 		"Something went wrong";
 
-	console.log("errorCode", errorCode);
-
 	let responseObject = {
 		message: errorMessage,
 	};
@@ -84,7 +82,7 @@ const customBELogger = function (
 	if (req) {
 		requestInfo = `- ${req.originalUrl} - ${req.method} - ${req.ip}`;
 	}
-	if (process.env.NODE_ENV === "development") {
+	if (process.env.NODE_ENV !== "development") {
 		// it is not good practice to use console.log() in production because of performance. We should use some logging library
 		if (typeof errorCode === "string") {
 			logger.info(

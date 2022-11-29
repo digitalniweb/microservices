@@ -23,22 +23,22 @@ class AppCache {
 		return AppCache.#_instance;
 	}
 
-	get(key: string, namespace: namespace): any {
+	get(key: string, namespace?: namespace): any {
 		let finalKey = this.createKey(key, namespace);
 		return this.#cache.get(finalKey);
 	}
 
-	set(key: string, value: any, namespace: namespace) {
+	set(key: string, value: any, namespace?: namespace) {
 		let finalKey = this.createKey(key, namespace);
 		this.#cache.set(finalKey, value);
 	}
 
-	has(key: string, namespace: namespace): boolean {
+	has(key: string, namespace?: namespace): boolean {
 		let finalKey = this.createKey(key, namespace);
 		return this.#cache.has(finalKey);
 	}
 
-	del(key: string, namespace: namespace) {
+	del(key: string, namespace?: namespace) {
 		let finalKey = this.createKey(key, namespace);
 		this.#cache.del(finalKey);
 	}
@@ -46,18 +46,17 @@ class AppCache {
 		return this.#cache.keys();
 	}
 
-	createKey(key: string, namespace: namespace): string {
-		let finalNamespace = '';
+	createKey(key: string, namespace?: namespace): string {
+		let finalNamespace = "";
 		if (namespace === undefined) return finalNamespace + key;
 		if (isArray(namespace)) {
 			let namespaceArray = <Array<any>>namespace;
 			finalNamespace = namespaceArray.join(this.#namespaceSeparator);
-		}
-		else {
+		} else {
 			let namespaceString = <string>namespace;
-			finalNamespace = namespaceString
+			finalNamespace = namespaceString;
 		}
-		finalNamespace += this.#namespaceSeparator
+		finalNamespace += this.#namespaceSeparator;
 		return finalNamespace + key;
 	}
 }

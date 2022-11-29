@@ -1,9 +1,10 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { Request } from "express";
 import { HTTPMethods } from "../../types/httpMethods";
 import { microservices } from "../../types";
 import serviceRegistryRedis from "../serviceRegistryRedis";
+import appCache from "./appCache";
 
 interface msCallOptions {
 	microservice: microservices;
@@ -19,7 +20,7 @@ interface msCallOptions {
 export default async function microserviceCall(
 	req: Request,
 	options: msCallOptions
-) {
+): Promise<AxiosResponse<any, any>["data"] | false> {
 	// Primarily used for microservice calls
 	const {
 		microservice,
@@ -35,10 +36,24 @@ export default async function microserviceCall(
 	let finalPath = "";
 	// change to service registry (+ need to make service discovery) - microservice where the ports and urls (and protocol etc.) are stored + cache it for some time, don't call it every time
 	if (microservice) {
+		if (!appCache.has("serviceRegistry")) {
+			let serviceRegistry = await serviceRegistryRedis.list();
+			if (serviceRegistry !== undefined) {
+				let serviceRegistryList = {};
+				for (const service in serviceRegistry) {
+					serviceRegistryList[service] = JSON.parse(serviceRegistry[service]);
+				}
+				appCache.set("serviceRegistry", serviceRegistryList);
+			}
+		}
+		let serviceAppCache = appCache.get("serviceRegistry");
+		if (serviceAppCache[microservice] === undefined) {
+			return false;
+		}
 		let service = await serviceRegistryRedis.find(microservice);
-		finalPath = `http://localhost:${ service.port }`;
+		finalPath = `http://localhost:${service.port}`;
 	} else {
-		finalPath = `${ protocol }://${ host }${ port ? ":" + port : port }`;
+		finalPath = `${protocol}://${host}${port ? ":" + port : port}`;
 	}
 	finalPath += path;
 
