@@ -1,11 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import CreditBalanceLog from "../../models/billings/creditBalanceLog";
-import { billings } from "../../../types/models/billings";
+import CreditBalanceLog from "../../models/billings/creditBalanceLog.js";
+import { billings } from "../../../types/models/billings.js";
 import CreditBalanceLogType = billings.CreditBalanceLog;
 
-import { microservices } from "../../../types";
-import CreditBalanceType from "../../models/billings/creditBalanceType";
+import { microservices } from "../../../types/index.d.js";
+import CreditBalanceType from "../../models/billings/creditBalanceType.js";
 const microservice: Array<microservices> = ["billings"];
 
 module.exports = {

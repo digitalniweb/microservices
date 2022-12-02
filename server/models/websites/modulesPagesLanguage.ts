@@ -2,9 +2,9 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "../index";
+import db from "../index.js";
 
-import { websites } from "../../../types/models/websites";
+import { websites } from "../../../types/models/websites.js";
 import ModulesPagesLanguage = websites.ModulesPagesLanguage;
 
 const ModulesPagesLanguage = db.define<ModulesPagesLanguage>(

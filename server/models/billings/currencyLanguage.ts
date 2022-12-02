@@ -2,11 +2,11 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "../index";
+import db from "../index.js";
 
-import { billings } from "../../../types/models/billings";
+import { billings } from "../../../types/models/billings.js";
 import CurrencyLanguage = billings.CurrencyLanguage;
-import Currency from "./currency";
+import Currency from "./currency.js";
 
 const CurrencyLanguage = db.define<CurrencyLanguage>(
 	"CurrencyLanguage",

@@ -1,11 +1,11 @@
-import appCache from "./appCache";
-import microserviceCall from "./microserviceCall";
+import appCache from "./appCache.js";
+import microserviceCall from "./microserviceCall.js";
 
 import { Request } from "express";
 import {
 	authorizationListType,
 	authorizationMap,
-} from "../../types/authorization";
+} from "../../types/authorization/index.js";
 
 async function getAuthorizationMap(req: Request) {
 	// appCache.del("map", "authorizationMap");

@@ -1,22 +1,22 @@
-import db from "../../../models/index";
+import db from "../../../models/index.js";
 
-import User from "../../../models/users/user";
-import Role from "../../../models/users/role";
-import Privilege from "../../../models/users/privilege";
-import LoginLog from "../../../models/users/loginLog";
-import Tenant from "../../../models/users/tenant";
+import User from "../../../models/users/user.js";
+import Role from "../../../models/users/role.js";
+import Privilege from "../../../models/users/privilege.js";
+import LoginLog from "../../../models/users/loginLog.js";
+import Tenant from "../../../models/users/tenant.js";
 
-import isObjectEmpty from "../../../../custom/functions/isObjectEmpty";
-import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt";
+import isObjectEmpty from "../../../../custom/functions/isObjectEmpty.js";
+import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt.js";
 import { Request, Response, NextFunction } from "express";
-import { requestPagination } from "../../../../custom/helpers/requestPagination";
+import { requestPagination } from "../../../../custom/helpers/requestPagination.js";
 import { CreationAttributes, IncludeOptions, InferAttributes } from "sequelize";
 
-import { loginAttempt, possibleRoles } from "../../../../types";
-import { users } from "../../../../types/models/users";
+import { possibleRoles } from "../../../../types/index.d.js";
+import { users } from "../../../../types/models/users.js";
 import UserType = users.User;
 
-import { userAuthenticate } from "../../../../custom/helpers/userAuthenticate";
+import { userAuthenticate } from "../../../../custom/helpers/userAuthenticate.js";
 
 export const allUsers = async function (
 	req: Request,

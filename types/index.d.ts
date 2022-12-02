@@ -1,6 +1,6 @@
-import { CreationAttributes } from "sequelize/types";
+import { CreationAttributes } from "sequelize";
 
-import { users } from "./models/users";
+import { users } from "./models/users.js";
 import LoginLog = users.LoginLog;
 
 export type microservices = "users" | "websites" | "billings";

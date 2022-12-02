@@ -1,8 +1,8 @@
 import express from "express";
 const router = express.Router();
-import * as controller from "../../controller/api/users/users";
+import * as controller from "../../controller/api/users/users.js";
 
-import { loginAntispam } from "../../middleware/antispam";
+import { loginAntispam } from "../../middleware/antispam.js";
 
 router.get("/", controller.allUsers);
 router.get("/user/:id", controller.getUser);
@@ -12,4 +12,4 @@ router.post("/refreshtoken", controller.refreshtoken);
 router.post("/", controller.register);
 router.post("/admin/", controller.registerAdmin);
 
-export = router;
+export default router;

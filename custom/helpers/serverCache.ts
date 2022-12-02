@@ -4,12 +4,12 @@ import IoRedis, {
 	RedisValue,
 	RedisCommander,
 } from "ioredis";
-import { customBELogger } from "./logger";
+import { customBELogger } from "./logger.js";
 
 class ServerCache {
 	static #_instance: ServerCache;
 
-	#cache: IoRedis;
+	#cache: IoRedis.default;
 
 	// number of errors occurred
 	#errors: { [key: string]: number } = {};
@@ -20,7 +20,7 @@ class ServerCache {
 
 	constructor() {
 		// https://www.javatpoint.com/redis-all-commands (redis commands(not IoRedis'))
-		this.#cache = new IoRedis();
+		this.#cache = new IoRedis.default();
 		this.#cache.on("error", (e) => {
 			if (!(e.code in this.#errors)) {
 				this.#errors[e.code] = 0;

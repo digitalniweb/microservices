@@ -1,13 +1,13 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import UserPrivilege from "./../../models/users/userPrivilege";
-import Privilege from "./../../models/users/privilege";
-import User from "./../../models/users/user";
+import UserPrivilege from "./../../models/users/userPrivilege.js";
+import Privilege from "./../../models/users/privilege.js";
+import User from "./../../models/users/user.js";
 
-import { users } from "./../../../types/models/users";
+import { users } from "./../../../types/models/users.js";
 import UserPrivilegeType = users.UserPrivilege;
 
-import { microservices } from "./../../../types";
+import { microservices } from "./../../../types/index.d.js";
 const microservice: Array<microservices> = ["users"];
 
 module.exports = {

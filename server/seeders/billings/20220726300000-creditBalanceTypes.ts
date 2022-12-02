@@ -1,11 +1,11 @@
 import { QueryInterface } from "sequelize";
 
-import CreditBalanceType from "../../models/billings/creditBalanceType";
+import CreditBalanceType from "../../models/billings/creditBalanceType.js";
 
-import { microservices } from "../../../types";
+import { microservices } from "../../../types/index.d.js";
 const microservice: Array<microservices> = ["billings"];
 
-export = {
+export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;

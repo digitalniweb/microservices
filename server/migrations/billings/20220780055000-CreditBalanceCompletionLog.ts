@@ -1,13 +1,13 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import CreditBalanceCompletionLog from "../../models/billings/creditBalanceCompletionLog";
-import { billings } from "../../../types/models/billings";
+import CreditBalanceCompletionLog from "../../models/billings/creditBalanceCompletionLog.js";
+import { billings } from "../../../types/models/billings.js";
 import CreditBalanceCompletionLogType = billings.CreditBalanceCompletionLog;
 
-import { microservices } from "../../../types";
+import { microservices } from "../../../types/index.d.js";
 const microservice: Array<microservices> = ["billings"];
 
-module.exports = {
+export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");

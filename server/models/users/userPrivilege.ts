@@ -2,9 +2,9 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "../index";
+import db from "../index.js";
 
-import { users } from "../../../types/models/users";
+import { users } from "../../../types/models/users.js";
 import UserPrivilege = users.UserPrivilege;
 
 const UserPrivilege = db.define<UserPrivilege>(

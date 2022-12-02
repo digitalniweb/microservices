@@ -7,7 +7,7 @@ class Subscriber {
 	#subscriber;
 
 	constructor() {
-		this.#subscriber = new IoRedis();
+		this.#subscriber = new IoRedis.default();
 	}
 
 	static getInstance(): Subscriber {

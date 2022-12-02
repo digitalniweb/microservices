@@ -5,12 +5,12 @@ import { DataTypes } from "sequelize";
 
 import crypto from "node:crypto";
 
-import db from "./../index";
+import db from "./../index.js";
 
-import { users } from "../../../types/models/users";
+import { users } from "../../../types/models/users.js";
 import User = users.User;
 
-import Tenant from "./tenant";
+import Tenant from "./tenant.js";
 
 const User = db.define<User>(
 	"User",

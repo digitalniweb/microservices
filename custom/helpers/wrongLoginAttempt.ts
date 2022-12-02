@@ -1,8 +1,8 @@
-// import LoginLog from "./../../server/models/loginLog";
-import sleep from "../functions/sleep";
+// import LoginLog from "./../../server/models/loginLog.js";
+import sleep from "../functions/sleep.js";
 
 import { Request, NextFunction } from "express";
-import LoginLog from "../../server/models/users/loginLog";
+import LoginLog from "../../server/models/users/loginLog.js";
 
 export default async function wrongLoginAttempt(
 	req: Request,

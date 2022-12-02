@@ -1,6 +1,6 @@
-import { microservices } from "../../types";
-import { customBELogger } from "./../../custom/helpers/logger";
-import serviceRegistryRedis from "../../custom/serviceRegistryRedis";
+import { microservices } from "../../types/index.d.js";
+import { customBELogger } from "./../../custom/helpers/logger.js";
+import serviceRegistryRedis from "../../custom/serviceRegistryRedis.js";
 export default async function () {
 	let microservice = process.env.MICROSERVICE_NAME as microservices;
 	try {

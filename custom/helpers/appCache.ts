@@ -1,5 +1,5 @@
 import NodeCache from "node-cache";
-import isArray from "../functions/isArray";
+import isArray from "../functions/isArray.js";
 
 type namespace = string | Array<string> | undefined;
 class AppCache {

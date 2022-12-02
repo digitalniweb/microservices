@@ -2,11 +2,11 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "../index";
+import db from "../index.js";
 
-import { billings } from "../../../types/models/billings";
+import { billings } from "../../../types/models/billings.js";
 import CreditBalanceLog = billings.CreditBalanceLog;
-import CreditBalanceType from "./creditBalanceType";
+import CreditBalanceType from "./creditBalanceType.js";
 
 const CreditBalanceLog = db.define<CreditBalanceLog>(
 	"CreditBalanceLog",

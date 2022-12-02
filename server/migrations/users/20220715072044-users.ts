@@ -1,12 +1,12 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import User from "./../../models/users/user";
-import { users } from "./../../../types/models/users";
+import User from "./../../models/users/user.js";
+import { users } from "./../../../types/models/users.js";
 import UserType = users.User;
 
-import Role from "./../../models/users/role";
+import Role from "./../../models/users/role.js";
 
-import { microservices } from "./../../../types";
+import { microservices } from "./../../../types/index.d.js";
 const microservice: Array<microservices> = ["users"];
 
 module.exports = {

@@ -36,8 +36,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 		};
 		req.lang.code = req.lang.code.trim();
 		if (
-			!validator.isLocale(req.lang.header) ||
-			!validator.isLocale(req.lang.code)
+			!validator.default.isLocale(req.lang.header) ||
+			!validator.default.isLocale(req.lang.code)
 		) {
 			return next({
 				code: 500,

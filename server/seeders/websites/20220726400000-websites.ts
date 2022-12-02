@@ -1,12 +1,12 @@
 import { QueryInterface } from "sequelize";
 
-import { microservices } from "../../../types";
-import App from "../../models/websites/app";
-import Website from "../../models/websites/website";
-import Language from "../../models/websites/language";
+import { microservices } from "../../../types/index.d.js";
+import App from "../../models/websites/app.js";
+import Website from "../../models/websites/website.js";
+import Language from "../../models/websites/language.js";
 const microservice: Array<microservices> = ["websites"];
 
-export = {
+export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;

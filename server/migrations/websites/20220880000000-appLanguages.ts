@@ -1,12 +1,12 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { websites } from "../../../types/models/websites";
+import { websites } from "../../../types/models/websites.js";
 import AppLanguageType = websites.AppLanguage;
 
-import { microservices } from "../../../types";
-import AppLanguage from "../../models/websites/appLanguage";
-import Language from "../../models/websites/language";
-import App from "../../models/websites/app";
+import { microservices } from "../../../types/index.d.js";
+import AppLanguage from "../../models/websites/appLanguage.js";
+import Language from "../../models/websites/language.js";
+import App from "../../models/websites/app.js";
 
 const microservice: Array<microservices> = ["websites"];
 

@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import Privilege from "../../../models/users/privilege";
-import Role from "../../../models/users/role";
+import Privilege from "../../../models/users/privilege.js";
+import Role from "../../../models/users/role.js";
 
-import { users } from "../../../../types/models/users";
+import { users } from "../../../../types/models/users.js";
 import RoleType = users.Role;
 import PrivilegeType = users.Privilege;
 
-import db from "../../../models/index";
-import { WhereOptions } from "sequelize/types";
-import { authorizationListType } from "../../../../types/authorization";
+import db from "../../../models/index.js";
+import { WhereOptions } from "sequelize";
+import { authorizationListType } from "../../../../types/authorization/index.js";
 
 export const allList = async function (
 	req: Request,

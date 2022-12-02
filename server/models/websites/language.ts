@@ -2,13 +2,13 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "../index";
+import db from "../index.js";
 
-import { websites } from "../../../types/models/websites";
+import { websites } from "../../../types/models/websites.js";
 import Language = websites.Language;
-import ModulesPagesLanguage from "./modulesPagesLanguage";
-import WebsiteLanguageMutation from "./websiteLanguageMutation";
-import Website from "./website";
+import ModulesPagesLanguage from "./modulesPagesLanguage.js";
+import WebsiteLanguageMutation from "./websiteLanguageMutation.js";
+import Website from "./website.js";
 
 const Language = db.define<Language>(
 	"Language",

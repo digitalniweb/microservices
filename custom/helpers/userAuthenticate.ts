@@ -1,8 +1,8 @@
 import crypto from "node:crypto";
-import Role from "./../../server/models/users/role";
-import User from "./../../server/models/users/user";
-import Privilege from "./../../server/models/users/privilege";
-import { customBELogger } from "./logger";
+import Role from "./../../server/models/users/role.js";
+import User from "./../../server/models/users/user.js";
+import Privilege from "./../../server/models/users/privilege.js";
+import { customBELogger } from "./logger.js";
 
 export async function userAuthenticate(login: string, password: string) {
 	// !!! this returns all data including password and refreshSalt !!!

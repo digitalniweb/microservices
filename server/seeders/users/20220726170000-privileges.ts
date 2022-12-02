@@ -1,14 +1,14 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { users } from "../../../types/models/users";
+import { users } from "../../../types/models/users.js";
 import PrivilegeType = users.Privilege;
 
-import Privilege from "../../models/users/privilege";
+import Privilege from "../../models/users/privilege.js";
 
-import { microservices } from "../../../types";
+import { microservices } from "../../../types/index.d.js";
 const microservice: Array<microservices> = ["users"];
 
-export = {
+export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;

@@ -1,10 +1,10 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Status from "../../models/billings/status";
-import { billings } from "../../../types/models/billings";
+import Status from "../../models/billings/status.js";
+import { billings } from "../../../types/models/billings.js";
 import StatusType = billings.Status;
 
-import { microservices } from "../../../types";
+import { microservices } from "../../../types/index.d.js";
 const microservice: Array<microservices> = ["billings"];
 
 module.exports = {

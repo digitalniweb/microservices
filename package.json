@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
 		"clearDist": "npx rimraf dist",
 		"build": "npm run clearDist && npx tsc",
@@ -26,8 +27,8 @@
 		"mysql2": "^2.3.3",
 		"node-cache": "^5.1.2",
 		"node-cron": "^3.0.2",
-		"sequelize": "^6.21.2",
-		"sequelize-cli": "^6.4.1",
+		"sequelize": "^6.26.0",
+		"sequelize-cli": "^6.5.2",
 		"ua-parser-js": "^1.0.2",
 		"validator": "^13.7.0",
 		"winston": "^3.8.1"
@@ -37,6 +38,6 @@
 		"@types/node": "^18.0.0",
 		"concurrently": "^7.2.2",
 		"nodemon": "^2.0.18",
-		"typescript": "^4.7.4"
+		"typescript": "^4.9.3"
 	}
 }

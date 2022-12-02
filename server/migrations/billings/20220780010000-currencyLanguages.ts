@@ -1,11 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import CurrencyLanguage from "../../models/billings/currencyLanguage";
-import { billings } from "../../../types/models/billings";
+import CurrencyLanguage from "../../models/billings/currencyLanguage.js";
+import { billings } from "../../../types/models/billings.js";
 import CurrencyLanguageType = billings.CurrencyLanguage;
 
-import { microservices } from "../../../types";
-import Currency from "../../models/billings/currency";
+import { microservices } from "../../../types/index.d.js";
+import Currency from "../../models/billings/currency.js";
 const microservice: Array<microservices> = ["billings"];
 
 module.exports = {

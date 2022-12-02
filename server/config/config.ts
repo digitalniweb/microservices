@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { Options } from "sequelize/types";
+import { Options } from "sequelize";
 
 dotenv.config();
 
@@ -52,4 +52,4 @@ const configDB: ConfigTs = {
 		},
 	},
 };
-export = configDB;
+export default configDB;

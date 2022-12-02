@@ -1,16 +1,16 @@
-import User from "../models/users/user";
+import User from "../models/users/user.js";
 import UAParser, { IResult } from "ua-parser-js";
 import validator from "validator";
 import { Op, literal, Order } from "sequelize";
 import { Response, NextFunction, Request } from "express";
 
-import { loginAttempt } from "./../../types";
+import { loginAttempt } from "./../../types/index.d.js";
 
-import sleep from "../../custom/functions/sleep";
-import LoginLog from "../models/users/loginLog";
-import Blacklist from "../models/users/Blacklist";
+import sleep from "../../custom/functions/sleep.js";
+import LoginLog from "../models/users/loginLog.js";
+import Blacklist from "../models/users/Blacklist.js";
 
-import wrongLoginAttempt from "../../custom/helpers/wrongLoginAttempt";
+import wrongLoginAttempt from "../../custom/helpers/wrongLoginAttempt.js";
 
 const loginAntispam = function () {
 	return async (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +19,7 @@ const loginAntispam = function () {
 			if (
 				req.body.password.length < 7 ||
 				req.body.login == "" ||
-				!validator.isEmail(req.body.login) ||
+				!validator.default.isEmail(req.body.login) ||
 				!userAgent.browser.name ||
 				!userAgent.engine.name ||
 				!userAgent.os.name ||
@@ -217,8 +217,8 @@ const loginAntispam = function () {
 				let blockedTill = new Date();
 				blockedTill.setHours(blockedTill.getHours() + 7 * 24);
 
-				let reason = "bruteforcing logins";
-				if (bruteforcinglogin) reason = "bruteforcing login";
+				let reason = "brute forcing logins";
+				if (bruteforcinglogin) reason = "brute forcing login";
 
 				await Blacklist.create({
 					service: "login",

@@ -1,20 +1,20 @@
 import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 
-// import { Role as RoleType } from "../../types/server/models/db";
-import Role from "../../models/users/role";
+// import { Role as RoleType } from "../../types/server/models/db.js";
+import Role from "../../models/users/role.js";
 
-import { users } from "../../../types/models/users";
+import { users } from "../../../types/models/users.js";
 import TenantType = users.Tenant;
 import UserType = users.User;
 
-import Tenant from "../../models/users/tenant";
-import User from "../../models/users/user";
-import Privilege from "../../models/users/privilege";
+import Tenant from "../../models/users/tenant.js";
+import User from "../../models/users/user.js";
+import Privilege from "../../models/users/privilege.js";
 
-import { microservices } from "./../../../types";
+import { microservices } from "./../../../types/index.d.js";
 const microservice: Array<microservices> = ["users"];
 
-export = {
+export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;

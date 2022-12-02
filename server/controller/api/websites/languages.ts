@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import db from "../../../models";
+import db from "../../../models/index.js";
 
-import Language from "../../../models/websites/language";
-import App from "../../../models/websites/app";
-import Website from "../../../models/websites/website";
-import Url from "../../../models/websites/url";
+import Language from "../../../models/websites/language.js";
+import App from "../../../models/websites/app.js";
+import Website from "../../../models/websites/website.js";
+import Url from "../../../models/websites/url.js";
 
 export const getLanguagesList = async function (
 	req: Request,

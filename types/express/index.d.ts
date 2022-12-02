@@ -1,4 +1,4 @@
-import { loginAttempt } from "./../index";
+import { loginAttempt } from "./../index.js";
 type requestLanguageExpansion = {
 	header: string;
 	code: string;
@@ -11,17 +11,19 @@ type requestAntispamExpansion = {
 	maxLoginAttempts: number;
 };
 
-declare namespace Express {
-	export interface Request {
-		lang?: requestLanguageExpansion;
-		antispam?: requestAntispamExpansion;
-		userVerified?: {
-			id: number;
-			roles: possibleRoles[];
-			privileges: string[];
-		};
+declare global {
+	declare namespace Express {
+		export interface Request {
+			lang?: requestLanguageExpansion;
+			antispam?: requestAntispamExpansion;
+			userVerified?: {
+				id: number;
+				roles: possibleRoles[];
+				privileges: string[];
+			};
+		}
 	}
 }
 
 export as namespace Express;
-export = Express;
+export default Express;

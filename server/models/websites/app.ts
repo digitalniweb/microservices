@@ -2,13 +2,13 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "../index";
+import db from "../index.js";
 
-import { websites } from "../../../types/models/websites";
+import { websites } from "../../../types/models/websites.js";
 import App = websites.App;
-import Website from "./website";
-import Language from "./language";
-import AppLanguage from "./appLanguage";
+import Website from "./website.js";
+import Language from "./language.js";
+import AppLanguage from "./appLanguage.js";
 
 const App = db.define<App>(
 	"App",

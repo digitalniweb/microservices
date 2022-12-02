@@ -1,10 +1,9 @@
-import Publisher from "./../../custom/helpers/publisherService";
-import Subscriber from "./../../custom/helpers/subscriberService";
+import Publisher from "./../../custom/helpers/publisherService.js";
+import Subscriber from "./../../custom/helpers/subscriberService.js";
 import cron from "node-cron";
-import { billingModules } from "../../custom/helpers/billing";
+import { billingModules } from "../../custom/helpers/billing.js";
 
 export default async function () {
-
 	/* let subscriber = Subscriber;
 	await subscriber.subscribe("test-channel");
 	let publisher = Publisher;

@@ -1,10 +1,10 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Blacklist from "./../../models/users/Blacklist";
-import { users } from "./../../../types/models/users";
+import Blacklist from "./../../models/users/Blacklist.js";
+import { users } from "./../../../types/models/users.js";
 import BlacklistType = users.Blacklist;
 
-import { microservices } from "./../../../types";
+import { microservices } from "./../../../types/index.d.js";
 const microservice: Array<microservices> = ["users"];
 
 module.exports = {

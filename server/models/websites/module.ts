@@ -2,12 +2,12 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "../index";
+import db from "../index.js";
 
-import { websites } from "../../../types/models/websites";
+import { websites } from "../../../types/models/websites.js";
 import Module = websites.Module;
-import ModulesPagesLanguage from "./modulesPagesLanguage";
-import WebsiteModule from "./websiteModule";
+import ModulesPagesLanguage from "./modulesPagesLanguage.js";
+import WebsiteModule from "./websiteModule.js";
 
 const Module = db.define<Module>(
 	"Module",

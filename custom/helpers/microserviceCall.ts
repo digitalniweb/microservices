@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from "axios";
+import { default as axios, AxiosResponse } from "axios";
 
 import { Request } from "express";
-import { HTTPMethods } from "../../types/httpMethods";
-import { microservices } from "../../types";
-import serviceRegistryRedis from "../serviceRegistryRedis";
-import appCache from "./appCache";
+import { HTTPMethods } from "../../types/httpMethods.js";
+import { microservices } from "../../types/index.d.js";
+import serviceRegistryRedis from "../serviceRegistryRedis.js";
+import appCache from "./appCache.js";
 
 interface msCallOptions {
 	microservice: microservices;
@@ -57,7 +57,7 @@ export default async function microserviceCall(
 	}
 	finalPath += path;
 
-	let axiosResponse = await axios({
+	let axiosResponse = await axios.default({
 		url: finalPath,
 		method,
 		data,

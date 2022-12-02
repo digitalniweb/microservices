@@ -1,9 +1,9 @@
 import { getDaysInMonth } from "date-fns";
 import { WhereOptions, Op } from "sequelize";
-import Module from "../../server/models/websites/module";
-import WebsiteModule from "../../server/models/websites/websiteModule";
+import Module from "../../server/models/websites/module.js";
+import WebsiteModule from "../../server/models/websites/websiteModule.js";
 
-import { websites } from "../../types/models/websites";
+import { websites } from "../../types/models/websites.js";
 import WebsiteModuleType = websites.WebsiteModule;
 
 async function billingModules() {

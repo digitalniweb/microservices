@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 
-import User from "../../../models/users/user";
-import Role from "../../../models/users/role";
-import Tenant from "../../../models/users/tenant";
+import User from "../../../models/users/user.js";
+import Role from "../../../models/users/role.js";
+import Tenant from "../../../models/users/tenant.js";
 
-import { userAuthenticate } from "../../../../custom/helpers/userAuthenticate";
+import { userAuthenticate } from "../../../../custom/helpers/userAuthenticate.js";
 
 export const test = async function (
 	req: Request,

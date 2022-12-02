@@ -1,13 +1,13 @@
-import { requestPagination } from "../../../../custom/helpers/requestPagination";
+import { requestPagination } from "../../../../custom/helpers/requestPagination.js";
 import { Op } from "sequelize";
 import { Request, Response, NextFunction } from "express";
 import crypto from "crypto";
-import db from "../../../models/index";
-import { websites } from "../../../../types/models/websites";
+import db from "../../../models/index.js";
+import { websites } from "../../../../types/models/websites.js";
 import WebsiteType = websites.Website;
-import Website from "../../../models/websites/website";
-import Url from "../../../models/websites/url";
-import Module from "../../../models/websites/module";
+import Website from "../../../models/websites/website.js";
+import Url from "../../../models/websites/url.js";
+import Module from "../../../models/websites/module.js";
 
 export const getWebsiteInfo = async function (
 	req: Request,

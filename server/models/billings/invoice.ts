@@ -2,13 +2,13 @@
 
 import { DataTypes } from "sequelize";
 
-import db from "../index";
+import db from "../index.js";
 
-import { billings } from "../../../types/models/billings";
+import { billings } from "../../../types/models/billings.js";
 import Invoice = billings.Invoice;
-import Currency from "./currency";
-import Status from "./status";
-import CreditBalanceLog from "./creditBalanceLog";
+import Currency from "./currency.js";
+import Status from "./status.js";
+import CreditBalanceLog from "./creditBalanceLog.js";
 
 const Invoice = db.define<Invoice>(
 	"Invoice",

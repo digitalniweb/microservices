@@ -1,13 +1,13 @@
 import { QueryInterface } from "sequelize";
 
-import { microservices } from "../../../types";
-import Website from "../../models/websites/website";
-import Module from "../../models/websites/module";
-import Url from "../../models/websites/url";
+import { microservices } from "../../../types/index.d.js";
+import Website from "../../models/websites/website.js";
+import Module from "../../models/websites/module.js";
+import Url from "../../models/websites/url.js";
 import { addDays } from "date-fns";
 const microservice: Array<microservices> = ["websites"];
 
-export = {
+export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;

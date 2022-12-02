@@ -1,12 +1,12 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import ModulesPagesLanguage from "../../models/websites/modulesPagesLanguage";
-import Language from "../../models/websites/language";
-import { websites } from "../../../types/models/websites";
+import ModulesPagesLanguage from "../../models/websites/modulesPagesLanguage.js";
+import Language from "../../models/websites/language.js";
+import { websites } from "../../../types/models/websites.js";
 import ModulesPagesLanguageType = websites.ModulesPagesLanguage;
 
-import { microservices } from "../../../types";
-import Module from "../../models/websites/module";
+import { microservices } from "../../../types/index.d.js";
+import Module from "../../models/websites/module.js";
 const microservice: Array<microservices> = ["websites"];
 
 module.exports = {

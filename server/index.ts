@@ -1,13 +1,13 @@
 import express, { Express, ErrorRequestHandler } from "express";
 import dotenv from "dotenv";
 
-import languageSetter from "./middleware/language-setter";
+import languageSetter from "./middleware/language-setter.js";
 
-import { customBELogger } from "./../custom/helpers/logger";
+import { customBELogger } from "./../custom/helpers/logger.js";
 
-import apiRoutes from "./api/";
+import apiRoutes from "./api/index.js";
 
-import serverInit from "./serverInit/index";
+import serverInit from "./serverInit/index.js";
 serverInit();
 
 dotenv.config();
@@ -22,7 +22,6 @@ app.use(languageSetter);
 
 app.use("/api/", apiRoutes);
 
-
 app.use(<ErrorRequestHandler>((err, req, res, next) => {
 	// in express middleware throw error in catch block: next({ error, code: 500, message: "Can't load api" });
 	let { errorCode, responseObject } = customBELogger(err, req);
@@ -32,7 +31,7 @@ app.use(<ErrorRequestHandler>((err, req, res, next) => {
 const port = process.env.PORT;
 if (port)
 	app.listen(port, () => {
-		console.log(`Server is running at http://localhost:${ port }`);
+		console.log(`Server is running at http://localhost:${port}`);
 	});
 else {
 	console.log(`You haven't spicified port!`);
