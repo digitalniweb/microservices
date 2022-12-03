@@ -1,3 +1,8 @@
+require('babel-register')({
+	presets: [
+		['babel-preset-env', { targets: { node: 'current' } }]
+	]
+});
 const path = require("path");
 require("dotenv").config();
 

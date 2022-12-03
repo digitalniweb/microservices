@@ -10,7 +10,7 @@ import WebsiteModule from "../../models/websites/WebsiteModule.js";
 
 const microservice: Array<microservices> = ["websites"];
 
-module.exports = {
+export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");

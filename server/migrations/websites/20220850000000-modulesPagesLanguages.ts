@@ -9,7 +9,7 @@ import { microservices } from "../../../types/index.d.js";
 import Module from "../../models/websites/module.js";
 const microservice: Array<microservices> = ["websites"];
 
-module.exports = {
+export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
