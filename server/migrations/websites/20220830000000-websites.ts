@@ -2,7 +2,6 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 import Website from "../../models/websites/website.js";
 import App from "./../../models/websites/app.js";
-import Language from "./../../models/websites/language.js";
 import { websites } from "../../../types/models/websites.js";
 import WebsiteType = websites.Website;
 
@@ -46,15 +45,10 @@ export default {
 							model: App.tableName,
 							key: "id",
 						},
-						allowNull: true,
 					},
-					MainLanguageId: {
+					mainLanguageId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: Language.tableName,
-							key: "id",
-						},
-						allowNull: true,
+						allowNull: false,
 					},
 					testingMode: {
 						type: DataTypes.BOOLEAN,

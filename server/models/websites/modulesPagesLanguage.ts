@@ -15,11 +15,11 @@ const ModulesPagesLanguage = db.define<ModulesPagesLanguage>(
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		ModuleId: {
+		moduleId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		LanguageId: {
+		languageId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

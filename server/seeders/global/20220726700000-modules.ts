@@ -1,11 +1,11 @@
 import { QueryInterface } from "sequelize";
 
 import { microservices } from "../../../types/index.js";
-import Website from "../../models/websites/website.js";
-// import Module from "../../models/websites/module.js";
-import Url from "../../models/websites/url.js";
-import { addDays } from "date-fns";
-const microservice: Array<microservices> = ["websites"];
+// import Website from "../../models/global/website.js";
+import Module from "../../models/global/module.js";
+// import Url from "../../models/global/url.js";
+// import { addDays } from "date-fns";
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
@@ -14,7 +14,7 @@ export default {
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				// https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
-				/* let photoGalleryModule = await Module.create({
+				let photoGalleryModule = await Module.create({
 					name: "photoGallery",
 					active: true,
 					dedicatedTable: true,
@@ -27,7 +27,7 @@ export default {
 					dedicatedTable: true,
 				});
 
-				if (process.env.NODE_ENV === "development") {
+				/* if (process.env.NODE_ENV === "development") {
 					let testWebsite = await Website.findOne({
 						where: {
 							"$MainUrl.url$": "digitalniweblocalhost.cz",
@@ -44,6 +44,7 @@ export default {
 						],
 					});
 
+					
 					// this works as well
 					// if (testWebsite)
 					// 	await photoGalleryModule.setGlobal([testWebsite], {

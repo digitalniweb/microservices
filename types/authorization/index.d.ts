@@ -1,6 +1,6 @@
-import { users } from "../models/users";
-import RoleType = users.Role;
-import PrivilegeType = users.Privilege;
+import { global } from "../models/global.js";
+import RoleType = global.Role;
+import PrivilegeType = global.Privilege;
 
 export type authorizationListType = {
 	roles?: RoleType[];

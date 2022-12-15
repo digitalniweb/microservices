@@ -5,7 +5,7 @@ import WebsiteModuleType = websites.WebsiteModule;
 
 import { microservices } from "../../../types/index.d.js";
 import Website from "../../models/websites/website.js";
-import Module from "../../models/websites/module.js";
+import Module from "../../models/global/module.js";
 import WebsiteModule from "../../models/websites/WebsiteModule.js";
 
 const microservice: Array<microservices> = ["websites"];
@@ -31,12 +31,9 @@ export default {
 							key: "id",
 						},
 					},
-					ModuleId: {
+					moduleId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: Module.tableName,
-							key: "id",
-						},
+						allowNull: false,
 					},
 					active: {
 						allowNull: false,

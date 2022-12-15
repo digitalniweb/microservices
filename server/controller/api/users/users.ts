@@ -1,8 +1,7 @@
 import db from "../../../models/index.js";
 
 import User from "../../../models/users/user.js";
-import Role from "../../../models/users/role.js";
-import Privilege from "../../../models/users/privilege.js";
+import UserPrivileges from "../../../models/users/loginLog.js";
 import LoginLog from "../../../models/users/loginLog.js";
 import Tenant from "../../../models/users/tenant.js";
 
@@ -54,14 +53,13 @@ export const refreshtoken = async function (
 	try {
 		let user = await db.transaction(async (transaction) => {
 			return await User.findOne({
-				attributes: ["id", "nickname", "refreshTokenSalt"],
+				attributes: ["id", "nickname", "refreshTokenSalt", "userId"],
 				where: {
 					id: req.body.id,
 				},
 				include: [
-					{ model: Role, transaction } as IncludeOptions,
 					{
-						model: Privilege,
+						model: UserPrivileges,
 						attributes: ["name"],
 						transaction,
 					} as IncludeOptions,
@@ -239,7 +237,7 @@ export const register = async function (
 		// 		email: "testtenant@test.cz",
 		// 		nickname: "testtenant",
 		// 		password: "123456789",
-		// 		RoleId: 4,
+		// 		roleId: 4,
 		// 		domainId: 1,
 		// 		Tenant: {
 		// 			firstName: "test2",
@@ -279,12 +277,17 @@ export const register = async function (
 				});
 			}
 
-			let usersRole = await Role.findOne({
-				where: { name: userRole },
-				transaction,
-			});
+			/* 
+				!!! NEED TO BE CHANGED TO load roles from global, and get map
+			*/
+			let rolesIDs = {
+				user: 1,
+				tenant: 2,
+			};
 
-			let result = await usersRole?.createUser(
+			insertData.roleId = rolesIDs[userRole];
+
+			let result = await User.create(
 				{
 					...insertData,
 				},

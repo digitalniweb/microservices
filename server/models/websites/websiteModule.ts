@@ -19,7 +19,7 @@ const WebsiteModule = db.define<WebsiteModule>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		ModuleId: {
+		moduleId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

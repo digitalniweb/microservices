@@ -8,8 +8,9 @@ import { websites } from "../../../types/models/websites.js";
 import Website = websites.Website;
 
 import Url from "./url.js";
-import Module from "./module.js";
+import Module from "../global/module.js";
 import WebsiteModule from "./websiteModule.js";
+import App from "./app.js";
 
 const Website = db.define<Website>(
 	"Website",
@@ -37,8 +38,9 @@ const Website = db.define<Website>(
 		},
 		AppId: {
 			type: DataTypes.INTEGER,
+			allowNull: true,
 		},
-		MainLanguageId: {
+		mainLanguageId: {
 			type: DataTypes.INTEGER,
 		},
 		active: {
@@ -56,6 +58,9 @@ const Website = db.define<Website>(
 			allowNull: false,
 			defaultValue: 0,
 		},
+		// add server (hostName) - localhost / localhost2... - do Redis
+		// rucne prenastavit kam aktualne nastavovat nove hostNames... - do Redis?
+		// vyresit ze tohle je webistes... co websites-n atd.
 	},
 	{
 		timestamps: true,

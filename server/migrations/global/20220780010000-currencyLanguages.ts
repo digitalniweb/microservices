@@ -1,12 +1,13 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import CurrencyLanguage from "../../models/billings/currencyLanguage.js";
-import { billings } from "../../../types/models/billings.js";
-import CurrencyLanguageType = billings.CurrencyLanguage;
+import CurrencyLanguage from "../../models/global/currencyLanguage.js";
+import { global } from "../../../types/models/global.js";
+import CurrencyLanguageType = global.CurrencyLanguage;
 
-import { microservices } from "../../../types/index.d.js";
-import Currency from "../../models/billings/currency.js";
-const microservice: Array<microservices> = ["billings"];
+import { microservices } from "../../../types/index.js";
+import Currency from "../../models/global/currency.js";
+import Language from "../../models/global/language.js";
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
@@ -24,15 +25,17 @@ export default {
 					},
 					CurrencyId: {
 						type: DataTypes.INTEGER,
-						allowNull: false,
 						references: {
 							model: Currency.tableName,
 							key: "id",
 						},
 					},
-					languageId: {
+					LanguageId: {
 						type: DataTypes.INTEGER,
-						allowNull: false,
+						references: {
+							model: Language.tableName,
+							key: "id",
+						},
 					},
 					name: {
 						type: DataTypes.STRING,

@@ -14,7 +14,7 @@ const WebsiteLanguageMutation = db.define<WebsiteLanguageMutation>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		LanguageId: {
+		languageId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

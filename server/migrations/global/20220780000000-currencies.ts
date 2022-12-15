@@ -1,19 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Module from "../../models/websites/module.js";
-import { websites } from "../../../types/models/websites.js";
-import ModuleType = websites.Module;
+import Currency from "../../models/global/currency.js";
+import { global } from "../../../types/models/global.js";
+import LanguageType = global.Currency;
 
-import { microservices } from "../../../types/index.d.js";
-const microservice: Array<microservices> = ["websites"];
+import { microservices } from "../../../types/index.js";
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<ModuleType>(
-				Module.tableName,
+			return await queryInterface.createTable<LanguageType>(
+				Currency.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -21,28 +21,13 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					active: {
-						type: DataTypes.BOOLEAN,
+					code: {
 						allowNull: false,
-						defaultValue: 1,
+						type: DataTypes.STRING(3),
 					},
-					name: {
-						type: DataTypes.STRING,
+					sign: {
 						allowNull: false,
-						unique: true,
-					},
-					dedicatedTable: {
-						type: DataTypes.BOOLEAN,
-						allowNull: false,
-						defaultValue: 0,
-					},
-					usersRoleId: {
-						type: DataTypes.INTEGER,
-						allowNull: true,
-					},
-					creditsCost: {
-						type: DataTypes.INTEGER,
-						allowNull: true,
+						type: DataTypes.STRING(4),
 					},
 				},
 				{
@@ -58,7 +43,7 @@ export default {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Module.tableName, {
+			return await queryInterface.dropTable(Currency.tableName, {
 				transaction,
 			});
 		});

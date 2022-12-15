@@ -1,9 +1,9 @@
 import { QueryInterface } from "sequelize";
 
-import Currency from "../../models/billings/currency.js";
+import Currency from "../../models/global/currency.js";
 
-import { microservices } from "../../../types/index.d.js";
-const microservice: Array<microservices> = ["billings"];
+import { microservices } from "../../../types/index.js";
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {

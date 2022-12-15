@@ -11,7 +11,7 @@ export namespace billings {
 		id: CreationOptional<number>;
 		invoiceNumber: string;
 		amount: number;
-		CurrencyId: ForeignKey<Currency["id"]>;
+		currencyId: number;
 		StatusId: ForeignKey<Status["id"]>;
 		CreditBalanceLogId?: ForeignKey<CreditBalanceLog["id"]>;
 		dueDate: Date;
@@ -66,24 +66,5 @@ export namespace billings {
 		id: CreationOptional<number>;
 		name: string;
 		description?: string;
-	}
-	export interface Currency
-		extends Model<
-			InferAttributes<Currency>,
-			InferCreationAttributes<Currency>
-		> {
-		id: CreationOptional<number>;
-		sign: string; // €
-		code: string; // EUR
-	}
-	export interface CurrencyLanguage
-		extends Model<
-			InferAttributes<CurrencyLanguage>,
-			InferCreationAttributes<CurrencyLanguage>
-		> {
-		id: CreationOptional<number>;
-		CurrencyId: ForeignKey<Currency["id"]>;
-		languageId: number;
-		name: string;
 	}
 }

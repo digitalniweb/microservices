@@ -4,10 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../types/models/websites.js";
-import Module = websites.Module;
-import ModulesPagesLanguage from "./modulesPagesLanguage.js";
-import WebsiteModule from "./websiteModule.js";
+import { global } from "../../../types/models/global.js";
+import Module = global.Module;
 
 const Module = db.define<Module>(
 	"Module",
@@ -46,9 +44,5 @@ const Module = db.define<Module>(
 		paranoid: false, // deletedAt
 	}
 );
-
-Module.hasMany(ModulesPagesLanguage);
-ModulesPagesLanguage.belongsTo(Module);
-WebsiteModule.belongsTo(Module);
 
 export default Module;

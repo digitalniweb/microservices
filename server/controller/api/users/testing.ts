@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import User from "../../../models/users/user.js";
-import Role from "../../../models/users/role.js";
+import Role from "../../../models/global/role.js";
 import Tenant from "../../../models/users/tenant.js";
 
 import { userAuthenticate } from "../../../../custom/helpers/userAuthenticate.js";

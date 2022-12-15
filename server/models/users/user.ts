@@ -43,7 +43,7 @@ const User = db.define<User>(
 				len: [20, 20],
 			},
 		},
-		RoleId: {
+		roleId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

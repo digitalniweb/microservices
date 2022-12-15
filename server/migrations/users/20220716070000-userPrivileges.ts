@@ -1,7 +1,6 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import UserPrivilege from "./../../models/users/userPrivilege.js";
-import Privilege from "./../../models/users/privilege.js";
 import User from "./../../models/users/user.js";
 
 import { users } from "./../../../types/models/users.js";
@@ -25,12 +24,9 @@ export default {
 							key: "id",
 						},
 					},
-					PrivilegeId: {
+					privilegeId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: Privilege.tableName,
-							key: "id",
-						},
+						allowNull: false,
 					},
 				},
 				{

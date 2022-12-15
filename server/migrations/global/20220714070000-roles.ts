@@ -1,20 +1,20 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Privilege from "../../models/users/privilege.js";
+import Role from "../../models/global/role.js";
 
-import { users } from "../../../types/models/users.js";
-import PrivilegeType = users.Privilege;
+import { global } from "../../../types/models/global.js";
+import RoleType = global.Role;
 
-import { microservices } from "../../../types/index.d.js";
-const microservice: Array<microservices> = ["users"];
+import { microservices } from "../../../types/index.js";
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<PrivilegeType>(
-				Privilege.tableName,
+			return await queryInterface.createTable<RoleType>(
+				Role.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -45,7 +45,7 @@ export default {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Privilege.tableName, {
+			return await queryInterface.dropTable(Role.tableName, {
 				transaction,
 			});
 		});

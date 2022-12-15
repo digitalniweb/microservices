@@ -6,7 +6,6 @@ import WebsiteLanguageMutationType = websites.WebsiteLanguageMutation;
 import { microservices } from "../../../types/index.d.js";
 import Website from "../../models/websites/website.js";
 import WebsiteLanguageMutation from "../../models/websites/websiteLanguageMutation.js";
-import Language from "../../models/websites/language.js";
 
 const microservice: Array<microservices> = ["websites"];
 
@@ -25,12 +24,9 @@ export default {
 							key: "id",
 						},
 					},
-					LanguageId: {
+					languageId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: Language.tableName,
-							key: "id",
-						},
+						allowNull: false,
 					},
 				},
 				{

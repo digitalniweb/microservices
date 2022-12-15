@@ -1,20 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Role from "./../../models/users/role.js";
+import AppType from "../../models/global/appType.js";
+import { global } from "../../../types/models/global.js";
+import AppTypeType = global.AppType;
 
-import { users } from "./../../../types/models/users.js";
-import RoleType = users.Role;
-
-import { microservices } from "./../../../types/index.d.js";
-const microservice: Array<microservices> = ["users"];
+import { microservices } from "../../../types/index.js";
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<RoleType>(
-				Role.tableName,
+			return await queryInterface.createTable<AppTypeType>(
+				AppType.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -23,13 +22,8 @@ export default {
 						type: DataTypes.INTEGER,
 					},
 					name: {
-						type: DataTypes.STRING(63),
-						unique: true,
+						type: DataTypes.STRING,
 						allowNull: false,
-					},
-					type: {
-						type: DataTypes.STRING(63),
-						allowNull: true,
 					},
 				},
 				{
@@ -45,7 +39,7 @@ export default {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Role.tableName, {
+			return await queryInterface.dropTable(AppType.tableName, {
 				transaction,
 			});
 		});

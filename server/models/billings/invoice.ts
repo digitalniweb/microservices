@@ -6,7 +6,7 @@ import db from "../index.js";
 
 import { billings } from "../../../types/models/billings.js";
 import Invoice = billings.Invoice;
-import Currency from "./currency.js";
+import Currency from "../global/currency.js";
 import Status from "./status.js";
 import CreditBalanceLog from "./creditBalanceLog.js";
 
@@ -27,7 +27,7 @@ const Invoice = db.define<Invoice>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		CurrencyId: {
+		currencyId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

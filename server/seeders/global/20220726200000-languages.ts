@@ -1,9 +1,9 @@
 import { QueryInterface } from "sequelize";
 
-import Language from "../../models/websites/language.js";
+import Language from "../../models/global/language.js";
 
 import { microservices } from "../../../types/index.d.js";
-const microservice: Array<microservices> = ["websites"];
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {

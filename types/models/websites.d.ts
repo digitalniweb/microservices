@@ -25,33 +25,17 @@ import {
 	BelongsToManyAddAssociationsMixin,
 } from "sequelize";
 export namespace websites {
-	export interface Language
-		extends Model<
-			InferAttributes<Language>,
-			InferCreationAttributes<Language>
-		> {
-		id: CreationOptional<number>;
-		name: string;
-		code: string;
-		icon: string;
-	}
-	export interface AppType
-		extends Model<InferAttributes<AppType>, InferCreationAttributes<AppType>> {
-		id: CreationOptional<number>;
-		name: string;
-
-		createApp: HasManyCreateAssociationMixin<App, "id">;
-	}
 	export interface App
 		extends Model<InferAttributes<App>, InferCreationAttributes<App>> {
 		id: CreationOptional<number>;
 		parentId?: number;
 		name: string;
 		port?: number;
-		AppTypeId: CreationOptional<number>;
+		appTypeId: CreationOptional<number>;
 
 		setParent: HasOneSetAssociationMixin<App, "id">;
-		setLanguages: BelongsToManySetAssociationsMixin<Language, number>;
+		setAppLanguages: HasManySetAssociationsMixin<AppLanguage, number>;
+		createAppLanguage: HasManyCreateAssociationMixin<AppLanguage, "id">;
 	}
 
 	export interface Url
@@ -68,7 +52,7 @@ export namespace websites {
 		MainUrlId?: number;
 		userId?: number;
 		AppId?: number;
-		MainLanguageId?: number;
+		mainLanguageId?: number;
 		active: boolean;
 		testingMode: boolean;
 		paused: boolean;
@@ -79,23 +63,7 @@ export namespace websites {
 		setAlias: HasManySetAssociationsMixin<Url, number>;
 		createAlias: HasManyCreateAssociationMixin<Url, "id">;
 		createMainUrl: BelongsToCreateAssociationMixin<Url>;
-		setMainLanguage: BelongsToSetAssociationMixin<Language, number>;
-		setLanguages: BelongsToManySetAssociationsMixin<Language, number>;
 		setApp: BelongsToSetAssociationMixin<App, number>;
-		addModule: BelongsToManyAddAssociationMixin<Module, number>;
-		addModules: BelongsToManyAddAssociationsMixin<Module, number>;
-		setModules: BelongsToManySetAssociationsMixin<Module, number>;
-	}
-	export interface Module
-		extends Model<InferAttributes<Module>, InferCreationAttributes<Module>> {
-		id: CreationOptional<number>;
-		name: string;
-		active: boolean;
-		dedicatedTable: boolean;
-		usersRoleId?: number;
-		creditsCost?: number; // per month
-		addWebsite: BelongsToManyAddAssociationMixin<Website, number>;
-		setWebsites: BelongsToManySetAssociationsMixin<Website, number>;
 	}
 	export interface ModulesPagesLanguage
 		extends Model<
@@ -103,8 +71,8 @@ export namespace websites {
 			InferCreationAttributes<ModulesPagesLanguage>
 		> {
 		id: CreationOptional<number>;
-		ModuleId: CreationOptional<number>;
-		LanguageId: CreationOptional<number>;
+		moduleId: CreationOptional<number>;
+		languageId: CreationOptional<number>;
 		url: string;
 		title?: string;
 		description?: string;
@@ -121,7 +89,7 @@ export namespace websites {
 		> {
 		id: CreationOptional<number>;
 		WebsiteId: CreationOptional<number>;
-		ModuleId: CreationOptional<number>;
+		moduleId: CreationOptional<number>;
 		active: boolean;
 		billingDay: number;
 		createdAt?: CreationOptional<Date>;
@@ -133,14 +101,15 @@ export namespace websites {
 			InferCreationAttributes<WebsiteLanguageMutation>
 		> {
 		WebsiteId: CreationOptional<number>;
-		LanguageId: CreationOptional<number>;
+		languageId: CreationOptional<number>;
 	}
 	export interface AppLanguage
 		extends Model<
 			InferAttributes<AppLanguage>,
 			InferCreationAttributes<AppLanguage>
 		> {
+		id: CreationOptional<number>;
 		AppId: CreationOptional<number>;
-		LanguageId: CreationOptional<number>;
+		languageId: CreationOptional<number>;
 	}
 }

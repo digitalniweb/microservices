@@ -1,6 +1,5 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import AppType from "./../../models/websites/appType.js";
 import App from "./../../models/websites/app.js";
 import { websites } from "./../../../types/models/websites.js";
 import AppTsType = websites.App;
@@ -10,6 +9,8 @@ const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
+		console.log(App);
+
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
@@ -33,12 +34,8 @@ export default {
 					port: {
 						type: DataTypes.SMALLINT.UNSIGNED,
 					},
-					AppTypeId: {
+					appTypeId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: AppType.tableName,
-							key: "id",
-						},
 						allowNull: false,
 					},
 				},

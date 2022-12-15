@@ -1,19 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import AppType from "./../../models/websites/appType.js";
-import { websites } from "./../../../types/models/websites.js";
-import AppTypeType = websites.AppType;
+import Language from "./../../models/global/language.js";
+import { global } from "../../../types/models/global.js";
+import LanguageType = global.Language;
 
 import { microservices } from "./../../../types/index.d.js";
-const microservice: Array<microservices> = ["websites"];
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<AppTypeType>(
-				AppType.tableName,
+			return await queryInterface.createTable<LanguageType>(
+				Language.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -21,9 +21,17 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					name: {
-						type: DataTypes.STRING,
+					code: {
 						allowNull: false,
+						type: DataTypes.STRING(7),
+					},
+					name: {
+						allowNull: false,
+						type: DataTypes.STRING(63),
+					},
+					icon: {
+						allowNull: false,
+						type: DataTypes.STRING,
 					},
 				},
 				{
@@ -39,7 +47,7 @@ export default {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(AppType.tableName, {
+			return await queryInterface.dropTable(Language.tableName, {
 				transaction,
 			});
 		});

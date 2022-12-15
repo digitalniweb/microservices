@@ -5,7 +5,6 @@ import AppLanguageType = websites.AppLanguage;
 
 import { microservices } from "../../../types/index.d.js";
 import AppLanguage from "../../models/websites/appLanguage.js";
-import Language from "../../models/websites/language.js";
 import App from "../../models/websites/app.js";
 
 const microservice: Array<microservices> = ["websites"];
@@ -18,6 +17,12 @@ export default {
 			return await queryInterface.createTable<AppLanguageType>(
 				AppLanguage.tableName,
 				{
+					id: {
+						allowNull: false,
+						autoIncrement: true,
+						primaryKey: true,
+						type: DataTypes.INTEGER,
+					},
 					AppId: {
 						type: DataTypes.INTEGER,
 						references: {
@@ -25,12 +30,9 @@ export default {
 							key: "id",
 						},
 					},
-					LanguageId: {
+					languageId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: Language.tableName,
-							key: "id",
-						},
+						allowNull: false,
 					},
 				},
 				{

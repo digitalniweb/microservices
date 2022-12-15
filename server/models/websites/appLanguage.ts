@@ -10,11 +10,16 @@ import AppLanguage = websites.AppLanguage;
 const AppLanguage = db.define<AppLanguage>(
 	"AppLanguage",
 	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
 		AppId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		LanguageId: {
+		languageId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
@@ -25,5 +30,6 @@ const AppLanguage = db.define<AppLanguage>(
 		// freezeTableName: true,
 	}
 );
+// AppLanguage.removeAttribute("id");
 
 export default AppLanguage;

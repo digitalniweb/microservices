@@ -4,8 +4,6 @@ import User from "./../../models/users/user.js";
 import { users } from "./../../../types/models/users.js";
 import UserType = users.User;
 
-import Role from "./../../models/users/role.js";
-
 import { microservices } from "./../../../types/index.d.js";
 const microservice: Array<microservices> = ["users"];
 
@@ -40,12 +38,9 @@ export default {
 						type: DataTypes.STRING(20),
 						allowNull: false,
 					},
-					RoleId: {
+					roleId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: Role.tableName,
-							key: "id",
-						},
+						allowNull: false,
 					},
 					domainId: {
 						type: DataTypes.INTEGER,

@@ -7,7 +7,6 @@ import db from "../index.js";
 import { websites } from "../../../types/models/websites.js";
 import App = websites.App;
 import Website from "./website.js";
-import Language from "./language.js";
 import AppLanguage from "./appLanguage.js";
 
 const App = db.define<App>(
@@ -35,7 +34,7 @@ const App = db.define<App>(
 			type: DataTypes.INTEGER,
 			unique: true,
 		},
-		AppTypeId: {
+		appTypeId: {
 			type: DataTypes.INTEGER,
 		},
 	},
@@ -55,8 +54,7 @@ App.hasOne(App, {
 	foreignKey: "parentId",
 });
 
-App.belongsToMany(Language, {
-	through: AppLanguage.tableName,
-});
+AppLanguage.belongsTo(App);
+App.hasMany(AppLanguage);
 
 export default App;

@@ -1,7 +1,6 @@
 import crypto from "node:crypto";
-import Role from "./../../server/models/users/role.js";
 import User from "./../../server/models/users/user.js";
-import Privilege from "./../../server/models/users/privilege.js";
+import UserPrivilege from "./../../server/models/users/userPrivilege.js";
 import { customBELogger } from "./logger.js";
 
 export async function userAuthenticate(login: string, password: string) {
@@ -13,12 +12,7 @@ export async function userAuthenticate(login: string, password: string) {
 			paranoid: true,
 			include: [
 				{
-					attributes: ["name", "type"],
-					model: Role,
-				},
-				{
-					attributes: ["name"],
-					model: Privilege,
+					model: UserPrivilege,
 				},
 			],
 		});

@@ -1,19 +1,20 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Language from "./../../models/websites/language.js";
-import { websites } from "./../../../types/models/websites.js";
-import LanguageType = websites.Language;
+import Privilege from "../../models/global/privilege.js";
 
-import { microservices } from "./../../../types/index.d.js";
-const microservice: Array<microservices> = ["websites"];
+import { global } from "../../../types/models/global.js";
+import PrivilegeType = global.Privilege;
+
+import { microservices } from "../../../types/index.js";
+const microservice: Array<microservices> = ["global"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<LanguageType>(
-				Language.tableName,
+			return await queryInterface.createTable<PrivilegeType>(
+				Privilege.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -21,17 +22,14 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					code: {
-						allowNull: false,
-						type: DataTypes.STRING(7),
-					},
 					name: {
-						allowNull: false,
 						type: DataTypes.STRING(63),
-					},
-					icon: {
+						unique: true,
 						allowNull: false,
-						type: DataTypes.STRING,
+					},
+					type: {
+						type: DataTypes.STRING(63),
+						allowNull: true,
 					},
 				},
 				{
@@ -47,7 +45,7 @@ export default {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Language.tableName, {
+			return await queryInterface.dropTable(Privilege.tableName, {
 				transaction,
 			});
 		});

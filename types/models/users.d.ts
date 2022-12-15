@@ -8,7 +8,6 @@ import {
 	InferCreationAttributes,
 	HasManyGetAssociationsMixin,
 	HasManyCreateAssociationMixin,
-	HasManyAddAssociationsMixin,
 	NonAttribute,
 	CreationAttributes,
 	BelongsToGetAssociationMixin,
@@ -48,44 +47,17 @@ export namespace users {
 		email: string;
 		password: string;
 		refreshTokenSalt: CreationOptional<string>;
-		RoleId: ForeignKey<Role["id"]>;
+		roleId: ForeignKey<Role["id"]>;
 		domainId?: number;
 		active: boolean;
 		createdAt?: CreationOptional<Date>;
 		updatedAt?: CreationOptional<Date>;
 		deletedAt?: Date;
 		Tenant?: Tenant;
-		Privileges: NonAttribute<Privilege[]>;
+		/* Privileges: NonAttribute<Privilege[]>;
 
 		addPrivileges: HasManyAddAssociationsMixin<Privilege, number>;
-		getRole: HasOneGetAssociationMixin<Role>;
-	}
-
-	export interface Role
-		extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
-		id: CreationOptional<number>;
-		name: string;
-		type: "admin" | "user";
-
-		Users: NonAttribute<User[]>;
-		/* associations: {
-		Users: Association<Role, User>;
-	}; */
-
-		getUsers: HasManyGetAssociationsMixin<User>;
-		createUser: HasManyCreateAssociationMixin<User>;
-	}
-
-	export interface Privilege
-		extends Model<
-			InferAttributes<Privilege>,
-			InferCreationAttributes<Privilege>
-		> {
-		id: CreationOptional<number>;
-		name: string;
-		type: "admin" | "user";
-
-		Users: NonAttribute<User[]>;
+		getRole: HasOneGetAssociationMixin<Role>; */
 	}
 
 	export interface UserPrivilege
@@ -94,7 +66,7 @@ export namespace users {
 			InferCreationAttributes<UserPrivilege>
 		> {
 		UserId: CreationOptional<number>;
-		PrivilegeId: CreationOptional<number>;
+		privilegeId: CreationOptional<number>;
 	}
 	export interface Blacklist
 		extends Model<

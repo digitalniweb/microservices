@@ -1,4 +1,4 @@
-import serverCache from "./helpers/serverCache.js";
+import serverCache from "./serverCache.js";
 
 type serviceName = string;
 type service = {

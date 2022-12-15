@@ -1,9 +1,9 @@
-import { default as axios, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { Request } from "express";
 import { HTTPMethods } from "../../types/httpMethods.js";
 import { microservices } from "../../types/index.d.js";
-import serviceRegistryRedis from "../serviceRegistryRedis.js";
+import serviceRegistryRedis from "./serviceRegistryRedis.js";
 import appCache from "./appCache.js";
 
 interface msCallOptions {

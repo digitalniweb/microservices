@@ -4,9 +4,10 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { billings } from "../../../types/models/billings.js";
-import CurrencyLanguage = billings.CurrencyLanguage;
+import { global } from "../../../types/models/global.js";
+import CurrencyLanguage = global.CurrencyLanguage;
 import Currency from "./currency.js";
+import Language from "./language.js";
 
 const CurrencyLanguage = db.define<CurrencyLanguage>(
 	"CurrencyLanguage",
@@ -18,11 +19,17 @@ const CurrencyLanguage = db.define<CurrencyLanguage>(
 		},
 		CurrencyId: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			references: {
+				model: Currency.tableName,
+				key: "id",
+			},
 		},
-		languageId: {
+		LanguageId: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			references: {
+				model: Language.tableName,
+				key: "id",
+			},
 		},
 		name: {
 			type: DataTypes.STRING,

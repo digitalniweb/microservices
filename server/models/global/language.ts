@@ -4,11 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../types/models/websites.js";
-import Language = websites.Language;
-import ModulesPagesLanguage from "./modulesPagesLanguage.js";
-import WebsiteLanguageMutation from "./websiteLanguageMutation.js";
-import Website from "./website.js";
+import { global } from "../../../types/models/global.js";
+import Language = global.Language;
 
 const Language = db.define<Language>(
 	"Language",
@@ -41,12 +38,5 @@ const Language = db.define<Language>(
 		// freezeTableName: true,
 	}
 );
-
-ModulesPagesLanguage.belongsTo(Language);
-
-Website.belongsTo(Language, { as: "MainLanguage" });
-Website.belongsToMany(Language, {
-	through: WebsiteLanguageMutation.tableName,
-});
 
 export default Language;

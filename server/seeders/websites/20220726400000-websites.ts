@@ -3,7 +3,6 @@ import { QueryInterface } from "sequelize";
 import { microservices } from "../../../types/index.d.js";
 import App from "../../models/websites/app.js";
 import Website from "../../models/websites/website.js";
-import Language from "../../models/websites/language.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {
@@ -24,12 +23,12 @@ export default {
 					paused: false,
 				});
 
-				let czechLanguage = await Language.findOne({
+				/* let czechLanguage = await Language.findOne({
 					where: { code: "cs" },
 				});
 				let englishLanguage = await Language.findOne({
 					where: { code: "en" },
-				});
+				}); */
 
 				// because of 'createUrlSetAlias' hook in Website model I don't need to call:
 				// a) UrlInstance.setWebsite(digitalniwebWebsite) on this instance -> Url.WebsiteId = Website.id
@@ -46,14 +45,14 @@ export default {
 						url: "digitalniweblocalhost.cz",
 					});
 				}
-
+				/* 
 				// default language
 				if (czechLanguage)
 					await digitalniwebWebsite.setMainLanguage(czechLanguage);
 
 				// language mutation
 				if (englishLanguage)
-					await digitalniwebWebsite.setLanguages([englishLanguage]);
+					await digitalniwebWebsite.setLanguages([englishLanguage]); */
 
 				let digitalniwebHost = await App.findOne({
 					where: { name: "webs" },
@@ -76,8 +75,8 @@ export default {
 					if (digitalniwebTenants)
 						await digitalniwebTenantWebsite.setApp(digitalniwebTenants);
 
-					if (czechLanguage)
-						await digitalniwebTenantWebsite.setMainLanguage(czechLanguage);
+					/* if (czechLanguage)
+						await digitalniwebTenantWebsite.setMainLanguage(czechLanguage); */
 
 					// only Url.WebsiteId = Website.id will happen (no Website.id = Url.WebsiteId)
 					await digitalniwebWebsite.createAlias({

@@ -4,15 +4,11 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { users } from "../../../types/models/users.js";
-import Privilege = users.Privilege;
+import { global } from "../../../types/models/global.js";
+import Role = global.Role;
 
-import UserPrivilege from "./userPrivilege.js";
-
-import User from "./user.js";
-
-const Privilege = db.define<Privilege>(
-	"Privilege",
+const Role = db.define<Role>(
+	"Role",
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -32,14 +28,15 @@ const Privilege = db.define<Privilege>(
 	{
 		timestamps: false, // createdAt, updatedAt
 		paranoid: false, // deletedAt
+		// freezeTableName: true,
+		// tableName: 'Roles',
 	}
 );
-Privilege.belongsToMany(User, {
+
+/* User.belongsToMany(Privilege, {
 	through: UserPrivilege.tableName,
 });
 
-User.belongsToMany(Privilege, {
-	through: UserPrivilege.tableName,
-});
+Privilege.hasMany(User); */
 
-export default Privilege;
+export default Role;

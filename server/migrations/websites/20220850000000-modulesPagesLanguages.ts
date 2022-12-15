@@ -1,12 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import ModulesPagesLanguage from "../../models/websites/modulesPagesLanguage.js";
-import Language from "../../models/websites/language.js";
 import { websites } from "../../../types/models/websites.js";
 import ModulesPagesLanguageType = websites.ModulesPagesLanguage;
 
 import { microservices } from "../../../types/index.d.js";
-import Module from "../../models/websites/module.js";
+import Module from "../../models/global/module.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {
@@ -23,20 +22,12 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					LanguageId: {
+					languageId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: Language.getTableName(),
-							key: "id",
-						},
 						allowNull: false,
 					},
-					ModuleId: {
+					moduleId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: Module.getTableName(),
-							key: "id",
-						},
 						allowNull: false,
 					},
 					url: {

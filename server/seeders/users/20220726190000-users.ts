@@ -1,15 +1,14 @@
 import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 
 // import { Role as RoleType } from "../../types/server/models/db.js";
-import Role from "../../models/users/role.js";
+import Role from "../../models/global/role.js";
 
 import { users } from "../../../types/models/users.js";
 import TenantType = users.Tenant;
 import UserType = users.User;
 
-import Tenant from "../../models/users/tenant.js";
+// import Tenant from "../../models/users/tenant.js";
 import User from "../../models/users/user.js";
-import Privilege from "../../models/users/privilege.js";
 
 import { microservices } from "./../../../types/index.d.js";
 const microservice: Array<microservices> = ["users"];
@@ -25,7 +24,7 @@ export default {
 						email: "admin@digitalniweb.cz",
 						nickname: "Programmer",
 						password: "123456789",
-						RoleId: 1,
+						roleId: 1,
 						domainId: 1,
 						active: true,
 					},
@@ -33,7 +32,7 @@ export default {
 						email: "owner@test.cz",
 						nickname: "owner",
 						password: "123456789",
-						RoleId: 2,
+						roleId: 2,
 						domainId: 1,
 						active: true,
 					},
@@ -41,7 +40,7 @@ export default {
 						email: "admin@test.cz",
 						nickname: "admin",
 						password: "123456789",
-						RoleId: 3,
+						roleId: 3,
 						domainId: 1,
 						active: true,
 					},
@@ -51,9 +50,10 @@ export default {
 					where: { name: "superadmin" },
 					transaction,
 				});
-				await superadminRole?.createUser(usersData[0], { transaction });
 
-				let tenantRole = await Role.findOne({
+				// await superadminRole?.createUser(usersData[0], { transaction });
+
+				/* let tenantRole = await Role.findOne({
 					where: { name: "tenant" },
 					transaction,
 				});
@@ -69,7 +69,7 @@ export default {
 							"analytics-marketing",
 						],
 					},
-				});
+				}); */
 
 				await User.create(usersData[1], {
 					transaction,
@@ -79,9 +79,9 @@ export default {
 					transaction,
 				});
 
-				await admin.addPrivileges(adminsPrivileges, {
+				/* await admin.addPrivileges(adminsPrivileges, {
 					transaction,
-				});
+				}); */
 
 				const user: CreationAttributes<UserType> = {
 					email: "tenant@digitalniweb.cz",
@@ -104,10 +104,10 @@ export default {
 					} as TenantType,
 				};
 
-				await tenantRole?.createUser(user, {
+				/* await tenantRole?.createUser(user, {
 					include: [{ model: Tenant, transaction } as IncludeOptions],
 					transaction,
-				});
+				}); */
 			} catch (error) {
 				console.log(error);
 			}

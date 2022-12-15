@@ -4,8 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { billings } from "../../../types/models/billings.js";
-import Currency = billings.Currency;
+import { global } from "../../../types/models/global.js";
+import Currency = global.Currency;
 
 const Currency = db.define<Currency>(
 	"Currency",

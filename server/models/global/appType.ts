@@ -4,9 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../types/models/websites.js";
-import AppType = websites.AppType;
-import App from "./app.js";
+import { global } from "../../../types/models/global.js";
+import AppType = global.AppType;
 
 const AppType = db.define<AppType>(
 	"AppType",
@@ -31,8 +30,5 @@ const AppType = db.define<AppType>(
 		// freezeTableName: true,
 	}
 );
-
-AppType.hasMany(App);
-App.belongsTo(AppType);
 
 export default AppType;

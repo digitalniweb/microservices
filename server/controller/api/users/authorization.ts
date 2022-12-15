@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import Privilege from "../../../models/users/privilege.js";
-import Role from "../../../models/users/role.js";
+import Privilege from "../../../models/global/privilege.js";
+import Role from "../../../models/global/role.js";
 
-import { users } from "../../../../types/models/users.js";
-import RoleType = users.Role;
-import PrivilegeType = users.Privilege;
+import { global } from "../../../../types/models/global.js";
+import RoleType = global.Role;
+import PrivilegeType = global.Privilege;
 
 import db from "../../../models/index.js";
 import { WhereOptions } from "sequelize";
@@ -16,6 +16,9 @@ export const allList = async function (
 	next: NextFunction
 ) {
 	try {
+		return res.send({}); // delete this
+
+		// !!! FROM HERE DOWN ALL THIS SHOULD BE IN GLOBAL API CONTROLLER I GUESS
 		// select: roles/privileges/(all)
 		// type: user/admin/(all)
 		const { select = "all", type = "all" } = req.query;
