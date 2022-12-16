@@ -1,10 +1,10 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Language from "./../../models/globalData/language.js";
+import Language from "../../models/globalData/language.js";
 import { globalData } from "../../../types/models/globalData.js";
 import LanguageType = globalData.Language;
 
-import { microservices } from "./../../../types/index.d.js";
+import { microservices } from "../../../types/index.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {
