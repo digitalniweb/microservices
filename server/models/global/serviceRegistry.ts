@@ -5,30 +5,29 @@ import { DataTypes } from "sequelize";
 import db from "../index.js";
 
 import { globalData } from "../../../types/models/globalData.js";
-import AppType = globalData.AppType;
+import ServiceRegistry = globalData.ServiceRegistry;
 
-const AppType = db.define<AppType>(
-	"AppType",
+const ServiceRegistry = db.define<ServiceRegistry>(
+	"ServiceRegistry",
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		name: {
+		host: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			unique: true,
-			validate: {
-				len: [1, 255],
-			},
+		},
+		port: {
+			type: DataTypes.NUMBER,
+			allowNull: false,
 		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt
 		paranoid: false, // deletedAt
-		// freezeTableName: true,
 	}
 );
 
-export default AppType;
+export default ServiceRegistry;

@@ -1,13 +1,13 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import CurrencyLanguage from "../../models/global/currencyLanguage.js";
-import { global } from "../../../types/models/global.js";
-import CurrencyLanguageType = global.CurrencyLanguage;
+import CurrencyLanguage from "../../models/globalData/currencyLanguage.js";
+import { globalData } from "../../../types/models/globalData.js";
+import CurrencyLanguageType = globalData.CurrencyLanguage;
 
 import { microservices } from "../../../types/index.js";
-import Currency from "../../models/global/currency.js";
-import Language from "../../models/global/language.js";
-const microservice: Array<microservices> = ["global"];
+import Currency from "../../models/globalData/currency.js";
+import Language from "../../models/globalData/language.js";
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {

@@ -1,6 +1,6 @@
 import { QueryInterface } from "sequelize";
 
-// import AppType from "../../models/global/appType.js";
+// import AppType from "../../models/globalData/appType.js";
 import App from "../../models/websites/app.js";
 
 import { microservices } from "../../../types/index.d.js";
@@ -30,7 +30,7 @@ export default {
 		await saasHost.setLanguages(languages);
 		await saasTenant.setLanguages(languages); */
 
-		// !!! languages And appTypeId must load from global
+		// !!! languages And appTypeId must load from globalData
 		let saasHost = await App.create({
 			name: "webs",
 			port: 3000,
@@ -41,16 +41,10 @@ export default {
 			port: 3001,
 			appTypeId: 2,
 		});
+		saasTenant.setParent(saasHost);
 
 		await saasHost.createAppLanguage({ languageId: 1 });
 		await saasTenant.createAppLanguage({ languageId: 1 });
-
-		/* await saasHost.setAppLanguages([
-			await AppLanguage.create({ languageId: 1 }),
-		]);
-		await saasTenant.setAppLanguages([
-			await AppLanguage.create({ languageId: 1 }),
-		]); */
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
 		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))

@@ -8,7 +8,7 @@ import { websites } from "../../../types/models/websites.js";
 import Website = websites.Website;
 
 import Url from "./url.js";
-import Module from "../global/module.js";
+import Module from "../globalData/module.js";
 import WebsiteModule from "./websiteModule.js";
 import App from "./app.js";
 

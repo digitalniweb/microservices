@@ -5,7 +5,7 @@ import {
 	InferCreationAttributes,
 	ForeignKey,
 } from "sequelize";
-export namespace global {
+export namespace globalData {
 	export interface Language
 		extends Model<
 			InferAttributes<Language>,
@@ -72,5 +72,14 @@ export namespace global {
 		CurrencyId: ForeignKey<Currency["id"]>;
 		LanguageId: ForeignKey<Language["id"]>;
 		name: string;
+	}
+	export interface ServiceRegistry
+		extends Model<
+			InferAttributes<ServiceRegistry>,
+			InferCreationAttributes<ServiceRegistry>
+		> {
+		id: CreationOptional<number>;
+		host: string;
+		port: number;
 	}
 }

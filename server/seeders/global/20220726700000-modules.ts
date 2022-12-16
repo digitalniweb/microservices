@@ -1,11 +1,11 @@
 import { QueryInterface } from "sequelize";
 
 import { microservices } from "../../../types/index.js";
-// import Website from "../../models/global/website.js";
-import Module from "../../models/global/module.js";
-// import Url from "../../models/global/url.js";
+// import Website from "../../models/globalData/website.js";
+import Module from "../../models/globalData/module.js";
+// import Url from "../../models/globalData/url.js";
 // import { addDays } from "date-fns";
-const microservice: Array<microservices> = ["global"];
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
@@ -47,7 +47,7 @@ export default {
 					
 					// this works as well
 					// if (testWebsite)
-					// 	await photoGalleryModule.setGlobal([testWebsite], {
+					// 	await photoGalleryModule.setGlobalData([testWebsite], {
 					// 		through: { deletedAt: Date() },
 					// 	});
 

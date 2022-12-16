@@ -7,7 +7,7 @@ import InvoiceType = billings.Invoice;
 import { microservices } from "../../../types/index.d.js";
 import CreditBalanceLog from "../../models/billings/creditBalanceLog.js";
 import Status from "../../models/billings/status.js";
-import Currency from "../../models/global/currency.js";
+import Currency from "../../models/globalData/currency.js";
 const microservice: Array<microservices> = ["billings"];
 
 export default {

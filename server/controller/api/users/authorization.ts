@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import Privilege from "../../../models/global/privilege.js";
-import Role from "../../../models/global/role.js";
+import Privilege from "../../../models/globalData/privilege.js";
+import Role from "../../../models/globalData/role.js";
 
-import { global } from "../../../../types/models/global.js";
-import RoleType = global.Role;
-import PrivilegeType = global.Privilege;
+import { globalData } from "../../../../types/models/globalData.js";
+import RoleType = globalData.Role;
+import PrivilegeType = globalData.Privilege;
 
 import db from "../../../models/index.js";
 import { WhereOptions } from "sequelize";

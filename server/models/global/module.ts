@@ -4,8 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { global } from "../../../types/models/global.js";
-import Module = global.Module;
+import { globalData } from "../../../types/models/globalData.js";
+import Module = globalData.Module;
 
 const Module = db.define<Module>(
 	"Module",

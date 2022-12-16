@@ -5,7 +5,7 @@ import { websites } from "../../../types/models/websites.js";
 import ModulesPagesLanguageType = websites.ModulesPagesLanguage;
 
 import { microservices } from "../../../types/index.d.js";
-import Module from "../../models/global/module.js";
+import Module from "../../models/globalData/module.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {

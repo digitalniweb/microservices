@@ -7,7 +7,7 @@ import { websites } from "../../../../types/models/websites.js";
 import WebsiteType = websites.Website;
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
-import Module from "../../../models/global/module.js";
+import Module from "../../../models/globalData/module.js";
 
 export const getWebsiteInfo = async function (
 	req: Request,

@@ -4,8 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { global } from "../../../types/models/global.js";
-import Role = global.Role;
+import { globalData } from "../../../types/models/globalData.js";
+import Role = globalData.Role;
 
 const Role = db.define<Role>(
 	"Role",

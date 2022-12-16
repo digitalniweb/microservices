@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../../../models/index.js";
 
-import Language from "../../../models/global/language.js";
+import Language from "../../../models/globalData/language.js";
 
 export const getLanguagesList = async function (
 	req: Request,

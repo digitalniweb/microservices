@@ -1,12 +1,12 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { global } from "../../../types/models/global.js";
-import PrivilegeType = global.Privilege;
+import { globalData } from "../../../types/models/globalData.js";
+import PrivilegeType = globalData.Privilege;
 
-import Privilege from "../../models/global/privilege.js";
+import Privilege from "../../models/globalData/privilege.js";
 
 import { microservices } from "../../../types/index.js";
-const microservice: Array<microservices> = ["global"];
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {

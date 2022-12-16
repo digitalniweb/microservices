@@ -1,11 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import AppType from "../../models/global/appType.js";
-import { global } from "../../../types/models/global.js";
-import AppTypeType = global.AppType;
+import AppType from "../../models/globalData/appType.js";
+import { globalData } from "../../../types/models/globalData.js";
+import AppTypeType = globalData.AppType;
 
 import { microservices } from "../../../types/index.js";
-const microservice: Array<microservices> = ["global"];
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {

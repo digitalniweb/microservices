@@ -278,7 +278,7 @@ export const register = async function (
 			}
 
 			/* 
-				!!! NEED TO BE CHANGED TO load roles from global, and get map
+				!!! NEED TO BE CHANGED TO load roles from globalData, and get map
 			*/
 			let rolesIDs = {
 				user: 1,

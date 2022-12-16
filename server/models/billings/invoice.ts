@@ -6,7 +6,7 @@ import db from "../index.js";
 
 import { billings } from "../../../types/models/billings.js";
 import Invoice = billings.Invoice;
-import Currency from "../global/currency.js";
+import Currency from "../globalData/currency.js";
 import Status from "./status.js";
 import CreditBalanceLog from "./creditBalanceLog.js";
 

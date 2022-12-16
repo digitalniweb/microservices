@@ -46,7 +46,7 @@ export default {
 
 					// this works as well
 					// if (testWebsite)
-					// 	await photoGalleryModule.setGlobal([testWebsite], {
+					// 	await photoGalleryModule.setGlobalData([testWebsite], {
 					// 		through: { deletedAt: Date() },
 					// 	});
 

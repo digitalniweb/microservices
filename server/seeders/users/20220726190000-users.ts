@@ -1,7 +1,7 @@
 import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 
 // import { Role as RoleType } from "../../types/server/models/db.js";
-import Role from "../../models/global/role.js";
+import Role from "../../models/globalData/role.js";
 
 import { users } from "../../../types/models/users.js";
 import TenantType = users.Tenant;
