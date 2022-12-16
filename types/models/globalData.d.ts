@@ -81,5 +81,14 @@ export namespace globalData {
 		id: CreationOptional<number>;
 		host: string;
 		port: number;
+		MicroserviceId: ForeignKey<Microservice["id"]>;
+	}
+	export interface Microservice
+		extends Model<
+			InferAttributes<Microservice>,
+			InferCreationAttributes<Microservice>
+		> {
+		id: CreationOptional<number>;
+		name: string;
 	}
 }
