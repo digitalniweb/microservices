@@ -31,16 +31,14 @@ export const getWebsiteInfo = async function (
 						attributes: [],
 						as: "MainUrl",
 					},
-					{
-						model: Module,
-						attributes: ["id", "name"],
-					},
 				],
 			});
 		});
 
 		return res.send(website);
 	} catch (error) {
+		console.log(error);
+
 		return next({ error, code: 500, message: "Couldn't get website data" });
 	}
 };
