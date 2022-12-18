@@ -27,7 +27,7 @@ export default {
 						allowNull: false,
 					},
 					port: {
-						type: DataTypes.NUMBER,
+						type: DataTypes.INTEGER,
 						allowNull: false,
 					},
 					MicroserviceId: {
@@ -36,7 +36,7 @@ export default {
 							model: Microservice.tableName,
 							key: "id",
 						},
-						allowNull: true,
+						allowNull: false,
 					},
 				},
 				{

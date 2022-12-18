@@ -8,6 +8,7 @@
 		"clearDist": "npx rimraf dist",
 		"build": "npm run clearDist && npx tsc",
 		"start": "node dist/server/index.js",
+		"build-watch": "npm run clearDist && npx tsc --watch",
 		"dev": "concurrently \"npm run clearDist && npx tsc --watch\" \"nodemon -q dist/server/index.js\"",
 		"devNotWatch": "npm run clearDist && npx tsc && npm run start",
 		"change-service": "node dist/change-service"
