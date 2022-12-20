@@ -23,12 +23,19 @@ export default {
 						type: DataTypes.INTEGER,
 					},
 					host: {
-						type: DataTypes.STRING,
+						type: DataTypes.STRING(255),
 						allowNull: false,
+						unique: 'uniqueHostPort',
 					},
 					port: {
-						type: DataTypes.INTEGER,
+						type: DataTypes.SMALLINT,
 						allowNull: false,
+						unique: 'uniqueHostPort',
+					},
+					uniqueName: {
+						type: DataTypes.STRING(10),
+						allowNull: false,
+						unique: true,
 					},
 					MicroserviceId: {
 						type: DataTypes.INTEGER,
@@ -40,6 +47,12 @@ export default {
 					},
 				},
 				{
+					uniqueKeys: {
+						'uniqueHostPort': {
+							customIndex: true,
+							fields: ['host', 'port']
+						}
+					},
 					charset: "utf8mb4",
 					collate: "utf8mb4_unicode_ci",
 					transaction,

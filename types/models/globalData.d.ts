@@ -81,6 +81,7 @@ export namespace globalData {
 		id: CreationOptional<number>;
 		host: string;
 		port: number;
+		uniqueName: string;
 		MicroserviceId: ForeignKey<Microservice["id"]>;
 	}
 	export interface Microservice

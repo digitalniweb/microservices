@@ -132,8 +132,7 @@ export const registerTenant = async function (
 				.toString("base64")
 				.replace(/[^\w]/g, "")
 				.slice(0, 10)
-				.padEnd(10, "0")
-				.toLowerCase();
+				.padEnd(10, "0");
 			uniqueNameExists = await Website.findOne({
 				where: { uniqueName },
 			});

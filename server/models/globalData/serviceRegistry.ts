@@ -19,10 +19,17 @@ const ServiceRegistry = db.define<ServiceRegistry>(
 		host: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			unique: 'uniqueHostPort',
 		},
 		port: {
 			type: DataTypes.NUMBER,
 			allowNull: false,
+			unique: 'uniqueHostPort',
+		},
+		uniqueName: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
 		},
 		MicroserviceId: {
 			type: DataTypes.INTEGER,
