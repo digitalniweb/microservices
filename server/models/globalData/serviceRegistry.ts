@@ -19,12 +19,12 @@ const ServiceRegistry = db.define<ServiceRegistry>(
 		host: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			unique: 'uniqueHostPort',
+			unique: "uniqueHostPort",
 		},
 		port: {
-			type: DataTypes.NUMBER,
+			type: DataTypes.INTEGER,
 			allowNull: false,
-			unique: 'uniqueHostPort',
+			unique: "uniqueHostPort",
 		},
 		uniqueName: {
 			type: DataTypes.STRING,
@@ -47,5 +47,8 @@ const ServiceRegistry = db.define<ServiceRegistry>(
 
 ServiceRegistry.belongsTo(Microservice);
 Microservice.hasMany(ServiceRegistry);
+
+Microservice.belongsTo(ServiceRegistry, { as: "mainServiceRegistry" });
+ServiceRegistry.hasOne(Microservice, { as: "mainServiceRegistry" });
 
 export default ServiceRegistry;

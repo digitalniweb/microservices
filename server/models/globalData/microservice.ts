@@ -19,6 +19,10 @@ const Microservice = db.define<Microservice>(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		mainServiceRegistryId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt

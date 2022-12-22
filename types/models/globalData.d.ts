@@ -4,6 +4,8 @@ import {
 	InferAttributes,
 	InferCreationAttributes,
 	ForeignKey,
+	BelongsToCreateAssociationMixin,
+	BelongsToSetAssociationMixin,
 } from "sequelize";
 export namespace globalData {
 	export interface Language
@@ -17,12 +19,18 @@ export namespace globalData {
 		icon: string;
 	}
 	export interface AppType
-		extends Model<InferAttributes<AppType>, InferCreationAttributes<AppType>> {
+		extends Model<
+			InferAttributes<AppType>,
+			InferCreationAttributes<AppType>
+		> {
 		id: CreationOptional<number>;
 		name: string;
 	}
 	export interface Module
-		extends Model<InferAttributes<Module>, InferCreationAttributes<Module>> {
+		extends Model<
+			InferAttributes<Module>,
+			InferCreationAttributes<Module>
+		> {
 		id: CreationOptional<number>;
 		name: string;
 		active: boolean;
@@ -91,5 +99,12 @@ export namespace globalData {
 		> {
 		id: CreationOptional<number>;
 		name: string;
+		mainServiceRegistryId?: ForeignKey<ServiceRegistry["id"]>;
+
+		createServiceRegistry: BelongsToCreateAssociationMixin<ServiceRegistry>;
+		setMainServiceRegistry: BelongsToSetAssociationMixin<
+			ServiceRegistry,
+			number
+		>;
 	}
 }

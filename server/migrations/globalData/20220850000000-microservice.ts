@@ -5,6 +5,7 @@ import { globalData } from "../../../types/models/globalData.js";
 import MicroserviceType = globalData.Microservice;
 
 import { microservices } from "../../../types/index.js";
+import ServiceRegistry from "../../models/globalData/serviceRegistry.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {
@@ -26,6 +27,10 @@ export default {
 						allowNull: false,
 						unique: true,
 					},
+					mainServiceRegistryId: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+					}
 				},
 				{
 					charset: "utf8mb4",
