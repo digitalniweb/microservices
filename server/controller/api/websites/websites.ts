@@ -1,13 +1,12 @@
 import { requestPagination } from "../../../../custom/helpers/requestPagination.js";
 import { Op } from "sequelize";
 import { Request, Response, NextFunction } from "express";
-import crypto from "crypto";
 import db from "../../../models/index.js";
 import { websites } from "../../../../types/models/websites.js";
 import WebsiteType = websites.Website;
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
-import Module from "../../../models/globalData/module.js";
+import { randomString } from "../../../../custom/functions/randomGenerator.js";
 
 export const getWebsiteInfo = async function (
 	req: Request,
@@ -62,7 +61,11 @@ export const testingWebsitesCount = async function (
 		});
 		return res.send(String(count));
 	} catch (error) {
-		next({ error, code: 500, message: "Couldn't get testing websites count." });
+		next({
+			error,
+			code: 500,
+			message: "Couldn't get testing websites count.",
+		});
 	}
 };
 
@@ -72,7 +75,9 @@ export const getTenantWebsites = async function (
 	next: NextFunction
 ) {
 	try {
-		const { limit, sort, page, sortBy, search } = requestPagination(req.query);
+		const { limit, sort, page, sortBy, search } = requestPagination(
+			req.query
+		);
 		let where = {
 			userId: parseInt(req.query.userid as string),
 		};
@@ -118,7 +123,8 @@ export const registerTenant = async function (
 		if (testingWebsitesCount >= maxTestCount)
 			return next({
 				code: 403,
-				message: "You already have a maximum count of testing websites!",
+				message:
+					"You already have a maximum count of testing websites!",
 				data: {
 					maxTestCount,
 				},
@@ -127,12 +133,7 @@ export const registerTenant = async function (
 		let uniqueName: string;
 		let uniqueNameExists = {} as WebsiteType | null;
 		do {
-			uniqueName = crypto
-				.randomBytes(10)
-				.toString("base64")
-				.replace(/[^\w]/g, "")
-				.slice(0, 10)
-				.padEnd(10, "0");
+			uniqueName = randomString(10, false);
 			uniqueNameExists = await Website.findOne({
 				where: { uniqueName },
 			});
@@ -154,6 +155,10 @@ export const registerTenant = async function (
 
 		return res.send({ uniqueName, websiteId: newTenantWebsite.id });
 	} catch (error) {
-		next({ error, code: 500, message: "Couldn't get testing websites count." });
+		next({
+			error,
+			code: 500,
+			message: "Couldn't get testing websites count.",
+		});
 	}
 };

@@ -5,12 +5,15 @@ import { DataTypes } from "sequelize";
 
 import crypto from "node:crypto";
 
+import { randomString } from "./../../../custom/functions/randomGenerator.js";
+
 import db from "./../index.js";
 
 import { users } from "../../../types/models/users.js";
 import User = users.User;
 
 import Tenant from "./tenant.js";
+import { hashString } from "../../../custom/functions/hashString.js";
 
 const User = db.define<User>(
 	"User",
@@ -63,23 +66,19 @@ const User = db.define<User>(
 	}
 );
 User.beforeValidate((user: User) => {
-	if (!user.refreshTokenSalt)
-		user.refreshTokenSalt = crypto
-			.randomBytes(17)
-			.toString("base64")
-			.slice(0, 20);
+	if (!user.refreshTokenSalt) user.refreshTokenSalt = randomString(20);
 });
 
-User.beforeCreate(async (user: User) => {
-	user.password = await hashUserPassword(user.password);
+User.beforeCreate((user: User) => {
+	user.password = hashUserPassword(user.password);
 	user.refreshTokenSalt = createRefreshTokenSalt();
 });
 
 // 'beforeUpdate' hook is called when instance.save() or instance.update() is used
 // when model.update() is used 'beforeBulkUpdate' will is called
-User.beforeBulkUpdate(async (options: any) => {
+User.beforeBulkUpdate((options: any) => {
 	if (options.attributes.password)
-		options.attributes.password = await hashUserPassword(
+		options.attributes.password = hashUserPassword(
 			options.attributes.password
 		);
 
@@ -88,14 +87,11 @@ User.beforeBulkUpdate(async (options: any) => {
 		options.attributes.refreshTokenSalt = createRefreshTokenSalt();
 });
 
-async function hashUserPassword(password: string): Promise<string> {
-	return await crypto
-		.createHash("sha512")
-		.update(password, "utf8")
-		.digest("base64");
+function hashUserPassword(password: string): string {
+	return hashString(password);
 }
 function createRefreshTokenSalt() {
-	return crypto.randomBytes(17).toString("base64").slice(0, 20);
+	return randomString(20);
 }
 
 Tenant.belongsTo(User);

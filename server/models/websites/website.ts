@@ -21,7 +21,7 @@ const Website = db.define<Website>(
 			autoIncrement: true,
 		},
 		uniqueName: {
-			//  require('crypto').randomBytes(11).toString('base64').replace(/[^\w]/g, '').slice(0,14).padEnd(14, '0')
+			//  (await import("./dist/custom/functions/randomGenerator.js")).randomString(14, false)
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,

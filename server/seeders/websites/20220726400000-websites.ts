@@ -1,4 +1,5 @@
 import { QueryInterface } from "sequelize";
+import { randomString } from "../../../custom/functions/randomGenerator.js";
 
 import { microservices } from "../../../types/index.d.js";
 import App from "../../models/websites/app.js";
@@ -7,17 +8,16 @@ const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				let digitalniwebWebsite = await Website.create({
-					uniqueName: require("crypto")
-						.randomBytes(11)
-						.toString("base64")
-						.replace(/[^\w]/g, "")
-						.slice(0, 14)
-						.padEnd(14, "0"),
+					uniqueName: randomString(14, false),
 					active: true,
 					testingMode: false,
 					paused: false,
@@ -73,7 +73,9 @@ export default {
 						paused: false,
 					});
 					if (digitalniwebTenants)
-						await digitalniwebTenantWebsite.setApp(digitalniwebTenants);
+						await digitalniwebTenantWebsite.setApp(
+							digitalniwebTenants
+						);
 
 					/* if (czechLanguage)
 						await digitalniwebTenantWebsite.setMainLanguage(czechLanguage); */
@@ -89,11 +91,19 @@ export default {
 		});
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(Website.tableName, {}, { transaction });
+				await queryInterface.bulkDelete(
+					Website.tableName,
+					{},
+					{ transaction }
+				);
 			} catch (error) {
 				console.log(error);
 			}

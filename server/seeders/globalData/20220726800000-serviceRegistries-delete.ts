@@ -1,9 +1,9 @@
 import { QueryInterface } from "sequelize";
-import crypto from "node:crypto";
 
 import { microservices } from "../../../types/index.js";
 import Microservice from "../../models/globalData/microservice.js";
 import ServiceRegistry from "../../models/globalData/serviceRegistry.js";
+import { randomString } from "../../../custom/functions/randomGenerator.js";
 // import { addDays } from "date-fns";
 const microservice: Array<microservices> = ["globalData"];
 
@@ -33,12 +33,7 @@ export default {
 						{
 							host: "srv1.digitalniweb.cz",
 							port: 3000,
-							uniqueName: crypto
-								.randomBytes(10)
-								.toString("base64")
-								.replace(/[^\w]/g, "")
-								.slice(0, 10)
-								.padEnd(10, "0"),
+							uniqueName: randomString(10, false),
 						},
 						{ transaction }
 					);

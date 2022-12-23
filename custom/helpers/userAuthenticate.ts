@@ -1,4 +1,4 @@
-import crypto from "node:crypto";
+import { hashString } from "../functions/hashString.js";
 import User from "./../../server/models/users/user.js";
 import UserPrivilege from "./../../server/models/users/userPrivilege.js";
 import { customBELogger } from "./logger.js";
@@ -18,15 +18,7 @@ export async function userAuthenticate(login: string, password: string) {
 		});
 
 		if (user === null) return false;
-		if (
-			!(
-				crypto
-					.createHash("sha512")
-					.update(password, "utf8")
-					.digest("base64") === user.password
-			)
-		)
-			return false;
+		if (!(hashString(password) === user.password)) return false;
 		return user;
 	} catch (error) {
 		customBELogger({
