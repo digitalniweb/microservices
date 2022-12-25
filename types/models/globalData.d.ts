@@ -100,6 +100,7 @@ export namespace globalData {
 		id: CreationOptional<number>;
 		name: string;
 		mainServiceRegistryId?: ForeignKey<ServiceRegistry["id"]>;
+		ServiceRegistries?: ServiceRegistry[];
 
 		createServiceRegistry: BelongsToCreateAssociationMixin<ServiceRegistry>;
 		setMainServiceRegistry: BelongsToSetAssociationMixin<
