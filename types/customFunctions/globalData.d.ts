@@ -13,7 +13,5 @@ import { globalData } from "../models/globalData.js";
 
 export type serviceOptions = CreationAttributes<
 	Optional<globalData.ServiceRegistry, "MicroserviceId">
-> & {
-	microserviceName: string;
-	mainServiceRegistryId?: id;
-};
+> &
+	Pick<globalData.Microservice, "name" | "mainServiceRegistryId">;

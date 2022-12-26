@@ -14,7 +14,7 @@ export async function registerService(options: serviceOptions): Promise<void> {
 			let [microserviceWebsites, microserviceWebsitesCreated] =
 				await Microservice.findOrCreate({
 					where: {
-						name: options.microserviceName,
+						name: options.name,
 					},
 					transaction,
 				});
