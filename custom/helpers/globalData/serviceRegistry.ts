@@ -11,7 +11,16 @@ import ServiceRegistry from "../../../server/models/globalData/serviceRegistry.j
 export async function registerService(options: serviceOptions): Promise<void> {
 	try {
 		await db.transaction(async (transaction) => {
-			let [microserviceWebsites, microserviceWebsitesCreated] =
+			let serviceRegistryCount = await ServiceRegistry.count({
+				where: {
+					uniqueName: options.uniqueName,
+				},
+				transaction,
+			});
+
+			if (serviceRegistryCount !== 0) return;
+
+			let [microservice, microserviceCreated] =
 				await Microservice.findOrCreate({
 					where: {
 						name: options.name,
@@ -19,19 +28,17 @@ export async function registerService(options: serviceOptions): Promise<void> {
 					transaction,
 				});
 
-			let websitesServiceRegistry =
-				await microserviceWebsites.createServiceRegistry(
-					{
-						host: options.host,
-						port: options.port,
-						uniqueName: options.uniqueName,
-					},
-					{ transaction }
-				);
-			if (microserviceWebsitesCreated)
-				microserviceWebsites.setMainServiceRegistry(
-					websitesServiceRegistry
-				);
+			let serviceRegistry = await microservice.createServiceRegistry(
+				{
+					host: options.host,
+					port: options.port,
+					uniqueName: options.uniqueName,
+				},
+				{ transaction }
+			);
+
+			if (microserviceCreated)
+				microservice.setMainServiceRegistry(serviceRegistry);
 		});
 	} catch (error) {
 		console.log(error);

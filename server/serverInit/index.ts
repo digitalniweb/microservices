@@ -37,7 +37,6 @@ export default async function () {
 	}
 
 	// all microservices
-	let publisher = Publisher;
 
 	// values from .env file - returns string (or undefined) everytime
 	type serviceInfoType = {
@@ -87,16 +86,15 @@ export default async function () {
 		name: serviceInfo["MICROSERVICE_NAME"],
 	};
 
-	let subscriber = Subscriber;
-	console.log(await subscriber.subscribe("serviceRegistry-register"));
+	console.log(await Subscriber.subscribe("serviceRegistry-register"));
 
-	subscriber.on("message", (channel, message) => {
+	Subscriber.on("message", (channel, message) => {
 		console.log(channel, message);
 	});
 
 	let serviceJSON = JSON.stringify(service);
 
-	let serviceRegistry = await publisher.publish(
+	let serviceRegistry = await Publisher.publish(
 		"serviceRegistry-register",
 		serviceJSON
 	);

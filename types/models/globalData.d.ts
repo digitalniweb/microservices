@@ -6,6 +6,7 @@ import {
 	ForeignKey,
 	BelongsToCreateAssociationMixin,
 	BelongsToSetAssociationMixin,
+	BelongsToGetAssociationMixin,
 } from "sequelize";
 export namespace globalData {
 	export interface Language
@@ -102,6 +103,7 @@ export namespace globalData {
 		mainServiceRegistryId?: ForeignKey<ServiceRegistry["id"]>;
 		ServiceRegistries?: ServiceRegistry[];
 
+		getServiceRegistry: BelongsToGetAssociationMixin<ServiceRegistry>;
 		createServiceRegistry: BelongsToCreateAssociationMixin<ServiceRegistry>;
 		setMainServiceRegistry: BelongsToSetAssociationMixin<
 			ServiceRegistry,
