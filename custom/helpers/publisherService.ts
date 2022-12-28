@@ -17,14 +17,14 @@ class Publisher {
 		return Publisher.#_instance;
 	}
 
-	publish<Type extends Parameters<RedisCommander["publish"]>>(
+	async publish<Type extends Parameters<RedisCommander["publish"]>>(
 		channel: Type[0],
 		message: Type[1],
 		callback?: Type[2]
 	) {
 		let args = [...arguments] as Parameters<RedisCommander["publish"]>;
 
-		return this.#publisher.publish(...args);
+		return await this.#publisher.publish(...args);
 	}
 
 	on<Type extends Parameters<EventEmitter["on"]>>(
