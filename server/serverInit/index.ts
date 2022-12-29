@@ -44,6 +44,7 @@ export default async function () {
 		HOST: string;
 		MICROSERVICE_UNIQUE_NAME: string;
 		MICROSERVICE_NAME: string;
+		MICROSERVICE_API_KEY: string;
 	};
 
 	type serviceInfoParametersType = keyof serviceInfoType;
@@ -57,6 +58,7 @@ export default async function () {
 		"HOST",
 		"MICROSERVICE_UNIQUE_NAME",
 		"MICROSERVICE_NAME",
+		"MICROSERVICE_API_KEY",
 	];
 
 	serviceInfoParameters.forEach((e) => {
@@ -84,21 +86,18 @@ export default async function () {
 		host: serviceInfo["HOST"],
 		uniqueName: serviceInfo["MICROSERVICE_UNIQUE_NAME"],
 		name: serviceInfo["MICROSERVICE_NAME"],
+		apiKey: serviceInfo["MICROSERVICE_API_KEY"],
 	};
 
-	console.log(await Subscriber.subscribe("serviceRegistry-register"));
+	await Subscriber.subscribe("serviceRegistry-register");
 
-	Subscriber.on("message", (channel, message) => {
+	/* Subscriber.on("message", (channel, message) => {
 		console.log(channel, message);
-	});
+	}); */
 
 	let serviceJSON = JSON.stringify(service);
 
-	let serviceRegistry = await Publisher.publish(
-		"serviceRegistry-register",
-		serviceJSON
-	);
-	console.log(serviceRegistry);
+	await Publisher.publish("serviceRegistry-register", serviceJSON);
 
 	/* if (await serviceRegistryRedis.register())
 		customBELogger({

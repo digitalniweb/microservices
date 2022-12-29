@@ -38,6 +38,11 @@ const ServiceRegistry = db.define<ServiceRegistry>(
 				key: "id",
 			},
 		},
+		apiKey: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt

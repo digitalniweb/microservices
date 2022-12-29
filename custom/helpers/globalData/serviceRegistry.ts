@@ -33,6 +33,7 @@ export async function registerService(options: serviceOptions): Promise<void> {
 					host: options.host,
 					port: options.port,
 					uniqueName: options.uniqueName,
+					apiKey: options.apiKey,
 				},
 				{ transaction }
 			);

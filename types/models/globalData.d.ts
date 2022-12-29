@@ -92,6 +92,7 @@ export namespace globalData {
 		port: number;
 		uniqueName: string;
 		MicroserviceId: ForeignKey<Microservice["id"]>;
+		apiKey?: string;
 	}
 	export interface Microservice
 		extends Model<

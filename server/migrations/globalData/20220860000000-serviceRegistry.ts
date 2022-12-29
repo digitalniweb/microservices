@@ -10,7 +10,11 @@ const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<ServiceRegistryType>(
@@ -25,12 +29,12 @@ export default {
 					host: {
 						type: DataTypes.STRING(255),
 						allowNull: false,
-						unique: 'uniqueHostPort',
+						unique: "uniqueHostPort",
 					},
 					port: {
 						type: DataTypes.SMALLINT,
 						allowNull: false,
-						unique: 'uniqueHostPort',
+						unique: "uniqueHostPort",
 					},
 					uniqueName: {
 						type: DataTypes.STRING(10),
@@ -45,13 +49,18 @@ export default {
 						},
 						allowNull: false,
 					},
+					apiKey: {
+						type: DataTypes.STRING(64),
+						allowNull: false,
+						unique: true,
+					},
 				},
 				{
 					uniqueKeys: {
-						'uniqueHostPort': {
+						uniqueHostPort: {
 							customIndex: true,
-							fields: ['host', 'port']
-						}
+							fields: ["host", "port"],
+						},
 					},
 					charset: "utf8mb4",
 					collate: "utf8mb4_unicode_ci",
@@ -62,7 +71,11 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(ServiceRegistry.tableName, {
