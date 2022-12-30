@@ -1,10 +1,16 @@
 import { microservices } from "../../types/index.d.js";
 import { customBELogger } from "./../../custom/helpers/logger.js";
-import { serviceOptions } from "../../types/customFunctions/globalData.js";
+import {
+	microserviceRegistryInfo,
+	serviceOptions,
+	serviceRegistry,
+} from "../../types/customFunctions/globalData.js";
 // import serviceRegistryRedis from "../../custom/helpers/serviceRegistryRedis.js";
 
 import Publisher from "./../../custom/helpers/publisherService.js";
 import Subscriber from "./../../custom/helpers/subscriberService.js";
+
+import appCache from "../../custom/helpers/appCache.js";
 
 export default async function () {
 	let microservice = process.env.MICROSERVICE_NAME as microservices;
@@ -91,9 +97,34 @@ export default async function () {
 
 	await Subscriber.subscribe("serviceRegistry-register");
 
-	/* Subscriber.on("message", (channel, message) => {
-		console.log(channel, message);
-	}); */
+	if (process.env.MICROSERVICE_NAME !== "globalData") {
+		Subscriber.psubscribe("serviceRegistry-registred-*");
+	}
+
+	Subscriber.on("pmessage", (pattern, channel, message) => {
+		if (pattern === "serviceRegistry-registred-*") {
+			let intendedService = channel.replace(
+				/^serviceRegistry-registred-/,
+				""
+			);
+			if (intendedService !== process.env.MICROSERVICE_NAME) return;
+			let globalData = {} as microserviceRegistryInfo;
+			try {
+				globalData = JSON.parse(message);
+			} catch (error) {
+				customBELogger({
+					error,
+					message: `Couldn't resolve "${intendedService}" JSON of "serviceRegistry-registred-" messaging system.`,
+				});
+				return false;
+			}
+			let serviceRegistryCache: serviceRegistry | undefined =
+				appCache.get("serviceRegistry");
+			if (serviceRegistryCache === undefined) serviceRegistryCache = {};
+			serviceRegistryCache.globalData = globalData;
+			appCache.set("serviceRegistry", serviceRegistryCache);
+		}
+	});
 
 	let serviceJSON = JSON.stringify(service);
 

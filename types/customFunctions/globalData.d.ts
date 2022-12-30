@@ -1,15 +1,18 @@
 import { microservices } from "../index.js";
 import { globalData } from "../models/globalData.js";
 
+export type microserviceRegistryInfo = {
+	mainId: number;
+	services: Array<globalData.ServiceRegistry>;
+};
+
 export type serviceRegistry = {
-	[key in microservices]?: {
-		mainId: number;
-		services: Array<globalData.ServiceRegistry>;
-	};
+	[key in microservices]?: microserviceRegistryInfo;
 };
 
 import { Optional, CreationAttributes } from "sequelize";
 import { globalData } from "../models/globalData.js";
+import { type } from "os";
 
 export type serviceOptions = CreationAttributes<
 	Optional<globalData.ServiceRegistry, "MicroserviceId">

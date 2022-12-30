@@ -5,10 +5,13 @@ import Microservice from "../../../server/models/globalData/microservice.js";
 import {
 	serviceOptions,
 	serviceRegistry,
+	microserviceRegistryInfo,
 } from "../../../types/customFunctions/globalData.js";
 import ServiceRegistry from "../../../server/models/globalData/serviceRegistry.js";
 
-export async function registerService(options: serviceOptions): Promise<void> {
+export async function registerService(
+	options: serviceOptions
+): Promise<boolean> {
 	try {
 		await db.transaction(async (transaction) => {
 			let serviceRegistryCount = await ServiceRegistry.count({
@@ -41,12 +44,49 @@ export async function registerService(options: serviceOptions): Promise<void> {
 			if (microserviceCreated)
 				microservice.setMainServiceRegistry(serviceRegistry);
 		});
+		return true;
 	} catch (error) {
 		console.log(error);
+		return false;
 	}
 }
 
-export async function serviceRegistryList() {
+/**
+ *
+ * @returns `globalData: microserviceRegistryInfo` service information: id, host, port, apiKey etc.
+ */
+export async function getServiceRegistryInfo(): Promise<
+	microserviceRegistryInfo | false
+> {
+	try {
+		let serviceRegistry = await Microservice.findOne({
+			where: {
+				name: "globalData",
+			},
+			attributes: ["mainServiceRegistryId"],
+			include: {
+				model: ServiceRegistry,
+			},
+		});
+
+		if (
+			serviceRegistry === null ||
+			serviceRegistry.ServiceRegistries === undefined
+		)
+			return false;
+
+		let serviceRegistryInfo: microserviceRegistryInfo = {
+			mainId: serviceRegistry.id,
+			services: serviceRegistry.ServiceRegistries,
+		};
+		return serviceRegistryInfo;
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
+}
+
+export async function serviceRegistryList(): Promise<serviceRegistry | false> {
 	try {
 		let list = await Microservice.findAll({
 			include: {
@@ -54,16 +94,17 @@ export async function serviceRegistryList() {
 			},
 		});
 
-		if (list.length === 0) return [];
+		if (list.length === 0) return {};
 		let serviceRegistry: serviceRegistry = {};
 		list.forEach((microservice) => {
 			serviceRegistry[microservice.name] = {
 				mainId: microservice.mainServiceRegistryId,
 				services: microservice.ServiceRegistries,
-			};
+			} as microserviceRegistryInfo;
 		});
 		return serviceRegistry;
 	} catch (error) {
 		console.log(error);
+		return false;
 	}
 }

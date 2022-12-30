@@ -23,6 +23,12 @@ class Subscriber {
 		return this.#subscriber.subscribe(...args);
 	}
 
+	psubscribe<Type extends Parameters<RedisCommander["psubscribe"]>>(
+		...args: Type
+	) {
+		return this.#subscriber.psubscribe(...args);
+	}
+
 	on<Type extends Parameters<EventEmitter["on"]>>(
 		event: Type[0],
 		listener: Type[1]
