@@ -1,3 +1,5 @@
+// !! not used. DELETE
+
 import serverCache from "./serverCache.js";
 
 type serviceName = string;
@@ -31,8 +33,8 @@ class ServiceRegistryRedis {
 	}
 
 	getCurrentService(): service | false {
-		let name = process.env.MICROSERVICE_NAME || process.env.SERVICE_NAME;
-		let port = process.env.PORT ? parseInt(process.env.PORT) : undefined;
+		let name = process.env.MICROSERVICE_NAME;
+		let port = process.env.PORT;
 		if (name === undefined || port === undefined) return false;
 		return {
 			name,
@@ -75,7 +77,9 @@ class ServiceRegistryRedis {
 	}
 
 	async list(): Promise<serviceRegistry> {
-		let serviceRegistry = await this.#serviceRegistry.hgetall(this.#namespace);
+		let serviceRegistry = await this.#serviceRegistry.hgetall(
+			this.#namespace
+		);
 		return serviceRegistry;
 	}
 }

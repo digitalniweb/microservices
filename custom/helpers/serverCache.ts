@@ -27,9 +27,7 @@ class ServerCache {
 			}
 			this.#errors[e.code]++;
 			if (e.code === "ECONNREFUSED") {
-				let disconnectedMessage = `Microservice '${
-					process.env.MICROSERVICE_NAME || process.env.SERVICE_NAME
-				}' can't connect to Redis!`;
+				let disconnectedMessage = `Microservice '${process.env.MICROSERVICE_NAME}' can't connect to Redis!`;
 				if (this.#disconnectOnCrash) {
 					if (this.#errors[e.code] >= this.#disconnectNumberOfTries) {
 						// !!! there should also be some kind of notification in here that redis isn't working on this microservice
@@ -54,7 +52,8 @@ class ServerCache {
 		});
 
 		this.#cache.on("connect", () => {
-			if ("ECONNREFUSED" in this.#errors) delete this.#errors["ECONNREFUSED"];
+			if ("ECONNREFUSED" in this.#errors)
+				delete this.#errors["ECONNREFUSED"];
 			customBELogger({
 				message: `Redis connected to '${process.env.MICROSERVICE_NAME}'`,
 			});
@@ -67,9 +66,7 @@ class ServerCache {
 		} catch (error) {
 			customBELogger({
 				error,
-				message: `Microservice '${
-					process.env.MICROSERVICE_NAME || process.env.SERVICE_NAME
-				}' couldn't connect to Redis!`,
+				message: `Microservice '${process.env.MICROSERVICE_NAME}' couldn't connect to Redis!`,
 			});
 		}
 	}

@@ -3,7 +3,13 @@ import { CreationAttributes } from "sequelize";
 import { users } from "./models/users.js";
 import LoginLog = users.LoginLog;
 
-export type microservices = "users" | "websites" | "billings" | "globalData";
+export const microservicesArray = [
+	"users",
+	"websites",
+	"billings",
+	"globalData",
+] as const;
+export type microservices = typeof microservicesArray[number];
 
 export type possibleRoles =
 	| "superadmin"

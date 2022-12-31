@@ -29,10 +29,8 @@ app.use(<ErrorRequestHandler>((err, req, res, next) => {
 }));
 
 const port = process.env.PORT;
-if (port)
-	app.listen(port, () => {
-		console.log(`Server is running at http://localhost:${port}`);
-	});
-else {
-	console.log(`You haven't spicified port!`);
-}
+if (port === undefined) throw new Error("You haven't specified port!");
+
+app.listen(port, () => {
+	console.log(`Server is running at http://localhost:${port}`);
+});
