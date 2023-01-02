@@ -8,6 +8,7 @@ import {
 	microserviceRegistryInfo,
 } from "../../../types/customFunctions/globalData.js";
 import ServiceRegistry from "../../../server/models/globalData/serviceRegistry.js";
+import { microservices } from "../../../types/index.js";
 
 export async function registerService(
 	options: serviceOptions
@@ -103,6 +104,34 @@ export async function serviceRegistryList(): Promise<serviceRegistry | false> {
 			} as microserviceRegistryInfo;
 		});
 		return serviceRegistry;
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
+}
+
+export async function getServiceRegistryServices(
+	microserviceName: microservices
+): Promise<microserviceRegistryInfo | false> {
+	try {
+		let service = await Microservice.findOne({
+			where: {
+				name: microserviceName,
+			},
+			attributes: ["mainServiceRegistryId"],
+			include: {
+				model: ServiceRegistry,
+			},
+		});
+
+		if (service === null || service.ServiceRegistries === undefined)
+			return false;
+
+		let serviceInfo: microserviceRegistryInfo = {
+			mainId: service.id,
+			services: service.ServiceRegistries,
+		};
+		return serviceInfo;
 	} catch (error) {
 		console.log(error);
 		return false;

@@ -35,37 +35,38 @@ export default async function microserviceCall(
 	}: msCallOptions = options;
 
 	if (!microservicesArray.includes(microservice)) return false;
-	if (microservice === process.env.MICROSERVICE_NAME)
-		if (microservice) {
-			if (!appCache.has("serviceRegistry")) {
-				let serviceRegistry = await serviceRegistryRedis.list();
-				if (serviceRegistry !== undefined) {
-					let serviceRegistryList = {};
-					for (const service in serviceRegistry) {
-						serviceRegistryList[service] = JSON.parse(
-							serviceRegistry[service]
-						);
-					}
-					appCache.set("serviceRegistry", serviceRegistryList);
-				}
+	if (microservice === process.env.MICROSERVICE_NAME) {
+		console.log(
+			"You don't need to call 'microserviceCall' for same microservice."
+		);
+		return false;
+	}
+	if (!appCache.has("serviceRegistry")) {
+		// !! this is wrong, needs a redo
+		let serviceRegistry = await serviceRegistryRedis.list();
+		if (serviceRegistry !== undefined) {
+			let serviceRegistryList = {};
+			for (const service in serviceRegistry) {
+				serviceRegistryList[service] = JSON.parse(
+					serviceRegistry[service]
+				);
 			}
-			let serviceAppCache = appCache.get("serviceRegistry");
-			if (serviceAppCache[microservice] === undefined) {
-				return false;
-			}
-			let service = await getService({
-				name: microservice,
-			});
+			appCache.set("serviceRegistry", serviceRegistryList);
 		}
-	let finalPath =
-		`${protocol}://${process.env.HOST}:${process.env.PORT}` + path;
+	}
 
-	let axiosResponse = await axios.default({
-		url: finalPath,
-		method,
-		data,
-		params,
-		headers: {
+	let service = await getService({
+		name: microservice,
+	});
+	if (service === undefined) return false;
+	let finalPath =
+		`${protocol}://${service.host}:${service.port}` +
+		(path[0] !== "/" ? "/" : "") +
+		path;
+
+	let headers = {};
+	if (req)
+		headers = {
 			"x-forwarded-for":
 				req && req.headers["x-forwarded-for"]
 					? (req.headers["x-forwarded-for"] as string)
@@ -74,7 +75,13 @@ export default async function microserviceCall(
 				req && req.headers["user-agent"]
 					? req.headers["user-agent"]
 					: "ms",
-		},
+		};
+	let axiosResponse = await axios.default({
+		url: finalPath,
+		method,
+		data,
+		params,
+		headers,
 	});
 
 	// axiosResponse throws error on axios error
