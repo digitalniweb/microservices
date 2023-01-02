@@ -4,7 +4,6 @@ import { Request, Response, NextFunction } from "express";
 // https://github.com/luin/ioredis
 // import redis from "../../../../custom/helpers/serverCache.js";
 // By default, it will connect to localhost:6379.
-import microserviceCall from "../../../../custom/helpers/microserviceCall.js";
 
 export const test = async function (
 	req: Request,
@@ -23,12 +22,7 @@ export const test = async function (
 		returnValue.setV = redisSet;
 
 		return res.send(returnValue); */
-
-		let service = await microserviceCall({
-			microservice: "globalData",
-			path: "/api/testing/",
-		});
-		return res.send(service);
+		return res.send("ok");
 	} catch (error) {
 		return next(error);
 	}

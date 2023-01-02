@@ -1,5 +1,6 @@
 import { serviceRegistry } from "../../types/customFunctions/globalData.js";
-import { microservices, microservicesArray } from "../../types/index.js";
+import { microservicesArray } from "../variables/microservices.js";
+import { microservices } from "../../types/index.js";
 import { globalData } from "../../types/models/globalData.js";
 import appCache from "./appCache.js";
 

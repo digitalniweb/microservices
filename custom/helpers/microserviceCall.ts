@@ -2,14 +2,15 @@ import axios, { AxiosResponse } from "axios";
 
 import { Request } from "express";
 import { HTTPMethods } from "../../types/httpMethods.js";
-import { microservicesArray, microservices } from "../../types/index.d.js";
+import { microservicesArray } from "../variables/microservices.js";
+import { microservices } from "../../types/index.d.js";
 import serviceRegistryRedis from "./serviceRegistryRedis.js";
 import appCache from "./appCache.js";
 import { getService } from "./serviceRegistryCache.js";
 
 interface msCallOptions {
 	microservice: microservices;
-	req: Request;
+	req?: Request;
 	protocol?: string;
 	serviceId?: number;
 	path: string;

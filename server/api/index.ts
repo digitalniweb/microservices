@@ -7,6 +7,7 @@ const router = express.Router();
 import apiRoutesWebsites from "./websites/index.js";
 import apiRoutesUsers from "./users/index.js";
 import apiRoutesBillings from "./billings/index.js";
+import apiRoutesGlobalData from "./globalData/index.js";
 
 // default
 
@@ -20,6 +21,8 @@ else if (process.env.MICROSERVICE_NAME == "users")
 	router.use("/", apiRoutesUsers);
 else if (process.env.MICROSERVICE_NAME == "billings")
 	router.use("/", apiRoutesBillings);
+else if (process.env.MICROSERVICE_NAME == "globalData")
+	router.use("/", apiRoutesGlobalData);
 
 // default for all services
 
