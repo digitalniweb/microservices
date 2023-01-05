@@ -3,4 +3,5 @@ export const microservicesArray = [
 	"websites",
 	"billings",
 	"globalData",
+	"nginx",
 ] as const;

@@ -2,7 +2,7 @@ import crypto from "crypto";
 /**
  *
  * @param length 1-1024
- * @param specialCharacters false = only [a-zA-Z0-9]
+ * @param specialCharacters false = only [a-zA-Z0-9_]
  * @returns random string of `length` or empty string
  */
 export function randomString(
