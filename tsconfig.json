@@ -12,7 +12,9 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"typeRoots": ["./types"],
-		"suppressImplicitAnyIndexErrors": true
+		"suppressImplicitAnyIndexErrors": true,
+		"strictNullChecks": true
+		// "noImplicitAny": false
 		// "strictPropertyInitialization": false
 		// "strictNullChecks": false,
 	}

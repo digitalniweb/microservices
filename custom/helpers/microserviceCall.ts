@@ -6,7 +6,10 @@ import { microservicesArray } from "../variables/microservices.js";
 import { microservices } from "../../types/index.d.js";
 import serviceRegistryRedis from "./serviceRegistryRedis.js";
 import appCache from "./appCache.js";
-import { getService } from "./serviceRegistryCache.js";
+import {
+	getService,
+	requestServiceRegistryInfo,
+} from "./serviceRegistryCache.js";
 
 interface msCallOptions {
 	microservice: microservices;
@@ -42,17 +45,18 @@ export default async function microserviceCall(
 		return false;
 	}
 	if (!appCache.has("serviceRegistry")) {
-		// !! this is wrong, needs a redo
-		let serviceRegistry = await serviceRegistryRedis.list();
-		if (serviceRegistry !== undefined) {
-			let serviceRegistryList = {};
-			for (const service in serviceRegistry) {
-				serviceRegistryList[service] = JSON.parse(
-					serviceRegistry[service]
-				);
-			}
-			appCache.set("serviceRegistry", serviceRegistryList);
-		}
+		// !!! old DELETE
+		// let serviceRegistry = await serviceRegistryRedis.list();
+		// if (serviceRegistry !== undefined) {
+		// 	let serviceRegistryList = {};
+		// 	for (const service in serviceRegistry) {
+		// 		serviceRegistryList[service] = JSON.parse(
+		// 			serviceRegistry[service]
+		// 		);
+		// 	}
+		// 	appCache.set("serviceRegistry", serviceRegistryList);
+		// }
+		await requestServiceRegistryInfo();
 	}
 
 	let service = await getService({
@@ -72,9 +76,7 @@ export default async function microserviceCall(
 					? (req.headers["x-forwarded-for"] as string)
 					: "ms",
 			"user-agent":
-				req && req.headers["user-agent"]
-					? req.headers["user-agent"]
-					: "ms",
+				req && req.headers["user-agent"] ? req.headers["user-agent"] : "ms",
 		};
 	let axiosResponse = await axios.default({
 		url: finalPath,

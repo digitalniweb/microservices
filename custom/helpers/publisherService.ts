@@ -17,6 +17,13 @@ class Publisher {
 		return Publisher.#_instance;
 	}
 
+	/**
+	 *
+	 * @param channel
+	 * @param message
+	 * @param callback
+	 * @returns number of subscribers to this channel
+	 */
 	async publish<Type extends Parameters<RedisCommander["publish"]>>(
 		channel: Type[0],
 		message: Type[1],

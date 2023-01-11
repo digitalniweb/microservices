@@ -10,7 +10,13 @@ import {
 import Publisher from "./../../custom/helpers/publisherService.js";
 import Subscriber from "./../../custom/helpers/subscriberService.js";
 
+import events, { EventEmitter } from "node:events";
+
 import appCache from "../../custom/helpers/appCache.js";
+import {
+	registerCurrentService,
+	requestServiceRegistryInfo,
+} from "../../custom/helpers/serviceRegistryCache.js";
 
 export default async function () {
 	let microservice = process.env.MICROSERVICE_NAME as microservices;
@@ -44,77 +50,20 @@ export default async function () {
 
 	// all microservices
 
-	// values from .env file - returns string (or undefined) everytime
-	type serviceInfoType = {
-		PORT: string | number;
-		HOST: string;
-		MICROSERVICE_UNIQUE_NAME: string;
-		MICROSERVICE_NAME: string;
-		MICROSERVICE_API_KEY: string;
-	};
-
-	type serviceInfoParametersType = keyof serviceInfoType;
-
-	let missingServiceInfo: serviceInfoParametersType[] = [];
-
-	let serviceInfo = {} as serviceInfoType;
-
-	let serviceInfoParameters: Array<serviceInfoParametersType> = [
-		"PORT",
-		"HOST",
-		"MICROSERVICE_UNIQUE_NAME",
-		"MICROSERVICE_NAME",
-		"MICROSERVICE_API_KEY",
-	];
-
-	serviceInfoParameters.forEach((e) => {
-		if (process.env[e] == undefined) missingServiceInfo.push(e);
-		else serviceInfo[e] = process.env[e] as string;
-	});
-
-	if (serviceInfo["PORT"] !== undefined)
-		serviceInfo["PORT"] = parseInt(serviceInfo["PORT"] as string);
-	if (isNaN(serviceInfo["PORT"])) missingServiceInfo.push("PORT");
-
-	if (missingServiceInfo.length !== 0) {
-		customBELogger({
-			message: `Couldn't register service ${
-				process.env.MICROSERVICE_NAME
-			}. ${missingServiceInfo.join(", ")} ${
-				missingServiceInfo.length === 1 ? "is" : "are"
-			} missing in .env file.`,
-		});
-		return false;
-	}
-
-	let service: serviceOptions = {
-		port: serviceInfo["PORT"],
-		host: serviceInfo["HOST"],
-		uniqueName: serviceInfo["MICROSERVICE_UNIQUE_NAME"],
-		name: serviceInfo["MICROSERVICE_NAME"],
-		apiKey: serviceInfo["MICROSERVICE_API_KEY"],
-	};
-
-	await Subscriber.subscribe("serviceRegistry-register");
-
-	if (process.env.MICROSERVICE_NAME !== "globalData") {
-		Subscriber.psubscribe("serviceRegistry-registred-*");
-	}
+	/* await Subscriber.subscribe("serviceRegistry-register");
+	await Subscriber.psubscribe("serviceRegistry-responseService-*"); */
 
 	Subscriber.on("pmessage", (pattern, channel, message) => {
-		if (pattern === "serviceRegistry-registred-*") {
-			let intendedService = channel.replace(
-				/^serviceRegistry-registred-/,
-				""
-			);
-			if (intendedService !== process.env.MICROSERVICE_NAME) return;
+		if (pattern === "serviceRegistry-registered-*") {
+			let intendedService = channel.replace(/^serviceRegistry-registered-/, "");
+			if (intendedService !== process.env.MICROSERVICE_UNIQUE_NAME) return;
 			let globalData = {} as microserviceRegistryInfo;
 			try {
 				globalData = JSON.parse(message);
 			} catch (error) {
 				customBELogger({
 					error,
-					message: `Couldn't resolve "${intendedService}" JSON of "serviceRegistry-registred-" messaging system.`,
+					message: `Couldn't resolve "${process.env.MICROSERVICE_NAME}-${intendedService}" JSON of "serviceRegistry-registered-" messaging system.`,
 				});
 				return false;
 			}
@@ -123,12 +72,30 @@ export default async function () {
 			if (serviceRegistryCache === undefined) serviceRegistryCache = {};
 			serviceRegistryCache.globalData = globalData;
 			appCache.set("serviceRegistry", serviceRegistryCache);
-		}
+		} /* else if (pattern === "serviceRegistry-responseService-*") {
+			let requestedService = channel.replace(
+				/^serviceRegistry-responseService-/,
+				""
+			);
+			// if (requestService != process.env.MICROSERVICE_UNIQUE_NAME) return;
+			// let requestedService: microserviceRegistryInfo;
+			try {
+				// requestedService = JSON.parse(message);
+				console.log(message);
+				let eventEmitter = new events.EventEmitter();
+				let test = eventEmitter.emit("eventEmitter", message);
+				console.log("test", test);
+			} catch (error) {
+				return error;
+			}
+		} */
 	});
 
-	let serviceJSON = JSON.stringify(service);
+	let serviceRegistryInfo = await requestServiceRegistryInfo();
+	if (!serviceRegistryInfo)
+		throw new Error("Couldn't get serviceRegistry information.");
 
-	await Publisher.publish("serviceRegistry-register", serviceJSON);
+	await registerCurrentService();
 
 	/* if (await serviceRegistryRedis.register())
 		customBELogger({

@@ -23,6 +23,13 @@ class Subscriber {
 		return this.#subscriber.subscribe(...args);
 	}
 
+	/**
+	 *
+	 * @param args arguments:
+	 * - `pattern` regex channel
+	 * - callback
+	 * @returns number of channels this client is currently subscribed to.
+	 */
 	psubscribe<Type extends Parameters<RedisCommander["psubscribe"]>>(
 		...args: Type
 	) {
@@ -34,6 +41,12 @@ class Subscriber {
 		listener: Type[1]
 	) {
 		return this.#subscriber.on(event, listener);
+	}
+	off<Type extends Parameters<EventEmitter["off"]>>(
+		event: Type[0],
+		listener: Type[1]
+	) {
+		return this.#subscriber.off(event, listener);
 	}
 }
 

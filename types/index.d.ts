@@ -13,3 +13,13 @@ export type possibleRoles =
 	| "user";
 
 export interface loginAttempt extends CreationAttributes<LoginLog> {}
+
+type serviceInfoType = {
+	PORT: number;
+	HOST: string;
+	MICROSERVICE_UNIQUE_NAME: string;
+	MICROSERVICE_NAME: microservices;
+	MICROSERVICE_API_KEY: string;
+};
+
+type serviceInfoParametersType = keyof serviceInfoType;

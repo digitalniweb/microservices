@@ -8,7 +8,9 @@ import Publisher from "./../../custom/helpers/publisherService.js";
 import Subscriber from "./../../custom/helpers/subscriberService.js";
 
 export default async function () {
-	Subscriber.on("message", async (channel, message) => {
+	await Subscriber.psubscribe("serviceRegistry-registered-*");
+	await Subscriber.psubscribe("serviceRegistry-requestService-*");
+	await Subscriber.on("message", async (channel, message) => {
 		if (channel === "serviceRegistry-register") {
 			try {
 				let service: serviceOptions = JSON.parse(message);
@@ -33,7 +35,7 @@ export default async function () {
 				}
 
 				await Publisher.publish(
-					`serviceRegistry-registred-${service.name}`,
+					`serviceRegistry-registered-${service.name}`,
 					JSON.stringify(serviceRegistryInfo)
 				);
 			} catch (error) {
@@ -43,6 +45,48 @@ export default async function () {
 					},
 				});
 			}
+		}
+	});
+	await Subscriber.on("message", async (channel, message) => {
+		if (channel === "serviceRegistry-requestInformation") {
+			try {
+				let serviceUniqueName: string = message;
+				let serviceRegistryInfo = await getServiceRegistryInfo();
+				if (!serviceRegistryInfo) {
+					customBELogger({
+						error: {
+							message: `Couldn't get service registry information.`,
+						},
+					});
+					return;
+				}
+
+				await Publisher.publish(
+					`serviceRegistry-responseInformation-${serviceUniqueName}`,
+					JSON.stringify(serviceRegistryInfo)
+				);
+			} catch (error) {
+				customBELogger({
+					error: {
+						message: `Couldn't obtain serviceRegistry information via "serviceRegistry-requestInformation" Redis messaging system.`,
+					},
+				});
+			}
+		}
+	});
+
+	await Subscriber.on("pmessage", async (pattern, channel, message) => {
+		console.log(pattern);
+		if (pattern === "serviceRegistry-requestService-*") {
+			let requestService = channel.replace(
+				/^serviceRegistry-requestService-/,
+				""
+			);
+			/* console.log(requestService);
+			Publisher.publish(
+				"serviceRegistry-responseService-" + requestService,
+				"{request: 'successful'}"
+			); */
 		}
 	});
 }
