@@ -123,6 +123,10 @@ export async function registerCurrentService() {
 	// await Publisher.publish("serviceRegistry-register", serviceJSON);
 }
 
+/**
+ * gets serviceRegistry information <microserviceRegistryInfo>
+ * @returns void
+ */
 export async function requestServiceRegistryInfo(): Promise<boolean> {
 	try {
 		let response = await requestServiceRegistryInfoFromRedisEvent(
@@ -137,7 +141,7 @@ export async function requestServiceRegistryInfo(): Promise<boolean> {
 function requestServiceRegistryInfoFromRedisEvent(
 	item: typeof Subscriber,
 	event: string
-) {
+): Promise<microserviceRegistryInfo> {
 	return new Promise(async (resolve, reject) => {
 		const listener = (pattern: string, channel: string, message: string) => {
 			if (pattern === "serviceRegistry-responseInformation-*") {
@@ -147,12 +151,13 @@ function requestServiceRegistryInfoFromRedisEvent(
 				);
 				if (requestedService != process.env.MICROSERVICE_UNIQUE_NAME) return;
 				item.off(event, listener);
-				resolve(message);
+				resolve(JSON.parse(message));
 			}
 		};
 
 		item.on(event, listener);
-		Publisher.publish(
+
+		await Publisher.publish(
 			"serviceRegistry-requestInformation",
 			process.env.MICROSERVICE_UNIQUE_NAME
 		);

@@ -10,6 +10,7 @@ import Subscriber from "./../../custom/helpers/subscriberService.js";
 export default async function () {
 	await Subscriber.psubscribe("serviceRegistry-registered-*");
 	await Subscriber.psubscribe("serviceRegistry-requestService-*");
+	await Subscriber.subscribe("serviceRegistry-requestInformation");
 	await Subscriber.on("message", async (channel, message) => {
 		if (channel === "serviceRegistry-register") {
 			try {
@@ -76,7 +77,6 @@ export default async function () {
 	});
 
 	await Subscriber.on("pmessage", async (pattern, channel, message) => {
-		console.log(pattern);
 		if (pattern === "serviceRegistry-requestService-*") {
 			let requestService = channel.replace(
 				/^serviceRegistry-requestService-/,

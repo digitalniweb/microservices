@@ -48,6 +48,10 @@ export default async function () {
 			});
 	}
 
+	if (process.env.MICROSERVICE_NAME !== "globalData") {
+		await Subscriber.psubscribe("serviceRegistry-responseInformation-*");
+	}
+
 	// all microservices
 
 	/* await Subscriber.subscribe("serviceRegistry-register");
