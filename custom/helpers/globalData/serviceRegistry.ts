@@ -24,13 +24,14 @@ export async function registerService(
 
 			if (serviceRegistryCount !== 0) return;
 
-			let [microservice, microserviceCreated] =
-				await Microservice.findOrCreate({
+			let [microservice, microserviceCreated] = await Microservice.findOrCreate(
+				{
 					where: {
 						name: options.name,
 					},
 					transaction,
-				});
+				}
+			);
 
 			let serviceRegistry = await microservice.createServiceRegistry(
 				{
@@ -77,7 +78,7 @@ export async function getServiceRegistryInfo(): Promise<
 			return false;
 
 		let serviceRegistryInfo: microserviceRegistryInfo = {
-			mainId: serviceRegistry.id,
+			mainId: serviceRegistry.mainServiceRegistryId as number,
 			services: serviceRegistry.ServiceRegistries,
 		};
 		return serviceRegistryInfo;
