@@ -22,6 +22,19 @@ type getServiceOptions = {
 	name: microservices;
 	id?: number;
 };
+
+export async function setService(
+	name: microservices,
+	info: microserviceRegistryInfo
+) {}
+
+/**
+ * returns main service or service by id from cache
+ * @param options
+ * @options `name`: service name
+ * @options `id?`: service ID
+ * @returns
+ */
 export async function getService(
 	options: getServiceOptions
 ): Promise<globalData.ServiceRegistry | undefined> {
@@ -133,6 +146,8 @@ export async function requestServiceRegistryInfo(): Promise<boolean> {
 			Subscriber,
 			"pmessage"
 		);
+		// !!! must yet to be done
+		// set cache
 		console.log(response);
 	} catch (error) {}
 	return true;
@@ -162,6 +177,7 @@ function requestServiceRegistryInfoFromRedisEvent(
 			process.env.MICROSERVICE_UNIQUE_NAME
 		);
 		await sleep(3000);
+		item.off(event, listener);
 		reject("reject");
 	});
 }
