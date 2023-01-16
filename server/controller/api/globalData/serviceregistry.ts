@@ -30,9 +30,7 @@ export const register = async function (
 	try {
 		let microservice = req.query.service as microservices;
 		if (!microservicesArray.includes(microservice)) return res.send(false);
-		console.log(req.body);
 		let service = await registerService(req.body);
-		console.log(service);
 
 		return res.send(service);
 	} catch (error) {

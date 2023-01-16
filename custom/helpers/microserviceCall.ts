@@ -51,8 +51,6 @@ export default async function microserviceCall(
 	let service = await getService({
 		name: microservice,
 	});
-	console.log("mscall");
-	console.log(service);
 
 	if (service === undefined) return false;
 	let finalPath =

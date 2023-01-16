@@ -95,11 +95,13 @@ export default async function () {
 		} */
 	});
 
-	let serviceRegistryInfo = await requestServiceRegistryInfo();
-	if (!serviceRegistryInfo)
-		throw new Error("Couldn't get serviceRegistry information.");
+	if (process.env.MICROSERVICE_NAME !== "globalData") {
+		let serviceRegistryInfo = await requestServiceRegistryInfo();
+		if (!serviceRegistryInfo)
+			throw new Error("Couldn't get serviceRegistry information.");
 
-	await registerCurrentService();
+		await registerCurrentService();
+	}
 
 	/* if (await serviceRegistryRedis.register())
 		customBELogger({
