@@ -51,12 +51,13 @@ export async function getService(
 		} catch (error) {
 			return undefined;
 		}
+		serviceRegistryCache = appCache.get("serviceRegistry");
 	}
-	serviceRegistryCache = appCache.get("serviceRegistry") as serviceRegistry;
 
 	if (serviceRegistryCache === undefined) return undefined;
 
 	let service = {} as globalData.ServiceRegistry | undefined;
+
 	if (serviceRegistryCache[name] === undefined) {
 		// try to get information about microservice from service registry
 		// !!! need to add serviceregistry to 'globalData' ms
@@ -74,6 +75,7 @@ export async function getService(
 			if (serviceRegistryCache === undefined) return false;
 			e.id == serviceRegistryCache[name]?.mainId;
 		});
+
 	return service;
 }
 
@@ -143,15 +145,12 @@ export async function registerCurrentService() {
 	// old way - let serviceJSON = JSON.stringify(service);
 	// old way - await Publisher.publish("serviceRegistry-register", serviceJSON);
 
-	let register = await microserviceCall({
+	await microserviceCall({
 		microservice: "globalData",
 		path: "/api/serviceregistry/register",
 		data: service,
 		method: "POST",
 	});
-	console.log(service);
-	console.log("register");
-	console.log(register);
 }
 
 /**
