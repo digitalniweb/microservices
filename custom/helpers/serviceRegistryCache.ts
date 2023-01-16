@@ -43,7 +43,19 @@ export async function getService(
 	if (!appCache.has("serviceRegistry")) {
 		// need to call pub/sub Redis to get "globalData" info (where service registry is saved)
 	}
-	let serviceRegistryCache: serviceRegistry = appCache.get("serviceRegistry");
+	let serviceRegistryCache: serviceRegistry | undefined =
+		appCache.get("serviceRegistry");
+	if (serviceRegistryCache === undefined) {
+		try {
+			await requestServiceRegistryInfo();
+		} catch (error) {
+			return undefined;
+		}
+	}
+	serviceRegistryCache = appCache.get("serviceRegistry") as serviceRegistry;
+
+	if (serviceRegistryCache === undefined) return undefined;
+
 	let service = {} as globalData.ServiceRegistry | undefined;
 	if (serviceRegistryCache[name] === undefined) {
 		// try to get information about microservice from service registry
@@ -58,9 +70,10 @@ export async function getService(
 	} else if (id)
 		service = serviceRegistryCache[name]?.services.find((e) => e.id == id);
 	else
-		service = serviceRegistryCache[name]?.services.find(
-			(e) => e.id == serviceRegistryCache[name]?.mainId
-		);
+		service = serviceRegistryCache[name]?.services.find((e) => {
+			if (serviceRegistryCache === undefined) return false;
+			e.id == serviceRegistryCache[name]?.mainId;
+		});
 	return service;
 }
 
@@ -126,14 +139,19 @@ export async function registerCurrentService() {
 		name: serviceInfo["MICROSERVICE_NAME"],
 		apiKey: serviceInfo["MICROSERVICE_API_KEY"],
 	};
-	let serviceJSON = JSON.stringify(service);
 
-	/* microserviceCall({
+	// old way - let serviceJSON = JSON.stringify(service);
+	// old way - await Publisher.publish("serviceRegistry-register", serviceJSON);
+
+	let register = await microserviceCall({
 		microservice: "globalData",
-		path: "",
-	}); */
-
-	// await Publisher.publish("serviceRegistry-register", serviceJSON);
+		path: "/api/serviceregistry/register",
+		data: service,
+		method: "POST",
+	});
+	console.log(service);
+	console.log("register");
+	console.log(register);
 }
 
 /**
@@ -146,10 +164,15 @@ export async function requestServiceRegistryInfo(): Promise<boolean> {
 			Subscriber,
 			"pmessage"
 		);
-		// !!! must yet to be done
-		// set cache
-		console.log(response);
-	} catch (error) {}
+		let serviceRegistryCache: serviceRegistry | undefined =
+			appCache.get("serviceRegistry");
+		if (serviceRegistryCache === undefined) serviceRegistryCache = {};
+		serviceRegistryCache.globalData = response;
+		appCache.set("serviceRegistry", serviceRegistryCache);
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
 	return true;
 }
 

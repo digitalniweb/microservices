@@ -4,6 +4,7 @@ import * as controller from "../../controller/api/globalData/serviceregistry.js"
 // const checkAuth = require("../middleware/check-auth");
 
 router.get("/", controller.getService);
+router.post("/register", controller.register);
 
 // authorized only
 /* router.post("/", checkAuth(), controller.testPost);

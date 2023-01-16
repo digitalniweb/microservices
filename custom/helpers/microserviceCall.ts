@@ -45,23 +45,15 @@ export default async function microserviceCall(
 		return false;
 	}
 	if (!appCache.has("serviceRegistry")) {
-		// !!! old DELETE
-		// let serviceRegistry = await serviceRegistryRedis.list();
-		// if (serviceRegistry !== undefined) {
-		// 	let serviceRegistryList = {};
-		// 	for (const service in serviceRegistry) {
-		// 		serviceRegistryList[service] = JSON.parse(
-		// 			serviceRegistry[service]
-		// 		);
-		// 	}
-		// 	appCache.set("serviceRegistry", serviceRegistryList);
-		// }
 		await requestServiceRegistryInfo();
 	}
 
 	let service = await getService({
 		name: microservice,
 	});
+	console.log("mscall");
+	console.log(service);
+
 	if (service === undefined) return false;
 	let finalPath =
 		`${protocol}://${service.host}:${service.port}` +
