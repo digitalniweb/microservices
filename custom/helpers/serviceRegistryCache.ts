@@ -40,9 +40,6 @@ export async function getService(
 ): Promise<globalData.ServiceRegistry | undefined> {
 	const { name, id } = options;
 	if (!serviceExists(name)) return undefined;
-	if (!appCache.has("serviceRegistry")) {
-		// need to call pub/sub Redis to get "globalData" info (where service registry is saved)
-	}
 	let serviceRegistryCache: serviceRegistry | undefined =
 		appCache.get("serviceRegistry");
 	if (serviceRegistryCache === undefined) {
@@ -68,13 +65,14 @@ export async function getService(
 		if (!service) return undefined;
 		serviceRegistryCache[name] =
 			serviceRegistryCache as microserviceRegistryInfo;
-	} else if (id)
+	} else if (id) {
 		service = serviceRegistryCache[name]?.services.find((e) => e.id == id);
-	else
+	} else {
 		service = serviceRegistryCache[name]?.services.find((e) => {
-			if (serviceRegistryCache === undefined) return false;
-			e.id == serviceRegistryCache[name]?.mainId;
+			if (serviceRegistryCache === undefined) return undefined;
+			return e.id == serviceRegistryCache[name]?.mainId;
 		});
+	}
 
 	return service;
 }
@@ -99,11 +97,6 @@ export async function registerCurrentService() {
 	serviceInfoParameters.forEach((e) => {
 		if (process.env[e] == undefined) missingServiceInfo.push(e);
 		else {
-			// when you don't need anything else but assigning values in this block as in this case I can use this 'as string' hack
-			// otherwise use code in following comment
-			// serviceInfo[e as string] = process.env[e];
-
-			// but if I wanted to use types and work with the variables inside this block I'd need to use following code. So the intellisense, TS and everything work as expected
 			if (e === "PORT") {
 				if (Number.isInteger(Number(serviceInfo[e])))
 					throw new Error("Current's microservice PORT is not a number!");
@@ -141,9 +134,6 @@ export async function registerCurrentService() {
 		name: serviceInfo["MICROSERVICE_NAME"],
 		apiKey: serviceInfo["MICROSERVICE_API_KEY"],
 	};
-
-	// old way - let serviceJSON = JSON.stringify(service);
-	// old way - await Publisher.publish("serviceRegistry-register", serviceJSON);
 
 	await microserviceCall({
 		microservice: "globalData",

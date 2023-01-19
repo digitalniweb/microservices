@@ -4,7 +4,6 @@ import { Request } from "express";
 import { HTTPMethods } from "../../types/httpMethods.js";
 import { microservicesArray } from "../variables/microservices.js";
 import { microservices } from "../../types/index.d.js";
-import serviceRegistryRedis from "./serviceRegistryRedis.js";
 import appCache from "./appCache.js";
 import {
 	getService,
@@ -44,9 +43,6 @@ export default async function microserviceCall(
 		);
 		return false;
 	}
-	if (!appCache.has("serviceRegistry")) {
-		await requestServiceRegistryInfo();
-	}
 
 	let service = await getService({
 		name: microservice,
@@ -68,6 +64,7 @@ export default async function microserviceCall(
 			"user-agent":
 				req && req.headers["user-agent"] ? req.headers["user-agent"] : "ms",
 		};
+
 	let axiosResponse = await axios.default({
 		url: finalPath,
 		method,

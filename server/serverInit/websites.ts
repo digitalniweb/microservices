@@ -11,9 +11,6 @@ export default async function () {
 	subscriber.on("message", (channel, message) => {
 		console.log(`Received ${ message } from ${ channel }`);
 	}); */
-
-	console.log("websites serverInit");
-
 	// billingModules();
 	/* cron.schedule("0 2 * * *", () => {
 		// 2 am every day
