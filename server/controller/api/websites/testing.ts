@@ -61,16 +61,6 @@ export const test = async function (
 			let response = await getPromiseFromEvent(Subscriber, "pmessage");
 			console.log(response);
 
-			/* let requestedService: microservices = "globalData";
-			let publishGetService = await Publisher.publish(
-				"serviceRegistry-requestService-" +
-					process.env.MICROSERVICE_UNIQUE_NAME,
-				requestedService
-			);
-			// Publisher.publish("serviceRegistry-requestService-aaa", "-aaa");
-			Publisher.publish("serviceRegistry-responseService-aaa", "-aaa");
-			// if (publishGetService == 0) return false; */
-
 			return res.send("globalData");
 		} catch (error) {
 			return res.send(error);
