@@ -3,6 +3,8 @@ import { createLogger, format, transports } from "winston";
 
 import { Request } from "express";
 
+import { customErrorObject } from "../../types/customHelpers/logger.js";
+
 const levelFilter = (level: string) =>
 	format((info) => {
 		if (info.level != level) {
@@ -49,13 +51,6 @@ const logger = createLogger({
 		}),
 	],
 });
-
-type customErrorObject = {
-	error?: any;
-	code?: number | string;
-	message?: string;
-	data?: any;
-};
 
 const customBELogger = function (
 	customErrorObject: customErrorObject,
