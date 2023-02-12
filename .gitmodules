@@ -1,0 +1,3 @@
+[submodule "digitalniweb-types"]
+	path = digitalniweb-types
+	url = https://github.com/digitalniweb/digitalniweb-types.git
