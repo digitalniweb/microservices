@@ -4,7 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { globalData } from "../../../types/models/globalData.js";
+import { globalData } from "../../../digitalniweb-types/models/globalData.js";
 import Privilege = globalData.Privilege;
 
 const Privilege = db.define<Privilege>(

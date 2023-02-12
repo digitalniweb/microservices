@@ -4,7 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../types/models/websites.js";
+import { websites } from "../../../digitalniweb-types/models/websites.js";
 import Website = websites.Website;
 
 import Url from "./url.js";
@@ -21,7 +21,7 @@ const Website = db.define<Website>(
 			autoIncrement: true,
 		},
 		uniqueName: {
-			//  (await import("./dist/custom/functions/randomGenerator.js")).randomString(14, false)
+			//  (await import("./dist/digitalniweb-custom/functions/randomGenerator.js")).randomString(14, false)
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,

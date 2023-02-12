@@ -1,4 +1,4 @@
-import { microservices } from "../index.js";
+import { microservices } from "../../digitalniweb-types/index.js";
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {

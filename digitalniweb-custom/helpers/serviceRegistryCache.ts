@@ -2,20 +2,20 @@ import {
 	microserviceRegistryInfo,
 	serviceOptions,
 	serviceRegistry,
-} from "../../types/customFunctions/globalData.js";
-import { microservicesArray } from "../variables/microservices.js";
+} from "../../digitalniweb-types/customFunctions/globalData.js";
+import { microservicesArray } from "../../digitalniweb-custom/variables/microservices.js";
 import {
 	microservices,
 	serviceInfoParametersType,
 	serviceInfoType,
-} from "../../types/index.js";
-import { globalData } from "../../types/models/globalData.js";
+} from "../../digitalniweb-types/index.js";
+import { globalData } from "../../digitalniweb-types/models/globalData.js";
 import appCache from "./appCache.js";
 import microserviceCall from "./microserviceCall.js";
 import { customBELogger } from "./logger.js";
 
-import Publisher from "./../../custom/helpers/publisherService.js";
-import Subscriber from "./../../custom/helpers/subscriberService.js";
+import Publisher from "./../../digitalniweb-custom/helpers/publisherService.js";
+import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 import sleep from "../functions/sleep.js";
 
 type getServiceOptions = {
@@ -99,7 +99,9 @@ export async function registerCurrentService() {
 		else {
 			if (e === "PORT") {
 				if (Number.isInteger(Number(serviceInfo[e])))
-					throw new Error("Current's microservice PORT is not a number!");
+					throw new Error(
+						"Current's microservice PORT is not a number!"
+					);
 				serviceInfo[e] = process.env[e];
 			} else if (e === "MICROSERVICE_NAME") {
 				serviceInfo[e] = process.env[e];
@@ -170,13 +172,18 @@ function requestServiceRegistryInfoFromRedisEvent(
 	event: string
 ): Promise<microserviceRegistryInfo> {
 	return new Promise(async (resolve, reject) => {
-		const listener = (pattern: string, channel: string, message: string) => {
+		const listener = (
+			pattern: string,
+			channel: string,
+			message: string
+		) => {
 			if (pattern === "serviceRegistry-responseInformation-*") {
 				let requestedService = channel.replace(
 					/^serviceRegistry-responseInformation-/,
 					""
 				);
-				if (requestedService != process.env.MICROSERVICE_UNIQUE_NAME) return;
+				if (requestedService != process.env.MICROSERVICE_UNIQUE_NAME)
+					return;
 				item.off(event, listener);
 				resolve(JSON.parse(message));
 			}

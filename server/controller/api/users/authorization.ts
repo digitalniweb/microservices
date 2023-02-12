@@ -2,13 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import Privilege from "../../../models/globalData/privilege.js";
 import Role from "../../../models/globalData/role.js";
 
-import { globalData } from "../../../../types/models/globalData.js";
+import { globalData } from "../../../../digitalniweb-types/models/globalData.js";
 import RoleType = globalData.Role;
 import PrivilegeType = globalData.Privilege;
 
 import db from "../../../models/index.js";
 import { WhereOptions } from "sequelize";
-import { authorizationListType } from "../../../../types/authorization/index.js";
+import { authorizationListType } from "../../../../digitalniweb-types/authorization/index.js";
 
 export const allList = async function (
 	req: Request,
@@ -23,7 +23,9 @@ export const allList = async function (
 		// type: user/admin/(all)
 		const { select = "all", type = "all" } = req.query;
 		let data = await db.transaction(async (transaction) => {
-			let data = [] as Array<Promise<RoleType[]> | Promise<PrivilegeType[]>>;
+			let data = [] as Array<
+				Promise<RoleType[]> | Promise<PrivilegeType[]>
+			>;
 			let where: WhereOptions<RoleType> = {};
 			if (type !== "all") where.type = type as string;
 			if (select === "all" || select === "roles")

@@ -1,4 +1,4 @@
-import { loginAttempt } from "./../index.js";
+import { loginAttempt } from "../../digitalniweb-types/index.js";
 type requestLanguageExpansion = {
 	header: string;
 	code: string;

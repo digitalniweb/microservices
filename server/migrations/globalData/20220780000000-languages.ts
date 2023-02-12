@@ -1,15 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Language from "../../models/globalData/language.js";
-import { globalData } from "../../../types/models/globalData.js";
+import { globalData } from "../../../digitalniweb-types/models/globalData.js";
 import LanguageType = globalData.Language;
 
-import { microservices } from "../../../types/index.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<LanguageType>(
@@ -44,7 +48,11 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(Language.tableName, {

@@ -1,7 +1,7 @@
-import { getServiceRegistryInfo } from "../../custom/helpers/globalData/serviceRegistry.js";
-import { customBELogger } from "../../custom/helpers/logger.js";
-import Publisher from "./../../custom/helpers/publisherService.js";
-import Subscriber from "./../../custom/helpers/subscriberService.js";
+import { getServiceRegistryInfo } from "../../digitalniweb-custom/helpers/globalData/serviceRegistry.js";
+import { customBELogger } from "../../digitalniweb-custom/helpers/logger.js";
+import Publisher from "./../../digitalniweb-custom/helpers/publisherService.js";
+import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 
 export default async function () {
 	await Subscriber.subscribe("serviceRegistry-requestInformation");

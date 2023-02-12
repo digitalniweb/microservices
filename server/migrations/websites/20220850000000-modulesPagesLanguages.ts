@@ -1,16 +1,20 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import ModulesPagesLanguage from "../../models/websites/modulesPagesLanguage.js";
-import { websites } from "../../../types/models/websites.js";
+import { websites } from "../../../digitalniweb-types/models/websites.js";
 import ModulesPagesLanguageType = websites.ModulesPagesLanguage;
 
-import { microservices } from "../../../types/index.d.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 import Module from "../../models/globalData/module.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<ModulesPagesLanguageType>(
@@ -67,12 +71,19 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(ModulesPagesLanguage.tableName, {
-				transaction,
-			});
+			return await queryInterface.dropTable(
+				ModulesPagesLanguage.tableName,
+				{
+					transaction,
+				}
+			);
 		});
 	},
 };

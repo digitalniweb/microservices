@@ -1,15 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import CreditBalanceCompletionLog from "../../models/billings/creditBalanceCompletionLog.js";
-import { billings } from "../../../types/models/billings.js";
+import { billings } from "../../../digitalniweb-types/models/billings.js";
 import CreditBalanceCompletionLogType = billings.CreditBalanceCompletionLog;
 
-import { microservices } from "../../../types/index.d.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["billings"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<CreditBalanceCompletionLogType>(
@@ -49,7 +53,11 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(

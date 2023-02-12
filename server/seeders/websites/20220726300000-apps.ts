@@ -3,7 +3,7 @@ import { QueryInterface } from "sequelize";
 // import AppType from "../../models/globalData/appType.js";
 import App from "../../models/websites/app.js";
 
-import { microservices } from "../../../types/index.d.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 import AppLanguage from "../../models/websites/appLanguage.js";
 const microservice: Array<microservices> = ["websites"];
 
@@ -47,11 +47,19 @@ export default {
 		await saasTenant.createAppLanguage({ languageId: 1 });
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(App.tableName, {}, { transaction });
+				await queryInterface.bulkDelete(
+					App.tableName,
+					{},
+					{ transaction }
+				);
 				await queryInterface.bulkDelete(
 					AppLanguage.tableName,
 					{},

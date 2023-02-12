@@ -1,12 +1,12 @@
-import { microservices } from "../../types/index.d.js";
-import { customBELogger } from "./../../custom/helpers/logger.js";
+import { microservices } from "../../digitalniweb-types/index.js";
+import { customBELogger } from "./../../digitalniweb-custom/helpers/logger.js";
 
-import Subscriber from "./../../custom/helpers/subscriberService.js";
+import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 
 import {
 	registerCurrentService,
 	requestServiceRegistryInfo,
-} from "../../custom/helpers/serviceRegistryCache.js";
+} from "../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 
 export default async function () {
 	let microservice = process.env.MICROSERVICE_NAME as microservices;

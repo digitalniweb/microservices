@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { websites } from "../../../types/models/websites.js";
+import { websites } from "../../../digitalniweb-types/models/websites.js";
 import WebsiteModuleType = websites.WebsiteModule;
 
-import { microservices } from "../../../types/index.d.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 import Website from "../../models/websites/website.js";
 import Module from "../../models/globalData/module.js";
 import WebsiteModule from "../../models/websites/WebsiteModule.js";
@@ -12,7 +12,11 @@ const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<WebsiteModuleType>(
@@ -66,7 +70,11 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(WebsiteModule.tableName, {

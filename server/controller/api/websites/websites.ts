@@ -1,12 +1,12 @@
-import { requestPagination } from "../../../../custom/helpers/requestPagination.js";
+import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
 import { Op } from "sequelize";
 import { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
-import { websites } from "../../../../types/models/websites.js";
+import { websites } from "../../../../digitalniweb-types/models/websites.js";
 import WebsiteType = websites.Website;
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
-import { randomString } from "../../../../custom/functions/randomGenerator.js";
+import { randomString } from "../../../../digitalniweb-custom/functions/randomGenerator.js";
 
 export const getWebsiteInfo = async function (
 	req: Request,

@@ -1,21 +1,25 @@
 import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 
-// import { Role as RoleType } from "../../types/server/models/db.js";
+// import { Role as RoleType } from "../../digitalniweb-types/server/models/db.js";
 import Role from "../../models/globalData/role.js";
 
-import { users } from "../../../types/models/users.js";
+import { users } from "../../../digitalniweb-types/models/users.js";
 import TenantType = users.Tenant;
 import UserType = users.User;
 
 // import Tenant from "../../models/users/tenant.js";
 import User from "../../models/users/user.js";
 
-import { microservices } from "./../../../types/index.d.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
@@ -114,7 +118,11 @@ export default {
 		});
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {

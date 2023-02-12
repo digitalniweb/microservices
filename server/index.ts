@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 import languageSetter from "./middleware/language-setter.js";
 
-import { customBELogger } from "./../custom/helpers/logger.js";
+import { customBELogger } from "./../digitalniweb-custom/helpers/logger.js";
 
 import apiRoutes from "./api/index.js";
 

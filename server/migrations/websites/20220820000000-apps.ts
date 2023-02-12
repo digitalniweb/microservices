@@ -1,17 +1,21 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import App from "./../../models/websites/app.js";
-import { websites } from "./../../../types/models/websites.js";
+import { websites } from "./../../../digitalniweb-types/models/websites.js";
 import AppTsType = websites.App;
 
-import { microservices } from "./../../../types/index.d.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		console.log(App);
 
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<AppTsType>(
@@ -49,7 +53,11 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(App.tableName, {

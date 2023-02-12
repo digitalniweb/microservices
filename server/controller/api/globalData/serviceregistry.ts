@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { getServiceRegistryServices } from "../../../../custom/helpers/globalData/serviceRegistry.js";
-import { microservicesArray } from "../../../../custom/variables/microservices.js";
-import { microservices } from "../../../../types/index.js";
+import { getServiceRegistryServices } from "../../../../digitalniweb-custom/helpers/globalData/serviceRegistry.js";
+import { microservicesArray } from "../../../../digitalniweb-custom/variables/microservices.js";
+import { microservices } from "../../../../digitalniweb-types/index.js";
 import {
 	getServiceRegistryInfo,
 	registerService,
-} from "../../../../custom/helpers/globalData/serviceRegistry.js";
+} from "../../../../digitalniweb-custom/helpers/globalData/serviceRegistry.js";
 
 export const getService = async function (
 	req: Request,

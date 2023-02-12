@@ -1,6 +1,6 @@
 import { QueryInterface } from "sequelize";
 
-import { microservices } from "../../../types/index.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 // import Website from "../../models/globalData/website.js";
 import Module from "../../models/globalData/module.js";
 // import Url from "../../models/globalData/url.js";
@@ -9,7 +9,11 @@ const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
@@ -66,7 +70,11 @@ export default {
 		});
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {

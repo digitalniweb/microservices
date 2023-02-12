@@ -1,15 +1,19 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Blacklist from "./../../models/users/Blacklist.js";
-import { users } from "./../../../types/models/users.js";
+import { users } from "./../../../digitalniweb-types/models/users.js";
 import BlacklistType = users.Blacklist;
 
-import { microservices } from "./../../../types/index.d.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<BlacklistType>(
@@ -60,7 +64,11 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(Blacklist.tableName, {

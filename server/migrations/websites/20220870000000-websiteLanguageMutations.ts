@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { websites } from "../../../types/models/websites.js";
+import { websites } from "../../../digitalniweb-types/models/websites.js";
 import WebsiteLanguageMutationType = websites.WebsiteLanguageMutation;
 
-import { microservices } from "../../../types/index.d.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 import Website from "../../models/websites/website.js";
 import WebsiteLanguageMutation from "../../models/websites/websiteLanguageMutation.js";
 
@@ -11,7 +11,11 @@ const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<WebsiteLanguageMutationType>(
@@ -39,12 +43,19 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(WebsiteLanguageMutation.tableName, {
-				transaction,
-			});
+			return await queryInterface.dropTable(
+				WebsiteLanguageMutation.tableName,
+				{
+					transaction,
+				}
+			);
 		});
 	},
 };

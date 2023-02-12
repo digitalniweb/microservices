@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 
 import { Request } from "express";
-import { HTTPMethods } from "../../types/httpMethods.js";
-import { microservicesArray } from "../variables/microservices.js";
-import { microservices } from "../../types/index.d.js";
+import { HTTPMethods } from "../../digitalniweb-types/httpMethods.js";
+import { microservicesArray } from "../../digitalniweb-custom/variables/microservices.js";
+import { microservices } from "../../digitalniweb-types/index.js";
 import appCache from "./appCache.js";
 import {
 	getService,
@@ -62,7 +62,9 @@ export default async function microserviceCall(
 					? (req.headers["x-forwarded-for"] as string)
 					: "ms",
 			"user-agent":
-				req && req.headers["user-agent"] ? req.headers["user-agent"] : "ms",
+				req && req.headers["user-agent"]
+					? req.headers["user-agent"]
+					: "ms",
 		};
 
 	let axiosResponse = await axios.default({

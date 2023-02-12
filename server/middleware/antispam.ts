@@ -4,13 +4,13 @@ import validator from "validator";
 import { Op, literal, Order } from "sequelize";
 import { Response, NextFunction, Request } from "express";
 
-import { loginAttempt } from "./../../types/index.d.js";
+import { loginAttempt } from "../../digitalniweb-types/index.js";
 
-import sleep from "../../custom/functions/sleep.js";
+import sleep from "../../digitalniweb-custom/functions/sleep.js";
 import LoginLog from "../models/users/loginLog.js";
 import Blacklist from "../models/users/Blacklist.js";
 
-import wrongLoginAttempt from "../../custom/helpers/wrongLoginAttempt.js";
+import wrongLoginAttempt from "../../digitalniweb-custom/helpers/wrongLoginAttempt.js";
 
 const loginAntispam = function () {
 	return async (req: Request, res: Response, next: NextFunction) => {
@@ -83,7 +83,8 @@ const loginAntispam = function () {
 
 			if (
 				blacklistedIP.some(
-					(blacklist) => blacklist?.otherData?.userAgent == userAgent.ua
+					(blacklist) =>
+						blacklist?.otherData?.userAgent == userAgent.ua
 				)
 			) {
 				await sleep();
@@ -117,7 +118,8 @@ const loginAntispam = function () {
 			let maxLoginAttempts = 4; // max failed login attempts for same login / account
 			let bruteForceLoginAttempts = 8; // from now consider this an attack on one login / account
 			let timeSpanMinutes = 10;
-			let bruteForceIPLoginAttempts = (maxLoginAttempts * timeSpanMinutes) / 2; // from now consider this an attack from one IP on multiple accounts. Dividing number 2 is just arbitrary coeficient to lower the count so the result remains time times login count dependent. This means if there is 20 (account independent) bad logins in 10 minutes from one IP it is considered an attack.
+			let bruteForceIPLoginAttempts =
+				(maxLoginAttempts * timeSpanMinutes) / 2; // from now consider this an attack from one IP on multiple accounts. Dividing number 2 is just arbitrary coeficient to lower the count so the result remains time times login count dependent. This means if there is 20 (account independent) bad logins in 10 minutes from one IP it is considered an attack.
 			let bruteForceUAIPLoginAttempts =
 				(maxLoginAttempts * timeSpanMinutes) / 4; // from one IP and same UserAgent, multiple accounts. Dividing number 4 is just arbitrary coeficient same as in bruteForceIPLoginAttempts but higher to lower the amount of attempts because we know attacker's user agent
 			let bruteForceIPLoginAttemptsPerDay = 60; // from 1 IP per day
@@ -199,7 +201,8 @@ const loginAntispam = function () {
 				IPLoginAttemptsCountInDay,
 			] = loginAttemptsCounts;
 			loginAttemptsCount++; // because first time it is 0
-			let bruteforcinglogin = loginAttemptsCount >= bruteForceLoginAttempts; // bruteforcing certain account
+			let bruteforcinglogin =
+				loginAttemptsCount >= bruteForceLoginAttempts; // bruteforcing certain account
 			let bruteforcinglogins =
 				IPLoginAttemptsCount >= bruteForceIPLoginAttempts; // from 1 IP bruteforcing multiple accounts
 			let bruteforcingualogins =
@@ -236,7 +239,8 @@ const loginAntispam = function () {
 			}
 			if (loginAttemptsCount >= bruteForceLoginAttempts - 2) {
 				return wrongLoginAttempt(req, next, loginAttempt, {
-					message: "Another login attempts will cause IP address ban!",
+					message:
+						"Another login attempts will cause IP address ban!",
 					loginAttemptsCount,
 					maxLoginAttempts,
 					blockedTill: timeSpanTooManyAttempts,

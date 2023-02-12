@@ -1,9 +1,9 @@
 import { QueryInterface } from "sequelize";
 
-import { microservices } from "../../../types/index.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 import Microservice from "../../models/globalData/microservice.js";
 import ServiceRegistry from "../../models/globalData/serviceRegistry.js";
-import { randomString } from "../../../custom/functions/randomGenerator.js";
+import { randomString } from "../../../digitalniweb-custom/functions/randomGenerator.js";
 // import { addDays } from "date-fns";
 const microservice: Array<microservices> = ["globalData"];
 

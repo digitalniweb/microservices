@@ -3,7 +3,7 @@ import { WhereOptions, Op } from "sequelize";
 import Module from "../../server/models/globalData/module.js";
 import WebsiteModule from "../../server/models/websites/websiteModule.js";
 
-import { websites } from "../../types/models/websites.js";
+import { websites } from "../../digitalniweb-types/models/websites.js";
 import WebsiteModuleType = websites.WebsiteModule;
 
 async function billingModules() {

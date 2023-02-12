@@ -5,7 +5,7 @@ import { Request } from "express";
 import {
 	authorizationListType,
 	authorizationMap,
-} from "../../types/authorization/index.js";
+} from "../../digitalniweb-types/authorization/index.js";
 
 async function getAuthorizationMap(req: Request) {
 	// appCache.del("map", "authorizationMap");

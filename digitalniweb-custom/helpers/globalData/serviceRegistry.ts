@@ -6,9 +6,9 @@ import {
 	serviceOptions,
 	serviceRegistry,
 	microserviceRegistryInfo,
-} from "../../../types/customFunctions/globalData.js";
+} from "../../../digitalniweb-types/customFunctions/globalData.js";
 import ServiceRegistry from "../../../server/models/globalData/serviceRegistry.js";
-import { microservices } from "../../../types/index.js";
+import { microservices } from "../../../digitalniweb-types/index.js";
 
 export async function registerService(
 	options: serviceOptions
@@ -24,14 +24,13 @@ export async function registerService(
 
 			if (serviceRegistryCount !== 0) return;
 
-			let [microservice, microserviceCreated] = await Microservice.findOrCreate(
-				{
+			let [microservice, microserviceCreated] =
+				await Microservice.findOrCreate({
 					where: {
 						name: options.name,
 					},
 					transaction,
-				}
-			);
+				});
 
 			let serviceRegistry = await microservice.createServiceRegistry(
 				{

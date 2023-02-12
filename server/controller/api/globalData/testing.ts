@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 // https://github.com/luin/ioredis/blob/HEAD/examples/ttl.js
 // https://github.com/luin/ioredis
-// import redis from "../../../../custom/helpers/serverCache.js";
+// import redis from "../../../../digitalniweb-custom/helpers/serverCache.js";
 // By default, it will connect to localhost:6379.
 
 export const test = async function (

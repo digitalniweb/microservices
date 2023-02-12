@@ -11,7 +11,7 @@
 		"resolveJsonModule": true,
 		"strict": true,
 		"skipLibCheck": true,
-		"typeRoots": ["./types"],
+		"typeRoots": ["./types", "./digitalniweb-types"],
 		"suppressImplicitAnyIndexErrors": true,
 		"strictNullChecks": true
 		// "noImplicitAny": false

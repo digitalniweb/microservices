@@ -5,15 +5,15 @@ import { DataTypes } from "sequelize";
 
 import crypto from "node:crypto";
 
-import { randomString } from "./../../../custom/functions/randomGenerator.js";
+import { randomString } from "./../../../digitalniweb-custom/functions/randomGenerator.js";
 
 import db from "./../index.js";
 
-import { users } from "../../../types/models/users.js";
+import { users } from "../../../digitalniweb-types/models/users.js";
 import User = users.User;
 
 import Tenant from "./tenant.js";
-import { hashString } from "../../../custom/functions/hashString.js";
+import { hashString } from "../../../digitalniweb-custom/functions/hashString.js";
 
 const User = db.define<User>(
 	"User",

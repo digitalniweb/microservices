@@ -6,7 +6,7 @@ import db from "../index.js";
 
 import User from "./user.js";
 
-import { users } from "../../../types/models/users.js";
+import { users } from "../../../digitalniweb-types/models/users.js";
 import LoginLog = users.LoginLog;
 
 const LoginLog = db.define<LoginLog>(

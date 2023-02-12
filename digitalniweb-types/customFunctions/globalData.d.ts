@@ -1,4 +1,4 @@
-import { microservices } from "../index.js";
+import { microservices } from "../../digitalniweb-types/index.js";
 import { globalData } from "../models/globalData.js";
 
 export type microserviceRegistryInfo = {

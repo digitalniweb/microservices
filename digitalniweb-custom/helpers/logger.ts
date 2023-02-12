@@ -3,7 +3,7 @@ import { createLogger, format, transports } from "winston";
 
 import { Request } from "express";
 
-import { customErrorObject } from "../../types/customHelpers/logger.js";
+import { customErrorObject } from "../../digitalniweb-types/customHelpers/logger.js";
 
 const levelFilter = (level: string) =>
 	format((info) => {
@@ -23,7 +23,8 @@ const logger = createLogger({
 				format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
 				format.align(),
 				format.printf(
-					(info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
+					(info) =>
+						`${info.level}: ${[info.timestamp]}: ${info.message}`
 				)
 			),
 		}),
@@ -34,7 +35,8 @@ const logger = createLogger({
 				format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
 				format.align(),
 				format.printf(
-					(info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
+					(info) =>
+						`${info.level}: ${[info.timestamp]}: ${info.message}`
 				)
 			),
 		}),
@@ -45,7 +47,8 @@ const logger = createLogger({
 				format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
 				format.align(),
 				format.printf(
-					(info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
+					(info) =>
+						`${info.level}: ${[info.timestamp]}: ${info.message}`
 				)
 			),
 		}),

@@ -1,6 +1,6 @@
 import validator from "validator";
 import { Response, NextFunction, Request } from "express";
-// import { CustomRequest } from "./../../types/express";
+// import { CustomRequest } from "./../../digitalniweb-types/express";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -24,7 +24,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 		// or
 		// Accept-Language: en
 		let headerLanguage: string | string[] =
-			req.headers["accept-language"] ?? process.env.DEFAULT_LANGUAGE ?? "en";
+			req.headers["accept-language"] ??
+			process.env.DEFAULT_LANGUAGE ??
+			"en";
 		headerLanguage = headerLanguage?.split(";")[0].split(",");
 		headerLanguage =
 			headerLanguage?.length == 2 ? headerLanguage[1] : headerLanguage[0];

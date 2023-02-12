@@ -1,7 +1,7 @@
-import Publisher from "./../../custom/helpers/publisherService.js";
-import Subscriber from "./../../custom/helpers/subscriberService.js";
+import Publisher from "./../../digitalniweb-custom/helpers/publisherService.js";
+import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 import cron from "node-cron";
-import { billingModules } from "../../custom/helpers/billing.js";
+import { billingModules } from "../../digitalniweb-custom/helpers/billing.js";
 
 export default async function () {
 	/*
