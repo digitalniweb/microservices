@@ -6,7 +6,7 @@ import LoginLog from "../../../models/users/loginLog.js";
 import Tenant from "../../../models/users/tenant.js";
 
 import isObjectEmpty from "../../../../digitalniweb-custom/functions/isObjectEmpty.js";
-import wrongLoginAttempt from "../../../../digitalniweb-custom/helpers/wrongLoginAttempt.js";
+import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt.js";
 import { Request, Response, NextFunction } from "express";
 import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
 import { CreationAttributes, IncludeOptions, InferAttributes } from "sequelize";
@@ -15,7 +15,7 @@ import { possibleRoles } from "../../../../digitalniweb-types/index.js";
 import { users } from "../../../../digitalniweb-types/models/users.js";
 import UserType = users.User;
 
-import { userAuthenticate } from "../../../../digitalniweb-custom/helpers/userAuthenticate.js";
+import { userAuthenticate } from "../../../../custom/helpers/users/userAuthenticate.js";
 
 export const allUsers = async function (
 	req: Request,

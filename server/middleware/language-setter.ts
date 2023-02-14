@@ -24,9 +24,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 		// or
 		// Accept-Language: en
 		let headerLanguage: string | string[] =
-			req.headers["accept-language"] ??
-			process.env.DEFAULT_LANGUAGE ??
-			"en";
+			req.headers["accept-language"] ?? process.env.DEFAULT_LANGUAGE ?? "en";
 		headerLanguage = headerLanguage?.split(";")[0].split(",");
 		headerLanguage =
 			headerLanguage?.length == 2 ? headerLanguage[1] : headerLanguage[0];
@@ -38,8 +36,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 		};
 		req.lang.code = req.lang.code.trim();
 		if (
-			!validator.default.isLocale(req.lang.header) ||
-			!validator.default.isLocale(req.lang.code)
+			!validator.isLocale(req.lang.header) ||
+			!validator.isLocale(req.lang.code)
 		) {
 			return next({
 				code: 500,

@@ -4,7 +4,7 @@ import User from "../../../models/users/user.js";
 import Role from "../../../models/globalData/role.js";
 import Tenant from "../../../models/users/tenant.js";
 
-import { userAuthenticate } from "../../../../digitalniweb-custom/helpers/userAuthenticate.js";
+import { userAuthenticate } from "../../../../custom/helpers/users/userAuthenticate.js";
 
 export const test = async function (
 	req: Request,
