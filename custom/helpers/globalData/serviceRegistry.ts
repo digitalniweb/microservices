@@ -98,7 +98,7 @@ export async function serviceRegistryList(): Promise<serviceRegistry | false> {
 		if (list.length === 0) return {};
 		let serviceRegistry: serviceRegistry = {};
 		list.forEach((microservice) => {
-			serviceRegistry[microservice.name] = {
+			serviceRegistry[microservice.name as microservices] = {
 				mainId: microservice.mainServiceRegistryId,
 				services: microservice.ServiceRegistries,
 			} as microserviceRegistryInfo;

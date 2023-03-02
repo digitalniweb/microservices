@@ -1,5 +1,5 @@
 import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
-import { Op } from "sequelize";
+import { Op, WhereOperators } from "sequelize";
 import { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
 import { websites } from "../../../../digitalniweb-types/models/websites.js";
@@ -80,7 +80,7 @@ export const getTenantWebsites = async function (
 		);
 		let where = {
 			userId: parseInt(req.query.userid as string),
-		};
+		} as { userId: number; url: WhereOperators };
 		if (search !== "")
 			where["url"] = {
 				[Op.like]: `%${search}%`,

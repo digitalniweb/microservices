@@ -166,9 +166,13 @@ export const editUserProfile = async function (
 		if (formdata.role !== undefined) {
 			// only certain authorized users can change roles: owner, admin, superadmin
 			// and they can assign only same or smaller level of authorization
+
 			if (
-				!["owner", "superadmin"].some((userRole) =>
-					req?.userVerified?.roles.includes(userRole)
+				!["owner", "superadmin"].some(
+					(userRole) =>
+						req?.userVerified?.roles.includes(
+							userRole as possibleRoles
+						) ?? false
 				) &&
 				!(req?.userVerified?.roles.includes("admin") && true) // !!!!! instead of '&& true' should be priviliges check of creating new users with maximum of priviliges they have. The same is in registration.js register
 			)
@@ -265,7 +269,8 @@ export const register = async function (
 				Tenant: undefined,
 				active: true,
 			};
-			let userRole = "user";
+
+			let userRole: Extract<possibleRoles, "user" | "tenant"> = "user";
 			let includeInfo = [];
 			if (nickname !== undefined) insertData.nickname = nickname;
 			if (Tenant !== undefined) {
