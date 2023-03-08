@@ -35,11 +35,17 @@ export default {
 			name: "webs",
 			port: 3000,
 			appTypeId: 1,
+			host: "localhost",
+			uniqueName: "123456",
+			apiKey: "123",
 		});
 		let saasTenant = await App.create({
 			name: "webs-tenants",
 			port: 3001,
 			appTypeId: 2,
+			host: "localhost",
+			uniqueName: "789012",
+			apiKey: "456",
 		});
 		saasTenant.setParent(saasHost);
 

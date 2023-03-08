@@ -35,15 +35,38 @@ export default {
 						allowNull: false,
 						unique: true,
 					},
-					port: {
-						type: DataTypes.SMALLINT.UNSIGNED,
-					},
 					appTypeId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
 					},
+					host: {
+						type: DataTypes.STRING(255),
+						allowNull: false,
+						unique: "uniqueHostPort",
+					},
+					port: {
+						type: DataTypes.SMALLINT.UNSIGNED,
+						allowNull: false,
+						unique: "uniqueHostPort",
+					},
+					uniqueName: {
+						type: DataTypes.STRING(10),
+						allowNull: false,
+						unique: true,
+					},
+					apiKey: {
+						type: DataTypes.STRING(64),
+						allowNull: false,
+						unique: true,
+					},
 				},
 				{
+					uniqueKeys: {
+						uniqueHostPort: {
+							customIndex: true,
+							fields: ["host", "port"],
+						},
+					},
 					charset: "utf8mb4",
 					collate: "utf8mb4_unicode_ci",
 					transaction,

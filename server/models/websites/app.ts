@@ -30,12 +30,28 @@ const App = db.define<App>(
 				len: [4, 255],
 			},
 		},
-		port: {
-			type: DataTypes.INTEGER,
-			unique: true,
-		},
 		appTypeId: {
 			type: DataTypes.INTEGER,
+		},
+		host: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: "uniqueHostPort",
+		},
+		port: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			unique: "uniqueHostPort",
+		},
+		uniqueName: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+		},
+		apiKey: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
 		},
 	},
 	{
