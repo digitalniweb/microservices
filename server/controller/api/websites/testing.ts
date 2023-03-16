@@ -5,7 +5,7 @@ import sleep from "../../../../digitalniweb-custom/functions/sleep.js";
 // https://github.com/luin/ioredis
 // import redis from "../../../../digitalniweb-custom/helpers/serverCache.js";
 // By default, it will connect to localhost:6379.
-import microserviceCall from "../../../../digitalniweb-custom/helpers/microserviceCall.js";
+import { microserviceCall } from "../../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
 import { microserviceRegistryInfo } from "../../../../digitalniweb-types/customFunctions/globalData.js";
 import { microservices } from "../../../../digitalniweb-types/index.js";
 
@@ -30,10 +30,7 @@ export const test = async function (
 
 		return res.send(returnValue); */
 		try {
-			function getPromiseFromEvent(
-				item: typeof Subscriber,
-				event: string
-			) {
+			function getPromiseFromEvent(item: typeof Subscriber, event: string) {
 				return new Promise(async (resolve, reject) => {
 					const listener = (
 						pattern: string,
@@ -69,7 +66,7 @@ export const test = async function (
 			return res.send(error);
 		}
 		let service = await microserviceCall({
-			microservice: "globalData",
+			name: "globalData",
 			path: "/api/testing/",
 		});
 		return res.send(service);

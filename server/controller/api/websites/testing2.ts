@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 // https://github.com/luin/ioredis
 // import redis from "../../../../digitalniweb-custom/helpers/serverCache.js";
 // By default, it will connect to localhost:6379.
-import microserviceCall from "../../../../digitalniweb-custom/helpers/microserviceCall.js";
+import { microserviceCall } from "../../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
 import { microserviceRegistryInfo } from "../../../../digitalniweb-types/customFunctions/globalData.js";
 import { microservices } from "../../../../digitalniweb-types/index.js";
 
