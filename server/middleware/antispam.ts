@@ -8,7 +8,7 @@ import { loginAttempt } from "../../digitalniweb-types/index.js";
 
 import sleep from "../../digitalniweb-custom/functions/sleep.js";
 import LoginLog from "../models/users/loginLog.js";
-import Blacklist from "../models/users/Blacklist.js";
+import Blacklist from "../models/users/blacklist.js";
 
 import wrongLoginAttempt from "../../custom/helpers/wrongLoginAttempt.js";
 
