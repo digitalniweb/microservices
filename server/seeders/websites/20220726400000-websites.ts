@@ -2,17 +2,13 @@ import { QueryInterface } from "sequelize";
 import { randomString } from "../../../digitalniweb-custom/functions/randomGenerator.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-import App from "../../models/websites/app.js";
+import App from "../../models/globalData/app.js";
 import Website from "../../models/websites/website.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (
-			!microservice.includes(
-				process.env.MICROSERVICE_NAME as microservices
-			)
-		)
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
@@ -73,9 +69,7 @@ export default {
 						paused: false,
 					});
 					if (digitalniwebTenants)
-						await digitalniwebTenantWebsite.setApp(
-							digitalniwebTenants
-						);
+						await digitalniwebTenantWebsite.setApp(digitalniwebTenants);
 
 					/* if (czechLanguage)
 						await digitalniwebTenantWebsite.setMainLanguage(czechLanguage); */
@@ -91,19 +85,11 @@ export default {
 		});
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (
-			!microservice.includes(
-				process.env.MICROSERVICE_NAME as microservices
-			)
-		)
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(
-					Website.tableName,
-					{},
-					{ transaction }
-				);
+				await queryInterface.bulkDelete(Website.tableName, {}, { transaction });
 			} catch (error) {
 				console.log(error);
 			}

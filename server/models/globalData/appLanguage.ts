@@ -4,8 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import AppLanguage = websites.AppLanguage;
+import { globalData } from "../../../digitalniweb-types/models/globalData.js";
+import AppLanguage = globalData.AppLanguage;
+import Language from "./language.js";
 
 const AppLanguage = db.define<AppLanguage>(
 	"AppLanguage",
@@ -19,9 +20,13 @@ const AppLanguage = db.define<AppLanguage>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		languageId: {
+		LanguageId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
+			references: {
+				model: Language.tableName,
+				key: "id",
+			},
 		},
 	},
 	{

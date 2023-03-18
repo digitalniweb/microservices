@@ -8,9 +8,6 @@ import { websites } from "../../../digitalniweb-types/models/websites.js";
 import Website = websites.Website;
 
 import Url from "./url.js";
-import Module from "../globalData/module.js";
-import WebsiteModule from "./websiteModule.js";
-import App from "./app.js";
 
 const Website = db.define<Website>(
 	"Website",
@@ -36,7 +33,7 @@ const Website = db.define<Website>(
 		userId: {
 			type: DataTypes.INTEGER,
 		},
-		AppId: {
+		appId: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
 		},
@@ -58,9 +55,6 @@ const Website = db.define<Website>(
 			allowNull: false,
 			defaultValue: 0,
 		},
-		// add server (hostName) - localhost / localhost2... - do Redis
-		// rucne prenastavit kam aktualne nastavovat nove hostNames... - do Redis?
-		// vyresit ze tohle je webistes... co websites-n atd.
 	},
 	{
 		timestamps: true,
@@ -93,13 +87,5 @@ Website.addHook(
 Website.hasMany(Url, { as: "Alias" });
 
 Website.belongsTo(Url, { as: "MainUrl" });
-
-Website.belongsToMany(Module, {
-	through: WebsiteModule,
-});
-
-Module.belongsToMany(Website, {
-	through: WebsiteModule,
-});
 
 export default Website;

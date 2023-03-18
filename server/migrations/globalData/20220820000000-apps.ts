@@ -1,21 +1,18 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import App from "./../../models/websites/app.js";
-import { websites } from "./../../../digitalniweb-types/models/websites.js";
-import AppTsType = websites.App;
+import App from "../../models/globalData/app.js";
+import { globalData } from "../../../digitalniweb-types/models/globalData";
+import AppTsType = globalData.App;
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-const microservice: Array<microservices> = ["websites"];
+import AppType from "../../models/globalData/appType.js";
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
 		console.log(App);
 
-		if (
-			!microservice.includes(
-				process.env.MICROSERVICE_NAME as microservices
-			)
-		)
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<AppTsType>(
@@ -35,9 +32,13 @@ export default {
 						allowNull: false,
 						unique: true,
 					},
-					appTypeId: {
+					AppTypeId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
+						references: {
+							model: AppType.tableName,
+							key: "id",
+						},
 					},
 					host: {
 						type: DataTypes.STRING(255),
@@ -76,11 +77,7 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (
-			!microservice.includes(
-				process.env.MICROSERVICE_NAME as microservices
-			)
-		)
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(App.tableName, {

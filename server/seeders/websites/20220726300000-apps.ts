@@ -1,10 +1,10 @@
 import { QueryInterface } from "sequelize";
 
 // import AppType from "../../models/globalData/appType.js";
-import App from "../../models/websites/app.js";
+import App from "../../models/globalData/app.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-import AppLanguage from "../../models/websites/appLanguage.js";
+import AppLanguage from "../../models/globalData/appLanguage.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {
@@ -34,7 +34,7 @@ export default {
 		let saasHost = await App.create({
 			name: "webs",
 			port: 3000,
-			appTypeId: 1,
+			AppTypeId: 1,
 			host: "localhost",
 			uniqueName: "123456",
 			apiKey: "123",
@@ -42,30 +42,22 @@ export default {
 		let saasTenant = await App.create({
 			name: "webs-tenants",
 			port: 3001,
-			appTypeId: 2,
+			AppTypeId: 2,
 			host: "localhost",
 			uniqueName: "789012",
 			apiKey: "456",
 		});
 		saasTenant.setParent(saasHost);
 
-		await saasHost.createAppLanguage({ languageId: 1 });
-		await saasTenant.createAppLanguage({ languageId: 1 });
+		/* await saasHost.createAppLanguage({ languageId: 1 });
+		await saasTenant.createAppLanguage({ languageId: 1 }); */
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (
-			!microservice.includes(
-				process.env.MICROSERVICE_NAME as microservices
-			)
-		)
+		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(
-					App.tableName,
-					{},
-					{ transaction }
-				);
+				await queryInterface.bulkDelete(App.tableName, {}, { transaction });
 				await queryInterface.bulkDelete(
 					AppLanguage.tableName,
 					{},

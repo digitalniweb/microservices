@@ -4,9 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import App = websites.App;
-import Website from "./website.js";
+import { globalData } from "../../../digitalniweb-types/models/globalData.js";
+import App = globalData.App;
 import AppLanguage from "./appLanguage.js";
 
 const App = db.define<App>(
@@ -30,7 +29,7 @@ const App = db.define<App>(
 				len: [4, 255],
 			},
 		},
-		appTypeId: {
+		AppTypeId: {
 			type: DataTypes.INTEGER,
 		},
 		host: {
@@ -60,8 +59,6 @@ const App = db.define<App>(
 		// freezeTableName: true,
 	}
 );
-
-Website.belongsTo(App);
 
 App.belongsTo(App, { as: "parent", foreignKey: "parentId" });
 
