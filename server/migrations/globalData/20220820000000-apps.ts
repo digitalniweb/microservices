@@ -6,6 +6,7 @@ import AppTsType = globalData.App;
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import AppType from "../../models/globalData/appType.js";
+import Language from "../../models/globalData/language.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {
@@ -59,6 +60,14 @@ export default {
 						type: DataTypes.STRING(64),
 						allowNull: false,
 						unique: true,
+					},
+					LanguageId: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: Language.tableName,
+							key: "id",
+						},
 					},
 				},
 				{

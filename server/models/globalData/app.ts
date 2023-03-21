@@ -7,6 +7,7 @@ import db from "../index.js";
 import { globalData } from "../../../digitalniweb-types/models/globalData.js";
 import App = globalData.App;
 import AppLanguage from "./appLanguage.js";
+import AppType from "./appType.js";
 
 const App = db.define<App>(
 	"App",
@@ -31,6 +32,10 @@ const App = db.define<App>(
 		},
 		AppTypeId: {
 			type: DataTypes.INTEGER,
+			references: {
+				model: AppType.tableName,
+				key: "id",
+			},
 		},
 		host: {
 			type: DataTypes.STRING,
@@ -51,6 +56,14 @@ const App = db.define<App>(
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
+		},
+		LanguageId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: AppLanguage.tableName,
+				key: "id",
+			},
 		},
 	},
 	{

@@ -3,7 +3,7 @@ import db from "../../../server/models/index.js";
 import Microservice from "../../../server/models/globalData/microservice.js";
 
 import {
-	serviceOptions,
+	microserviceOptions,
 	serviceRegistry,
 	microserviceRegistryInfo,
 } from "../../../digitalniweb-types/customFunctions/globalData.js";
@@ -11,7 +11,7 @@ import ServiceRegistry from "../../../server/models/globalData/serviceRegistry.j
 import { microservices } from "../../../digitalniweb-types/index.js";
 
 export async function registerService(
-	options: serviceOptions
+	options: microserviceOptions
 ): Promise<boolean> {
 	try {
 		await db.transaction(async (transaction) => {
@@ -24,13 +24,14 @@ export async function registerService(
 
 			if (serviceRegistryCount !== 0) return;
 
-			let [microservice, microserviceCreated] =
-				await Microservice.findOrCreate({
+			let [microservice, microserviceCreated] = await Microservice.findOrCreate(
+				{
 					where: {
 						name: options.name,
 					},
 					transaction,
-				});
+				}
+			);
 
 			let serviceRegistry = await microservice.createServiceRegistry(
 				{

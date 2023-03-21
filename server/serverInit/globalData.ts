@@ -8,7 +8,7 @@ export default async function () {
 	await Subscriber.on("message", async (channel, message) => {
 		if (channel === "serviceRegistry-requestInformation") {
 			try {
-				let serviceUniqueName: string = message;
+				let serviceUniqueName: string = message; // 'app' or 'microservice'
 				let serviceRegistryInfo = await getServiceRegistryInfo();
 				if (!serviceRegistryInfo) {
 					customBELogger({

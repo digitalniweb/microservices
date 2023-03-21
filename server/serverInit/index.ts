@@ -4,7 +4,8 @@ import { customBELogger } from "./../../digitalniweb-custom/helpers/logger.js";
 import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 
 import {
-	registerCurrentService,
+	registerCurrentMicroservice,
+	registerCurrentApp,
 	requestServiceRegistryInfo,
 } from "../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 
@@ -40,12 +41,18 @@ export default async function () {
 
 	// all microservices but globalData
 	if (process.env.MICROSERVICE_NAME !== "globalData") {
-		await Subscriber.psubscribe("serviceRegistry-responseInformation-*"); // handled in registerCurrentService()
+		await Subscriber.psubscribe("serviceRegistry-responseInformation-*"); // handled in registerCurrentMicroservice()
 		let serviceRegistryInfo = await requestServiceRegistryInfo();
 		if (!serviceRegistryInfo)
 			throw new Error("Couldn't get serviceRegistry information.");
 
-		await registerCurrentService();
+		if (process.env.MICROSERVICE_NAME) {
+			// microservice
+			await registerCurrentMicroservice();
+		} else {
+			// app
+			await registerCurrentApp();
+		}
 	}
 
 	// all microservices
