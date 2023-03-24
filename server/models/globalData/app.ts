@@ -8,6 +8,7 @@ import { globalData } from "../../../digitalniweb-types/models/globalData.js";
 import App = globalData.App;
 import AppLanguage from "./appLanguage.js";
 import AppType from "./appType.js";
+import Language from "./language.js";
 
 const App = db.define<App>(
 	"App",
@@ -80,7 +81,9 @@ App.hasOne(App, {
 	foreignKey: "parentId",
 });
 
-AppLanguage.belongsTo(App);
-App.hasMany(AppLanguage);
+App.belongsToMany(Language, {
+	through: AppLanguage.tableName,
+});
+Language.hasMany(App);
 
 export default App;

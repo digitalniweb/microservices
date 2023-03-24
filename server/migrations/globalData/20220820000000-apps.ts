@@ -11,9 +11,11 @@ const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		console.log(App);
-
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<AppTsType>(
@@ -86,7 +88,11 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(App.tableName, {
