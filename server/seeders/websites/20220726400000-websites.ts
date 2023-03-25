@@ -8,10 +8,15 @@ const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
+				return;
 				let digitalniwebWebsite = await Website.create({
 					uniqueName: randomString(14, false),
 					active: true,
@@ -69,7 +74,9 @@ export default {
 						paused: false,
 					});
 					if (digitalniwebTenants)
-						await digitalniwebTenantWebsite.setApp(digitalniwebTenants);
+						await digitalniwebTenantWebsite.setApp(
+							digitalniwebTenants
+						);
 
 					/* if (czechLanguage)
 						await digitalniwebTenantWebsite.setMainLanguage(czechLanguage); */
@@ -85,11 +92,19 @@ export default {
 		});
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(Website.tableName, {}, { transaction });
+				await queryInterface.bulkDelete(
+					Website.tableName,
+					{},
+					{ transaction }
+				);
 			} catch (error) {
 				console.log(error);
 			}
