@@ -24,14 +24,13 @@ export async function registerService(
 
 			if (serviceRegistryCount !== 0) return;
 
-			let [microservice, microserviceCreated] = await Microservice.findOrCreate(
-				{
+			let [microservice, microserviceCreated] =
+				await Microservice.findOrCreate({
 					where: {
 						name: options.name,
 					},
 					transaction,
-				}
-			);
+				});
 
 			let serviceRegistry = await microservice.createServiceRegistry(
 				{

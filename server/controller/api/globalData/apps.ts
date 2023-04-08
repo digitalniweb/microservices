@@ -9,11 +9,11 @@ export const getApp = async function (
 	next: NextFunction
 ) {
 	try {
-		let { app } = req.query as { app?: string };
-		if (!app) return false;
+		let { name } = req.query as { name?: string };
+		if (!name) return false;
 		let appInfo = await App.findOne({
 			where: {
-				name: app,
+				name,
 			},
 		});
 		return res.send(appInfo);

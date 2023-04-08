@@ -1,9 +1,20 @@
-import { getServiceRegistryInfo } from "../../custom/helpers/globalData/serviceRegistry.js";
+import {
+	getServiceRegistryInfo,
+	registerService,
+} from "../../custom/helpers/globalData/serviceRegistry.js";
 import { customBELogger } from "../../digitalniweb-custom/helpers/logger.js";
 import Publisher from "./../../digitalniweb-custom/helpers/publisherService.js";
 import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 
 export default async function () {
+	await registerService({
+		host: process.env.HOST,
+		name: process.env.MICROSERVICE_NAME,
+		port: process.env.PORT,
+		uniqueName: process.env.MICROSERVICE_NAME,
+		apiKey: process.env.MICROSERVICE_API_KEY,
+	});
+
 	await Subscriber.subscribe("serviceRegistry-requestInformation");
 	await Subscriber.on("message", async (channel, message) => {
 		if (channel === "serviceRegistry-requestInformation") {

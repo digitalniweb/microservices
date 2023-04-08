@@ -4,6 +4,7 @@ import App from "../../../server/models/globalData/app.js";
 import AppType from "../../../server/models/globalData/appType.js";
 
 import { appInfoType } from "../../../digitalniweb-types/index.js";
+import Language from "../../../server/models/globalData/language.js";
 
 export async function registerApp(
 	options: appInfoType
@@ -20,18 +21,41 @@ export async function registerApp(
 			if (appCount !== 0) return;
 
 			// get appType and app and couple them together
-			let [appType, appTypeCreated] = await AppType.findOrCreate({
+			let [appType] = await AppType.findOrCreate({
 				where: {
 					name: options.APP_TYPE,
 				},
+				transaction,
 			});
 
-			let [app, appCreated] = await App.findOrCreate({
+			let app = await App.findOne({
 				where: {
 					name: options.APP_NAME,
 				},
 				transaction,
 			});
+
+			// create app with default language. If language doesn't exis then return
+			if (!app) {
+				let appLanguage = await Language.findOne({
+					where: {
+						name: options.DEFAULT_LANGUAGE,
+					},
+				});
+				if (!appLanguage) return;
+				app = await App.create(
+					{
+						host: options.HOST,
+						port: options.PORT,
+						name: options.APP_NAME,
+						uniqueName: options.DEFAULT_LANGUAGE,
+						apiKey: options.APP_API_KEY,
+					},
+					{ transaction }
+				);
+				app.setLanguage(appLanguage, { transaction });
+				app.setLanguages([appLanguage], { transaction });
+			}
 
 			await app.setAppType(appType, { transaction });
 
@@ -57,6 +81,7 @@ export async function registerApp(
 					where: {
 						name: newAppHostName,
 					},
+					transaction,
 				});
 				await app.setParent(hostApp);
 				if (hostAppCreated) {
@@ -64,10 +89,15 @@ export async function registerApp(
 						/-[^-]*$/,
 						""
 					);
-					let newAppType = await AppType.create({
-						name: newAppTypeName,
-					});
-					app.setAppType(newAppType);
+					let newAppType = await AppType.create(
+						{
+							name: newAppTypeName,
+						},
+						{
+							transaction,
+						}
+					);
+					app.setAppType(newAppType, { transaction });
 				}
 			} else if (lastName === "host") {
 				// if appType is "xxx-host" then try to assign this to app with appType of "xxx-tenants" if it's not assigned
@@ -82,6 +112,7 @@ export async function registerApp(
 					where: {
 						name: newAppTenantsName,
 					},
+					transaction,
 				});
 				await app.setChild(tenantsApp);
 				if (tenantsAppCreated) {
@@ -89,9 +120,14 @@ export async function registerApp(
 						/-[^-]*$/,
 						""
 					);
-					let newAppType = await AppType.create({
-						name: newAppTypeName,
-					});
+					let newAppType = await AppType.create(
+						{
+							name: newAppTypeName,
+						},
+						{
+							transaction,
+						}
+					);
 					tenantsApp.setAppType(newAppType);
 				}
 			}
