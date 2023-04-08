@@ -9,20 +9,18 @@ export const getLanguagesList = async function (
 	next: NextFunction
 ) {
 	try {
-		let { app } = req.query;
-
-		let appLanguages = await db.transaction(async (transaction) => {
+		let languages = await db.transaction(async (transaction) => {
 			return await Language.findAll({
 				transaction,
 			});
 		});
 
-		return res.send(appLanguages);
+		return res.send(languages);
 	} catch (error) {
 		return next({
 			error,
 			code: 500,
-			message: "Couldn't get app languages list.",
+			message: "Couldn't get languages list.",
 		});
 	}
 };
