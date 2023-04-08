@@ -10,7 +10,11 @@ const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<WebsiteType>(
@@ -41,10 +45,7 @@ export default {
 					},
 					appId: {
 						type: DataTypes.INTEGER,
-						references: {
-							model: App.tableName,
-							key: "id",
-						},
+						allowNull: false,
 					},
 					mainLanguageId: {
 						type: DataTypes.INTEGER,
@@ -87,7 +88,11 @@ export default {
 	},
 
 	down: async (queryInterface: QueryInterface): Promise<void> => {
-		if (!microservice.includes(process.env.MICROSERVICE_NAME as microservices))
+		if (
+			!microservice.includes(
+				process.env.MICROSERVICE_NAME as microservices
+			)
+		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(Website.tableName, {
