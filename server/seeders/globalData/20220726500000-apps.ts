@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { QueryInterface } from "sequelize";
 
 import AppType from "../../models/globalData/appType.js";
@@ -10,6 +11,7 @@ const microservice: Array<microservices> = ["websites"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
+		return; // if you delete also delete "// @ts-nocheck" on line 1
 		/* let saasHostType = await AppType.create({
 			name: "saas-host",
 		});

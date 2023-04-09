@@ -8,6 +8,7 @@ const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
+		return;
 		let saasHostType = await AppType.create({
 			name: "saas-host",
 		});
