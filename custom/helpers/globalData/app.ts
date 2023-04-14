@@ -3,17 +3,17 @@ import db from "../../../server/models/index.js";
 import App from "../../../server/models/globalData/app.js";
 import AppType from "../../../server/models/globalData/appType.js";
 
-import { appInfoType } from "../../../digitalniweb-types/index.js";
 import Language from "../../../server/models/globalData/language.js";
+import { appOptions } from "../../../digitalniweb-types/customFunctions/globalData.js";
 
 export async function registerApp(
-	options: appInfoType
+	options: appOptions
 ): Promise<boolean | void> {
 	try {
 		await db.transaction(async (transaction) => {
 			let appCount = await App.count({
 				where: {
-					uniqueName: options.APP_UNIQUE_NAME,
+					uniqueName: options.uniqueName,
 				},
 				transaction,
 			});
@@ -23,14 +23,14 @@ export async function registerApp(
 			// get appType and app and couple them together
 			let [appType] = await AppType.findOrCreate({
 				where: {
-					name: options.APP_TYPE,
+					name: options.appType,
 				},
 				transaction,
 			});
 
 			let app = await App.findOne({
 				where: {
-					name: options.APP_NAME,
+					name: options.name,
 				},
 				transaction,
 			});
@@ -39,17 +39,17 @@ export async function registerApp(
 			if (!app) {
 				let appLanguage = await Language.findOne({
 					where: {
-						name: options.DEFAULT_LANGUAGE,
+						name: options.language,
 					},
 				});
 				if (!appLanguage) return;
 				app = await App.create(
 					{
-						host: options.HOST,
-						port: options.PORT,
-						name: options.APP_NAME,
-						uniqueName: options.DEFAULT_LANGUAGE,
-						apiKey: options.APP_API_KEY,
+						host: options.host,
+						port: options.port,
+						name: options.name,
+						uniqueName: options.uniqueName,
+						apiKey: options.apiKey,
 					},
 					{ transaction }
 				);
@@ -63,7 +63,7 @@ export async function registerApp(
 
 			let endsWith = ["host", "tenants"];
 			const lastName = endsWith.find((lastName) =>
-				options.APP_TYPE.endsWith(lastName)
+				options.appType.endsWith(lastName)
 			);
 			if (lastName === undefined) return;
 
@@ -73,7 +73,7 @@ export async function registerApp(
 				let hostApp: App = await app.getParent();
 				if (hostApp) return;
 				let newAppHostName =
-					options.APP_TYPE.slice(0, -lastName.length) +
+					options.appType.slice(0, -lastName.length) +
 					"-" +
 					counterpartName;
 				let hostAppCreated = false;
@@ -85,10 +85,7 @@ export async function registerApp(
 				});
 				await app.setParent(hostApp);
 				if (hostAppCreated) {
-					let newAppTypeName = options.APP_TYPE.replace(
-						/-[^-]*$/,
-						""
-					);
+					let newAppTypeName = options.appType.replace(/-[^-]*$/, "");
 					let newAppType = await AppType.create(
 						{
 							name: newAppTypeName,
@@ -104,7 +101,7 @@ export async function registerApp(
 				let tenantsApp: App = await app.getChild();
 				if (tenantsApp) return;
 				let newAppTenantsName =
-					options.APP_TYPE.slice(0, -lastName.length) +
+					options.appType.slice(0, -lastName.length) +
 					"-" +
 					counterpartName;
 				let tenantsAppCreated = false;
@@ -116,10 +113,7 @@ export async function registerApp(
 				});
 				await app.setChild(tenantsApp);
 				if (tenantsAppCreated) {
-					let newAppTypeName = options.APP_TYPE.replace(
-						/-[^-]*$/,
-						""
-					);
+					let newAppTypeName = options.appType.replace(/-[^-]*$/, "");
 					let newAppType = await AppType.create(
 						{
 							name: newAppTypeName,

@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+/* import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
@@ -44,3 +44,4 @@ const Messages = db.define<Messages>(
 );
 Messages.belongsTo(User);
 export default Messages;
+ */

@@ -8,7 +8,7 @@ import apiRoutesWebsites from "./websites/index.js";
 import apiRoutesUsers from "./users/index.js";
 import apiRoutesBillings from "./billings/index.js";
 import apiRoutesGlobalData from "./globalData/index.js";
-import apiRoutesMails from "./mails/index.js";
+// import apiRoutesMails from "./mails/index.js";
 
 // default
 
@@ -24,8 +24,8 @@ else if (process.env.MICROSERVICE_NAME == "billings")
 	router.use("/", apiRoutesBillings);
 else if (process.env.MICROSERVICE_NAME == "globalData")
 	router.use("/", apiRoutesGlobalData);
-else if (process.env.MICROSERVICE_NAME == "mails")
-	router.use("/", apiRoutesMails);
+/* else if (process.env.MICROSERVICE_NAME == "mails")
+	router.use("/", apiRoutesMails); */
 
 // default for all services
 

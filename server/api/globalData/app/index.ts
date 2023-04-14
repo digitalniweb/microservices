@@ -4,6 +4,6 @@ import checkAuth from "../../../middleware/checkAuth.js"; // !!! this does nothi
 import * as controller from "../../../controller/api/globalData/apps.js";
 
 router.get("/", checkAuth, controller.getApp);
-router.use("/register", checkAuth, controller.register);
+router.post("/register", checkAuth, controller.register);
 
 export default router;
