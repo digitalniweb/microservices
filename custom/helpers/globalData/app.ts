@@ -39,7 +39,7 @@ export async function registerApp(
 			if (!app) {
 				let appLanguage = await Language.findOne({
 					where: {
-						name: options.language,
+						code: options.language,
 					},
 				});
 				if (!appLanguage) return;
@@ -50,11 +50,12 @@ export async function registerApp(
 						name: options.name,
 						uniqueName: options.uniqueName,
 						apiKey: options.apiKey,
+						LanguageId: appLanguage.id,
+						AppTypeId: appType.id,
 					},
 					{ transaction }
 				);
-				app.setLanguage(appLanguage, { transaction });
-				app.setLanguages([appLanguage], { transaction });
+				await app.setLanguages([appLanguage], { transaction });
 			}
 
 			await app.setAppType(appType, { transaction });
@@ -70,60 +71,32 @@ export async function registerApp(
 			let counterpartName = endsWith.find((word) => word != lastName);
 			if (lastName === "tenants") {
 				// if appType is "xxx-tenants" then try to assign this to app with appType of "xxx-host" if it's not assigned
-				let hostApp: App = await app.getParent();
-				if (hostApp) return;
-				let newAppHostName =
+				let parentalHostApp = await app.getParent();
+				if (parentalHostApp) return;
+				let appHostName =
 					options.appType.slice(0, -lastName.length) +
-					"-" +
 					counterpartName;
-				let hostAppCreated = false;
-				[hostApp, hostAppCreated] = await App.findOrCreate({
+				let hostApp = await App.findOne({
 					where: {
-						name: newAppHostName,
+						name: appHostName,
 					},
 					transaction,
 				});
-				await app.setParent(hostApp);
-				if (hostAppCreated) {
-					let newAppTypeName = options.appType.replace(/-[^-]*$/, "");
-					let newAppType = await AppType.create(
-						{
-							name: newAppTypeName,
-						},
-						{
-							transaction,
-						}
-					);
-					app.setAppType(newAppType, { transaction });
-				}
+				if (hostApp) await app.setParent(hostApp);
 			} else if (lastName === "host") {
 				// if appType is "xxx-host" then try to assign this to app with appType of "xxx-tenants" if it's not assigned
-				let tenantsApp: App = await app.getChild();
-				if (tenantsApp) return;
+				let filialTenantsApp = await app.getChild();
+				if (filialTenantsApp) return;
 				let newAppTenantsName =
 					options.appType.slice(0, -lastName.length) +
-					"-" +
 					counterpartName;
-				let tenantsAppCreated = false;
-				[tenantsApp, tenantsAppCreated] = await App.findOrCreate({
+				let tenantsApp = await App.findOne({
 					where: {
 						name: newAppTenantsName,
 					},
 					transaction,
 				});
-				await app.setChild(tenantsApp);
-				if (tenantsAppCreated) {
-					let newAppTypeName = options.appType.replace(/-[^-]*$/, "");
-					let newAppType = await AppType.create(
-						{
-							name: newAppTypeName,
-						},
-						{
-							transaction,
-						}
-					);
-					tenantsApp.setAppType(newAppType);
-				}
+				if (tenantsApp) await app.setChild(tenantsApp);
 			}
 		});
 		return true;

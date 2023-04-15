@@ -88,4 +88,6 @@ Language.hasMany(App);
 
 App.belongsTo(Language);
 
+App.belongsTo(AppType);
+
 export default App;
