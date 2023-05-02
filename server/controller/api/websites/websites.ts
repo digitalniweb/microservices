@@ -3,10 +3,8 @@ import { Op, WhereOperators } from "sequelize";
 import { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
 import { websites } from "../../../../digitalniweb-types/models/websites.js";
-import WebsiteType = websites.Website;
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
-import { randomString } from "../../../../digitalniweb-custom/functions/randomGenerator.js";
 
 export const getWebsiteInfo = async function (
 	req: Request,
@@ -130,18 +128,9 @@ export const registerTenant = async function (
 				},
 			});
 
-		let uniqueName: string;
-		let uniqueNameExists = {} as WebsiteType | null;
-		do {
-			uniqueName = randomString(10, false);
-			uniqueNameExists = await Website.findOne({
-				where: { uniqueName },
-			});
-		} while (uniqueNameExists !== null);
 		let newTenantWebsite = await db.transaction(async (transaction) => {
 			return await Website.create(
 				{
-					uniqueName,
 					userId: req.body.userId,
 					testingMode: true,
 					active: true,
@@ -153,7 +142,39 @@ export const registerTenant = async function (
 			);
 		});
 
-		return res.send({ uniqueName, websiteId: newTenantWebsite.id });
+		return res.send({
+			uniqueName: newTenantWebsite.uniqueName,
+			websiteId: newTenantWebsite.id,
+		});
+	} catch (error) {
+		next({
+			error,
+			code: 500,
+			message: "Couldn't get testing websites count.",
+		});
+	}
+};
+
+export const create = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		let websiteData: websites.Website = req.body.website;
+		let websiteUrl: string = req.body.url;
+		let result = await db.transaction(async (transaction) => {
+			let website = await Website.create(websiteData, { transaction });
+			let [url] = await Url.findOrCreate({
+				where: {
+					url: websiteUrl,
+				},
+			});
+			let mainUrl = await website.setMainUrl(url);
+			website.MainUrlId = mainUrl.id;
+			return website;
+		});
+		return res.send(result);
 	} catch (error) {
 		next({
 			error,

@@ -5,10 +5,13 @@ import AppType from "../../../server/models/globalData/appType.js";
 
 import Language from "../../../server/models/globalData/language.js";
 import { appOptions } from "../../../digitalniweb-types/customFunctions/globalData.js";
+import { microserviceCall } from "../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
+import { websites } from "../../../digitalniweb-types/models/websites.js";
 
 export async function registerApp(
 	options: appOptions
 ): Promise<boolean | void> {
+	// !!! added App.websitesId -> add url and website to websites_ms and return this id to this 'app'
 	try {
 		await db.transaction(async (transaction) => {
 			let appCount = await App.count({
@@ -19,6 +22,28 @@ export async function registerApp(
 			});
 
 			if (appCount !== 0) return;
+
+			let websiteInfo: websites.Website | null = await microserviceCall({
+				name: "websites",
+				path: "/api/getwebsiteinfo",
+				data: {
+					url: options.host,
+				},
+			});
+
+			if (websiteInfo === null) {
+				// create a new website and url in websites_ms
+				websiteInfo = await microserviceCall({
+					name: "websites",
+					path: "/api/createwebsite",
+					data: options,
+				});
+				if (websiteInfo === null) {
+					throw new Error(
+						"Could not create new website while creating App."
+					);
+				}
+			}
 
 			// get appType and app and couple them together
 			let [appType] = await AppType.findOrCreate({
@@ -45,7 +70,7 @@ export async function registerApp(
 				if (!appLanguage) return;
 				app = await App.create(
 					{
-						host: options.host,
+						websiteId: websiteInfo.id,
 						port: options.port,
 						name: options.name,
 						uniqueName: options.uniqueName,

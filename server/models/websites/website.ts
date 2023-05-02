@@ -8,6 +8,7 @@ import { websites } from "../../../digitalniweb-types/models/websites.js";
 import Website = websites.Website;
 
 import Url from "./url.js";
+import { randomString } from "../../../digitalniweb-custom/functions/randomGenerator.js";
 
 const Website = db.define<Website>(
 	"Website",
@@ -80,6 +81,22 @@ Website.addHook(
 		});
 
 		if (addedMainUrl) await website.setAlias([addedMainUrl]);
+	}
+);
+
+Website.addHook(
+	"beforeCreate",
+	"createUniqueNameIfNotExists",
+	async (website: Website) => {
+		if (website.uniqueName) return;
+		let uniqueName: string;
+		let uniqueNameExists = {} as Website | null;
+		do {
+			uniqueName = randomString(10, false);
+			uniqueNameExists = await Website.findOne({
+				where: { uniqueName },
+			});
+		} while (uniqueNameExists !== null);
 	}
 );
 

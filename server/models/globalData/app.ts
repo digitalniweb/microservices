@@ -38,8 +38,8 @@ const App = db.define<App>(
 				key: "id",
 			},
 		},
-		host: {
-			type: DataTypes.STRING,
+		websiteId: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			unique: "uniqueHostPort",
 		},
