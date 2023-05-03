@@ -40,7 +40,7 @@ const App = db.define<App>(
 		},
 		websiteId: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			allowNull: true,
 			unique: "uniqueHostPort",
 		},
 		port: {

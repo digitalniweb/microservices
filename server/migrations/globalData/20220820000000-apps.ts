@@ -43,9 +43,9 @@ export default {
 							key: "id",
 						},
 					},
-					host: {
-						type: DataTypes.STRING(255),
-						allowNull: false,
+					websiteId: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
 						unique: "uniqueHostPort",
 					},
 					port: {
