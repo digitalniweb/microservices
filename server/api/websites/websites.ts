@@ -7,6 +7,6 @@ router.get("/testingwebsitescount", controller.testingWebsitesCount);
 router.get("/gettenantwebsites", controller.getTenantWebsites);
 
 router.post("/register/tenant", controller.registerTenant);
-router.post("/create", controller.create);
+router.post("/createwebsite", controller.createwebsite);
 
 export default router;

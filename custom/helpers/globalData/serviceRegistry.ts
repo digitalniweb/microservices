@@ -77,6 +77,7 @@ export async function getServiceRegistryInfo(): Promise<
 			return false;
 
 		let serviceRegistryInfo: microserviceRegistryInfo = {
+			name: "globalData",
 			mainId: serviceRegistry.mainServiceRegistryId as number,
 			services: serviceRegistry.ServiceRegistries,
 		};
@@ -110,25 +111,28 @@ export async function serviceRegistryList(): Promise<serviceRegistry | false> {
 	}
 }
 
-export async function getServiceRegistryServices(
-	microserviceName: microservices
-): Promise<microserviceRegistryInfo | false> {
+export async function getServiceRegistryServices(options: {
+	name?: microservices;
+	id?: number;
+}): Promise<microserviceRegistryInfo | undefined | false> {
 	try {
+		let where;
+		if (options.id !== undefined) where = { id: options.id };
+		else if (options.name) where = { name: options.name };
+		else return false;
 		let service = await Microservice.findOne({
-			where: {
-				name: microserviceName,
-			},
-			attributes: ["mainServiceRegistryId"],
+			where,
 			include: {
 				model: ServiceRegistry,
 			},
 		});
 
 		if (service === null || service.ServiceRegistries === undefined)
-			return false;
+			return undefined;
 
 		let serviceInfo: microserviceRegistryInfo = {
-			mainId: service.id,
+			mainId: service.mainServiceRegistryId,
+			name: service.name,
 			services: service.ServiceRegistries,
 		};
 		return serviceInfo;

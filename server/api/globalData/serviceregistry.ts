@@ -5,7 +5,9 @@ import * as controller from "../../controller/api/globalData/serviceregistry.js"
 import apiRoutesApp from "./app/index.js";
 
 router.use("/app", apiRoutesApp);
-router.get("/", controller.getService);
+router.get("/:name", controller.getServiceByName);
+router.get("/getbyid/:id", controller.getServiceById);
+
 router.post("/register", controller.register);
 
 // authorized only

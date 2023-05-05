@@ -13,6 +13,8 @@ export async function registerApp(
 ): Promise<boolean | void> {
 	// !!! added App.websitesId -> add url and website to websites_ms and return this id to this 'app'
 	try {
+		console.log(options);
+
 		await db.transaction(async (transaction) => {
 			let appCount = await App.count({
 				where: {
@@ -36,6 +38,7 @@ export async function registerApp(
 				websiteInfo = await microserviceCall({
 					name: "websites",
 					path: "/api/createwebsite",
+					method: "POST",
 					data: options,
 				});
 				if (websiteInfo === null) {

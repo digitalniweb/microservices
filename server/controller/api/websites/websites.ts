@@ -155,7 +155,7 @@ export const registerTenant = async function (
 	}
 };
 
-export const create = async function (
+export const createwebsite = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction

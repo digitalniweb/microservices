@@ -7,15 +7,32 @@ import {
 	registerService,
 } from "../../../../custom/helpers/globalData/serviceRegistry.js";
 
-export const getService = async function (
+export const getServiceByName = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
 	try {
-		let microservice = req.query.service as microservices;
+		let microservice = req.params.name as microservices;
 		if (!microservicesArray.includes(microservice)) return res.send(false);
-		let service = await getServiceRegistryServices(microservice);
+		let service = await getServiceRegistryServices({ name: microservice });
+		return res.send(service);
+	} catch (error) {
+		return next(error);
+	}
+};
+
+export const getServiceById = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		let id = parseInt(req.params.id);
+		if (!id) return res.send(false);
+		let service = await getServiceRegistryServices({
+			id,
+		});
 		return res.send(service);
 	} catch (error) {
 		return next(error);
