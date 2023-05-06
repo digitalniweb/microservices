@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import {
 	getServiceRegistryInfo,
 	getServiceRegistryServices,
-} from "../../../../digitalniweb-custom/helpers/serviceRegistry.js";
+} from "../../../../custom/helpers/globalData/serviceRegistry.js";
 import { microservicesArray } from "../../../../digitalniweb-custom/variables/microservices.js";
 import { microservices } from "../../../../digitalniweb-types/index.js";
 import { registerService } from "../../../../custom/helpers/globalData/serviceRegistry.js";
