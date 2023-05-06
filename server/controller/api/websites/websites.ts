@@ -12,6 +12,8 @@ export const getWebsiteInfo = async function (
 	next: NextFunction
 ) {
 	try {
+		console.log(req.query);
+
 		let { url, paranoid = true } = req.query;
 		if (paranoid === "false" || paranoid === "0") paranoid = false; // if paranoid is anything else than string 'false' or '0' (because queries gives me always string) than it is true
 
@@ -161,6 +163,8 @@ export const createwebsite = async function (
 	next: NextFunction
 ) {
 	try {
+		console.log(req.body);
+
 		let websiteData: websites.Website = req.body.website;
 		let websiteUrl: string = req.body.url;
 		let result = await db.transaction(async (transaction) => {
@@ -174,12 +178,54 @@ export const createwebsite = async function (
 			website.MainUrlId = mainUrl.id;
 			return website;
 		});
+		console.log(result);
+
 		return res.send(result);
 	} catch (error) {
 		next({
 			error,
 			code: 500,
 			message: "Couldn't get testing websites count.",
+		});
+	}
+};
+
+export const getWebsiteLanguageMutations = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	// only mutations of website, without main language (which I get with website information)
+	try {
+		let { url } = req.query;
+		let websiteLanguageMutations = await db.transaction(
+			async (transaction) => {
+				/* return await Language.findAll({
+				transaction,
+				where: {
+					"$Websites.MainUrl.url$": url,
+				},
+				include: [
+					{
+						model: Website,
+						attributes: [],
+						include: [
+							{
+								model: Url,
+								as: "MainUrl",
+							},
+						],
+					},
+				],
+			}); */
+			}
+		);
+		return res.send(websiteLanguageMutations);
+	} catch (error) {
+		return next({
+			error,
+			code: 500,
+			message: "Couldn't get app languages list.",
 		});
 	}
 };
