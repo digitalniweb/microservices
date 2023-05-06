@@ -1,10 +1,8 @@
-import {
-	getServiceRegistryInfo,
-	registerService,
-} from "../../custom/helpers/globalData/serviceRegistry.js";
+import { registerService } from "../../custom/helpers/globalData/serviceRegistry.js";
 import { customBELogger } from "../../digitalniweb-custom/helpers/logger.js";
 import Publisher from "./../../digitalniweb-custom/helpers/publisherService.js";
 import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
+import { getServiceRegistryInfo } from "./../../digitalniweb-custom/helpers/serviceRegistry.js";
 
 export default async function () {
 	await registerService({

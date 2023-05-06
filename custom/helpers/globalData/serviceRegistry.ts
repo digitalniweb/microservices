@@ -52,42 +52,6 @@ export async function registerService(
 	}
 }
 
-/**
- *
- * @returns `globalData: microserviceRegistryInfo` service information: id, host, port, apiKey etc.
- */
-export async function getServiceRegistryInfo(): Promise<
-	microserviceRegistryInfo | false
-> {
-	try {
-		let serviceRegistry = await Microservice.findOne({
-			where: {
-				name: "globalData",
-			},
-			attributes: ["mainServiceRegistryId"],
-			include: {
-				model: ServiceRegistry,
-			},
-		});
-
-		if (
-			serviceRegistry === null ||
-			serviceRegistry.ServiceRegistries === undefined
-		)
-			return false;
-
-		let serviceRegistryInfo: microserviceRegistryInfo = {
-			name: "globalData",
-			mainId: serviceRegistry.mainServiceRegistryId as number,
-			services: serviceRegistry.ServiceRegistries,
-		};
-		return serviceRegistryInfo;
-	} catch (error) {
-		console.log(error);
-		return false;
-	}
-}
-
 export async function serviceRegistryList(): Promise<serviceRegistry | false> {
 	try {
 		let list = await Microservice.findAll({
@@ -105,37 +69,6 @@ export async function serviceRegistryList(): Promise<serviceRegistry | false> {
 			} as microserviceRegistryInfo;
 		});
 		return serviceRegistry;
-	} catch (error) {
-		console.log(error);
-		return false;
-	}
-}
-
-export async function getServiceRegistryServices(options: {
-	name?: microservices;
-	id?: number;
-}): Promise<microserviceRegistryInfo | undefined | false> {
-	try {
-		let where;
-		if (options.id !== undefined) where = { id: options.id };
-		else if (options.name) where = { name: options.name };
-		else return false;
-		let service = await Microservice.findOne({
-			where,
-			include: {
-				model: ServiceRegistry,
-			},
-		});
-
-		if (service === null || service.ServiceRegistries === undefined)
-			return undefined;
-
-		let serviceInfo: microserviceRegistryInfo = {
-			mainId: service.mainServiceRegistryId,
-			name: service.name,
-			services: service.ServiceRegistries,
-		};
-		return serviceInfo;
 	} catch (error) {
 		console.log(error);
 		return false;
