@@ -66,7 +66,7 @@ const Website = db.define<Website>(
 Website.addHook(
 	"afterUpdate",
 	"createUrlSetAlias",
-	async (website: Website, transaction) => {
+	async (website: Website, options) => {
 		let changed = website.changed(); // array of changed properties
 
 		if (changed && !changed.includes("MainUrlId")) return;
@@ -80,7 +80,10 @@ Website.addHook(
 			where: { id: currentMainUrlId },
 		});
 
-		if (addedMainUrl) await website.setAliases([addedMainUrl], transaction);
+		if (addedMainUrl)
+			await website.setAliases([addedMainUrl], {
+				transaction: options.transaction,
+			});
 	}
 );
 

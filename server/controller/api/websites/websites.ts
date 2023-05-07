@@ -6,6 +6,33 @@ import { websites } from "../../../../digitalniweb-types/models/websites.js";
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
 
+export const test = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		/* await db.transaction(async (transaction) => {
+			let website = await Website.findOne({
+				where: { id: 12 },
+				transaction,
+			});
+			if (!website)
+				return next({ code: 404, message: "Website not found." });
+			console.log("website", website);
+
+			let url = await Url.findOne({ where: { id: 1 }, transaction });
+			console.log("url", url);
+
+			if (!url) return next({ code: 404, message: "Url not found." });
+			await website.setAliases([url], { transaction });
+		}); */
+		res.send("ok");
+	} catch (error) {
+		console.log(error);
+		return next({ error, code: 500, message: "Couldn't get website data" });
+	}
+};
 export const getWebsiteInfo = async function (
 	req: Request,
 	res: Response,
@@ -173,8 +200,9 @@ export const createwebsite = async function (
 					where: {
 						url: websiteUrl,
 					},
+					transaction,
 				});
-				let mainUrl = await website.setMainUrl(url);
+				let mainUrl = await website.setMainUrl(url, { transaction });
 				website.MainUrlId = mainUrl.id;
 				return website;
 			}
