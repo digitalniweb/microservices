@@ -5,6 +5,7 @@ import db from "../../../models/index.js";
 import { websites } from "../../../../digitalniweb-types/models/websites.js";
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
+import { log } from "console";
 
 export const getWebsiteInfo = async function (
 	req: Request,
@@ -12,8 +13,6 @@ export const getWebsiteInfo = async function (
 	next: NextFunction
 ) {
 	try {
-		console.log(req.query);
-
 		let { url, paranoid = true } = req.query;
 		if (paranoid === "false" || paranoid === "0") paranoid = false; // if paranoid is anything else than string 'false' or '0' (because queries gives me always string) than it is true
 
@@ -163,21 +162,25 @@ export const createwebsite = async function (
 	next: NextFunction
 ) {
 	try {
-		console.log(req.body);
-
 		let websiteData: websites.Website = req.body.website;
 		let websiteUrl: string = req.body.url;
-		let result = await db.transaction(async (transaction) => {
-			let website = await Website.create(websiteData, { transaction });
-			let [url] = await Url.findOrCreate({
-				where: {
-					url: websiteUrl,
-				},
-			});
-			let mainUrl = await website.setMainUrl(url);
-			website.MainUrlId = mainUrl.id;
-			return website;
-		});
+		console.log(websiteData, websiteUrl);
+
+		let result: websites.Website = await db.transaction(
+			async (transaction) => {
+				let website = await Website.create(websiteData, {
+					transaction,
+				});
+				let [url] = await Url.findOrCreate({
+					where: {
+						url: websiteUrl,
+					},
+				});
+				let mainUrl = await website.setMainUrl(url);
+				website.MainUrlId = mainUrl.id;
+				return website;
+			}
+		);
 		console.log(result);
 
 		return res.send(result);
@@ -185,7 +188,7 @@ export const createwebsite = async function (
 		next({
 			error,
 			code: 500,
-			message: "Couldn't get testing websites count.",
+			message: "Couldn't create website.",
 		});
 	}
 };
