@@ -97,6 +97,7 @@ Website.addHook(
 				where: { uniqueName },
 			});
 		} while (uniqueNameExists !== null);
+		website.uniqueName = uniqueName;
 	}
 );
 

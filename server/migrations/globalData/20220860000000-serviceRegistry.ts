@@ -37,7 +37,7 @@ export default {
 						unique: "uniqueHostPort",
 					},
 					uniqueName: {
-						type: DataTypes.STRING(10),
+						type: DataTypes.STRING(14),
 						allowNull: false,
 						unique: true,
 					},
