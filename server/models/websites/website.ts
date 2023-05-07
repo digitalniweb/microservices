@@ -66,7 +66,7 @@ const Website = db.define<Website>(
 Website.addHook(
 	"afterUpdate",
 	"createUrlSetAlias",
-	async (website: Website) => {
+	async (website: Website, transaction) => {
 		let changed = website.changed(); // array of changed properties
 
 		if (changed && !changed.includes("MainUrlId")) return;
@@ -80,7 +80,7 @@ Website.addHook(
 			where: { id: currentMainUrlId },
 		});
 
-		if (addedMainUrl) await website.setAlias([addedMainUrl]);
+		if (addedMainUrl) await website.setAliases([addedMainUrl], transaction);
 	}
 );
 
@@ -102,7 +102,7 @@ Website.addHook(
 );
 
 // I need to use other name than 'url' (I'll use 'alias'), because otherwise it conflicts on names and special methods ('.addUrl' etc.) don't work because of the two way bindings. Url <-> Website . I need to use '.addAlias' etc.
-Website.hasMany(Url, { as: "Alias" });
+Website.hasMany(Url, { as: "Aliases" });
 
 Website.belongsTo(Url, { as: "MainUrl" });
 
