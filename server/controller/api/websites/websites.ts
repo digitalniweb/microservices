@@ -5,7 +5,6 @@ import db from "../../../models/index.js";
 import { websites } from "../../../../digitalniweb-types/models/websites.js";
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
-import { log } from "console";
 
 export const getWebsiteInfo = async function (
 	req: Request,
@@ -164,7 +163,6 @@ export const createwebsite = async function (
 	try {
 		let websiteData: websites.Website = req.body.website;
 		let websiteUrl: string = req.body.url;
-		console.log(websiteData, websiteUrl);
 
 		let result: websites.Website = await db.transaction(
 			async (transaction) => {
@@ -181,7 +179,6 @@ export const createwebsite = async function (
 				return website;
 			}
 		);
-		console.log(result);
 
 		return res.send(result);
 	} catch (error) {
