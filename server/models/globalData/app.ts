@@ -38,15 +38,10 @@ const App = db.define<App>(
 				key: "id",
 			},
 		},
-		websiteId: {
-			type: DataTypes.INTEGER,
-			allowNull: true,
-			unique: "uniqueHostPort",
-		},
 		port: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			unique: "uniqueHostPort",
+			unique: false,
 		},
 		uniqueName: {
 			type: DataTypes.STRING,

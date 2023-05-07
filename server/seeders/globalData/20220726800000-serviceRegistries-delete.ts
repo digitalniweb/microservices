@@ -33,7 +33,7 @@ export default {
 						{
 							host: "srv1.digitalniweb.cz",
 							port: 3000,
-							uniqueName: randomString(10, false),
+							uniqueName: randomString(14, false),
 						},
 						{ transaction }
 					);

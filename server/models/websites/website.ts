@@ -92,7 +92,7 @@ Website.addHook(
 		let uniqueName: string;
 		let uniqueNameExists = {} as Website | null;
 		do {
-			uniqueName = randomString(10, false);
+			uniqueName = randomString(14, false);
 			uniqueNameExists = await Website.findOne({
 				where: { uniqueName },
 			});

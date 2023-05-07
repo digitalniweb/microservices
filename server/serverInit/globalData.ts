@@ -9,7 +9,7 @@ export default async function () {
 		host: process.env.HOST,
 		name: process.env.MICROSERVICE_NAME,
 		port: process.env.PORT,
-		uniqueName: process.env.MICROSERVICE_NAME,
+		uniqueName: process.env.MICROSERVICE_UNIQUE_NAME,
 		apiKey: process.env.MICROSERVICE_API_KEY,
 	});
 

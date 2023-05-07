@@ -43,15 +43,10 @@ export default {
 							key: "id",
 						},
 					},
-					websiteId: {
-						type: DataTypes.INTEGER,
-						allowNull: true,
-						unique: "uniqueHostPort",
-					},
 					port: {
 						type: DataTypes.SMALLINT.UNSIGNED,
 						allowNull: false,
-						unique: "uniqueHostPort",
+						unique: false,
 					},
 					uniqueName: {
 						type: DataTypes.STRING(10),
@@ -73,12 +68,12 @@ export default {
 					},
 				},
 				{
-					uniqueKeys: {
+					/* uniqueKeys: {
 						uniqueHostPort: {
 							customIndex: true,
 							fields: ["host", "port"],
 						},
-					},
+					}, */
 					charset: "utf8mb4",
 					collate: "utf8mb4_unicode_ci",
 					transaction,
