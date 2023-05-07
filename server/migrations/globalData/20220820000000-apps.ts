@@ -49,7 +49,7 @@ export default {
 						unique: false,
 					},
 					uniqueName: {
-						type: DataTypes.STRING(10),
+						type: DataTypes.STRING(14),
 						allowNull: false,
 						unique: true,
 					},
