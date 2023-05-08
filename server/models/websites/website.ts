@@ -65,7 +65,7 @@ const Website = db.define<Website>(
 
 Website.addHook(
 	"afterUpdate",
-	"createUrlSetAlias",
+	"createUrlAddAlias",
 	async (website: Website, options) => {
 		let changed = website.changed(); // array of changed properties
 
@@ -78,17 +78,21 @@ Website.addHook(
 
 		let addedMainUrl = await Url.findOne({
 			where: { id: currentMainUrlId },
+			transaction: options.transaction,
 		});
 
-		if (addedMainUrl)
-			await website.setAliases([addedMainUrl], {
-				transaction: options.transaction,
-			});
+		if (!addedMainUrl) return;
+		await website.addAliases([addedMainUrl], {
+			transaction: options.transaction,
+		});
 	}
 );
 
+/**
+ * beforeCreate hooks are applied after model validation, that is why I need to use beforeValidate hook.
+ */
 Website.addHook(
-	"beforeCreate",
+	"beforeValidate",
 	"createUniqueNameIfNotExists",
 	async (website: Website) => {
 		if (website.uniqueName) return;
@@ -100,6 +104,7 @@ Website.addHook(
 				where: { uniqueName },
 			});
 		} while (uniqueNameExists !== null);
+
 		website.uniqueName = uniqueName;
 	}
 );

@@ -1,5 +1,5 @@
 import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
-import { Op, WhereOperators } from "sequelize";
+import { CreationAttributes, Op, WhereOperators } from "sequelize";
 import { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
 import { websites } from "../../../../digitalniweb-types/models/websites.js";
@@ -14,18 +14,16 @@ export const test = async function (
 	try {
 		/* await db.transaction(async (transaction) => {
 			let website = await Website.findOne({
-				where: { id: 12 },
+				where: { id: 16 },
 				transaction,
 			});
 			if (!website)
 				return next({ code: 404, message: "Website not found." });
-			console.log("website", website);
 
-			let url = await Url.findOne({ where: { id: 1 }, transaction });
-			console.log("url", url);
+			let url = await Url.findOne({ where: { id: 3 }, transaction });
 
 			if (!url) return next({ code: 404, message: "Url not found." });
-			await website.setAliases([url], { transaction });
+			await website.addAliases([url], { transaction });
 		}); */
 		res.send("ok");
 	} catch (error) {
@@ -188,7 +186,8 @@ export const createwebsite = async function (
 	next: NextFunction
 ) {
 	try {
-		let websiteData: websites.Website = req.body.website;
+		let websiteData: CreationAttributes<websites.Website> =
+			req.body.website;
 		let websiteUrl: string = req.body.url;
 
 		let result: websites.Website = await db.transaction(
@@ -202,6 +201,8 @@ export const createwebsite = async function (
 					},
 					transaction,
 				});
+				console.log("mainUrl", url);
+
 				let mainUrl = await website.setMainUrl(url, { transaction });
 				website.MainUrlId = mainUrl.id;
 				return website;
