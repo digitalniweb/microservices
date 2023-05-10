@@ -201,7 +201,6 @@ export const createwebsite = async function (
 					},
 					transaction,
 				});
-				console.log("mainUrl", url);
 
 				let mainUrl = await website.setMainUrl(url, { transaction });
 				website.MainUrlId = mainUrl.id;
