@@ -35,10 +35,8 @@ export default {
 						allowNull: false,
 						unique: true,
 					},
-					dedicatedTable: {
-						type: DataTypes.BOOLEAN,
-						allowNull: false,
-						defaultValue: 0,
+					model: {
+						type: DataTypes.STRING,
 					},
 					usersRoleId: {
 						type: DataTypes.INTEGER,

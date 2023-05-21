@@ -9,6 +9,7 @@ import App = globalData.App;
 import AppLanguage from "./appLanguage.js";
 import AppType from "./appType.js";
 import Language from "./language.js";
+import Module from "./module.js";
 
 const App = db.define<App>(
 	"App",
@@ -80,6 +81,8 @@ App.belongsToMany(Language, {
 	through: AppLanguage.tableName,
 });
 Language.hasMany(App);
+
+Module.hasMany(App);
 
 App.belongsTo(Language);
 

@@ -21,14 +21,12 @@ export default {
 				/* let photoGalleryModule = await Module.create({
 					name: "photoGallery",
 					active: true,
-					dedicatedTable: true,
 					creditsCost: 30,
 				});
 
 				let newsModule = await Module.create({
 					name: "news",
 					active: true,
-					dedicatedTable: true,
 				});
 
 				if (process.env.NODE_ENV === "development") {

@@ -24,10 +24,8 @@ const Module = db.define<Module>(
 			allowNull: false,
 			unique: true,
 		},
-		// if module has its own db table URL (i.e. 'news' module has 'news' table) or is just a page component (or no page at all)
-		dedicatedTable: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
+		model: {
+			type: DataTypes.STRING,
 		},
 		usersRoleId: {
 			type: DataTypes.INTEGER,

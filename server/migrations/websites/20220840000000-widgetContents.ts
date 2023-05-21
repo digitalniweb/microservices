@@ -1,8 +1,8 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Website from "../../models/websites/website.js";
+import WidgetContent from "../../models/websites/url.js";
 import { websites } from "../../../digitalniweb-types/models/websites.js";
-import WebsiteType = websites.Website;
+import WidgetContentType = websites.WidgetContent;
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["websites"];
@@ -16,8 +16,8 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<WebsiteType>(
-				Website.tableName,
+			return await queryInterface.createTable<WidgetContentType>(
+				WidgetContent.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -25,45 +25,38 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					uniqueName: {
-						type: DataTypes.STRING(14),
+					widgetId: {
 						allowNull: false,
-						unique: true,
-					},
-					MainUrlId: {
-						type: DataTypes.INTEGER,
-						// Even though the reference is true, I have reference Website -> Url and Url -> Website, so there is DB conflict. I can't reference something that doesn't exist yet. That's why I use it only in Url migration, because I want to be able to use onDelete Cascade there. I don't need it to be constrained here. The association is made by model, which works fine.
-						/* references: {
-							model: Url.tableName,
-							key: "id",
-						}, */
-						allowNull: true,
-					},
-					userId: {
 						type: DataTypes.INTEGER,
 					},
-					appId: {
+					moduleId: {
+						allowNull: false,
 						type: DataTypes.INTEGER,
-						allowNull: false,
 					},
-					mainLanguageId: {
+					moduleRecordId: {
+						allowNull: false,
 						type: DataTypes.INTEGER,
-						allowNull: false,
 					},
-					testingMode: {
-						type: DataTypes.BOOLEAN,
+					name: {
 						allowNull: false,
-						defaultValue: 1,
+						type: DataTypes.STRING,
 					},
-					paused: {
-						type: DataTypes.BOOLEAN,
+					content: {
 						allowNull: false,
-						defaultValue: 0,
+						type: DataTypes.STRING,
+					},
+					options: {
+						allowNull: false,
+						type: DataTypes.JSONB,
 					},
 					active: {
-						type: DataTypes.BOOLEAN,
 						allowNull: false,
-						defaultValue: 1,
+						type: DataTypes.BOOLEAN,
+						defaultValue: false,
+					},
+					order: {
+						allowNull: false,
+						type: DataTypes.INTEGER,
 					},
 					createdAt: {
 						allowNull: false,
@@ -94,7 +87,7 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Website.tableName, {
+			return await queryInterface.dropTable(WidgetContent.tableName, {
 				transaction,
 			});
 		});

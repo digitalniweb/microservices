@@ -1,8 +1,12 @@
 # How it works
 
-We need to run "globalData" microservice first and then other services. Redis must be installed. "globalData" microservice works as "service registry" and it registers all services and applications via Redis messaging system automatically on service start.
+-   We need to run "globalData" microservice first and then other services.
+-   Redis must be installed. "globalData" microservice works as "service registry" and it registers all services and applications via Redis messaging system automatically on service start.
+-   "globalData" also works as "Single source of truth".
+-   Multiple "globalData" microservices can only be synchronized copy for load ballancing.
+-   Other microservices might be sharded to multiple servers by setting "mainId" of currently used service to write to.
 
-Then all microservices and applications can communicate with each other via "microserviceCall" and "appCall" methods in "/digitalniweb-custom/helpers/remoteProcedureCall.ts" repectively.
+Then all microservices and applications can communicate with each other via "microserviceCall" and "appCall" methods in "/digitalniweb-custom/helpers/remoteProcedureCall.ts" respectively. These are intentioned to be ran on server side only.
 
 Every microservice and application needs submodules https://github.com/digitalniweb/digitalniweb-types and https://github.com/digitalniweb/digitalniweb-custom
 
@@ -10,19 +14,25 @@ Every microservice and application needs submodules https://github.com/digitalni
 
 ### GlobalData
 
-You need to run seeders to work properly because we need languages.
+You need to run seeders to work properly because we need initial languages, currencies, modules, widgets etc.
 
 ### Websites
 
 #### modules
 
-Are big self contained components like pages, products, blog posts, news, etc.
+Are self contained components or functionalities like 'articles', 'products', 'blog posts', 'news', etc.
 
-1. Modules like pages and products have their own menus
+Modules might be premium - paid for.
 
-2. Modules like blog posts and news on the other hand have list pagination of all posts / articles
+Different Applications might have different modules.
 
-3. There might be other modules with different functionalities
+Modules might be:
+
+1. Modules like 'Articles' and 'Products' have their own menus
+
+2. Modules like 'BlogPosts' and 'News' on the other hand have list pagination of all posts
+
+3. There might be other modules with simple or complex functionalities - Eshop (multiple tables and functionalities)
 
 #### widgets
 
