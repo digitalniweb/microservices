@@ -5,10 +5,10 @@ import { DataTypes } from "sequelize";
 import db from "../index.js";
 
 import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import Module = globalData.Module;
+import Widget = globalData.Widget;
 
-const Module = db.define<Module>(
-	"Module",
+const Widget = db.define<Widget>(
+	"Widget",
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -20,23 +20,11 @@ const Module = db.define<Module>(
 			allowNull: false,
 			unique: true,
 		},
-		model: {
-			type: DataTypes.STRING,
-		},
-		usersRoleId: {
-			type: DataTypes.INTEGER,
-			allowNull: true,
-			defaultValue: null,
-		},
-		creditsCost: {
-			type: DataTypes.INTEGER,
-			allowNull: true,
-		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt
 		paranoid: false, // deletedAt
+		// freezeTableName: true,
 	}
 );
-
-export default Module;
+export default Widget;

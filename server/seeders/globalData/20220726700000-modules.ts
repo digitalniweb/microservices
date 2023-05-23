@@ -20,13 +20,13 @@ export default {
 				// https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
 				let photoGalleryModule = await Module.create({
 					name: "photoGallery",
-					active: true,
+					model: "PhotoGalleryModel",
 					creditsCost: 30,
 				});
 
 				let newsModule = await Module.create({
 					name: "news",
-					active: true,
+					model: "News",
 				});
 
 				/* if (process.env.NODE_ENV === "development") {

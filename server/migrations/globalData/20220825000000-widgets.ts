@@ -1,8 +1,8 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Module from "../../models/globalData/module.js";
+import Widget from "../../models/globalData/widget.js";
 import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import ModuleType = globalData.Module;
+import WidgetType = globalData.Widget;
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
@@ -16,8 +16,8 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<ModuleType>(
-				Module.tableName,
+			return await queryInterface.createTable<WidgetType>(
+				Widget.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -29,17 +29,6 @@ export default {
 						type: DataTypes.STRING,
 						allowNull: false,
 						unique: true,
-					},
-					model: {
-						type: DataTypes.STRING,
-					},
-					usersRoleId: {
-						type: DataTypes.INTEGER,
-						allowNull: true,
-					},
-					creditsCost: {
-						type: DataTypes.INTEGER,
-						allowNull: true,
 					},
 				},
 				{
@@ -59,7 +48,7 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Module.tableName, {
+			return await queryInterface.dropTable(Widget.tableName, {
 				transaction,
 			});
 		});

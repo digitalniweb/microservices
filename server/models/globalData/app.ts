@@ -10,6 +10,7 @@ import AppLanguage from "./appLanguage.js";
 import AppType from "./appType.js";
 import Language from "./language.js";
 import Module from "./module.js";
+import Widget from "./widget.js";
 
 const App = db.define<App>(
 	"App",
@@ -82,7 +83,8 @@ App.belongsToMany(Language, {
 });
 Language.hasMany(App);
 
-Module.hasMany(App);
+App.hasMany(Module);
+App.hasMany(Widget);
 
 App.belongsTo(Language);
 

@@ -5,32 +5,21 @@ import { DataTypes } from "sequelize";
 import db from "../index.js";
 
 import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import Module = globalData.Module;
+import AppWidget = globalData.AppWidget;
 
-const Module = db.define<Module>(
-	"Module",
+const AppWidget = db.define<AppWidget>(
+	"AppWidget",
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			unique: true,
-		},
-		model: {
-			type: DataTypes.STRING,
-		},
-		usersRoleId: {
+		AppId: {
 			type: DataTypes.INTEGER,
-			allowNull: true,
-			defaultValue: null,
 		},
-		creditsCost: {
+		WidgetId: {
 			type: DataTypes.INTEGER,
-			allowNull: true,
 		},
 	},
 	{
@@ -39,4 +28,4 @@ const Module = db.define<Module>(
 	}
 );
 
-export default Module;
+export default AppWidget;
