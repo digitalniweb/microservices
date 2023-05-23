@@ -20,6 +20,11 @@ const Widget = db.define<Widget>(
 			allowNull: false,
 			unique: true,
 		},
+		widgetName: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt

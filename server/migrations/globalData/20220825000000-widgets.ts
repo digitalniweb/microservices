@@ -30,6 +30,11 @@ export default {
 						allowNull: false,
 						unique: true,
 					},
+					widgetName: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						unique: true,
+					},
 				},
 				{
 					charset: "utf8mb4",

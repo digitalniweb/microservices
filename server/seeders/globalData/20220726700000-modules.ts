@@ -18,9 +18,15 @@ export default {
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				// https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
+
+				let articles = await Module.create({
+					name: "articles",
+					model: "Article",
+				});
+
 				let photoGalleryModule = await Module.create({
-					name: "photoGallery",
-					model: "PhotoGalleryModel",
+					name: "photo gallery",
+					model: "PhotoGallery",
 					creditsCost: 30,
 				});
 
