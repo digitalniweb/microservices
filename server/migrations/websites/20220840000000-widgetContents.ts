@@ -47,7 +47,7 @@ export default {
 					},
 					options: {
 						allowNull: false,
-						type: DataTypes.JSONB,
+						type: DataTypes.JSON,
 					},
 					active: {
 						allowNull: false,
