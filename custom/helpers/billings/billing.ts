@@ -1,4 +1,4 @@
-import { getDaysInMonth } from "date-fns";
+import { getDaysInMonth } from "../../../digitalniweb-custom/functions/dateFunctions";
 import { WhereOptions, Op } from "sequelize";
 import Module from "../../../server/models/globalData/module.js";
 import WebsiteModule from "../../../server/models/websites/websiteModule.js";

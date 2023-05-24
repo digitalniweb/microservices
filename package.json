@@ -9,7 +9,7 @@
 		"build": "npm run clearDist && npx tsc",
 		"start": "node dist/server/index.js",
 		"build-watch": "npm run clearDist && npx tsc --watch",
-		"dev": "concurrently \"npm run clearDist && npx tsc --watch\" \"nodemon -q dist/server/index.js\"",
+		"dev": "tsc-watch --onSuccess \"node dist/server/index.js\"",
 		"devNotWatch": "npm run clearDist && npx tsc && npm run start",
 		"change-service": "node dist/change-service"
 	},
@@ -39,8 +39,7 @@
 		"@types/validator": "^13.7.10",
 		"babel-preset-env": "^1.7.0",
 		"babel-register": "^6.26.0",
-		"concurrently": "^7.2.2",
-		"nodemon": "^2.0.18",
+		"tsc-watch": "^6.0.4",
 		"typescript": "^5.0.2"
 	}
 }

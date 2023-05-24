@@ -4,7 +4,7 @@ import { microservices } from "../../../digitalniweb-types/index.js";
 import Website from "../../models/websites/website.js";
 // import Module from "../../models/websites/module.js";
 import Url from "../../models/websites/url.js";
-import { addDays } from "date-fns";
+import { addDays } from "../../../digitalniweb-custom/functions/dateFunctions.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {
