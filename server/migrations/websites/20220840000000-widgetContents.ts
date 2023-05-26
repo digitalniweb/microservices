@@ -1,6 +1,6 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import WidgetContent from "../../models/websites/url.js";
+import WidgetContent from "../../models/websites/widgetContent.js";
 import { websites } from "../../../digitalniweb-types/models/websites.js";
 import WidgetContentType = websites.WidgetContent;
 
