@@ -1,6 +1,6 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Article from "../../models/websites/url.js";
+import Article from "../../models/websites/article.js";
 import { websites } from "../../../digitalniweb-types/models/websites.js";
 import ArticleType = websites.Article;
 
