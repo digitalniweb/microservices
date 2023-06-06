@@ -3,7 +3,7 @@
 		"target": "ES2022",
 		"module": "ESNext",
 		"moduleResolution": "Node",
-		"types": ["node"],
+		"types": [],
 		// "sourceMap": true,
 		"outDir": "./dist",
 		"rootDir": "./",
