@@ -35,7 +35,7 @@ export default {
 					},
 					icon: {
 						allowNull: false,
-						type: DataTypes.STRING,
+						type: DataTypes.STRING(2048),
 					},
 				},
 				{
