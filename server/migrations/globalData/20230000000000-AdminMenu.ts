@@ -1,11 +1,15 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import WidgetContent from "../../models/websites/widgetContent.js";
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import WidgetContentType = websites.WidgetContent;
+import { globalData } from "../../../digitalniweb-types/models/globalData";
+import AdminMenuType = globalData.AdminMenu;
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-const microservice: Array<microservices> = ["websites"];
+import AdminMenu from "../../models/globalData/adminMenu.js";
+import App from "../../models/globalData/app.js";
+import Language from "../../models/globalData/language";
+import Module from "../../models/globalData/module";
+
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
@@ -16,58 +20,55 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<WidgetContentType>(
-				WidgetContent.tableName,
+			return await queryInterface.createTable<AdminMenuType>(
+				AdminMenu.tableName,
 				{
 					id: {
+						type: DataTypes.INTEGER,
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
-						type: DataTypes.INTEGER,
 					},
-					widgetId: {
+					component: {
+						type: DataTypes.STRING,
 						allowNull: false,
-						type: DataTypes.INTEGER,
-					},
-					moduleId: {
-						allowNull: false,
-						type: DataTypes.INTEGER,
-					},
-					moduleRecordId: {
-						allowNull: false,
-						type: DataTypes.INTEGER,
 					},
 					name: {
-						allowNull: false,
 						type: DataTypes.STRING,
-					},
-					content: {
 						allowNull: false,
-						type: DataTypes.STRING,
 					},
-					options: {
-						allowNull: false,
-						type: DataTypes.JSON,
-					},
-					active: {
-						allowNull: false,
+					openable: {
 						type: DataTypes.BOOLEAN,
+						allowNull: false,
+						defaultValue: false,
+					},
+					separator: {
+						type: DataTypes.BOOLEAN,
+						allowNull: false,
 						defaultValue: false,
 					},
 					order: {
-						allowNull: false,
 						type: DataTypes.INTEGER,
-					},
-					createdAt: {
 						allowNull: false,
-						type: DataTypes.DATE,
+						defaultValue: false,
 					},
-					updatedAt: {
+					icon: {
+						type: DataTypes.BOOLEAN,
 						allowNull: false,
-						type: DataTypes.DATE,
+						defaultValue: false,
 					},
-					deletedAt: {
-						type: DataTypes.DATE,
+					parentId: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						defaultValue: null,
+					},
+					ModuleId: {
+						type: DataTypes.BOOLEAN,
+						allowNull: true,
+						references: {
+							model: Module.tableName,
+							key: "id",
+						},
 					},
 				},
 				{
@@ -87,7 +88,7 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(WidgetContent.tableName, {
+			return await queryInterface.dropTable(AdminMenu.tableName, {
 				transaction,
 			});
 		});

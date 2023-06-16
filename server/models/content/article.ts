@@ -4,9 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import Article = websites.Article;
-import Website from "./website.js";
+import { content } from "../../../digitalniweb-types/models/content.js";
+import Article = content.Article;
 
 const Article = db.define<Article>(
 	"Article",
@@ -73,7 +72,7 @@ const Article = db.define<Article>(
 			allowNull: true,
 			defaultValue: null,
 		},
-		WebsiteId: {
+		websiteId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
@@ -94,6 +93,5 @@ const Article = db.define<Article>(
 );
 
 Article.belongsTo(Article, { as: "parent", foreignKey: "parentId" });
-Article.belongsTo(Website);
 
 export default Article;

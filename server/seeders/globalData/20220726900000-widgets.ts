@@ -36,7 +36,11 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				// await queryInterface.bulkDelete(Widget.tableName, {}, { transaction });
+				await queryInterface.bulkDelete(
+					Widget.tableName,
+					{},
+					{ transaction }
+				);
 			} catch (error) {
 				console.log(error);
 			}

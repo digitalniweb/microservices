@@ -27,6 +27,10 @@ const Website = db.define<Website>(
 				isLength: 14,
 			},
 		},
+		websitesMsId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
 		MainUrlId: {
 			type: DataTypes.INTEGER,
 			allowNull: true,

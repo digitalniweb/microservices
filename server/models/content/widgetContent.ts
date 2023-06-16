@@ -4,8 +4,8 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import WidgetContent = websites.WidgetContent;
+import { content } from "../../../digitalniweb-types/models/content.js";
+import WidgetContent = content.WidgetContent;
 
 const WidgetContent = db.define<WidgetContent>(
 	"WidgetContent",

@@ -17,19 +17,21 @@ export default {
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				return;
-				let digitalniwebWebsite = await Website.create({
+				// a lot of this doesn't work
+
+				/* let digitalniwebWebsite = await Website.create({
 					uniqueName: randomString(14, false),
 					active: true,
 					testingMode: false,
 					paused: false,
 				});
 
-				/* let czechLanguage = await Language.findOne({
+				let czechLanguage = await Language.findOne({
 					where: { code: "cs" },
 				});
 				let englishLanguage = await Language.findOne({
 					where: { code: "en" },
-				}); */
+				});
 
 				// because of 'createUrlSetAlias' hook in Website model I don't need to call:
 				// a) UrlInstance.setWebsite(digitalniwebWebsite) on this instance -> Url.WebsiteId = Website.id
@@ -46,14 +48,14 @@ export default {
 						url: "digitalniweblocalhost.cz",
 					});
 				}
-				/* 
+				 
 				// default language
 				if (czechLanguage)
 					await digitalniwebWebsite.setMainLanguage(czechLanguage);
 
 				// language mutation
 				if (englishLanguage)
-					await digitalniwebWebsite.setLanguages([englishLanguage]); */
+					await digitalniwebWebsite.setLanguages([englishLanguage]);
 
 				let digitalniwebHost = await App.findOne({
 					where: { name: "webs" },
@@ -78,14 +80,14 @@ export default {
 							digitalniwebTenants
 						);
 
-					/* if (czechLanguage)
-						await digitalniwebTenantWebsite.setMainLanguage(czechLanguage); */
+					if (czechLanguage)
+						await digitalniwebTenantWebsite.setMainLanguage(czechLanguage); 
 
 					// only Url.WebsiteId = Website.id will happen (no Website.id = Url.WebsiteId)
 					await digitalniwebWebsite.createAlias({
 						url: "digitalniweblocalhost-alias.cz",
-					});
-				}
+					}); 
+				}*/
 			} catch (error) {
 				console.log(error);
 			}

@@ -23,6 +23,12 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
+				// this doesn't work, need to get superadmin role from globalData ms
+				// let superadminRole = await Role.findOne({
+				// 	where: { name: "superadmin" },
+				// 	transaction,
+				// });
+
 				const usersData: Array<CreationAttributes<UserType>> = [
 					{
 						email: "admin@digitalniweb.cz",
@@ -32,28 +38,7 @@ export default {
 						domainId: 1,
 						active: true,
 					},
-					{
-						email: "owner@test.cz",
-						nickname: "owner",
-						password: "123456789",
-						roleId: 2,
-						domainId: 1,
-						active: true,
-					},
-					{
-						email: "admin@test.cz",
-						nickname: "admin",
-						password: "123456789",
-						roleId: 3,
-						domainId: 1,
-						active: true,
-					},
 				];
-
-				let superadminRole = await Role.findOne({
-					where: { name: "superadmin" },
-					transaction,
-				});
 
 				// await superadminRole?.createUser(usersData[0], { transaction });
 
@@ -74,6 +59,27 @@ export default {
 						],
 					},
 				}); */
+
+				if (process.env.NODE_ENV !== "development") return;
+
+				usersData.push(
+					{
+						email: "owner@test.cz",
+						nickname: "owner",
+						password: "123456789",
+						roleId: 2,
+						domainId: 1,
+						active: true,
+					},
+					{
+						email: "admin@test.cz",
+						nickname: "admin",
+						password: "123456789",
+						roleId: 3,
+						domainId: 1,
+						active: true,
+					}
+				);
 
 				await User.create(usersData[1], {
 					transaction,

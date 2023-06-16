@@ -24,13 +24,13 @@ export default {
 					model: "Article",
 				});
 
-				let photoGalleryModule = await Module.create({
+				let photoGallery = await Module.create({
 					name: "photo gallery",
 					model: "PhotoGallery",
 					creditsCost: 30,
 				});
 
-				let newsModule = await Module.create({
+				let news = await Module.create({
 					name: "news",
 					model: "News",
 				});
@@ -55,16 +55,16 @@ export default {
 					
 					// this works as well
 					// if (testWebsite)
-					// 	await photoGalleryModule.setGlobalData([testWebsite], {
+					// 	await photoGallery.setWebsites([testWebsite], {
 					// 		through: { deletedAt: Date() },
 					// 	});
 
-					// if (testWebsite) await testWebsite.setModules([photoGalleryModule]);
+					// if (testWebsite) await testWebsite.setModules([photoGallery]);
 
 					let today = new Date();
 					let billingDay = addDays(today, 14).getDate(); // 14 days for free
 					if (testWebsite)
-						await testWebsite.addModules([photoGalleryModule, newsModule], {
+						await testWebsite.addModules([photoGallery, news], {
 							through: { billingDay },
 						});
 				} */
@@ -82,7 +82,11 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				// await queryInterface.bulkDelete(Module.tableName, {}, { transaction });
+				await queryInterface.bulkDelete(
+					Module.tableName,
+					{},
+					{ transaction }
+				);
 			} catch (error) {
 				console.log(error);
 			}

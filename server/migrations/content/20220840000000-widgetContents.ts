@@ -1,11 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Article from "../../models/websites/article.js";
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import ArticleType = websites.Article;
+import WidgetContent from "../../models/content/widgetContent.js";
+import { content } from "../../../digitalniweb-types/models/content.js";
+import WidgetContentType = content.WidgetContent;
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-const microservice: Array<microservices> = ["websites"];
+const microservice: Array<microservices> = ["content"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
@@ -16,8 +16,8 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<ArticleType>(
-				Article.tableName,
+			return await queryInterface.createTable<WidgetContentType>(
+				WidgetContent.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -25,32 +25,31 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					languageId: {
-						allowNull: true,
+					widgetId: {
+						allowNull: false,
+						type: DataTypes.INTEGER,
+					},
+					moduleId: {
+						allowNull: false,
+						type: DataTypes.INTEGER,
+					},
+					moduleRecordId: {
+						allowNull: false,
 						type: DataTypes.INTEGER,
 					},
 					name: {
 						allowNull: false,
 						type: DataTypes.STRING,
 					},
-					url: {
+					content: {
 						allowNull: false,
 						type: DataTypes.STRING,
 					},
-					icon: {
+					options: {
 						allowNull: false,
-						type: DataTypes.STRING,
-					},
-					otherUrl: {
-						allowNull: false,
-						type: DataTypes.STRING,
+						type: DataTypes.JSON,
 					},
 					active: {
-						allowNull: false,
-						type: DataTypes.BOOLEAN,
-						defaultValue: false,
-					},
-					freeMenu: {
 						allowNull: false,
 						type: DataTypes.BOOLEAN,
 						defaultValue: false,
@@ -58,30 +57,6 @@ export default {
 					order: {
 						allowNull: false,
 						type: DataTypes.INTEGER,
-					},
-					treeLevel: {
-						allowNull: false,
-						type: DataTypes.INTEGER,
-					},
-					parentId: {
-						allowNull: true,
-						type: DataTypes.INTEGER,
-					},
-					WebsiteId: {
-						allowNull: true,
-						type: DataTypes.INTEGER,
-					},
-					title: {
-						allowNull: false,
-						type: DataTypes.STRING,
-					},
-					description: {
-						allowNull: false,
-						type: DataTypes.STRING,
-					},
-					image: {
-						allowNull: false,
-						type: DataTypes.STRING,
 					},
 					createdAt: {
 						allowNull: false,
@@ -112,7 +87,7 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Article.tableName, {
+			return await queryInterface.dropTable(WidgetContent.tableName, {
 				transaction,
 			});
 		});

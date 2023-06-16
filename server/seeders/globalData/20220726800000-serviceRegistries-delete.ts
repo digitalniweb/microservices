@@ -53,7 +53,6 @@ export default {
 		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return;
 			try {
 				await queryInterface.bulkDelete(
 					ServiceRegistry.tableName,
