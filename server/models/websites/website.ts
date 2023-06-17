@@ -27,7 +27,7 @@ const Website = db.define<Website>(
 				isLength: 14,
 			},
 		},
-		websitesMsId: {
+		contentMsId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

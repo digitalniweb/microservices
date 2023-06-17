@@ -39,7 +39,7 @@ export default {
 						}, */
 						allowNull: true,
 					},
-					websitesMsId: {
+					contentMsId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
 					},
