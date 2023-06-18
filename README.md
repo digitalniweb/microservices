@@ -1,6 +1,13 @@
 # How it works
 
--   We need to run "globalData" microservice first and then other services.
+-   We need to run microservices in this order:
+
+        1. globalData
+        2. content
+        3. other services
+
+    <br>
+
 -   Redis must be installed. "globalData" microservice works as "service registry" and it registers all services and applications via Redis messaging system automatically on service start.
 -   "globalData" also works as "Single source of truth".
 -   Multiple "globalData" microservices can only be synchronized copy for load ballancing.
@@ -22,11 +29,11 @@ You need to run seeders to work properly because we need initial languages, curr
 
 Are self contained components or functionalities like 'articles', 'products', 'blog posts', 'news', etc.
 
-Modules might be premium - paid for.
+Modules might be premium i.e. paid for.
 
 Different Applications might have different modules.
 
-Modules might be:
+**Modules might be:**
 
 1. Modules like 'Articles' and 'Products' have their own menus
 
@@ -34,7 +41,7 @@ Modules might be:
 
 3. There might be other modules with simple or complex functionalities - Eshop (multiple tables and functionalities)
 
-If modules have their own dedicated root url ('/news' in '/news/we-started-new-website') their default values are specified in ["ModulesPagesLanguage"](digitalniweb-types/models/globalData.d.ts#ModulesPagesLanguage) for every Language. These values might be shown on the root page or other pages as well (depends on the individual module). (To implement maybe - user will be able to change these default values in 'websites ms' for every website)
+If modules have their own dedicated root url ('/news' in '/news/we-started-new-website') their default values are specified in ["ModulesPagesLanguage"](digitalniweb-types/models/globalData.d.ts#ModulesPagesLanguage) for every Language. These values might be shown on the root page or other pages as well (depends on the individual module). (To implement maybe - user will be able to change these default values in 'content ms' for every website)
 
 #### widgets
 
