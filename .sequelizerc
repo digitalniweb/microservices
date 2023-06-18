@@ -1,7 +1,5 @@
-require('babel-register')({
-	presets: [
-		['babel-preset-env', { targets: { node: 'current' } }]
-	]
+require("babel-register")({
+	presets: [["babel-preset-env", { targets: { node: "current" } }]],
 });
 const path = require("path");
 require("dotenv").config();
@@ -9,7 +7,7 @@ require("dotenv").config();
 module.exports = {
 	config: path.resolve("dist/server/config", "config.js"),
 	"models-path": path.resolve(
-		"dist/servermodels/" + process.env.MICROSERVICE_NAME
+		"dist/server/models/" + process.env.MICROSERVICE_NAME
 	),
 	"seeders-path": path.resolve(
 		"dist/server/seeders/" + process.env.MICROSERVICE_NAME
