@@ -47,6 +47,11 @@ export default {
 						allowNull: false,
 						defaultValue: false,
 					},
+					isDefault: {
+						type: DataTypes.BOOLEAN,
+						allowNull: false,
+						defaultValue: false,
+					},
 					order: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
