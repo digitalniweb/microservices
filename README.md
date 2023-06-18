@@ -34,6 +34,8 @@ Modules might be:
 
 3. There might be other modules with simple or complex functionalities - Eshop (multiple tables and functionalities)
 
+If modules have their own dedicated root url ('/news' in '/news/we-started-new-website') their default values are specified in ["ModulesPagesLanguage"](digitalniweb-types/models/globalData.d.ts#ModulesPagesLanguage) for every Language. These values might be shown on the root page or other pages as well (depends on the individual module). (To implement maybe - user will be able to change these default values in 'websites ms' for every website)
+
 #### widgets
 
 Are smaller components inside modules like text, banner, etc.

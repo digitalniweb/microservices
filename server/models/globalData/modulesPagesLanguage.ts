@@ -4,8 +4,10 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import ModulesPagesLanguage = websites.ModulesPagesLanguage;
+import { globalData } from "../../../digitalniweb-types/models/globalData.js";
+import ModulesPagesLanguage = globalData.ModulesPagesLanguage;
+import Module from "./module.js";
+import Language from "./language.js";
 
 const ModulesPagesLanguage = db.define<ModulesPagesLanguage>(
 	"ModulesPagesLanguage",
@@ -15,13 +17,19 @@ const ModulesPagesLanguage = db.define<ModulesPagesLanguage>(
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		moduleId: {
+		ModuleId: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			references: {
+				model: Module.tableName,
+				key: "id",
+			},
 		},
-		languageId: {
+		LanguageId: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			references: {
+				model: Language.tableName,
+				key: "id",
+			},
 		},
 		url: {
 			type: DataTypes.STRING,
@@ -47,12 +55,15 @@ const ModulesPagesLanguage = db.define<ModulesPagesLanguage>(
 			type: DataTypes.TEXT,
 			allowNull: true,
 		},
-		translations: DataTypes.JSON,
+		options: DataTypes.JSON,
 	},
 	{
 		timestamps: false, // createdAt, updatedAt
 		paranoid: false, // deletedAt
 	}
 );
+
+ModulesPagesLanguage.belongsTo(Module);
+ModulesPagesLanguage.belongsTo(Language);
 
 export default ModulesPagesLanguage;

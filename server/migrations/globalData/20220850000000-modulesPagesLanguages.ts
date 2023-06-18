@@ -1,12 +1,13 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import ModulesPagesLanguage from "../../models/websites/modulesPagesLanguage.js";
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import ModulesPagesLanguageType = websites.ModulesPagesLanguage;
+import ModulesPagesLanguage from "../../models/globalData/modulesPagesLanguage.js";
+import { globalData } from "../../../digitalniweb-types/models/globalData.js";
+import ModulesPagesLanguageType = globalData.ModulesPagesLanguage;
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import Module from "../../models/globalData/module.js";
-const microservice: Array<microservices> = ["websites"];
+import Language from "../../models/globalData/language.js";
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
@@ -26,13 +27,19 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					languageId: {
+					LanguageId: {
 						type: DataTypes.INTEGER,
-						allowNull: false,
+						references: {
+							model: Language.tableName,
+							key: "id",
+						},
 					},
-					moduleId: {
+					ModuleId: {
 						type: DataTypes.INTEGER,
-						allowNull: false,
+						references: {
+							model: Module.tableName,
+							key: "id",
+						},
 					},
 					url: {
 						type: DataTypes.STRING,
@@ -57,7 +64,7 @@ export default {
 					content: {
 						type: DataTypes.TEXT,
 					},
-					translations: {
+					options: {
 						type: DataTypes.TEXT,
 					},
 				},
