@@ -47,6 +47,7 @@ const AdminMenuLanguage = db.define<AdminMenuLanguage>(
 	}
 );
 AdminMenuLanguage.belongsTo(AdminMenu);
+AdminMenu.hasMany(AdminMenuLanguage);
 AdminMenuLanguage.belongsTo(Language);
 
 export default AdminMenuLanguage;
