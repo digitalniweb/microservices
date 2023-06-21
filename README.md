@@ -1,13 +1,6 @@
 # How it works
 
--   We need to run microservices in this order:
-
-        1. globalData
-        2. content
-        3. other services
-
-    <br>
-
+-   Microservices 'globalData' needs to be started first, then other services
 -   Redis must be installed. "globalData" microservice works as "service registry" and it registers all services and applications via Redis messaging system automatically on service start.
 -   "globalData" also works as "Single source of truth".
 -   Multiple "globalData" microservices can only be synchronized copy for load ballancing.
@@ -52,6 +45,10 @@ Are smaller components inside modules like text, banner, etc.
 -   see https://github.com/digitalniweb/saas
 
 # Other information
+
+## Installation
+
+use `git clone  --recurse-submodules https://github.com/digitalniweb/microservices.git .` to create a new repository in current folder with submodules
 
 ## Migrations
 
