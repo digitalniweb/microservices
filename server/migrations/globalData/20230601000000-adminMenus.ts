@@ -5,9 +5,7 @@ import AdminMenuType = globalData.AdminMenu;
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import AdminMenu from "../../models/globalData/adminMenu.js";
-import App from "../../models/globalData/app.js";
-import Language from "../../models/globalData/language";
-import Module from "../../models/globalData/module";
+import Module from "../../models/globalData/module.js";
 
 const microservice: Array<microservices> = ["globalData"];
 
@@ -58,7 +56,7 @@ export default {
 						defaultValue: false,
 					},
 					icon: {
-						type: DataTypes.BOOLEAN,
+						type: DataTypes.STRING,
 						allowNull: false,
 						defaultValue: false,
 					},
@@ -68,7 +66,7 @@ export default {
 						defaultValue: null,
 					},
 					ModuleId: {
-						type: DataTypes.BOOLEAN,
+						type: DataTypes.INTEGER,
 						allowNull: true,
 						references: {
 							model: Module.tableName,

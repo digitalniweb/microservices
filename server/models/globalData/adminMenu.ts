@@ -7,7 +7,6 @@ import db from "../index.js";
 import { globalData } from "../../../digitalniweb-types/models/globalData.js";
 import AdminMenu = globalData.AdminMenu;
 import Module from "./module.js";
-import AdminMenuLanguage from "./adminMenuLanguage.js";
 
 const AdminMenu = db.define<AdminMenu>(
 	"AdminMenu",
@@ -69,7 +68,7 @@ const AdminMenu = db.define<AdminMenu>(
 	}
 );
 AdminMenu.belongsTo(Module);
+Module.hasMany(AdminMenu);
 AdminMenu.belongsTo(AdminMenu, { as: "parent", foreignKey: "parentId" });
-AdminMenu.hasMany(AdminMenuLanguage);
 
 export default AdminMenu;
