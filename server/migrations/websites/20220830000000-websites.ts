@@ -40,7 +40,7 @@ export default {
 						allowNull: true,
 					},
 					contentMsId: {
-						type: DataTypes.INTEGER,
+						type: DataTypes.INTEGER.UNSIGNED,
 						allowNull: false,
 					},
 					userId: {
@@ -53,6 +53,10 @@ export default {
 					mainLanguageId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
+					},
+					emailsMsId: {
+						type: DataTypes.INTEGER.UNSIGNED,
+						allowNull: true,
 					},
 					testingMode: {
 						type: DataTypes.BOOLEAN,
