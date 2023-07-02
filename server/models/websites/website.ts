@@ -45,6 +45,10 @@ const Website = db.define<Website>(
 		mainLanguageId: {
 			type: DataTypes.INTEGER,
 		},
+		emailsMsId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
 		active: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
