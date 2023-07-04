@@ -23,8 +23,32 @@ const User = db.define<User>(
             type: DataTypes.STRING,
             allowNull: false,
         },
-
-        blalba: [],
+        discUsageMax: {
+            type: DataTypes.INTEGER,
+        },
+        discUsageCurrent: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        messageCountMax: {
+            type: DataTypes.INTEGER,
+        },
+        messageCountCurrent: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        mailboxName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        websitesMsId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        active: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
     },
     {
         timestamps: false, // createdAt, updatedAt
