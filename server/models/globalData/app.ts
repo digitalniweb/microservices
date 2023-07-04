@@ -6,7 +6,6 @@ import db from "../index.js";
 
 import { globalData } from "../../../digitalniweb-types/models/globalData.js";
 import App = globalData.App;
-import AppLanguage from "./appLanguage.js";
 import AppType from "./appType.js";
 import Language from "./language.js";
 import Module from "./module.js";
@@ -59,7 +58,7 @@ const App = db.define<App>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: AppLanguage.tableName,
+				model: Language.tableName,
 				key: "id",
 			},
 		},
@@ -78,10 +77,8 @@ App.hasOne(App, {
 	foreignKey: "parentId",
 });
 
-App.belongsToMany(Language, {
-	through: AppLanguage.tableName,
-});
 Language.hasMany(App);
+App.belongsTo(Language);
 
 App.hasMany(Module);
 App.hasMany(Widget);

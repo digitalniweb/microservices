@@ -62,7 +62,6 @@ export async function registerApp(
 					},
 					{ transaction }
 				);
-				await app.setLanguages([appLanguage], { transaction });
 
 				let websiteInfo: websites.Website | false | null =
 					await microserviceCall({
