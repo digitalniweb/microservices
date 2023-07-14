@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import ServiceRegistry = globalData.ServiceRegistry;
+import { ServiceRegistry } from "../../../digitalniweb-types/models/globalData.js";
 import Microservice from "./microservice.js";
 
 const ServiceRegistry = db.define<ServiceRegistry>(

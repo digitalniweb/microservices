@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import AppType = globalData.AppType;
+import { AppType } from "../../../digitalniweb-types/models/globalData.js";
 
 const AppType = db.define<AppType>(
 	"AppType",

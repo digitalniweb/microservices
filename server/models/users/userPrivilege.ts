@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { users } from "../../../digitalniweb-types/models/users.js";
-import UserPrivilege = users.UserPrivilege;
+import { UserPrivilege } from "../../../digitalniweb-types/models/users.js";
 
 const UserPrivilege = db.define<UserPrivilege>(
 	"UserPrivilege",

@@ -1,7 +1,6 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import WebsiteLanguageMutationType = websites.WebsiteLanguageMutation;
+import { WebsiteLanguageMutation as WebsiteLanguageMutationType } from "../../../digitalniweb-types/models/websites.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import Website from "../../models/websites/website.js";

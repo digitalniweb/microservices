@@ -1,11 +1,12 @@
 import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
 
 // import { Role as RoleType } from "../../digitalniweb-types/server/models/db.js";
-import Role from "../../models/globalData/role.js";
+// import Role from "../../models/globalData/role.js";
 
-import { users } from "../../../digitalniweb-types/models/users.js";
-import TenantType = users.Tenant;
-import UserType = users.User;
+import {
+	Tenant as TenantType,
+	User as UserType,
+} from "../../../digitalniweb-types/models/users.js";
 
 // import Tenant from "../../models/users/tenant.js";
 import User from "../../models/users/user.js";

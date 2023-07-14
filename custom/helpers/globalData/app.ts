@@ -6,7 +6,7 @@ import AppType from "../../../server/models/globalData/appType.js";
 import Language from "../../../server/models/globalData/language.js";
 import { appOptions } from "../../../digitalniweb-types/customFunctions/globalData.js";
 import { microserviceCall } from "../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
-import { websites } from "../../../digitalniweb-types/models/websites.js";
+import { Website } from "../../../digitalniweb-types/models/websites.js";
 import { CreationAttributes } from "sequelize";
 
 export async function registerApp(
@@ -64,7 +64,7 @@ export async function registerApp(
 					{ transaction }
 				);
 
-				let websiteInfo: websites.Website | false | null =
+				let websiteInfo: Website | false | null =
 					await microserviceCall({
 						name: "websites",
 						path: "/api/getwebsiteinfo",
@@ -75,7 +75,7 @@ export async function registerApp(
 
 				if (websiteInfo === false) return;
 				if (websiteInfo === null) {
-					let websiteData: CreationAttributes<websites.Website> = {
+					let websiteData: CreationAttributes<Website> = {
 						uniqueName: options.uniqueName,
 						active: true,
 						testingMode: true,

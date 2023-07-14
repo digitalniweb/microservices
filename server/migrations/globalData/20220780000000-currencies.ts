@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Currency from "../../models/globalData/currency.js";
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import LanguageType = globalData.Currency;
+import { Currency as CurrencyType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
@@ -16,7 +15,7 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<LanguageType>(
+			return await queryInterface.createTable<CurrencyType>(
 				Currency.tableName,
 				{
 					id: {

@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import AppType from "../../models/globalData/appType.js";
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import AppTypeType = globalData.AppType;
+import { AppType as AppTypeType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];

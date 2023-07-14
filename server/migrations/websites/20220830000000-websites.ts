@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Website from "../../models/websites/website.js";
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import WebsiteType = websites.Website;
+import { Website as WebsiteType } from "../../../digitalniweb-types/models/websites.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["websites"];

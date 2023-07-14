@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import CurrencyLanguage from "../../models/globalData/currencyLanguage.js";
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import CurrencyLanguageType = globalData.CurrencyLanguage;
+import { CurrencyLanguage as CurrencyLanguageType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import Currency from "../../models/globalData/currency.js";

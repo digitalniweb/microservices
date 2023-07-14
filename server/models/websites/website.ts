@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import Website = websites.Website;
+import { Website } from "../../../digitalniweb-types/models/websites.js";
 
 import Url from "./url.js";
 import { randomString } from "../../../digitalniweb-custom/functions/randomGenerator.js";

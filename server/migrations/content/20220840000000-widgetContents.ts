@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import WidgetContent from "../../models/content/widgetContent.js";
-import { content } from "../../../digitalniweb-types/models/content.js";
-import WidgetContentType = content.WidgetContent;
+import { WidgetContent as WidgetContentType } from "../../../digitalniweb-types/models/content.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["content"];

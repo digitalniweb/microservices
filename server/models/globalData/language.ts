@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import Language = globalData.Language;
+import { Language } from "../../../digitalniweb-types/models/globalData.js";
 
 const Language = db.define<Language>(
 	"Language",

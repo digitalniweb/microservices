@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import ModulesPagesLanguage = globalData.ModulesPagesLanguage;
+import { ModulesPagesLanguage } from "../../../digitalniweb-types/models/globalData.js";
 import Module from "./module.js";
 import Language from "./language.js";
 

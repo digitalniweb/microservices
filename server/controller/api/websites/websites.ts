@@ -2,7 +2,7 @@ import { requestPagination } from "../../../../digitalniweb-custom/helpers/reque
 import { CreationAttributes, Op, WhereOperators } from "sequelize";
 import { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
-import { websites } from "../../../../digitalniweb-types/models/websites.js";
+import { Website as WebsiteType } from "../../../../digitalniweb-types/models/websites.js";
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
 
@@ -186,27 +186,24 @@ export const createwebsite = async function (
 	next: NextFunction
 ) {
 	try {
-		let websiteData: CreationAttributes<websites.Website> =
-			req.body.website;
+		let websiteData: CreationAttributes<WebsiteType> = req.body.website;
 		let websiteUrl: string = req.body.url;
 
-		let result: websites.Website = await db.transaction(
-			async (transaction) => {
-				let website = await Website.create(websiteData, {
-					transaction,
-				});
-				let [url] = await Url.findOrCreate({
-					where: {
-						url: websiteUrl,
-					},
-					transaction,
-				});
+		let result: WebsiteType = await db.transaction(async (transaction) => {
+			let website = await Website.create(websiteData, {
+				transaction,
+			});
+			let [url] = await Url.findOrCreate({
+				where: {
+					url: websiteUrl,
+				},
+				transaction,
+			});
 
-				let mainUrl = await website.setMainUrl(url, { transaction });
-				website.MainUrlId = mainUrl.id;
-				return website;
-			}
-		);
+			let mainUrl = await website.setMainUrl(url, { transaction });
+			website.MainUrlId = mainUrl.id;
+			return website;
+		});
 
 		return res.send(result);
 	} catch (error) {

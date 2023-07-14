@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { billings } from "../../../digitalniweb-types/models/billings.js";
-import Invoice = billings.Invoice;
+import { Invoice } from "../../../digitalniweb-types/models/billings.js";
 import Currency from "../globalData/currency.js";
 import Status from "./status.js";
 import CreditBalanceLog from "./creditBalanceLog.js";

@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Microservice from "../../models/globalData/microservice.js";
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import MicroserviceType = globalData.Microservice;
+import { Microservice as MicroserviceType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import ServiceRegistry from "../../models/globalData/serviceRegistry.js";

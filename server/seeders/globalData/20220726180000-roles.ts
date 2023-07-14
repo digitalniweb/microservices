@@ -1,7 +1,6 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import RoleType = globalData.Role;
+import { Role as RoleType } from "../../../digitalniweb-types/models/globalData.js";
 
 import Role from "../../models/globalData/role.js";
 

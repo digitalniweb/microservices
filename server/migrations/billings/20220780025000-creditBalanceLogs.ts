@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import CreditBalanceLog from "../../models/billings/creditBalanceLog.js";
-import { billings } from "../../../digitalniweb-types/models/billings.js";
-import CreditBalanceLogType = billings.CreditBalanceLog;
+import { CreditBalanceLog as CreditBalanceLogType } from "../../../digitalniweb-types/models/billings.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import CreditBalanceType from "../../models/billings/creditBalanceType.js";

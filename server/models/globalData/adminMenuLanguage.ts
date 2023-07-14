@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import AdminMenuLanguage = globalData.AdminMenuLanguage;
+import { AdminMenuLanguage } from "../../../digitalniweb-types/models/globalData.js";
 import Language from "./language.js";
 import AdminMenu from "./adminMenu.js";
 

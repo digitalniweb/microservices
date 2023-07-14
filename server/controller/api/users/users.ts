@@ -12,8 +12,7 @@ import { requestPagination } from "../../../../digitalniweb-custom/helpers/reque
 import { CreationAttributes, IncludeOptions, InferAttributes } from "sequelize";
 
 import { possibleRoles } from "../../../../digitalniweb-types/index.js";
-import { users } from "../../../../digitalniweb-types/models/users.js";
-import UserType = users.User;
+import { User as UserType } from "../../../../digitalniweb-types/models/users.js";
 
 import { userAuthenticate } from "../../../../custom/helpers/users/userAuthenticate.js";
 

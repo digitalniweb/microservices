@@ -1,7 +1,6 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData";
-import AdminMenuType = globalData.AdminMenu;
+import { AdminMenu as AdminMenuType } from "../../../digitalniweb-types/models/globalData";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import AdminMenu from "../../models/globalData/adminMenu.js";

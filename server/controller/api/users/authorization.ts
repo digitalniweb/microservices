@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import Privilege from "../../../models/globalData/privilege.js";
 import Role from "../../../models/globalData/role.js";
 
-import { globalData } from "../../../../digitalniweb-types/models/globalData.js";
-import RoleType = globalData.Role;
-import PrivilegeType = globalData.Privilege;
+import {
+	Role as RoleType,
+	Privilege as PrivilegeType,
+} from "../../../../digitalniweb-types/models/globalData.js";
 
 import db from "../../../models/index.js";
 import { WhereOptions } from "sequelize";

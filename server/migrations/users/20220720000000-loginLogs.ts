@@ -2,8 +2,7 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 import LoginLog from "./../../models/users/loginLog.js";
 import User from "./../../models/users/user.js";
-import { users } from "./../../../digitalniweb-types/models/users.js";
-import LoginLogType = users.LoginLog;
+import { LoginLog as LoginLogType } from "./../../../digitalniweb-types/models/users.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];

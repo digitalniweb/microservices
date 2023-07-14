@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { websites } from "../../../digitalniweb-types/models/websites.js";
-import AdminMenuApp = websites.AdminMenuApp;
+import { AdminMenuApp } from "../../../digitalniweb-types/models/websites.js";
 
 const AdminMenuApp = db.define<AdminMenuApp>(
 	"AdminMenuApp",

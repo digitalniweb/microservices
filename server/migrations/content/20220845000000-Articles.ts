@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Article from "../../models/content/article.js";
-import { content } from "../../../digitalniweb-types/models/content.js";
-import ArticleType = content.Article;
+import { Article as ArticleType } from "../../../digitalniweb-types/models/content.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["content"];

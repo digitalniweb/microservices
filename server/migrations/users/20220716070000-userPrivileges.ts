@@ -3,8 +3,7 @@ import { QueryInterface, DataTypes } from "sequelize";
 import UserPrivilege from "./../../models/users/userPrivilege.js";
 import User from "./../../models/users/user.js";
 
-import { users } from "./../../../digitalniweb-types/models/users.js";
-import UserPrivilegeType = users.UserPrivilege;
+import { UserPrivilege as UserPrivilegeType } from "./../../../digitalniweb-types/models/users.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];

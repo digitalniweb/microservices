@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { billings } from "../../../digitalniweb-types/models/billings.js";
-import CreditBalanceType = billings.CreditBalanceType;
+import { CreditBalanceType } from "../../../digitalniweb-types/models/billings.js";
 
 const CreditBalanceType = db.define<CreditBalanceType>(
 	"CreditBalanceType",

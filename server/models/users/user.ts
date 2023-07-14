@@ -3,14 +3,11 @@
 
 import { DataTypes } from "sequelize";
 
-import crypto from "node:crypto";
-
 import { randomString } from "./../../../digitalniweb-custom/functions/randomGenerator.js";
 
 import db from "./../index.js";
 
-import { users } from "../../../digitalniweb-types/models/users.js";
-import User = users.User;
+import { User } from "../../../digitalniweb-types/models/users.js";
 
 import Tenant from "./tenant.js";
 import { hashString } from "../../../digitalniweb-custom/functions/hashString.js";

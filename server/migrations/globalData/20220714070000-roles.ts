@@ -2,8 +2,7 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 import Role from "../../models/globalData/role.js";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import RoleType = globalData.Role;
+import { Role as RoleType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];

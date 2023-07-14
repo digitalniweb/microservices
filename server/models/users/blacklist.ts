@@ -4,8 +4,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { users } from "../../../digitalniweb-types/models/users.js";
-import Blacklist = users.Blacklist;
+import { Blacklist } from "../../../digitalniweb-types/models/users.js";
 
 const Blacklist = db.define<Blacklist>(
 	"Blacklist",

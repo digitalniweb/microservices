@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import ModulesPagesLanguage from "../../models/globalData/modulesPagesLanguage.js";
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import ModulesPagesLanguageType = globalData.ModulesPagesLanguage;
+import { ModulesPagesLanguage as ModulesPagesLanguageType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import Module from "../../models/globalData/module.js";

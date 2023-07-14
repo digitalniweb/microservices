@@ -1,7 +1,6 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import PrivilegeType = globalData.Privilege;
+import { Privilege as PrivilegeType } from "../../../digitalniweb-types/models/globalData.js";
 
 import Privilege from "../../models/globalData/privilege.js";
 

@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Widget from "../../models/globalData/widget.js";
-import { globalData } from "../../../digitalniweb-types/models/globalData.js";
-import WidgetType = globalData.Widget;
+import { Widget as WidgetType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];

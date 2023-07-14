@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Tenant from "./../../models/users/tenant.js";
-import { users } from "./../../../digitalniweb-types/models/users.js";
-import TenantType = users.Tenant;
+import { Tenant as TenantType } from "./../../../digitalniweb-types/models/users.js";
 
 import User from "./../../models/users/user.js";
 
