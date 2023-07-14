@@ -44,6 +44,10 @@ const App = db.define<App>(
 			allowNull: false,
 			unique: false,
 		},
+		host: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 		uniqueName: {
 			type: DataTypes.STRING,
 			allowNull: false,

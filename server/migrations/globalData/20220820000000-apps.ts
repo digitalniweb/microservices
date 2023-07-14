@@ -48,6 +48,10 @@ export default {
 						allowNull: false,
 						unique: false,
 					},
+					host: {
+						type: DataTypes.STRING,
+						allowNull: false,
+					},
 					uniqueName: {
 						type: DataTypes.STRING(14),
 						allowNull: false,

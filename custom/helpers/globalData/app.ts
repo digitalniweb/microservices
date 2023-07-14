@@ -59,6 +59,7 @@ export async function registerApp(
 						apiKey: options.apiKey,
 						LanguageId: appLanguage.id,
 						AppTypeId: appType.id,
+						host: options.host,
 					},
 					{ transaction }
 				);
