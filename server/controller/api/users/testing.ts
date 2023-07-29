@@ -31,7 +31,7 @@ export const test = async function (
 		//let tenant = await Tenant.findOne();
 
 		return res.send(role); */
-		// return res.send(await role?.Users[0]?.Tenant?.getUser());
+		// return res.send(await role?.Users[0]?.Tenant?.findUser());
 		/* let role = await Role.findOne();
 		let user = await role?.getUsers();
 

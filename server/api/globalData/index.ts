@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import checkAuth from "../../middleware/checkAuth.js"; // !!! this does nothing now
+import { checkAuth } from "../../middleware/checkAuth.js"; // !!! this does nothing now
 import testingRoutes from "./testing.js";
 import serviceRegistryRoutes from "./serviceregistry.js";
 

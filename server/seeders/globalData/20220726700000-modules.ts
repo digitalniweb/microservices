@@ -25,7 +25,7 @@ export default {
 				});
 
 				let photoGallery = await Module.create({
-					name: "photo gallery",
+					name: "photoGallery",
 					model: "PhotoGallery",
 					creditsCost: 30,
 				});

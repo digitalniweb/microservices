@@ -1,5 +1,7 @@
 "use strict";
 
+// !!! delete and put to logs_ms
+
 import { DataTypes } from "sequelize";
 
 import db from "../index.js";

@@ -1,13 +1,15 @@
 import express from "express";
 const router = express.Router();
-import checkAuth from "../../middleware/checkAuth.js"; // !!! this does nothing now
 import testingRoutes from "./testing.js";
 import usersRoutes from "./users.js";
+import authRoutes from "./auth/index.js";
 
 /* router.use("/websites", checkAuth, require("./websites"));
 router.use("/languages", checkAuth, require("./languages")); */
 
-router.use("/users", checkAuth, usersRoutes);
-router.use("/testing", checkAuth, testingRoutes);
+router.use("/users", usersRoutes);
+router.use("/testing", testingRoutes);
+
+router.use("/auth", authRoutes);
 
 export default router;

@@ -1,8 +1,8 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import Privilege from "../../models/globalData/privilege.js";
+import Action from "../../models/globalData/action.js";
 
-import { Privilege as PrivilegeType } from "../../../digitalniweb-types/models/globalData.js";
+import { Action as ActionType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
@@ -16,8 +16,8 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<PrivilegeType>(
-				Privilege.tableName,
+			return await queryInterface.createTable<ActionType>(
+				Action.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -29,10 +29,6 @@ export default {
 						type: DataTypes.STRING(63),
 						unique: true,
 						allowNull: false,
-					},
-					type: {
-						type: DataTypes.STRING(63),
-						allowNull: true,
 					},
 				},
 				{
@@ -52,7 +48,7 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(Privilege.tableName, {
+			return await queryInterface.dropTable(Action.tableName, {
 				transaction,
 			});
 		});

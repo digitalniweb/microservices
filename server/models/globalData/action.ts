@@ -4,10 +4,10 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Privilege } from "../../../digitalniweb-types/models/globalData.js";
+import { Action } from "../../../digitalniweb-types/models/globalData.js";
 
-const Privilege = db.define<Privilege>(
-	"Privilege",
+const Action = db.define<Action>(
+	"Action",
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -18,11 +18,6 @@ const Privilege = db.define<Privilege>(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		type: {
-			// login type to web section -> /admin or /modules
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt
@@ -30,4 +25,4 @@ const Privilege = db.define<Privilege>(
 	}
 );
 
-export default Privilege;
+export default Action;

@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import checkAuth from "../../middleware/checkAuth.js"; // !!! this does nothing now
+import { checkAuth } from "../../middleware/checkAuth.js"; // !!! this does nothing now
 import billingsRoutes from "./billings.js";
 
 /* router.use("/websites", checkAuth, require("./websites"));

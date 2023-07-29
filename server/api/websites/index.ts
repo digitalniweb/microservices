@@ -6,7 +6,7 @@ router.get("/websitemutations", controller.getWebsiteLanguageMutations);
 
 router.get("/getwebsiteinfo", controller.getWebsiteInfo);
 router.get("/testingwebsitescount", controller.testingWebsitesCount);
-router.get("/gettenantwebsites", controller.getTenantWebsites);
+router.get("/gettenantwebsites", controller.findTenantWebsites);
 
 router.post("/register/tenant", controller.registerTenant);
 router.post("/createwebsite", controller.createwebsite);

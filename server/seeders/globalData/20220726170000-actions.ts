@@ -1,8 +1,8 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { Privilege as PrivilegeType } from "../../../digitalniweb-types/models/globalData.js";
+import { Action as ActionType } from "../../../digitalniweb-types/models/globalData.js";
 
-import Privilege from "../../models/globalData/privilege.js";
+import Action from "../../models/globalData/action.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
@@ -17,53 +17,30 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				const privilegesObjects: CreationAttributes<PrivilegeType>[] = [
+				const ActionsObjects: CreationAttributes<ActionType>[] = [
 					{
-						name: "articles",
-						type: "admin",
+						name: "read",
 					},
 					{
-						name: "menu",
-						type: "admin",
+						name: "write",
 					},
 					{
-						name: "appereance",
-						type: "admin",
+						name: "delete",
 					},
 					{
-						name: "news",
-						type: "admin",
+						name: "makeAnOrder",
 					},
 					{
-						name: "forms",
-						type: "admin",
+						name: "makeAnOrder",
 					},
 					{
-						name: "users",
-						type: "admin",
+						name: "premium",
 					},
 					{
-						name: "redirects",
-						type: "admin",
-					},
-					{
-						name: "webinformation",
-						type: "admin",
-					},
-					{
-						name: "owner-information",
-						type: "admin",
-					},
-					{
-						name: "url-information",
-						type: "admin",
-					},
-					{
-						name: "analytics-marketing",
-						type: "admin",
+						name: "register",
 					},
 				];
-				await Privilege.bulkCreate<PrivilegeType>(privilegesObjects, {
+				await Action.bulkCreate<ActionType>(ActionsObjects, {
 					validate: true,
 					individualHooks: true,
 					transaction,
@@ -83,7 +60,7 @@ export default {
 
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(Privilege.tableName, {}, {});
+				await queryInterface.bulkDelete(Action.tableName, {}, {});
 			} catch (error) {
 				console.log(error);
 			}

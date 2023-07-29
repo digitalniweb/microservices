@@ -40,6 +40,24 @@ If modules have their own dedicated root url ('/news' in '/news/we-started-new-w
 
 Are smaller components inside modules like text, banner, etc.
 
+## Authorization and authentication
+
+There are 2 types of 'Authorization':
+
+### admins
+
+'superadmins' can change everything on any site and any microservice. Might even have dedicated options which others don't see
+
+'owners' are admins with all privileges for particular site e.g. Tenants are owners of their sites
+
+'admins' can access 'admin backend' and have assigned privileges (model 'Action') like 'write', 'read' etc. for certain 'modules'. These privileges can be changed by 'owner' or 'admin' with privileges to change privileges to 'admins'.
+
+### users
+
+'user' is registered user
+
+'tenant' is user who ordered a website in 'SaaS' - 'tenant' on 'saas-host' is 'owner' on 'saas-tenants'
+
 ## Applications
 
 -   see https://github.com/digitalniweb/saas

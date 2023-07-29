@@ -92,7 +92,7 @@ export const testingWebsitesCount = async function (
 	}
 };
 
-export const getTenantWebsites = async function (
+export const findTenantWebsites = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
