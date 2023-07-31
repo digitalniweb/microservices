@@ -1,8 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Role from "../../models/globalData/role.js";
+import RoleType from "../../models/globalData/roleType.js";
 
-import { Role as RoleType } from "../../../digitalniweb-types/models/globalData.js";
+import { Role as RoleModelType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
@@ -16,7 +17,7 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<RoleType>(
+			return await queryInterface.createTable<RoleModelType>(
 				Role.tableName,
 				{
 					id: {
@@ -30,9 +31,12 @@ export default {
 						unique: true,
 						allowNull: false,
 					},
-					type: {
-						type: DataTypes.STRING(63),
-						allowNull: true,
+					RoleTypeId: {
+						type: DataTypes.INTEGER,
+						references: {
+							model: RoleType.tableName,
+							key: "id",
+						},
 					},
 				},
 				{

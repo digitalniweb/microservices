@@ -1,8 +1,8 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { Action as ActionType } from "../../../digitalniweb-types/models/globalData.js";
+import { RoleType as RoleTypeType } from "../../../digitalniweb-types/models/globalData.js";
 
-import Action from "../../models/globalData/action.js";
+import RoleType from "../../models/globalData/roleType.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
@@ -17,25 +17,15 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				const ActionsObjects: CreationAttributes<ActionType>[] = [
-					{ name: "write" },
-					{ name: "create" },
-					{ name: "read" },
-					{ name: "delete" },
-					{ name: "modify" },
-					{ name: "register" },
-					{ name: "premium" },
-					{ name: "makeOrder" },
-					{ name: "purchase" },
-					{ name: "cancel" },
-					{ name: "refund" },
-					{ name: "pay" },
-					{ name: "pending" },
-					{ name: "expire" },
-					{ name: "creditAdd" },
-					{ name: "creditSubtract" },
+				const rolesObjects: CreationAttributes<RoleTypeType>[] = [
+					{
+						name: "admin",
+					},
+					{
+						name: "user",
+					},
 				];
-				await Action.bulkCreate<ActionType>(ActionsObjects, {
+				await RoleType.bulkCreate<RoleTypeType>(rolesObjects, {
 					validate: true,
 					individualHooks: true,
 					transaction,
@@ -52,10 +42,9 @@ export default {
 			)
 		)
 			return;
-
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(Action.tableName, {}, {});
+				await queryInterface.bulkDelete(RoleType.tableName, {}, {});
 			} catch (error) {
 				console.log(error);
 			}

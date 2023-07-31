@@ -1,10 +1,11 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
 
-import { Role as RoleType } from "../../../digitalniweb-types/models/globalData.js";
+import { Role as RoleTypeType } from "../../../digitalniweb-types/models/globalData.js";
 
 import Role from "../../models/globalData/role.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
+import RoleType from "../../models/globalData/roleType.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {
@@ -15,35 +16,51 @@ export default {
 			)
 		)
 			return;
+		let roleAdmin = await RoleType.findOne({
+			where: {
+				name: "admin",
+			},
+		});
+		let roleUser = await RoleType.findOne({
+			where: {
+				name: "user",
+			},
+		});
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				const rolesObjects: CreationAttributes<RoleType>[] = [
+				/* const rolesObjects: CreationAttributes<RoleTypeType>[] = [
 					{
 						name: "superadmin",
-						type: "admin",
+						RoleTypeId: 1,
 					},
 					{
 						name: "owner",
-						type: "admin",
+						RoleTypeId: 1,
 					},
 					{
 						name: "admin",
-						type: "admin",
+						RoleTypeId: 1,
 					},
 					{
 						name: "tenant",
-						type: "user",
+						RoleTypeId: 2,
 					},
 					{
 						name: "user",
-						type: "user",
+						RoleTypeId: 2,
 					},
 				];
-				await Role.bulkCreate<RoleType>(rolesObjects, {
+				await Role.bulkCreate<RoleTypeType>(rolesObjects, {
 					validate: true,
 					individualHooks: true,
 					transaction,
-				});
+				}); */
+				if (!roleAdmin || !roleUser) throw "RoleTypes didn't load.";
+				await roleAdmin.createRole({ name: "superadmin" });
+				await roleAdmin.createRole({ name: "owner" });
+				await roleAdmin.createRole({ name: "admin" });
+				await roleUser.createRole({ name: "user" });
+				await roleUser.createRole({ name: "tenant" });
 			} catch (error) {
 				console.log(error);
 			}

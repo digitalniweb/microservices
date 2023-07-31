@@ -5,6 +5,7 @@ import { DataTypes } from "sequelize";
 import db from "../index.js";
 
 import { Role } from "../../../digitalniweb-types/models/globalData.js";
+import RoleType from "./roleType.js";
 
 const Role = db.define<Role>(
 	"Role",
@@ -18,7 +19,7 @@ const Role = db.define<Role>(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		type: {
+		RoleTypeId: {
 			// login type to web section -> /admin or /modules
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -32,10 +33,8 @@ const Role = db.define<Role>(
 	}
 );
 
-/* User.belongsToMany(Privilege, {
-	through: UserPrivilege.tableName,
-});
+Role.belongsTo(RoleType);
 
-Privilege.hasMany(User); */
+RoleType.hasOne(Role);
 
 export default Role;
