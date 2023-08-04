@@ -22,11 +22,6 @@ const Module = db.define<Module>(
 		model: {
 			type: DataTypes.STRING,
 		},
-		usersRoleId: {
-			type: DataTypes.INTEGER,
-			allowNull: true,
-			defaultValue: null,
-		},
 		creditsCost: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
