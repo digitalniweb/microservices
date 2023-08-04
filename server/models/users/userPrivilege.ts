@@ -13,7 +13,7 @@ const UserPrivilege = db.define<UserPrivilege>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		privilegeId: {
+		actionId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

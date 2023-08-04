@@ -1,12 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import UserPrivilege from "./../../models/users/userPrivilege.js";
-import User from "./../../models/users/user.js";
+import RoleType from "../../models/globalData/roleType.js";
 
-import { UserPrivilege as UserPrivilegeType } from "./../../../digitalniweb-types/models/users.js";
+import { RoleType as RoleTypeType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-const microservice: Array<microservices> = ["users"];
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
@@ -17,18 +16,18 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<UserPrivilegeType>(
-				UserPrivilege.tableName,
+			return await queryInterface.createTable<RoleTypeType>(
+				RoleType.tableName,
 				{
-					UserId: {
+					id: {
+						allowNull: false,
+						autoIncrement: true,
+						primaryKey: true,
 						type: DataTypes.INTEGER,
-						references: {
-							model: User.tableName,
-							key: "id",
-						},
 					},
-					actionId: {
-						type: DataTypes.INTEGER,
+					name: {
+						type: DataTypes.STRING(63),
+						unique: true,
 						allowNull: false,
 					},
 				},
@@ -49,7 +48,7 @@ export default {
 		)
 			return console.log("Omitted");
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(UserPrivilege.tableName, {
+			return await queryInterface.dropTable(RoleType.tableName, {
 				transaction,
 			});
 		});
