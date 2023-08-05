@@ -4,8 +4,8 @@ import testingRoutes from "./testing.js";
 import usersRoutes from "./users.js";
 import authRoutes from "./auth/index.js";
 
-/* router.use("/websites", checkAuth, require("./websites"));
-router.use("/languages", checkAuth, require("./languages")); */
+/* router.use("/websites", checkAuth(), require("./websites"));
+router.use("/languages", checkAuth(), require("./languages")); */
 
 router.use("/users", usersRoutes);
 router.use("/testing", testingRoutes);

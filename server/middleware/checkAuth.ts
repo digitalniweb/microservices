@@ -18,6 +18,9 @@ const checkAuth = function (
 ) {
 	return async function (req: Request, res: Response, next: NextFunction) {
 		try {
+			console.log("req.path");
+			console.log(req.path);
+
 			if (req.userVerified?.role === "superadmin") return next();
 			if (
 				req.userVerified?.role === "owner" &&
@@ -34,7 +37,7 @@ const checkAuth = function (
 				throw {
 					code: 401,
 					message:
-						"Unauthorized request. Your role has insufficient permitions.",
+						"Unauthorized request. Your role has insufficient permissions.",
 					finalResponse: true,
 				};
 			}
@@ -48,4 +51,33 @@ const checkAuth = function (
 		}
 	};
 };
-export { checkAuth };
+const checkRegisterServiceAuth = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		const prefix = "Bearer ";
+		const headerAuth = req.headers?.authorization;
+		if (!headerAuth)
+			throw {
+				code: 401,
+				message: "Unauthorized",
+			};
+		if (!headerAuth.startsWith(prefix))
+			throw {
+				code: 401,
+				message: "Unauthorized",
+			};
+		const apiKey = headerAuth.slice(prefix.length);
+		if (apiKey !== process.env.GLOBALDATA_REGISTRY_API_KEY)
+			throw {
+				code: 401,
+				message: "Unauthorized",
+			};
+		return next;
+	} catch (error) {
+		return next(error);
+	}
+};
+export { checkAuth, checkRegisterServiceAuth };
