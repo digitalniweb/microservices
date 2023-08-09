@@ -18,9 +18,6 @@ const checkAuth = function (
 ) {
 	return async function (req: Request, res: Response, next: NextFunction) {
 		try {
-			console.log("req.path");
-			console.log(req.path);
-
 			if (req.userVerified?.role === "superadmin") return next();
 			if (
 				req.userVerified?.role === "owner" &&
@@ -34,18 +31,13 @@ const checkAuth = function (
 						| userAuthorizationNames
 				)
 			) {
-				throw {
-					code: 401,
-					message:
-						"Unauthorized request. Your role has insufficient permissions.",
-					finalResponse: true,
-				};
+				throw "";
 			}
 			return next();
 		} catch (error) {
 			return next({
 				error,
-				code: "401",
+				code: 401,
 				message: "Wrong authentication",
 			});
 		}
