@@ -6,7 +6,7 @@ import db from "../index.js";
 
 import { Invoice } from "../../../digitalniweb-types/models/billings.js";
 import Currency from "../globalData/currency.js";
-import Status from "./status.js";
+import Status from "../globalData/status.js";
 import CreditBalanceLog from "./creditBalanceLog.js";
 
 const Invoice = db.define<Invoice>(
@@ -30,7 +30,7 @@ const Invoice = db.define<Invoice>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		StatusId: {
+		statusId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

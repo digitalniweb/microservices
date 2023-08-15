@@ -1,7 +1,8 @@
 import { hashString } from "../../../digitalniweb-custom/functions/hashString.js";
 import User from "../../../server/models/users/user.js";
 import UserPrivilege from "../../../server/models/users/userPrivilege.js";
-import { customBELogger } from "../../../digitalniweb-custom/helpers/logger.js";
+import { log } from "../../../digitalniweb-custom/helpers/logger.js";
+import { commonError } from "../../../digitalniweb-types/customHelpers/logger.js";
 
 export async function userAuthenticate(login: string, password: string) {
 	// !!! this returns all data including password and refreshSalt !!!
@@ -21,10 +22,11 @@ export async function userAuthenticate(login: string, password: string) {
 		if (!(hashString(password) === user.password)) return false;
 		return user;
 	} catch (error) {
-		customBELogger({
-			error,
-			code: 500,
+		log({
+			error: error as commonError,
+			type: "authentication",
 			message: "User authentication failed",
+			code: 401,
 		});
 		return false;
 	}

@@ -5,7 +5,6 @@ import { Invoice as InvoiceType } from "../../../digitalniweb-types/models/billi
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import CreditBalanceLog from "../../models/billings/creditBalanceLog.js";
-import Status from "../../models/billings/status.js";
 import Currency from "../../models/globalData/currency.js";
 const microservice: Array<microservices> = ["billings"];
 
@@ -44,13 +43,9 @@ export default {
 							key: "id",
 						},
 					},
-					StatusId: {
+					statusId: {
 						type: DataTypes.INTEGER,
 						allowNull: false,
-						references: {
-							model: Status.tableName,
-							key: "id",
-						},
 					},
 					CreditBalanceLogId: {
 						type: DataTypes.INTEGER,

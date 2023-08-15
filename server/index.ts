@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 import languageSetter from "./middleware/language-setter.js";
 
-import { customBELogger } from "./../digitalniweb-custom/helpers/logger.js";
+import { log } from "./../digitalniweb-custom/helpers/logger.js";
 
 import apiRoutes from "./api/index.js";
 
@@ -24,7 +24,10 @@ app.use("/api/", apiRoutes);
 
 app.use(<ErrorRequestHandler>((err, req, res, next) => {
 	// in express middleware throw error in catch block: next({ error, code: 500, message: "Can't load api" });
-	let responseObject = customBELogger(err, req);
+	let responseObject = log(err, req) ?? {
+		code: 500,
+		message: "Internal Server Error",
+	};
 	return res.status(responseObject.code).send(responseObject);
 }));
 

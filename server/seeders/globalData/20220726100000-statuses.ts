@@ -1,6 +1,6 @@
 import { QueryInterface } from "sequelize";
 
-import Status from "../../models/billings/status.js";
+import Status from "../../models/globalData/status.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["billings"];
@@ -34,6 +34,30 @@ export default {
 				await Status.create(
 					{
 						name: "error",
+					},
+					{
+						transaction,
+					}
+				);
+				await Status.create(
+					{
+						name: "info",
+					},
+					{
+						transaction,
+					}
+				);
+				await Status.create(
+					{
+						name: "success",
+					},
+					{
+						transaction,
+					}
+				);
+				await Status.create(
+					{
+						name: "warning",
 					},
 					{
 						transaction,

@@ -3,6 +3,7 @@ import sleep from "../../digitalniweb-custom/functions/sleep.js";
 
 import { Request, NextFunction } from "express";
 import LoginLog from "../../server/models/users/loginLog.js";
+import { commonError } from "../../digitalniweb-types/customHelpers/logger.js";
 
 export default async function wrongLoginAttempt(
 	req: Request,
@@ -23,7 +24,7 @@ export default async function wrongLoginAttempt(
 		return next({
 			error,
 			code: 401,
-			message: errorObject.message,
+			message: errorObject.message as string,
 			data: { ...errorObject },
 		});
 	}

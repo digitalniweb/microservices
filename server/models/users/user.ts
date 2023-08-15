@@ -1,5 +1,5 @@
 "use strict";
-// const { customBELogger } = require("./../../customFunctions/logger");
+// const { log } = require("./../../customFunctions/logger");
 
 import { DataTypes } from "sequelize";
 
