@@ -7,7 +7,7 @@ import serviceRegistryRoutes from "./serviceregistry.js";
 /* router.use("/websites", checkAuth(), require("./websites"));
 router.use("/languages", checkAuth(), require("./languages")); */
 
-router.use("/testing", checkAuth(), testingRoutes);
+router.use("/testing", testingRoutes);
 router.use("/serviceregistry", serviceRegistryRoutes);
 
 export default router;

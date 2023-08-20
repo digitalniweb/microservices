@@ -25,6 +25,7 @@ const checkAuth = function (
 			)
 				return next();
 			if (
+				!req.userVerified ||
 				!requiredRole.includes(
 					req.userVerified?.role as
 						| adminAuthorizationNames
@@ -37,8 +38,9 @@ const checkAuth = function (
 		} catch (error) {
 			return next({
 				error,
-				code: 401,
-				message: "Wrong authentication",
+				code: 403,
+				message: "Forbidden",
+				type: "authorization",
 			});
 		}
 	};
@@ -53,19 +55,19 @@ const checkRegisterServiceAuth = async function (
 		const headerAuth = req.headers?.authorization;
 		if (!headerAuth)
 			throw {
-				code: 401,
-				message: "Unauthorized",
+				code: 403,
+				message: "Forbidden",
 			};
 		if (!headerAuth.startsWith(prefix))
 			throw {
-				code: 401,
-				message: "Unauthorized",
+				code: 403,
+				message: "Forbidden",
 			};
 		const apiKey = headerAuth.slice(prefix.length);
 		if (apiKey !== process.env.GLOBALDATA_REGISTRY_API_KEY)
 			throw {
-				code: 401,
-				message: "Unauthorized",
+				code: 403,
+				message: "Forbidden",
 			};
 		return next;
 	} catch (error) {

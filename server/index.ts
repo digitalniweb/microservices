@@ -28,6 +28,8 @@ app.use(<ErrorRequestHandler>((err, req, res, next) => {
 		code: 500,
 		message: "Internal Server Error",
 	};
+	console.log(err);
+
 	return res.status(responseObject.code).send(responseObject);
 }));
 
