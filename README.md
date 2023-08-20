@@ -66,7 +66,9 @@ There are 2 types of 'Authorization':
 
 ## Installation
 
-use `git clone  --recurse-submodules https://github.com/digitalniweb/microservices.git .` to create a new repository in current folder with submodules
+Use `git clone  --recurse-submodules https://github.com/digitalniweb/microservices.git .` to create a new repository in current folder with submodules
+
+Submodules' git branches need to be changed to "master"
 
 ## Migrations
 
