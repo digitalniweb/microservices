@@ -1,3 +1,4 @@
+// If I change babel packages to @babel/register and @babel/preset-env CLI stops working
 require("babel-register")({
 	presets: [["babel-preset-env", { targets: { node: "current" } }]],
 });

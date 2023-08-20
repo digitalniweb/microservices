@@ -10,8 +10,7 @@
 		"start": "node dist/server/index.js",
 		"build-watch": "npm run clearDist && npx tsc --watch",
 		"dev": "tsc-watch --onSuccess \"node dist/server/index.js\"",
-		"devNotWatch": "npm run clearDist && npx tsc && npm run start",
-		"change-service": "node dist/change-service"
+		"devNotWatch": "npm run clearDist && npx tsc && npm run start"
 	},
 	"keywords": [],
 	"author": "",
