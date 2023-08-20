@@ -31,13 +31,13 @@
 		"validator": "^13.11.0"
 	},
 	"devDependencies": {
-		"@babel/register": "^7.22.5",
 		"@types/express": "^4.17.17",
 		"@types/node": "^20.4.8",
 		"@types/node-cron": "^3.0.8",
 		"@types/ua-parser-js": "^0.7.36",
 		"@types/validator": "^13.9.0",
 		"babel-preset-env": "^1.7.0",
+		"babel-register": "^6.26.0",
 		"tsc-watch": "^6.0.4",
 		"typescript": "^5.1.6"
 	}
