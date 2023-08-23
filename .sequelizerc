@@ -1,19 +1,20 @@
-// If I change babel packages to @babel/register and @babel/preset-env CLI stops working
-require("babel-register")({
-	presets: [["babel-preset-env", { targets: { node: "current" } }]],
-});
+// The following commented code makes it work so sequelize-cli works with ES modules. But the packages are old with severe threats. Exchanging for @babel/register and @babel/preset-env doesn't work.
+// require("babel-register")({
+// 	presets: [["babel-preset-env", { targets: { node: "current" } }]],
+// });
+
 const path = require("path");
 require("dotenv").config();
 
 module.exports = {
 	config: path.resolve("dist/server/config", "config.js"),
 	"models-path": path.resolve(
-		"dist/server/models/" + process.env.MICROSERVICE_NAME
+		"dist-sequelize-cjs/server/models/" + process.env.MICROSERVICE_NAME
 	),
 	"seeders-path": path.resolve(
-		"dist/server/seeders/" + process.env.MICROSERVICE_NAME
+		"dist-sequelize-cjs/server/seeders/" + process.env.MICROSERVICE_NAME
 	),
 	"migrations-path": path.resolve(
-		"dist/server/migrations/" + process.env.MICROSERVICE_NAME
+		"dist-sequelize-cjs/server/migrations/" + process.env.MICROSERVICE_NAME
 	),
 };

@@ -68,37 +68,45 @@ There are 2 types of 'Authorization':
 
 Use `git clone  --recurse-submodules https://github.com/digitalniweb/microservices.git .` to create a new repository in current folder with submodules
 
-Submodules' git branches need to be changed to "master"
+    !!! Submodules' git branches need to be changed to "master"
 
-## Migrations
+## Sequelize CLI
+
+Before running `sequelize-cli` package commannds we need to compile code via:
+
+    npm run buildSequelize
+
+Because `.sequelizerc` uses commonJS and Node's `type` in `package.json` is set to `module` we need to compile migrations and seeders to commonJS and add `tsconfig.json` file to the transpiled folder.
+
+Then we can use `scripts` from `package.json` (which can be updated if needed)
+
+### Migrations
 
 -   [documentation](https://https://sequelize.org/docs/v6/other-topics/migrations/)
 
 Migrations have dedicated table in database unlike seeders
 
-### Up
+#### Up
 
-    npx sequelize-cli db:migrate
+    npm run migrations
 
-### Down
-
-revert the most recent migration (from DB):
-
-    npx sequelize-cli db:migrate:undo
+#### Down
 
 revert all:
 
-    npx sequelize-cli db:migrate:undo:all
+    npm run migrationsUndoAll
 
-## Seeders
+### Seeders
 
 -   [documentation](https://https://sequelize.org/docs/v6/other-topics/migrations/)
 
-### Up
+#### Up
 
-    npx sequelize-cli db:seed:all
+    npm run seeders
 
-### Down
+#### Down
+
+Before running these commands, we need to run `npm run buildSequelize` first
 
 revert the most recent seeder (only last file via date name):
 

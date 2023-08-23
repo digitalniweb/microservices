@@ -10,7 +10,11 @@
 		"start": "node dist/server/index.js",
 		"build-watch": "npm run clearDist && npx tsc --watch",
 		"dev": "tsc-watch --onSuccess \"node dist/server/index.js\"",
-		"devNotWatch": "npm run clearDist && npx tsc && npm run start"
+		"devNotWatch": "npm run clearDist && npx tsc && npm run start",
+		"buildSequelize": "npx tsc --project tsconfig.sequelize.json && echo {\"type\":\"commonjs\"} > ./dist-sequelize-cjs/package.json",
+		"migrations": "npm run buildSequelize && npx sequelize-cli db:migrate",
+		"migrationsUndoAll": "npm run buildSequelize && npx sequelize-cli db:migrate:undo:all",
+		"seeders": "npm run buildSequelize && npx sequelize-cli db:seed:all"
 	},
 	"keywords": [],
 	"author": "",
@@ -35,8 +39,6 @@
 		"@types/node-cron": "^3.0.8",
 		"@types/ua-parser-js": "^0.7.36",
 		"@types/validator": "^13.9.0",
-		"babel-preset-env": "^1.7.0",
-		"babel-register": "^6.26.0",
 		"tsc-watch": "^6.0.4",
 		"typescript": "^5.1.6"
 	}
