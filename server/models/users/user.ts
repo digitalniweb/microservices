@@ -20,6 +20,11 @@ const User = db.define<User>(
 			primaryKey: true,
 			autoIncrement: true,
 		},
+		credit: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+			defaultValue: null,
+		},
 		nickname: {
 			type: new DataTypes.STRING(255),
 			allowNull: true,

@@ -24,6 +24,11 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
+					credit: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						defaultValue: null,
+					},
 					nickname: {
 						type: DataTypes.STRING(255),
 						unique: true,
