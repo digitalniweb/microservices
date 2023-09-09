@@ -12,7 +12,6 @@ import { CreationAttributes } from "sequelize";
 export async function registerApp(
 	options: appOptions
 ): Promise<boolean | void> {
-	// !!! added App.websitesId -> add url and website to websites_ms and return this id to this 'app'
 	try {
 		await db.transaction(async (transaction) => {
 			let appCount = await App.count({
@@ -102,8 +101,8 @@ export async function registerApp(
 			// if appType (or app in that matter) ends with "-tenants / -host" add those its counterpart ("-host / -tenants")
 
 			let endsWith = ["host", "tenants"];
-			const lastName = endsWith.find((lastName) =>
-				options.appType.endsWith(lastName)
+			const lastName = endsWith.find((postfix) =>
+				options.appType.endsWith(postfix)
 			);
 			if (lastName === undefined) return;
 
