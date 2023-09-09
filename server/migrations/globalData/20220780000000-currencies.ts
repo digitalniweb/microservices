@@ -26,6 +26,7 @@ export default {
 					},
 					code: {
 						allowNull: false,
+						unique: true,
 						type: DataTypes.STRING(3),
 					},
 					sign: {

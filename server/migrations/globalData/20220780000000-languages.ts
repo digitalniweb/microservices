@@ -27,6 +27,7 @@ export default {
 					code: {
 						allowNull: false,
 						type: DataTypes.STRING(7),
+						unique: true,
 					},
 					name: {
 						allowNull: false,

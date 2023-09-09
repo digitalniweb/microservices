@@ -69,7 +69,7 @@ const checkRegisterServiceAuth = async function (
 				code: 403,
 				message: "Forbidden",
 			};
-		return next;
+		return next();
 	} catch (error) {
 		return next(error);
 	}
