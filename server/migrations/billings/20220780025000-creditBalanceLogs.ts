@@ -14,7 +14,7 @@ export default {
 				process.env.MICROSERVICE_NAME as microservices
 			)
 		)
-			return console.log("Omitted");
+			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<CreditBalanceLogType>(
 				CreditBalanceLog.tableName,
@@ -69,7 +69,7 @@ export default {
 				process.env.MICROSERVICE_NAME as microservices
 			)
 		)
-			return console.log("Omitted");
+			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(CreditBalanceLog.tableName, {
 				transaction,

@@ -34,7 +34,7 @@ export default async function () {
 			});
 		}
 	} catch (error: any) {
-		if (error.code == "MODULE_NOT_FOUND")
+		if (error.code == "ERR_MODULE_NOT_FOUND")
 			log({
 				type: "consoleLogProduction",
 				status: "error",

@@ -8,34 +8,44 @@ import { log } from "./../digitalniweb-custom/helpers/logger.js";
 import apiRoutes from "./api/index.js";
 
 import serverInit from "./serverInit/index.js";
-serverInit();
 
-dotenv.config();
+try {
+	await serverInit();
 
-const app: Express = express();
+	dotenv.config();
 
-//so we can use req.body in POST methods to get posted parameters (e.g. req.body.name)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+	const app: Express = express();
 
-app.use(languageSetter);
+	//so we can use req.body in POST methods to get posted parameters (e.g. req.body.name)
+	app.use(express.json());
+	app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/", apiRoutes);
+	app.use(languageSetter);
 
-app.use(<ErrorRequestHandler>((err, req, res, next) => {
-	// in express middleware throw error in catch block: next({ error, code: 500, message: "Can't load api" });
-	let responseObject = log(err, req) ?? {
-		code: 500,
-		message: "Internal Server Error",
-	};
-	console.log(err);
+	app.use("/api/", apiRoutes);
 
-	return res.status(responseObject.code).send(responseObject);
-}));
+	app.use(<ErrorRequestHandler>((err, req, res, next) => {
+		// in express middleware throw error in catch block: next({ error, code: 500, message: "Can't load api" });
+		if (!err.type) err.type = "routing";
+		let responseObject = log(err, req) ?? {
+			code: 500,
+			message: "Internal Server Error",
+		};
 
-const port = process.env.PORT;
-if (port === undefined) throw new Error("You haven't specified port!");
+		return res.status(responseObject.code).send(responseObject);
+	}));
 
-app.listen(port, () => {
-	console.log(`Server is running at http://localhost:${port}`);
-});
+	const port = process.env.PORT;
+	if (port === undefined) throw new Error("You haven't specified port!");
+
+	app.listen(port, () => {
+		console.log(`Server is running at http://localhost:${port}`);
+	});
+} catch (error: any) {
+	log({
+		type: "consoleLogProduction",
+		status: "error",
+		error,
+		message: "Server execution terminated.",
+	});
+}

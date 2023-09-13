@@ -9,20 +9,21 @@ import {
 } from "../../../digitalniweb-types/customFunctions/globalData.js";
 import ServiceRegistry from "../../../server/models/globalData/serviceRegistry.js";
 import { microservices } from "../../../digitalniweb-types/index.js";
+import { log } from "../../../digitalniweb-custom/helpers/logger.js";
 
 export async function registerService(
 	options: microserviceOptions
-): Promise<boolean> {
+): Promise<false | ServiceRegistry> {
 	try {
-		await db.transaction(async (transaction) => {
-			let serviceRegistryCount = await ServiceRegistry.count({
+		let service = await db.transaction(async (transaction) => {
+			let serviceRegistry = await ServiceRegistry.findOne({
 				where: {
 					uniqueName: options.uniqueName,
 				},
 				transaction,
 			});
 
-			if (serviceRegistryCount !== 0) return;
+			if (serviceRegistry !== null) return serviceRegistry;
 
 			let [microservice, microserviceCreated] =
 				await Microservice.findOrCreate({
@@ -32,7 +33,7 @@ export async function registerService(
 					transaction,
 				});
 
-			let serviceRegistry = await microservice.createServiceRegistry(
+			serviceRegistry = await microservice.createServiceRegistry(
 				{
 					host: options.host,
 					port: options.port,
@@ -44,10 +45,15 @@ export async function registerService(
 
 			if (microserviceCreated)
 				microservice.setMainServiceRegistry(serviceRegistry);
+			return serviceRegistry;
 		});
-		return true;
-	} catch (error) {
-		console.log(error);
+		return service;
+	} catch (error: any) {
+		log({
+			type: "functions",
+			status: "error",
+			error,
+		});
 		return false;
 	}
 }

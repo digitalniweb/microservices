@@ -11,7 +11,7 @@ import {
  * if requested role is 'admin' then 'owner' has permissions as well
  * @default ["admin"]
  */
-const checkAuth = function (
+const checkAuthorization = function (
 	requiredRole: (adminAuthorizationNames | userAuthorizationNames)[] = [
 		"admin",
 	]
@@ -74,4 +74,4 @@ const checkRegisterServiceAuth = async function (
 		return next(error);
 	}
 };
-export { checkAuth, checkRegisterServiceAuth };
+export { checkAuthorization, checkRegisterServiceAuth };

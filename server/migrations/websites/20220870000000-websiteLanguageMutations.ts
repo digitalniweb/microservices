@@ -15,7 +15,7 @@ export default {
 				process.env.MICROSERVICE_NAME as microservices
 			)
 		)
-			return console.log("Omitted");
+			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<WebsiteLanguageMutationType>(
 				WebsiteLanguageMutation.tableName,
@@ -47,7 +47,7 @@ export default {
 				process.env.MICROSERVICE_NAME as microservices
 			)
 		)
-			return console.log("Omitted");
+			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.dropTable(
 				WebsiteLanguageMutation.tableName,

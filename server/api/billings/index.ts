@@ -1,11 +1,11 @@
 import express from "express";
 const router = express.Router();
-import { checkAuth } from "../../middleware/checkAuth.js";
+import { checkAuthorization } from "../../middleware/checkAuth.js";
 import billingsRoutes from "./billings.js";
 
-/* router.use("/websites", checkAuth(), require("./websites"));
-router.use("/languages", checkAuth(), require("./languages")); */
+/* router.use("/websites", checkAuthorization(), require("./websites"));
+router.use("/languages", checkAuthorization(), require("./languages")); */
 
-router.use("/billings", checkAuth(), billingsRoutes);
+router.use("/billings", checkAuthorization(), billingsRoutes);
 
 export default router;

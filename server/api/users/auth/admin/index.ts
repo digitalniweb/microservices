@@ -1,8 +1,8 @@
 import express from "express";
 const router = express.Router();
-import { checkAuth } from "../../../../middleware/checkAuth.js";
+import { checkAuthorization } from "../../../../middleware/checkAuth.js";
 import usersRoutes from "./users.js";
 
-router.use("/users", checkAuth(), usersRoutes);
+router.use("/users", checkAuthorization(), usersRoutes);
 
 export default router;

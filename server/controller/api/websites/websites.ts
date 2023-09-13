@@ -27,7 +27,6 @@ export const test = async function (
 		}); */
 		res.send("ok");
 	} catch (error) {
-		console.log(error);
 		return next({ error, code: 500, message: "Couldn't get website data" });
 	}
 };
@@ -59,8 +58,6 @@ export const getWebsiteInfo = async function (
 
 		return res.send(website);
 	} catch (error) {
-		console.log(error);
-
 		return next({ error, code: 500, message: "Couldn't get website data" });
 	}
 };

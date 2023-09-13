@@ -18,8 +18,7 @@ export const getApp = async function (
 		});
 		return res.send(appInfo);
 	} catch (error) {
-		console.log(error);
-		return false;
+		return next({ error });
 	}
 };
 

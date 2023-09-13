@@ -11,8 +11,8 @@ router.get("/getbyid/:id", controller.getServiceById);
 router.post("/register", checkRegisterServiceAuth, controller.register);
 
 // authorized only
-/* router.post("/", checkAuth(), controller.testPost);
-router.post("/", checkAuth(), controller.addRedirect);
-router.delete("/", checkAuth(), controller.deleteRedirect); */
+/* router.post("/", checkAuthorization(), controller.testPost);
+router.post("/", checkAuthorization(), controller.addRedirect);
+router.delete("/", checkAuthorization(), controller.deleteRedirect); */
 
 export default router;

@@ -8,6 +8,7 @@ import { appOptions } from "../../../digitalniweb-types/customFunctions/globalDa
 import { microserviceCall } from "../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
 import { Website } from "../../../digitalniweb-types/models/websites.js";
 import { CreationAttributes } from "sequelize";
+import { log } from "../../../digitalniweb-custom/helpers/logger.js";
 
 export async function registerApp(
 	options: appOptions
@@ -46,7 +47,11 @@ export async function registerApp(
 					},
 				});
 				if (!appLanguage) {
-					console.log(`Language ${options.language} doesn't exist`);
+					log({
+						type: "database",
+						status: "warning",
+						error: `Language ${options.language} doesn't exist`,
+					});
 					return;
 				}
 
@@ -138,8 +143,11 @@ export async function registerApp(
 			}
 		});
 		return true;
-	} catch (error) {
-		console.log(error);
+	} catch (error: any) {
+		log({
+			type: "functions",
+			error,
+		});
 		return false;
 	}
 }
