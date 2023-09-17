@@ -9,6 +9,11 @@ import { microserviceCall } from "../../../digitalniweb-custom/helpers/remotePro
 import { Website } from "../../../digitalniweb-types/models/websites.js";
 import { CreationAttributes } from "sequelize";
 import { log } from "../../../digitalniweb-custom/helpers/logger.js";
+import axios, { AxiosError } from "axios";
+import {
+	commonError,
+	customLogObject,
+} from "../../../digitalniweb-types/customHelpers/logger.js";
 
 export async function registerApp(
 	options: appOptions
@@ -143,11 +148,20 @@ export async function registerApp(
 			}
 		});
 		return true;
-	} catch (error: any) {
-		log({
+	} catch (error: any | AxiosError) {
+		let logError: customLogObject = {
 			type: "functions",
-			error,
-		});
+		};
+
+		if (axios.isAxiosError(error)) {
+			logError.error = {};
+			let axiosError = error as AxiosError;
+			logError.code = axiosError.response?.status;
+
+			logError.error.message = axiosError.message;
+			logError.error.name = axiosError.name;
+		} else logError.error = error;
+		log(logError, error?.request || error?.req);
 		return false;
 	}
 }
