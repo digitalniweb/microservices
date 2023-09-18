@@ -32,6 +32,6 @@ export const register = async function (
 
 		return res.send(app);
 	} catch (error) {
-		return next(error);
+		return next({ error });
 	}
 };

@@ -8,6 +8,6 @@ export const test = async function (
 	try {
 		return res.send({ message: "it works" });
 	} catch (error) {
-		return next(error);
+		return next({ error });
 	}
 };

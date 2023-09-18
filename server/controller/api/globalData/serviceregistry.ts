@@ -18,7 +18,25 @@ export const getServiceByName = async function (
 		let service = await getServiceRegistryServices({ name: microservice });
 		return res.send(service);
 	} catch (error) {
-		return next(error);
+		return next({ error });
+	}
+};
+
+export const getMainServiceByName = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		let name = parseInt(req.params.name);
+		if (!name)
+			return next({
+				status: "warning",
+				message: "Service by name not found",
+				req,
+			});
+	} catch (error) {
+		return next({ error });
 	}
 };
 
@@ -29,13 +47,18 @@ export const getServiceById = async function (
 ) {
 	try {
 		let id = parseInt(req.params.id);
-		if (!id) return res.send(false);
+		if (!id)
+			return next({
+				status: "warning",
+				message: "Service by id not found",
+				req,
+			});
 		let service = await getServiceRegistryServices({
 			id,
 		});
 		return res.send(service);
 	} catch (error) {
-		return next(error);
+		return next({ error });
 	}
 };
 
@@ -52,6 +75,6 @@ export const register = async function (
 
 		return res.send(service);
 	} catch (error) {
-		return next(error);
+		return next({ error });
 	}
 };

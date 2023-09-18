@@ -75,8 +75,12 @@ export async function serviceRegistryList(): Promise<serviceRegistry | false> {
 			} as microserviceRegistryInfo;
 		});
 		return serviceRegistry;
-	} catch (error) {
-		console.log(error);
+	} catch (error: any) {
+		log({
+			type: "functions",
+			status: "error",
+			error,
+		});
 		return false;
 	}
 }
@@ -106,8 +110,12 @@ export const getServiceRegistryServices = async (options: {
 			services: service.ServiceRegistries,
 		};
 		return serviceInfo;
-	} catch (error) {
-		console.log(error);
+	} catch (error: any) {
+		log({
+			type: "functions",
+			status: "error",
+			error,
+		});
 		return false;
 	}
 };

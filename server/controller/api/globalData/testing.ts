@@ -29,6 +29,6 @@ export const test = async function (
 		return res.send(returnValue); */
 		return res.send("ok");
 	} catch (error) {
-		return next(error);
+		return next({ error });
 	}
 };

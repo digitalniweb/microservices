@@ -5,6 +5,7 @@ import db from "../../../models/index.js";
 import { Website as WebsiteType } from "../../../../digitalniweb-types/models/websites.js";
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
+import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 
 export const test = async function (
 	req: Request,
@@ -185,6 +186,13 @@ export const createwebsite = async function (
 	try {
 		let websiteData: CreationAttributes<WebsiteType> = req.body.website;
 		let websiteUrl: string = req.body.url;
+		if (!websiteData.contentMsId) {
+			let mainServiceRegistryId = await getMainServiceRegistryId(
+				"content"
+			);
+			if (mainServiceRegistryId !== null)
+				websiteData.contentMsId = mainServiceRegistryId;
+		}
 
 		let result: WebsiteType = await db.transaction(async (transaction) => {
 			let website = await Website.create(websiteData, {

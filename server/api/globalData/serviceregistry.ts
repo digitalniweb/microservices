@@ -9,6 +9,11 @@ router.get("/:name", controller.getServiceByName);
 router.get("/getbyid/:id", controller.getServiceById);
 
 router.post("/register", checkRegisterServiceAuth, controller.register);
+router.get(
+	"/getmainbyname/:name",
+	checkRegisterServiceAuth,
+	controller.getMainServiceByName
+);
 
 // authorized only
 /* router.post("/", checkAuthorization(), controller.testPost);

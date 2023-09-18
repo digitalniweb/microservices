@@ -42,7 +42,7 @@ export const test = async function (
 
 		return res.send(userRole); */
 	} catch (error) {
-		return next(error);
+		return next({ error });
 	}
 
 	return res.send({ message: "it works" });
