@@ -50,6 +50,7 @@ export async function registerApp(
 					where: {
 						code: options.language,
 					},
+					transaction,
 				});
 				if (!appLanguage) {
 					log({
@@ -119,7 +120,7 @@ export async function registerApp(
 			let counterpartName = endsWith.find((word) => word != lastName);
 			if (lastName === "tenants") {
 				// if appType is "xxx-tenants" then try to assign this to app with appType of "xxx-host" if it's not assigned
-				let parentalHostApp = await app.getParent();
+				let parentalHostApp = await app.getParent({ transaction });
 				if (parentalHostApp) return;
 				let appHostName =
 					options.appType.slice(0, -lastName.length) +
@@ -130,7 +131,7 @@ export async function registerApp(
 					},
 					transaction,
 				});
-				if (hostApp) await app.setParent(hostApp);
+				if (hostApp) await app.setParent(hostApp, { transaction });
 			} else if (lastName === "host") {
 				// if appType is "xxx-host" then try to assign this to app with appType of "xxx-tenants" if it's not assigned
 				let filialTenantsApp = await app.getChild();
@@ -144,7 +145,7 @@ export async function registerApp(
 					},
 					transaction,
 				});
-				if (tenantsApp) await app.setChild(tenantsApp);
+				if (tenantsApp) await app.setChild(tenantsApp, { transaction });
 			}
 		});
 		return true;

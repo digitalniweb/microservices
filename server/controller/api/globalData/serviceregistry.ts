@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import {
-	getServiceRegistryInfo,
+	getMainServiceRegistry,
 	getServiceRegistryServices,
 } from "../../../../custom/helpers/globalData/serviceRegistry.js";
 import { microservicesArray } from "../../../../digitalniweb-custom/variables/microservices.js";
@@ -28,13 +28,14 @@ export const getMainServiceByName = async function (
 	next: NextFunction
 ) {
 	try {
-		let name = parseInt(req.params.name);
+		let name = req.params.name as microservices;
 		if (!name)
 			return next({
 				status: "warning",
 				message: "Service by name not found",
 				req,
 			});
+		return await getMainServiceRegistry(name);
 	} catch (error) {
 		return next({ error });
 	}
