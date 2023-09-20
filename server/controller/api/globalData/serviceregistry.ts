@@ -6,6 +6,7 @@ import {
 import { microservicesArray } from "../../../../digitalniweb-custom/variables/microservices.js";
 import { microservices } from "../../../../digitalniweb-types/index.js";
 import { registerService } from "../../../../custom/helpers/globalData/serviceRegistry.js";
+import { send } from "process";
 
 export const getServiceByName = async function (
 	req: Request,
@@ -31,13 +32,20 @@ export const getMainServiceByName = async function (
 		let name = req.params.name as microservices;
 		if (!name)
 			return next({
+				type: "functions",
 				status: "warning",
 				message: "Service by name not found",
 				req,
 			});
-		return await getMainServiceRegistry(name);
+		let service = await getMainServiceRegistry(name);
+		return res.send(service);
 	} catch (error) {
-		return next({ error });
+		return next({
+			type: "functions",
+			status: "warning",
+			error,
+			req,
+		});
 	}
 };
 
