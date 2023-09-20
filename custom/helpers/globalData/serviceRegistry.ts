@@ -1,6 +1,7 @@
 import db from "../../../server/models/index.js";
 
 import Microservice from "../../../server/models/globalData/microservice.js";
+import { Microservice as MicroserviceType } from "../../../digitalniweb-types/models/globalData.js";
 
 import {
 	microserviceOptions,
@@ -127,4 +128,18 @@ export async function getServiceRegistryInfo(): Promise<
 	microserviceRegistryInfo | false | undefined
 > {
 	return await getServiceRegistryServices({ name: "globalData" });
+}
+
+/**
+ * @returns `globalData: Microservice`
+ */
+export async function getMainServiceRegistry(
+	microservice: microservices
+): Promise<MicroserviceType | null> {
+	let ms = await Microservice.findOne({
+		where: {
+			name: microservice,
+		},
+	});
+	return ms;
 }
