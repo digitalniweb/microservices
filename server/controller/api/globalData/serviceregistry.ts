@@ -32,8 +32,6 @@ export const getMainServiceByName = async function (
 		let name = req.params.name as microservices;
 		if (!name)
 			return next({
-				type: "functions",
-				status: "warning",
 				message: "Service by name not found",
 				req,
 			});
@@ -41,8 +39,6 @@ export const getMainServiceByName = async function (
 		return res.send(service);
 	} catch (error) {
 		return next({
-			type: "functions",
-			status: "warning",
 			error,
 			req,
 		});
