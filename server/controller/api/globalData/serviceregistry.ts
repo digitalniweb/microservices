@@ -6,7 +6,6 @@ import {
 import { microservicesArray } from "../../../../digitalniweb-custom/variables/microservices.js";
 import { microservices } from "../../../../digitalniweb-types/index.js";
 import { registerService } from "../../../../custom/helpers/globalData/serviceRegistry.js";
-import { send } from "process";
 
 export const getServiceByName = async function (
 	req: Request,
