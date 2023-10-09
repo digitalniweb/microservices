@@ -4,6 +4,7 @@ import * as controller from "../../controller/api/websites/websites.js";
 
 router.get("/websitemutations", controller.getWebsiteLanguageMutations);
 
+router.get("/getcurrentwebsite", controller.getCurrentWebsite);
 router.get("/getwebsiteinfo", controller.getWebsiteInfo);
 router.get("/testingwebsitescount", controller.testingWebsitesCount);
 router.get("/gettenantwebsites", controller.findTenantWebsites);

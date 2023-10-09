@@ -1,5 +1,5 @@
 import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
-import { CreationAttributes, Op, WhereOperators } from "sequelize";
+import { CreationAttributes, Op, Transaction, WhereOperators } from "sequelize";
 import { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
 import { Website as WebsiteType } from "../../../../digitalniweb-types/models/websites.js";
@@ -31,30 +31,63 @@ export const test = async function (
 		return next({ error, code: 500, message: "Couldn't get website data" });
 	}
 };
+
+export const getCurrentWebsite = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		let url = req.hostname;
+		let website = await db.transaction(async (transaction) => {
+			return await getWebsite(url, transaction);
+		});
+
+		return res.send(website);
+	} catch (error) {
+		return next({
+			error,
+			code: 500,
+			message: "Couldn't get current's website data",
+		});
+	}
+};
+
+async function getWebsite(
+	url: string,
+	transaction: Transaction,
+	paranoid: boolean = true
+) {
+	return await Website.findOne({
+		paranoid: paranoid as boolean, // items with deletedAt set won't occur in search result
+		transaction,
+		include: [
+			{
+				model: Url,
+				where: {
+					"$MainUrl.url$": url,
+				},
+				attributes: [],
+				as: "MainUrl",
+			},
+		],
+	});
+}
+
 export const getWebsiteInfo = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
 	try {
-		let { url, paranoid = true } = req.query;
+		let { url, paranoid } = req.query as {
+			url: string;
+			paranoid: string | boolean;
+		};
 		if (paranoid === "false" || paranoid === "0") paranoid = false; // if paranoid is anything else than string 'false' or '0' (because queries gives me always string) than it is true
 
 		let website = await db.transaction(async (transaction) => {
-			return await Website.findOne({
-				paranoid: paranoid as boolean, // items with deletedAt set won't occur in search result
-				transaction,
-				include: [
-					{
-						model: Url,
-						where: {
-							"$MainUrl.url$": url,
-						},
-						attributes: [],
-						as: "MainUrl",
-					},
-				],
-			});
+			return await getWebsite(url, transaction, paranoid as boolean);
 		});
 
 		return res.send(website);
