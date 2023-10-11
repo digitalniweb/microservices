@@ -91,6 +91,7 @@ export async function registerApp(
 						testingMode: true,
 						paused: false,
 						appId: app.id,
+						mainLanguageId: appLanguage.id,
 					};
 					// create a new website and url in websites_ms
 					websiteInfo = await microserviceCall({
