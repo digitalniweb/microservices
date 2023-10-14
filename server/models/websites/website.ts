@@ -8,6 +8,7 @@ import { Website } from "../../../digitalniweb-types/models/websites.js";
 
 import Url from "./url.js";
 import { randomString } from "../../../digitalniweb-custom/functions/randomGenerator.js";
+import WebsiteLanguageMutation from "./websiteLanguageMutation.js";
 
 const Website = db.define<Website>(
 	"Website",
@@ -71,6 +72,19 @@ const Website = db.define<Website>(
 );
 
 Website.addHook(
+	"afterCreate",
+	"setLanguageMutations",
+	async (website: Website, options) => {
+		const languageMutationId = website.getDataValue("MainUrlId");
+		if (languageMutationId) {
+			await website.setWebsiteLanguageMutations([languageMutationId], {
+				transaction: options.transaction,
+			});
+		}
+	}
+);
+
+Website.addHook(
 	"afterUpdate",
 	"createUrlAddAlias",
 	async (website: Website, options) => {
@@ -118,6 +132,8 @@ Website.addHook(
 
 // I need to use other name than 'url' (I'll use 'alias'), because otherwise it conflicts on names and special methods ('.addUrl' etc.) don't work because of the two way bindings. Url <-> Website . I need to use '.addAlias' etc.
 Website.hasMany(Url, { as: "Aliases" });
+
+Website.hasMany(WebsiteLanguageMutation);
 
 Website.belongsTo(Url, { as: "MainUrl" });
 

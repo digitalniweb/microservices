@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import App from "../../../models/globalData/app.js";
 import { registerApp } from "../../../../custom/helpers/globalData/app.js";
-import { appOptions } from "../../../../digitalniweb-types/customFunctions/globalData.js";
+import { newAppOptions } from "../../../../digitalniweb-types/customFunctions/globalData.js";
 
 export const getApp = async function (
 	req: Request,
@@ -28,7 +28,7 @@ export const register = async function (
 	next: NextFunction
 ) {
 	try {
-		let app = await registerApp(req.body as appOptions);
+		let app = await registerApp(req.body as newAppOptions);
 
 		return res.send(app);
 	} catch (error) {

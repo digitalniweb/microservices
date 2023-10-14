@@ -4,7 +4,7 @@ import App from "../../../server/models/globalData/app.js";
 import AppType from "../../../server/models/globalData/appType.js";
 
 import Language from "../../../server/models/globalData/language.js";
-import { appOptions } from "../../../digitalniweb-types/customFunctions/globalData.js";
+import { newAppOptions } from "../../../digitalniweb-types/customFunctions/globalData.js";
 import { microserviceCall } from "../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
 import { Website } from "../../../digitalniweb-types/models/websites.js";
 import { CreationAttributes } from "sequelize";
@@ -16,7 +16,7 @@ import {
 } from "../../../digitalniweb-types/customHelpers/logger.js";
 
 export async function registerApp(
-	options: appOptions
+	options: newAppOptions
 ): Promise<boolean | void> {
 	try {
 		await db.transaction(async (transaction) => {
