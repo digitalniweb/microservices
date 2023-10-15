@@ -6,6 +6,7 @@ import { Website as WebsiteType } from "../../../../digitalniweb-types/models/we
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
 import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helpers/serviceRegistryCache.js";
+import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
 
 export const test = async function (
 	req: Request,
@@ -13,6 +14,45 @@ export const test = async function (
 	next: NextFunction
 ) {
 	try {
+		/* let websiteData: CreationAttributes<WebsiteType> = {
+			uniqueName: "testDelete1111",
+			active: true,
+			testingMode: true,
+			paused: false,
+			appId: 124,
+			mainLanguageId: 1,
+			contentMsId: 3,
+			WebsiteLanguageMutations: [{ languageId: 2 }],
+		};
+		let result: WebsiteType = await db.transaction(async (transaction) => {
+			if (!websiteData.WebsiteLanguageMutations)
+				websiteData.WebsiteLanguageMutations = [];
+			if (websiteData.languages) {
+				websiteData.languages.forEach((lang) => {
+					if (typeof lang === "number")
+						websiteData.WebsiteLanguageMutations?.push({
+							languageId: lang,
+						});
+					// !!! need to add if (typeof lang === "string") // type languages[]
+				});
+			}
+			if (websiteData.mainLanguageId)
+				websiteData.WebsiteLanguageMutations?.push({
+					languageId: websiteData.mainLanguageId,
+				});
+			console.log("websiteData", websiteData);
+
+			// let include: any[] = [];
+			// if (websiteData.WebsiteLanguageMutations)
+			// 	include = [WebsiteLanguageMutation];
+			let website = await Website.create(websiteData, {
+				include: [WebsiteLanguageMutation],
+				transaction,
+			});
+			return website;
+		});
+
+		return res.send(result); */
 		/* await db.transaction(async (transaction) => {
 			let website = await Website.findOne({
 				where: { id: 16 },
@@ -228,7 +268,27 @@ export const createwebsite = async function (
 		}
 
 		let result: WebsiteType = await db.transaction(async (transaction) => {
+			if (!websiteData.WebsiteLanguageMutations)
+				websiteData.WebsiteLanguageMutations = [];
+			if (websiteData.languages) {
+				websiteData.languages.forEach((lang) => {
+					if (typeof lang === "number")
+						websiteData.WebsiteLanguageMutations?.push({
+							languageId: lang,
+						});
+					// !!! need to add if (typeof lang === "string") // type languages[]
+				});
+			}
+			if (websiteData.mainLanguageId)
+				websiteData.WebsiteLanguageMutations?.push({
+					languageId: websiteData.mainLanguageId,
+				});
+
+			let include: any[] = [];
+			if (websiteData.WebsiteLanguageMutations)
+				include = [WebsiteLanguageMutation];
 			let website = await Website.create(websiteData, {
+				include,
 				transaction,
 			});
 			let [url] = await Url.findOrCreate({
@@ -261,7 +321,7 @@ export const getWebsiteLanguageMutations = async function (
 	// only mutations of website, without main language (which I get with website information)
 	try {
 		let { url } = req.query;
-		let websiteLanguageMutations = await db.transaction(
+		let WebsiteLanguageMutations = await db.transaction(
 			async (transaction) => {
 				/* return await Language.findAll({
 				transaction,
@@ -283,7 +343,7 @@ export const getWebsiteLanguageMutations = async function (
 			}); */
 			}
 		);
-		return res.send(websiteLanguageMutations);
+		return res.send(WebsiteLanguageMutations);
 	} catch (error) {
 		return next({
 			error,

@@ -20,6 +20,12 @@ export default {
 			return await queryInterface.createTable<UserPrivilegeType>(
 				UserPrivilege.tableName,
 				{
+					id: {
+						allowNull: false,
+						autoIncrement: true,
+						primaryKey: true,
+						type: DataTypes.INTEGER,
+					},
 					UserId: {
 						type: DataTypes.INTEGER,
 						references: {

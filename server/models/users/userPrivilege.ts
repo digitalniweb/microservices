@@ -9,6 +9,11 @@ import { UserPrivilege } from "../../../digitalniweb-types/models/users.js";
 const UserPrivilege = db.define<UserPrivilege>(
 	"UserPrivilege",
 	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
 		UserId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,

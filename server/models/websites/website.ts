@@ -72,19 +72,6 @@ const Website = db.define<Website>(
 );
 
 Website.addHook(
-	"afterCreate",
-	"setLanguageMutations",
-	async (website: Website, options) => {
-		const languageMutationId = website.getDataValue("MainUrlId");
-		if (languageMutationId) {
-			await website.setWebsiteLanguageMutations([languageMutationId], {
-				transaction: options.transaction,
-			});
-		}
-	}
-);
-
-Website.addHook(
 	"afterUpdate",
 	"createUrlAddAlias",
 	async (website: Website, options) => {

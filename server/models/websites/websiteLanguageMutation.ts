@@ -9,6 +9,11 @@ import { WebsiteLanguageMutation } from "../../../digitalniweb-types/models/webs
 const WebsiteLanguageMutation = db.define<WebsiteLanguageMutation>(
 	"WebsiteLanguageMutation",
 	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
 		WebsiteId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,

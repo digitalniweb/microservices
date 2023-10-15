@@ -20,6 +20,12 @@ export default {
 			return await queryInterface.createTable<WebsiteLanguageMutationType>(
 				WebsiteLanguageMutation.tableName,
 				{
+					id: {
+						allowNull: false,
+						autoIncrement: true,
+						primaryKey: true,
+						type: DataTypes.INTEGER,
+					},
 					WebsiteId: {
 						type: DataTypes.INTEGER,
 						references: {
