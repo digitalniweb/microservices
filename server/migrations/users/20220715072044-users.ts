@@ -24,6 +24,12 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
+					uuid: {
+						type: DataTypes.UUID,
+						defaultValue: DataTypes.UUIDV4,
+						unique: true,
+						allowNull: false,
+					},
 					credit: {
 						type: DataTypes.INTEGER,
 						allowNull: true,

@@ -20,7 +20,6 @@ export default {
 				// a lot of this doesn't work
 
 				/* let digitalniwebWebsite = await Website.create({
-					uniqueName: randomString(14, false),
 					active: true,
 					testingMode: false,
 					paused: false,
@@ -70,7 +69,6 @@ export default {
 
 				if (process.env.NODE_ENV === "development") {
 					let digitalniwebTenantWebsite = await Website.create({
-						uniqueName: "01234567891234",
 						active: true,
 						testingMode: false,
 						paused: false,

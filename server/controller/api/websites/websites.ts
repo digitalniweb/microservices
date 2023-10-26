@@ -15,7 +15,6 @@ export const test = async function (
 ) {
 	try {
 		/* let websiteData: CreationAttributes<WebsiteType> = {
-			uniqueName: "testDelete1111",
 			active: true,
 			testingMode: true,
 			paused: false,
@@ -239,7 +238,8 @@ export const registerTenant = async function (
 		});
 
 		return res.send({
-			uniqueName: newTenantWebsite.uniqueName,
+			uuid: newTenantWebsite.uuid,
+			contentMsId: newTenantWebsite.contentMsId,
 			websiteId: newTenantWebsite.id,
 		});
 	} catch (error) {

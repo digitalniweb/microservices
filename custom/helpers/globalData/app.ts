@@ -86,7 +86,6 @@ export async function registerApp(
 				if (websiteInfo === false) return;
 				if (websiteInfo === null) {
 					let websiteData: CreationAttributes<Website> = {
-						uniqueName: options.uniqueName,
 						active: true,
 						testingMode: true,
 						paused: false,

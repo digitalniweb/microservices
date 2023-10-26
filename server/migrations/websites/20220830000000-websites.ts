@@ -24,8 +24,9 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					uniqueName: {
-						type: DataTypes.STRING(14),
+					uuid: {
+						type: DataTypes.UUID,
+						defaultValue: DataTypes.UUIDV4,
 						allowNull: false,
 						unique: true,
 					},

@@ -20,6 +20,11 @@ const User = db.define<User>(
 			primaryKey: true,
 			autoIncrement: true,
 		},
+		uuid: {
+			type: DataTypes.UUID,
+			allowNull: false,
+			unique: true,
+		},
 		credit: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
