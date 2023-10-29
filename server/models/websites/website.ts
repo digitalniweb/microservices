@@ -7,7 +7,6 @@ import db from "../index.js";
 import { Website } from "../../../digitalniweb-types/models/websites.js";
 
 import Url from "./url.js";
-import { randomString } from "../../../digitalniweb-custom/functions/randomGenerator.js";
 import WebsiteLanguageMutation from "./websiteLanguageMutation.js";
 
 const Website = db.define<Website>(
@@ -21,7 +20,6 @@ const Website = db.define<Website>(
 		uuid: {
 			type: DataTypes.UUID,
 			allowNull: false,
-			unique: true,
 		},
 		contentMsId: {
 			type: DataTypes.INTEGER,
@@ -66,6 +64,13 @@ const Website = db.define<Website>(
 		paranoid: true,
 	}
 );
+
+/**
+ * beforeCreate hooks are applied after model validation, that is why I need to use beforeValidate hook.
+ */
+Website.addHook("beforeValidate", "createUUID", async (website: Website) => {
+	if (!website.uuid) website.uuid = crypto.randomUUID();
+});
 
 Website.addHook(
 	"afterUpdate",

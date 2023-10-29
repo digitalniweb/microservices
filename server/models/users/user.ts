@@ -23,7 +23,6 @@ const User = db.define<User>(
 		uuid: {
 			type: DataTypes.UUID,
 			allowNull: false,
-			unique: true,
 		},
 		credit: {
 			type: DataTypes.INTEGER,
@@ -100,6 +99,13 @@ function hashUserPassword(password: string): string {
 function createRefreshTokenSalt() {
 	return randomString(20);
 }
+
+/**
+ * beforeCreate hooks are applied after model validation, that is why I need to use beforeValidate hook.
+ */
+User.addHook("beforeValidate", "createUUID", async (user: User) => {
+	if (!user.uuid) user.uuid = crypto.randomUUID();
+});
 
 Tenant.belongsTo(User);
 User.hasOne(Tenant);

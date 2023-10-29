@@ -26,8 +26,7 @@ export default {
 					},
 					uuid: {
 						type: DataTypes.UUID,
-						defaultValue: DataTypes.UUIDV4,
-						unique: true,
+						// defaultValue: DataTypes.UUIDV4, // this doesn't work in MariaDB, hooks on model are used instead
 						allowNull: false,
 					},
 					credit: {

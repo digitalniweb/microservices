@@ -26,9 +26,8 @@ export default {
 					},
 					uuid: {
 						type: DataTypes.UUID,
-						defaultValue: DataTypes.UUIDV4,
+						// defaultValue: DataTypes.UUIDV4, // this doesn't work in MariaDB, hooks on model are used instead
 						allowNull: false,
-						unique: true,
 					},
 					MainUrlId: {
 						type: DataTypes.INTEGER,

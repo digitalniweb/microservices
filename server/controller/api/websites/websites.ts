@@ -266,6 +266,14 @@ export const createwebsite = async function (
 			if (mainServiceRegistryId !== null)
 				websiteData.contentMsId = mainServiceRegistryId;
 		}
+		// I don't want this everytime, only when website should have emails
+		// if (!websiteData.emailsMsId) {
+		// 	let mainServiceRegistryId = await getMainServiceRegistryId(
+		// 		"emails"
+		// 	);
+		// 	if (mainServiceRegistryId !== null)
+		// 		websiteData.emailsMsId = mainServiceRegistryId;
+		// }
 
 		let result: WebsiteType = await db.transaction(async (transaction) => {
 			if (!websiteData.WebsiteLanguageMutations)
