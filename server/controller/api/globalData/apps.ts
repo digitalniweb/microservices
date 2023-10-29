@@ -28,7 +28,7 @@ export const register = async function (
 	next: NextFunction
 ) {
 	try {
-		let app = await registerApp(req.body as newAppOptions);
+		let app = await registerApp(req.body as newAppOptions, req);
 
 		return res.send(app);
 	} catch (error) {

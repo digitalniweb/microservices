@@ -14,20 +14,22 @@ import {
 	commonError,
 	customLogObject,
 } from "../../../digitalniweb-types/customHelpers/logger.js";
+import { Request } from "express";
 
 export async function registerApp(
-	options: newAppOptions
-): Promise<boolean | void> {
+	options: newAppOptions,
+	req: Request
+): Promise<App | false> {
 	try {
-		await db.transaction(async (transaction) => {
-			let appCount = await App.count({
+		let info = await db.transaction(async (transaction) => {
+			let app = await App.findOne({
 				where: {
 					uniqueName: options.uniqueName,
 				},
 				transaction,
 			});
 
-			if (appCount !== 0) return;
+			if (app) return app;
 
 			// get appType and app and couple them together
 			let [appType] = await AppType.findOrCreate({
@@ -37,14 +39,7 @@ export async function registerApp(
 				transaction,
 			});
 
-			let app = await App.findOne({
-				where: {
-					name: options.name,
-				},
-				transaction,
-			});
-
-			// create app with default language. If language doesn't exis then return
+			// create app with default language. If language doesn't exist then return
 			if (!app) {
 				let appLanguage = await Language.findOne({
 					where: {
@@ -53,12 +48,11 @@ export async function registerApp(
 					transaction,
 				});
 				if (!appLanguage) {
-					log({
+					throw {
 						type: "database",
-						status: "warning",
+						status: "error",
 						error: `Language ${options.language} doesn't exist`,
-					});
-					return;
+					} as customLogObject;
 				}
 
 				app = await App.create(
@@ -83,7 +77,12 @@ export async function registerApp(
 						},
 					});
 
-				if (websiteInfo === false) return;
+				if (websiteInfo === false)
+					throw {
+						type: "database",
+						status: "error",
+						error: `Error while getting Website ${options.host}`,
+					} as customLogObject;
 				if (websiteInfo === null) {
 					let websiteData: CreationAttributes<Website> = {
 						active: true,
@@ -100,9 +99,11 @@ export async function registerApp(
 						data: { website: websiteData, url: options.host },
 					});
 					if (!websiteInfo) {
-						throw new Error(
-							"Could not create new website while creating App."
-						);
+						throw {
+							type: "database",
+							status: "error",
+							error: "Could not create new website while creating App.",
+						};
 					}
 				}
 			}
@@ -110,45 +111,46 @@ export async function registerApp(
 			await app.setAppType(appType, { transaction });
 
 			// if appType (or app in that matter) ends with "-tenants / -host" add those its counterpart ("-host / -tenants")
-
 			let endsWith = ["host", "tenants"];
 			const lastName = endsWith.find((postfix) =>
 				options.appType.endsWith(postfix)
 			);
-			if (lastName === undefined) return;
-
-			let counterpartName = endsWith.find((word) => word != lastName);
-			if (lastName === "tenants") {
-				// if appType is "xxx-tenants" then try to assign this to app with appType of "xxx-host" if it's not assigned
-				let parentalHostApp = await app.getParent({ transaction });
-				if (parentalHostApp) return;
-				let appHostName =
-					options.appType.slice(0, -lastName.length) +
-					counterpartName;
-				let hostApp = await App.findOne({
-					where: {
-						name: appHostName,
-					},
-					transaction,
-				});
-				if (hostApp) await app.setParent(hostApp, { transaction });
-			} else if (lastName === "host") {
-				// if appType is "xxx-host" then try to assign this to app with appType of "xxx-tenants" if it's not assigned
-				let filialTenantsApp = await app.getChild();
-				if (filialTenantsApp) return;
-				let newAppTenantsName =
-					options.appType.slice(0, -lastName.length) +
-					counterpartName;
-				let tenantsApp = await App.findOne({
-					where: {
-						name: newAppTenantsName,
-					},
-					transaction,
-				});
-				if (tenantsApp) await app.setChild(tenantsApp, { transaction });
+			if (lastName !== undefined) {
+				let counterpartName = endsWith.find((word) => word != lastName);
+				if (lastName === "tenants") {
+					// if appType is "xxx-tenants" then try to assign this to app with appType of "xxx-host" if it's not assigned
+					let parentalHostApp = await app.getParent({ transaction });
+					if (parentalHostApp) return app;
+					let appHostName =
+						options.appType.slice(0, -lastName.length) +
+						counterpartName;
+					let hostApp = await App.findOne({
+						where: {
+							name: appHostName,
+						},
+						transaction,
+					});
+					if (hostApp) await app.setParent(hostApp, { transaction });
+				} else if (lastName === "host") {
+					// if appType is "xxx-host" then try to assign this to app with appType of "xxx-tenants" if it's not assigned
+					let filialTenantsApp = await app.getChild();
+					if (filialTenantsApp) return app;
+					let newAppTenantsName =
+						options.appType.slice(0, -lastName.length) +
+						counterpartName;
+					let tenantsApp = await App.findOne({
+						where: {
+							name: newAppTenantsName,
+						},
+						transaction,
+					});
+					if (tenantsApp)
+						await app.setChild(tenantsApp, { transaction });
+				}
 			}
+			return app;
 		});
-		return true;
+		return info;
 	} catch (error: any | AxiosError) {
 		let logError: customLogObject = {
 			type: "functions",
@@ -162,7 +164,14 @@ export async function registerApp(
 			logError.error.message = axiosError.message;
 			logError.error.name = axiosError.name;
 		} else logError.error = error;
-		log(logError, error?.request || error?.req);
+		let errorReq = error?.request || error?.req || req;
+		if (error?.request) {
+			delete error.request;
+		}
+		if (error?.req) {
+			delete error.req;
+		}
+		log(logError, errorReq);
 		return false;
 	}
 }
