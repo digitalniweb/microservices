@@ -3,7 +3,6 @@ import db from "../../../server/models/index.js";
 import Microservice from "../../../server/models/globalData/microservice.js";
 
 import {
-	microserviceOptions,
 	serviceRegistry,
 	microserviceRegistryInfo,
 } from "../../../digitalniweb-types/customFunctions/globalData.js";
