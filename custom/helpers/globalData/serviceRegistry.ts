@@ -1,7 +1,6 @@
 import db from "../../../server/models/index.js";
 
 import Microservice from "../../../server/models/globalData/microservice.js";
-import { Microservice as MicroserviceType } from "../../../digitalniweb-types/models/globalData.js";
 
 import {
 	microserviceOptions,
@@ -11,10 +10,15 @@ import {
 import ServiceRegistry from "../../../server/models/globalData/serviceRegistry.js";
 import { microservices } from "../../../digitalniweb-types/index.js";
 import { log } from "../../../digitalniweb-custom/helpers/logger.js";
+import { getServiceRegistryServices as getServiceRegistryServicesType } from "../../../digitalniweb-types/custom/helpers/globalData/serviceRegistry.js";
+import {
+	getServiceRegistryInfo as getServiceRegistryInfoType,
+	getMainServiceRegistry as getMainServiceRegistryType,
+	registerService as registerServiceType,
+	serviceRegistryList as serviceRegistryListType,
+} from "../../../digitalniweb-types/custom/helpers/globalData/serviceRegistry.js";
 
-export async function registerService(
-	options: microserviceOptions
-): Promise<false | ServiceRegistry> {
+export const registerService: registerServiceType = async (options) => {
 	try {
 		let service = await db.transaction(async (transaction) => {
 			let serviceRegistry = await ServiceRegistry.findOne({
@@ -57,9 +61,9 @@ export async function registerService(
 		});
 		return false;
 	}
-}
+};
 
-export async function serviceRegistryList(): Promise<serviceRegistry | false> {
+export const serviceRegistryList: serviceRegistryListType = async () => {
 	try {
 		let list = await Microservice.findAll({
 			include: {
@@ -84,62 +88,55 @@ export async function serviceRegistryList(): Promise<serviceRegistry | false> {
 		});
 		return false;
 	}
-}
-
-export const getServiceRegistryServices = async (options: {
-	name?: microservices;
-	id?: number;
-}): Promise<microserviceRegistryInfo | undefined | false> => {
-	try {
-		let where;
-		if (options.id !== undefined) where = { id: options.id };
-		else if (options.name) where = { name: options.name };
-		else return false;
-		let service = await Microservice.findOne({
-			where,
-			include: {
-				model: ServiceRegistry,
-			},
-		});
-
-		if (service === null || service.ServiceRegistries === undefined)
-			return undefined;
-
-		let serviceInfo: microserviceRegistryInfo = {
-			mainId: service.mainServiceRegistryId,
-			name: service.name,
-			services: service.ServiceRegistries,
-		};
-		return serviceInfo;
-	} catch (error: any) {
-		log({
-			type: "functions",
-			status: "error",
-			error,
-		});
-		return false;
-	}
 };
+
+export const getServiceRegistryServices: getServiceRegistryServicesType =
+	async (name) => {
+		try {
+			let service = await Microservice.findOne({
+				where: { name },
+				include: {
+					model: ServiceRegistry,
+				},
+			});
+
+			if (service === null || service.ServiceRegistries === undefined)
+				return undefined;
+
+			let serviceInfo: microserviceRegistryInfo = {
+				mainId: service.mainServiceRegistryId,
+				name: service.name,
+				services: service.ServiceRegistries,
+			};
+			return serviceInfo;
+		} catch (error: any) {
+			log({
+				type: "functions",
+				status: "error",
+				error,
+			});
+			return false;
+		}
+	};
+
 /**
  *
  * @returns `globalData: microserviceRegistryInfo` service information: id, host, port, apiKey etc.
  */
-export async function getServiceRegistryInfo(): Promise<
-	microserviceRegistryInfo | false | undefined
-> {
-	return await getServiceRegistryServices({ name: "globalData" });
-}
+export const getServiceRegistryInfo: getServiceRegistryInfoType = async () => {
+	return await getServiceRegistryServices("globalData");
+};
 
 /**
  * @returns `globalData: Microservice`
  */
-export async function getMainServiceRegistry(
-	microservice: microservices
-): Promise<MicroserviceType | null> {
+export const getMainServiceRegistry: getMainServiceRegistryType = async (
+	microservice
+) => {
 	let ms = await Microservice.findOne({
 		where: {
 			name: microservice,
 		},
 	});
 	return ms;
-}
+};

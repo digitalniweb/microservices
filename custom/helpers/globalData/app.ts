@@ -67,45 +67,6 @@ export async function registerApp(
 					},
 					{ transaction }
 				);
-
-				let websiteInfo: Website | false | null =
-					await microserviceCall({
-						name: "websites",
-						path: "/api/getwebsiteinfo",
-						data: {
-							url: options.host,
-						},
-					});
-
-				if (websiteInfo === false)
-					throw {
-						type: "database",
-						status: "error",
-						error: `Error while getting Website ${options.host}`,
-					} as customLogObject;
-				if (websiteInfo === null) {
-					let websiteData: CreationAttributes<Website> = {
-						active: true,
-						testingMode: true,
-						paused: false,
-						appId: app.id,
-						mainLanguageId: appLanguage.id,
-					};
-					// create a new website and url in websites_ms
-					websiteInfo = await microserviceCall({
-						name: "websites",
-						path: "/api/createwebsite",
-						method: "POST",
-						data: { website: websiteData, url: options.host },
-					});
-					if (!websiteInfo) {
-						throw {
-							type: "database",
-							status: "error",
-							error: "Could not create new website while creating App.",
-						};
-					}
-				}
 			}
 
 			await app.setAppType(appType, { transaction });
