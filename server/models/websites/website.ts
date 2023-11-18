@@ -68,8 +68,12 @@ const Website = db.define<Website>(
 /**
  * beforeCreate hooks are applied after model validation, that is why I need to use beforeValidate hook.
  */
-Website.addHook("beforeValidate", "createUUID", async (website: Website) => {
+Website.addHook("beforeValidate", "createUUID", (website: Website) => {
 	if (!website.uuid) website.uuid = crypto.randomUUID();
+});
+
+Website.addHook("afterFind", "addWebsiteMsId", (website: Website) => {
+	website.websiteMsId = process.env.APP_WEBSITES_MS_ID;
 });
 
 Website.addHook(

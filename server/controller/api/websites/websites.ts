@@ -77,7 +77,8 @@ export const getCurrentWebsite = async function (
 	next: NextFunction
 ) {
 	try {
-		let url = req.hostname;
+		let url = req.body.url;
+
 		let website = await db.transaction(async (transaction) => {
 			return await getWebsite(url, transaction);
 		});
