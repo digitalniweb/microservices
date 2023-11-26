@@ -73,7 +73,7 @@ Website.addHook("beforeValidate", "createUUID", (website: Website) => {
 });
 
 Website.addHook("afterFind", "addWebsiteMsId", (website: Website) => {
-	website.websiteMsId = process.env.MICROSERVICE_ID;
+	website.websiteMsId = Number(process.env.MICROSERVICE_ID);
 });
 
 Website.addHook(
