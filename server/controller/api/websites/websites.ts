@@ -77,10 +77,11 @@ export const getCurrentWebsite = async function (
 	next: NextFunction
 ) {
 	try {
-		let url = req.body.url;
+		let url = req.query.url;
+		if (typeof url !== "string") res.send(null);
 
 		let website = await db.transaction(async (transaction) => {
-			return await getWebsite(url, transaction);
+			return await getWebsite(url as string, transaction);
 		});
 
 		return res.send(website);
