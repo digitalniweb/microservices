@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import db from "../../../models/index.js";
 
 import Language from "../../../models/globalData/language.js";
-import isArray from "../../../../digitalniweb-custom/functions/isArray.js";
 
 export const getLanguagesList = async function (
 	req: Request,
@@ -34,7 +33,7 @@ export const getLanguagesByIds = async function (
 	try {
 		let ids = req.query.ids as [];
 
-		if (!isArray(ids)) throw "Language IDs needs to be an array.";
+		if (!Array.isArray(ids)) throw "Language IDs needs to be an array.";
 		if (!ids) throw "You haven't specified language IDs.";
 		if (ids.some((id) => isNaN(Number(id))))
 			throw "Language IDs needs to be numbers.";
