@@ -5,15 +5,9 @@ import AppType from "../../../server/models/globalData/appType.js";
 
 import Language from "../../../server/models/globalData/language.js";
 import { newAppOptions } from "../../../digitalniweb-types/customFunctions/globalData.js";
-import { microserviceCall } from "../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
-import { Website } from "../../../digitalniweb-types/models/websites.js";
-import { CreationAttributes } from "sequelize";
 import { log } from "../../../digitalniweb-custom/helpers/logger.js";
 import axios, { AxiosError } from "axios";
-import {
-	commonError,
-	customLogObject,
-} from "../../../digitalniweb-types/customHelpers/logger.js";
+import { customLogObject } from "../../../digitalniweb-types/customHelpers/logger.js";
 import { Request } from "express";
 
 export async function registerApp(

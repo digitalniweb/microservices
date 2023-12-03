@@ -7,6 +7,7 @@ import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
 import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
+import { log } from "../../../../digitalniweb-custom/helpers/logger.js";
 
 export const test = async function (
 	req: Request,
@@ -99,20 +100,29 @@ async function getWebsite(
 	transaction: Transaction,
 	paranoid: boolean = true
 ) {
-	return await Website.findOne({
-		paranoid: paranoid as boolean, // items with deletedAt set won't occur in search result
-		transaction,
-		include: [
-			{
-				model: Url,
-				where: {
-					"$MainUrl.url$": url,
+	try {
+		return await Website.findOne({
+			paranoid: paranoid as boolean, // items with deletedAt set won't occur in search result
+			transaction,
+			include: [
+				{
+					model: Url,
+					where: {
+						"$MainUrl.url$": url,
+					},
+					attributes: [],
+					as: "MainUrl",
 				},
-				attributes: [],
-				as: "MainUrl",
-			},
-		],
-	});
+			],
+		});
+	} catch (error: any) {
+		log({
+			type: "functions",
+			status: "error",
+			error,
+		});
+		return false;
+	}
 }
 
 export const getWebsiteInfo = async function (
@@ -261,6 +271,8 @@ export const createwebsite = async function (
 	try {
 		let websiteData: CreationAttributes<WebsiteType> = req.body.website;
 		let websiteUrl: string = req.body.url;
+		console.log("req.body", req.body);
+
 		if (!websiteData.contentMsId) {
 			let mainServiceRegistryId = await getMainServiceRegistryId(
 				"content"
