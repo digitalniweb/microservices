@@ -40,6 +40,6 @@
 		"@types/ua-parser-js": "^0.7.37",
 		"@types/validator": "^13.11.1",
 		"tsc-watch": "^6.0.4",
-		"typescript": "^5.2.2"
+		"typescript": "^5.3.2"
 	}
 }
