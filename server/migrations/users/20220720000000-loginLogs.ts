@@ -35,7 +35,7 @@ export default {
 							model: User.tableName,
 							key: "id",
 						},
-						allowNull: false,
+						allowNull: true,
 					},
 					ip: {
 						type: DataTypes.STRING,

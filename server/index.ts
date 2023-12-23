@@ -8,6 +8,7 @@ import { log } from "./../digitalniweb-custom/helpers/logger.js";
 import apiRoutes from "./api/index.js";
 
 import serverInit from "./serverInit/index.js";
+import { customLogObject } from "../digitalniweb-types/customHelpers/logger.js";
 
 try {
 	await serverInit();
@@ -24,10 +25,10 @@ try {
 
 	app.use("/api/", apiRoutes);
 
-	app.use(<ErrorRequestHandler>((err, req, res, next) => {
+	app.use(<ErrorRequestHandler>((err: customLogObject, req, res, next) => {
 		// in express middleware throw error in catch block: next({ error, code: 500, message: "Can't load api" });
 		if (!err.type) err.type = "routing";
-		let responseObject = log(err, req) ?? {
+		let responseObject = log(err, req) || {
 			code: 500,
 			message: "Internal Server Error",
 		};

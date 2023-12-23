@@ -4,7 +4,10 @@ import validator from "validator";
 import { Op, literal, Order } from "sequelize";
 import { Response, NextFunction, Request } from "express";
 
-import { loginAttempt } from "../../digitalniweb-types/index.js";
+import {
+	loginAttempt,
+	loginInformation,
+} from "../../digitalniweb-types/index.js";
 
 import sleep from "../../digitalniweb-custom/functions/sleep.js";
 import LoginLog from "../models/users/loginLog.js";
@@ -15,16 +18,19 @@ import wrongLoginAttempt from "../../custom/helpers/wrongLoginAttempt.js";
 const loginAntispam = function () {
 	return async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			let userAgent = UAParser(req.headers["user-agent"]);
+			let loginInfo = req.body as loginInformation;
+
+			let userAgent = UAParser(loginInfo.ua);
+
 			if (
-				req.body.password.length < 7 ||
-				req.body.login == "" ||
-				!validator.isEmail(req.body.login) ||
+				loginInfo.password.length < 7 ||
+				loginInfo.email == "" ||
+				!validator.isEmail(loginInfo.email) ||
 				!userAgent.browser.name ||
 				!userAgent.engine.name ||
 				!userAgent.os.name ||
-				!req.body.ua ||
-				userAgent.ua != req.body.ua
+				!loginInfo.ua ||
+				userAgent.ua != loginInfo.ua
 			) {
 				// these are incorrect logins... these shouldn't be possible to execute via normal behaviour. Ignore these
 				// send fake "blocked" message
@@ -38,6 +44,7 @@ const loginAntispam = function () {
 				literal("`Blacklist`.`blockedTill` IS NULL DESC"),
 				["blockedTill", "DESC"],
 			];
+
 			let limit = 3; // limit I let same IP address perform an attack - I want to still remain the IP whitelisted till there is 'limit' confirmed attacks from multiple sources (changing user agent or some other shananigans). If the atacker is noob I can let the IP whitelisted for others
 			let blacklistedUser: InstanceType<typeof Blacklist> | null =
 				await Blacklist.findOne({
@@ -50,7 +57,7 @@ const loginAntispam = function () {
 						},
 						service: "login",
 						type: "userMail",
-						value: req.body.login,
+						value: loginInfo.email,
 					},
 				});
 			if (blacklistedUser) {
@@ -83,10 +90,11 @@ const loginAntispam = function () {
 
 			if (
 				blacklistedIP.some(
-					(blacklist) => blacklist?.otherData?.userAgent == userAgent.ua
+					(blacklist) =>
+						blacklist?.otherData?.userAgent == userAgent.ua
 				)
 			) {
-				await sleep();
+				// await sleep();
 				return next({
 					code: 401,
 					message: "Your IP address was blocked",
@@ -95,7 +103,7 @@ const loginAntispam = function () {
 			if (blacklistedIP.length >= limit) {
 				// if there is multiple black listed same IP records deny logging in to (unfortunately) all users / accounts on this IP
 				// if there was only 1 intruder on the same IP (and he was stupid enough he wouldn't pass the userAgent test, thus the amount of same IP address in blacklist wouldn't exceed the limit) don't punish all
-				await sleep();
+				// await sleep();
 
 				return next({
 					code: 401,
@@ -107,7 +115,7 @@ const loginAntispam = function () {
 				});
 			}
 			let loginAttempt: loginAttempt = {
-				userLogin: req.body.login,
+				userLogin: loginInfo.email,
 				UserId: null,
 				ip: req.ip,
 				userAgent,
@@ -117,7 +125,8 @@ const loginAntispam = function () {
 			let maxLoginAttempts = 4; // max failed login attempts for same login / account
 			let bruteForceLoginAttempts = 8; // from now consider this an attack on one login / account
 			let timeSpanMinutes = 10;
-			let bruteForceIPLoginAttempts = (maxLoginAttempts * timeSpanMinutes) / 2; // from now consider this an attack from one IP on multiple accounts. Dividing number 2 is just arbitrary coeficient to lower the count so the result remains time times login count dependent. This means if there is 20 (account independent) bad logins in 10 minutes from one IP it is considered an attack.
+			let bruteForceIPLoginAttempts =
+				(maxLoginAttempts * timeSpanMinutes) / 2; // from now consider this an attack from one IP on multiple accounts. Dividing number 2 is just arbitrary coeficient to lower the count so the result remains time times login count dependent. This means if there is 20 (account independent) bad logins in 10 minutes from one IP it is considered an attack.
 			let bruteForceUAIPLoginAttempts =
 				(maxLoginAttempts * timeSpanMinutes) / 4; // from one IP and same UserAgent, multiple accounts. Dividing number 4 is just arbitrary coeficient same as in bruteForceIPLoginAttempts but higher to lower the amount of attempts because we know attacker's user agent
 			let bruteForceIPLoginAttemptsPerDay = 60; // from 1 IP per day
@@ -168,7 +177,7 @@ const loginAntispam = function () {
 			loginAttemptsCounts.push(
 				LoginLog.count({
 					where: {
-						userLogin: req.body.login,
+						userLogin: loginInfo.email,
 						successful: 0,
 						createdAt: {
 							[Op.gte]: timeSpan,
@@ -199,7 +208,8 @@ const loginAntispam = function () {
 				IPLoginAttemptsCountInDay,
 			] = loginAttemptsCounts;
 			loginAttemptsCount++; // because first time it is 0
-			let bruteforcinglogin = loginAttemptsCount >= bruteForceLoginAttempts; // bruteforcing certain account
+			let bruteforcinglogin =
+				loginAttemptsCount >= bruteForceLoginAttempts; // bruteforcing certain account
 			let bruteforcinglogins =
 				IPLoginAttemptsCount >= bruteForceIPLoginAttempts; // from 1 IP bruteforcing multiple accounts
 			let bruteforcingualogins =
@@ -228,7 +238,7 @@ const loginAntispam = function () {
 					otherData: { userAgent: userAgent.ua },
 					blockedTill,
 				});
-				await sleep();
+				// await sleep();
 				return next({
 					code: 401,
 					message: "Your IP address was blocked",
@@ -236,7 +246,8 @@ const loginAntispam = function () {
 			}
 			if (loginAttemptsCount >= bruteForceLoginAttempts - 2) {
 				return wrongLoginAttempt(req, next, loginAttempt, {
-					message: "Another login attempts will cause IP address ban!",
+					message:
+						"Another login attempts will cause IP address ban!",
 					loginAttemptsCount,
 					maxLoginAttempts,
 					blockedTill: timeSpanTooManyAttempts,
