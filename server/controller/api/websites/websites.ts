@@ -271,7 +271,6 @@ export const createwebsite = async function (
 	try {
 		let websiteData: CreationAttributes<WebsiteType> = req.body.website;
 		let websiteUrl: string = req.body.url;
-		console.log("req.body", req.body);
 
 		if (!websiteData.contentMsId) {
 			let mainServiceRegistryId = await getMainServiceRegistryId(

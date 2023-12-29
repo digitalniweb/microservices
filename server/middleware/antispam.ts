@@ -36,8 +36,9 @@ const loginAntispam = function () {
 				// send fake "blocked" message
 				await sleep(); // default 1000ms
 				return next({
+					type: "authentication",
 					code: 401,
-					message: "Wrong login.",
+					message: "Login authentication has wrong information!",
 				});
 			}
 			let order: Order = [
@@ -62,6 +63,7 @@ const loginAntispam = function () {
 				});
 			if (blacklistedUser) {
 				return next({
+					type: "authentication",
 					code: 401,
 					message: "Your account was blocked.",
 					data: {
@@ -75,9 +77,7 @@ const loginAntispam = function () {
 					attributes: ["blockedTill", "reason", "otherData"],
 					where: {
 						blockedTill: {
-							[Op.or]: {
-								[Op.gt]: new Date(),
-							},
+							[Op.gt]: new Date(),
 						},
 						service: "login",
 						type: "IP",
@@ -88,16 +88,19 @@ const loginAntispam = function () {
 					limit,
 				});
 
-			if (
-				blacklistedIP.some(
-					(blacklist) =>
-						blacklist?.otherData?.userAgent == userAgent.ua
-				)
-			) {
+			let thisRecord = blacklistedIP.find(
+				(blacklist) => blacklist?.otherData?.userAgent == userAgent.ua
+			);
+			if (thisRecord) {
 				// await sleep();
 				return next({
+					type: "authentication",
 					code: 401,
-					message: "Your IP address was blocked",
+					message: "Your IP address was blocked.",
+					data: {
+						message: "Your IP address was blocked.",
+						blockedTill: thisRecord.blockedTill,
+					},
 				});
 			}
 			if (blacklistedIP.length >= limit) {
@@ -106,6 +109,7 @@ const loginAntispam = function () {
 				// await sleep();
 
 				return next({
+					type: "authentication",
 					code: 401,
 					message: "Your IP address was blocked",
 					data: {
@@ -225,10 +229,11 @@ const loginAntispam = function () {
 				// get notified - send mail?
 				// blacklist IP
 				let blockedTill = new Date();
-				blockedTill.setHours(blockedTill.getHours() + 7 * 24);
+				let daysToBanIP = 1;
+				blockedTill.setHours(blockedTill.getHours() + daysToBanIP * 24);
 
-				let reason = "brute forcing logins";
-				if (bruteforcinglogin) reason = "brute forcing login";
+				let reason = "brute forcing";
+				if (bruteforcinglogin) reason = "brute forcing";
 
 				await Blacklist.create({
 					service: "login",
@@ -240,8 +245,15 @@ const loginAntispam = function () {
 				});
 				// await sleep();
 				return next({
+					type: "authentication",
 					code: 401,
-					message: "Your IP address was blocked",
+					message: `Your IP address was just blocked for ${daysToBanIP} day${
+						daysToBanIP === 1 ? "" : "s"
+					} because of brute forcing logging in.`,
+					data: {
+						message: "IP address was banned",
+						daysToBanIP,
+					},
 				});
 			}
 			if (loginAttemptsCount >= bruteForceLoginAttempts - 2) {
@@ -266,9 +278,10 @@ const loginAntispam = function () {
 
 			if (loginAttemptsCount >= maxLoginAttempts) {
 				return wrongLoginAttempt(req, next, loginAttempt, {
-					message: `Too many login attempts!<br> You can't login for next ${timeSpanMinutes} minutes, wait and try to log in again after this time past.`,
+					message: `Too many login attempts!`, //<br> You can't login for next ${timeSpanMinutes} minutes, wait and try to log in again after this time past.
 					loginAttemptsCount,
 					maxLoginAttempts,
+					timeSpanMinutes,
 					blockedTill: timeSpanTooManyAttempts,
 				});
 			}
@@ -291,7 +304,7 @@ const loginAntispam = function () {
 			return next({
 				error,
 				code: 500,
-				message: "Wrong login information",
+				message: "Error while logging in.",
 			});
 		}
 	};

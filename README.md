@@ -102,7 +102,13 @@ revert all:
 
 #### Up
 
+All seeders
+
     npm run seeders
+
+Specific seeder
+
+    npx sequelize-cli db:seed --seed 'name-of-seed-file.js'
 
 #### Down
 
@@ -114,7 +120,7 @@ revert the most recent seeder (only last file via date name):
 
 revert specific seed:
 
-    npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data
+    npx sequelize-cli db:seed:undo --seed 'name-of-seed-file.js'
 
 revert all:
 

@@ -67,7 +67,7 @@ export default {
 					{
 						email: "owner@test.cz",
 						nickname: "owner",
-						password: "123456789",
+						password: "123456789!aA",
 						roleId: 2,
 						domainId: 1,
 						active: true,
@@ -75,7 +75,7 @@ export default {
 					{
 						email: "admin@test.cz",
 						nickname: "admin",
-						password: "123456789",
+						password: "123456789!aA",
 						roleId: 3,
 						domainId: 1,
 						active: true,
