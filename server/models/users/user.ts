@@ -11,6 +11,7 @@ import { User } from "../../../digitalniweb-types/models/users.js";
 
 import Tenant from "./tenant.js";
 import { hashString } from "../../../digitalniweb-custom/functions/hashString.js";
+import UserPrivilege from "./userPrivilege.js";
 
 const User = db.define<User>(
 	"User",
@@ -76,7 +77,7 @@ User.beforeValidate((user: User) => {
 });
 
 User.beforeCreate((user: User) => {
-	user.password = hashUserPassword(user.password);
+	user.password = hashUserPassword(user.password + user.email); // add a layer of security so the same passwords are not the same strings
 	user.refreshTokenSalt = createRefreshTokenSalt();
 });
 
@@ -85,7 +86,7 @@ User.beforeCreate((user: User) => {
 User.beforeBulkUpdate((options: any) => {
 	if (options.attributes.password)
 		options.attributes.password = hashUserPassword(
-			options.attributes.password
+			options.attributes.password + options.attributes.email
 		);
 
 	// this will change refreshTokenSalt only if I explicitly create 'refreshTokenSalt' (with any truthy value) attribute in model.update() method. I don't want 'refreshTokenSalt' to be changed every time because by changing it user would get logged out.
@@ -109,5 +110,6 @@ User.addHook("beforeValidate", "createUUID", async (user: User) => {
 
 Tenant.belongsTo(User);
 User.hasOne(Tenant);
+User.hasMany(UserPrivilege);
 
 export default User;

@@ -19,7 +19,7 @@ export async function userAuthenticate(login: string, password: string) {
 		});
 
 		if (user === null) return false;
-		if (!(hashString(password) === user.password)) return false;
+		if (!(hashString(password + login) === user.password)) return false;
 		return user;
 	} catch (error) {
 		log({

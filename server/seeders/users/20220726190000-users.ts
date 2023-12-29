@@ -12,6 +12,9 @@ import {
 import User from "../../models/users/user.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
+import Tenant from "../../models/users/tenant.js";
+import Blacklist from "../../models/users/blacklist.js";
+import LoginLog from "../../models/users/loginLog.js";
 const microservice: Array<microservices> = ["users"];
 
 export default {
@@ -94,9 +97,9 @@ export default {
 					transaction,
 				}); */
 
-				const user: CreationAttributes<UserType> = {
+				/* const user: CreationAttributes<UserType> = {
 					email: "tenant@digitalniweb.cz",
-					password: "123456789",
+					password: "123456789!aA",
 					domainId: 1,
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -113,7 +116,7 @@ export default {
 						company: false,
 						subscribeNewsletters: false,
 					} as TenantType,
-				};
+				}; */
 
 				/* await tenantRole?.createUser(user, {
 					include: [{ model: Tenant, transaction } as IncludeOptions],
@@ -133,6 +136,9 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
+				await queryInterface.bulkDelete(Tenant.tableName, {}, {});
+				await queryInterface.bulkDelete(Blacklist.tableName, {}, {});
+				await queryInterface.bulkDelete(LoginLog.tableName, {}, {});
 				await queryInterface.bulkDelete(User.tableName, {}, {});
 			} catch (error) {
 				console.log(error);

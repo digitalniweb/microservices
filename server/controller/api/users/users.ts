@@ -21,7 +21,7 @@ export const authenticate = async function (
 	next: NextFunction
 ) {
 	try {
-		const user = await userAuthenticate(req.body.login, req.body.password);
+		const user = await userAuthenticate(req.body.email, req.body.password);
 
 		if (!user) {
 			return wrongLoginAttempt(req, next, req?.antispam?.loginAttempt, {
