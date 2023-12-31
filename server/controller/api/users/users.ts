@@ -5,7 +5,7 @@ import LoginLog from "../../../models/users/loginLog.js";
 
 import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt.js";
 import { Request, Response, NextFunction } from "express";
-import { CreationAttributes, InferAttributes } from "sequelize";
+import { CreationAttributes } from "sequelize";
 
 import { User as UserType } from "../../../../digitalniweb-types/models/users.js";
 
@@ -29,16 +29,6 @@ export const authenticate = async function (
 				loginAttemptsCount: req?.antispam?.loginAttemptsCount,
 				maxLoginAttempts: req?.antispam?.maxLoginAttempts,
 			});
-		}
-
-		let deleteAttributes = ["password", "deletedAt"];
-		for (const property in user.getDataValue) {
-			if (deleteAttributes.includes(property))
-				/* user.setDataValue(
-					property as keyof InferAttributes<UserType>,
-					undefined
-				); */
-				delete user[property as keyof InferAttributes<UserType>];
 		}
 
 		await LoginLog.create(req?.antispam?.loginAttempt);
