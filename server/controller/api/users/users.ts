@@ -24,14 +24,20 @@ export const authenticate = async function (
 		const user = await userAuthenticate(req.body.email, req.body.password);
 
 		if (!user) {
-			return wrongLoginAttempt(req, next, req?.antispam?.loginAttempt, {
-				message: "neplatné přihlášení",
-				loginAttemptsCount: req?.antispam?.loginAttemptsCount,
-				maxLoginAttempts: req?.antispam?.maxLoginAttempts,
-			});
+			return wrongLoginAttempt(
+				req,
+				next,
+				res.locals?.antispam?.loginAttempt,
+				{
+					message: "neplatné přihlášení",
+					loginAttemptsCount:
+						res.locals?.antispam?.loginAttemptsCount,
+					maxLoginAttempts: res.locals?.antispam?.maxLoginAttempts,
+				}
+			);
 		}
 
-		await LoginLog.create(req?.antispam?.loginAttempt);
+		await LoginLog.create(res.locals?.antispam?.loginAttempt);
 		return res.send(user);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't authenticate user." });

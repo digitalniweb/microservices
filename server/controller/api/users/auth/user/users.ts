@@ -41,7 +41,7 @@ export const editUserProfile = async function (
 		let { formdata } = req.body;
 		let { Tenant } = formdata;
 		if (Tenant) delete formdata.Tenant;
-		let id = req?.userVerified?.id;
+		let id = res.locals?.userVerified?.id;
 		await db.transaction(async (transaction) => {
 			let edits = [];
 			if (!isObjectEmpty(formdata))

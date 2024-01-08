@@ -58,7 +58,7 @@ export const allUsers = async function (
 		let users = await db.transaction(async (transaction) => {
 			return await User.findAndCountAll({
 				/* where: {
-					"$Language.code$": req.lang.code,
+					"$Language.code$": res.locals.lang.code,
 				}, */
 				paranoid: true, // items with deletedAt set won't occur in search result
 				offset: (page - 1) * limit,

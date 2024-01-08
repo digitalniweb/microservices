@@ -294,7 +294,7 @@ const loginAntispam = function () {
 				});
 			}
 
-			req.antispam = {
+			res.locals.antispam = {
 				loginAttempt,
 				loginAttemptsCount,
 				maxLoginAttempts,

@@ -18,16 +18,16 @@ const checkAuthorization = function (
 ) {
 	return async function (req: Request, res: Response, next: NextFunction) {
 		try {
-			if (req.userVerified?.role === "superadmin") return next();
+			if (res.locals?.userVerified?.role === "superadmin") return next();
 			if (
-				req.userVerified?.role === "owner" &&
+				res.locals?.userVerified?.role === "owner" &&
 				requiredRole.includes("admin")
 			)
 				return next();
 			if (
-				!req.userVerified ||
+				!res.locals?.userVerified ||
 				!requiredRole.includes(
-					req.userVerified?.role as
+					res.locals?.userVerified?.role as
 						| adminAuthorizationNames
 						| userAuthorizationNames
 				)
