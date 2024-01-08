@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import db from "../../../models/index.js";
 
 import Role from "../../../models/globalData/role.js";
+import RoleType from "../../../models/globalData/roleType.js";
 
 export const getRolesList = async function (
 	req: Request,
@@ -12,6 +13,9 @@ export const getRolesList = async function (
 		let roles = await db.transaction(async (transaction) => {
 			return await Role.findAll({
 				transaction,
+				include: {
+					model: RoleType,
+				},
 			});
 		});
 
