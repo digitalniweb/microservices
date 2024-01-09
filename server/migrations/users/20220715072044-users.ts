@@ -58,6 +58,9 @@ export default {
 					websiteId: {
 						type: DataTypes.INTEGER,
 					},
+					websitesMsId: {
+						type: DataTypes.INTEGER,
+					},
 					active: {
 						type: DataTypes.BOOLEAN,
 						allowNull: false,

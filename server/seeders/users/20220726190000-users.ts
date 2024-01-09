@@ -40,6 +40,7 @@ export default {
 						password: "123456789",
 						roleId: 1,
 						websiteId: 1,
+						websitesMsId: 2, // = serviceRegistry id in global data. This may (and will I guess) differ
 						active: true,
 					},
 				];
@@ -73,6 +74,7 @@ export default {
 						password: "123456789!aA",
 						roleId: 2,
 						websiteId: 1,
+						websitesMsId: 2, // = serviceRegistry id in global data. This may (and will I guess) differ
 						active: true,
 					},
 					{
@@ -81,6 +83,7 @@ export default {
 						password: "123456789!aA",
 						roleId: 3,
 						websiteId: 1,
+						websitesMsId: 2, // = serviceRegistry id in global data. This may (and will I guess) differ
 						active: true,
 					}
 				);

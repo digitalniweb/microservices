@@ -61,6 +61,10 @@ const User = db.define<User>(
 			type: DataTypes.INTEGER,
 			allowNull: true,
 		},
+		websitesMsId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
 		active: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: true,
