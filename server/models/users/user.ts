@@ -57,7 +57,7 @@ const User = db.define<User>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		domainId: {
+		websiteId: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
 		},

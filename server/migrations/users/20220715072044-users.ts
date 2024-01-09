@@ -55,7 +55,7 @@ export default {
 						type: DataTypes.INTEGER,
 						allowNull: false,
 					},
-					domainId: {
+					websiteId: {
 						type: DataTypes.INTEGER,
 					},
 					active: {

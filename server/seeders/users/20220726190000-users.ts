@@ -39,7 +39,7 @@ export default {
 						nickname: "Programmer",
 						password: "123456789",
 						roleId: 1,
-						domainId: 1,
+						websiteId: 1,
 						active: true,
 					},
 				];
@@ -72,7 +72,7 @@ export default {
 						nickname: "owner",
 						password: "123456789!aA",
 						roleId: 2,
-						domainId: 1,
+						websiteId: 1,
 						active: true,
 					},
 					{
@@ -80,7 +80,7 @@ export default {
 						nickname: "admin",
 						password: "123456789!aA",
 						roleId: 3,
-						domainId: 1,
+						websiteId: 1,
 						active: true,
 					}
 				);
@@ -100,7 +100,7 @@ export default {
 				/* const user: CreationAttributes<UserType> = {
 					email: "tenant@digitalniweb.cz",
 					password: "123456789!aA",
-					domainId: 1,
+					websiteId: 1,
 					createdAt: new Date(),
 					updatedAt: new Date(),
 					active: true,

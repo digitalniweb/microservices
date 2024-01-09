@@ -61,7 +61,7 @@ export const register = async function (
 		// 		nickname: "testtenant",
 		// 		password: "123456789",
 		// 		roleId: 4,
-		// 		domainId: 1,
+		// 		websiteId: 1,
 		// 		Tenant: {
 		// 			firstName: "test2",
 		// 			lastName: "tenant2",

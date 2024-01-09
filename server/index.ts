@@ -21,6 +21,12 @@ try {
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
 
+	// add header "x-msId" to all responses
+	app.use((req, res, next) => {
+		res.set("x-ms-id", process.env.MICROSERVICE_ID.toString());
+		next();
+	});
+
 	app.use(languageSetter);
 
 	app.use("/api/", apiRoutes);
