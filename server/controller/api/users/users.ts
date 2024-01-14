@@ -14,7 +14,21 @@ import {
 	userAuthorizationNames,
 	userRoles,
 } from "../../../../digitalniweb-types/authorization/index.js";
+import UserPrivilege from "../../../models/users/userPrivilege.js";
 
+export const getById = async function (req: Request, res: Response) {
+	if (!req.params.id) return res.send(null);
+	const user = await User.findOne({
+		where: { id: req.params.id },
+		paranoid: true,
+		include: [
+			{
+				model: UserPrivilege,
+			},
+		],
+	});
+	return res.send(user);
+};
 export const authenticate = async function (
 	req: Request,
 	res: Response,

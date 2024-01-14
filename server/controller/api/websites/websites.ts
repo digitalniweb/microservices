@@ -66,7 +66,7 @@ export const test = async function (
 			if (!url) return next({ code: 404, message: "Url not found." });
 			await website.addAliases([url], { transaction });
 		}); */
-		res.send("ok");
+		return res.send("ok");
 	} catch (error) {
 		return next({ error, code: 500, message: "Couldn't get website data" });
 	}
@@ -79,7 +79,7 @@ export const getCurrentWebsite = async function (
 ) {
 	try {
 		let url = req.query.url;
-		if (typeof url !== "string") res.send(null);
+		if (typeof url !== "string") return res.send(null);
 
 		let website = await db.transaction(async (transaction) => {
 			return await getWebsite(url as string, transaction);

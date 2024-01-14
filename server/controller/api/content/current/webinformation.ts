@@ -7,5 +7,5 @@ export const webinformation = async function (
 ) {
 	console.log(req.headers);
 
-	res.send("ok");
+	return res.send("ok");
 };
