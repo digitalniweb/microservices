@@ -75,6 +75,10 @@ const Article = db.define<Article>(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
+		websitesMsId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
 		title: {
 			type: DataTypes.STRING,
 		},

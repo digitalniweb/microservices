@@ -70,6 +70,10 @@ export default {
 						allowNull: false,
 						type: DataTypes.INTEGER,
 					},
+					websitesMsId: {
+						allowNull: false,
+						type: DataTypes.INTEGER,
+					},
 					title: {
 						allowNull: false,
 						type: DataTypes.STRING,
