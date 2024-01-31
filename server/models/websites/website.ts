@@ -72,8 +72,8 @@ Website.addHook("beforeValidate", "createUUID", (website: Website) => {
 	if (!website.uuid) website.uuid = crypto.randomUUID();
 });
 
-Website.addHook("afterFind", "addWebsiteMsId", (website: Website) => {
-	if (website) website.websiteMsId = Number(process.env.MICROSERVICE_ID);
+Website.addHook("afterFind", "addwebsitesMsId", (website: Website) => {
+	if (website) website.websitesMsId = Number(process.env.MICROSERVICE_ID);
 });
 
 Website.addHook(
