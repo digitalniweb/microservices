@@ -72,17 +72,17 @@ export const test = async function (
 	}
 };
 
-export const getCurrentWebsite = async function (
+export const getWebsiteByUrl = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
 	try {
-		let url = req.query.url;
+		let url = req.params.url;
 		if (typeof url !== "string") return res.send(null);
 
 		let website = await db.transaction(async (transaction) => {
-			return await getWebsite(url as string, transaction);
+			return await getWebsite(url, transaction);
 		});
 
 		return res.send(website);
@@ -125,28 +125,14 @@ async function getWebsite(
 	}
 }
 
-export const getWebsiteInfo = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		let { url, paranoid } = req.query as {
-			url: string;
-			paranoid: string | boolean;
-		};
-		if (paranoid === "false" || paranoid === "0") paranoid = false; // if paranoid is anything else than string 'false' or '0' (because queries gives me always string) than it is true
-
-		let website = await db.transaction(async (transaction) => {
-			return await getWebsite(url, transaction, paranoid as boolean);
-		});
-
-		return res.send(website);
-	} catch (error) {
-		return next({ error, code: 500, message: "Couldn't get website data" });
-	}
-};
-
+/**
+ * for 'testing' (= limited time) websites of user
+ * !!! need to add condition to WHERE clause
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 export const testingWebsitesCount = async function (
 	req: Request,
 	res: Response,
