@@ -15,39 +15,6 @@ export default {
 		)
 			return;
 
-		/*
-		add titlePostfix 
-
-		name, string(128)
-		description, string(256), null
-		motto, string(256), null
-		mainImage, string(256), null
-		logo, string(256), null
-		favicon, string(256)
-		googleTagManager, string(32), null
-		googleTagManagerActive, boolean, default 0
-		socialMedia, text, null
-		languageId, number
-		websiteId, number
-		websitesMsId, number
-		owner, string(128)
-		tin, string(16), null
-		vatId, string(16), null
-		country, string(32), null
-		city, string(32), null
-		zip, string(16), null
-		streetAddress, string(64), null
-		landRegistryNumber, string(32), null
-		houseNumber, string(8), null
-		addressPattern, string(64), null
-		fullAddress, string(256), null
-		telephone, string(16), null
-		email, string(64)
-		bankName, string(32), null
-		bankAccountNumber, string(32), null
-		bankCode, string(32), null
-		bankIBAN, string(32), null
-		*/
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			return await queryInterface.createTable<WebInformationType>(
 				WebInformation.tableName,
@@ -58,22 +25,22 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					name: { allowNull: false, type: DataTypes.STRING(128) },
+					name: { allowNull: false, type: DataTypes.STRING(127) },
 					description: {
 						allowNull: true,
-						type: DataTypes.STRING(256),
+						type: DataTypes.STRING(255),
 					},
 					titlePostfix: {
 						allowNull: true,
-						type: DataTypes.STRING(128),
+						type: DataTypes.STRING(127),
 					},
-					motto: { allowNull: true, type: DataTypes.STRING(256) },
-					mainImage: { allowNull: true, type: DataTypes.STRING(256) },
-					logo: { allowNull: true, type: DataTypes.STRING(256) },
-					favicon: { allowNull: false, type: DataTypes.STRING(256) },
+					motto: { allowNull: true, type: DataTypes.STRING(255) },
+					mainImage: { allowNull: true, type: DataTypes.STRING(255) },
+					logo: { allowNull: true, type: DataTypes.STRING(255) },
+					favicon: { allowNull: false, type: DataTypes.STRING(255) },
 					googleTagManager: {
 						allowNull: true,
-						type: DataTypes.STRING(32),
+						type: DataTypes.STRING(31),
 					},
 					googleTagManagerActive: {
 						allowNull: false,
@@ -84,38 +51,49 @@ export default {
 					languageId: { allowNull: false, type: DataTypes.INTEGER },
 					websiteId: { allowNull: false, type: DataTypes.INTEGER },
 					websitesMsId: { allowNull: false, type: DataTypes.INTEGER },
-					owner: { allowNull: false, type: DataTypes.STRING(128) },
-					tin: { allowNull: true, type: DataTypes.STRING(16) },
-					vatId: { allowNull: true, type: DataTypes.STRING(16) },
-					country: { allowNull: true, type: DataTypes.STRING(32) },
-					city: { allowNull: true, type: DataTypes.STRING(32) },
-					zip: { allowNull: true, type: DataTypes.STRING(16) },
+					owner: { allowNull: false, type: DataTypes.STRING(127) },
+					tin: { allowNull: true, type: DataTypes.STRING(15) },
+					vatId: { allowNull: true, type: DataTypes.STRING(15) },
+					country: { allowNull: true, type: DataTypes.STRING(31) },
+					city: { allowNull: true, type: DataTypes.STRING(31) },
+					zip: { allowNull: true, type: DataTypes.STRING(15) },
 					streetAddress: {
 						allowNull: true,
-						type: DataTypes.STRING(64),
+						type: DataTypes.STRING(63),
 					},
 					landRegistryNumber: {
 						allowNull: true,
-						type: DataTypes.STRING(32),
+						type: DataTypes.STRING(31),
 					},
-					houseNumber: { allowNull: true, type: DataTypes.STRING(8) },
+					houseNumber: { allowNull: true, type: DataTypes.STRING(7) },
 					addressPattern: {
 						allowNull: true,
-						type: DataTypes.STRING(64),
+						type: DataTypes.STRING(63),
 					},
 					fullAddress: {
 						allowNull: true,
-						type: DataTypes.STRING(256),
+						type: DataTypes.STRING(255),
 					},
-					telephone: { allowNull: true, type: DataTypes.STRING(16) },
-					email: { allowNull: false, type: DataTypes.STRING(64) },
-					bankName: { allowNull: true, type: DataTypes.STRING(32) },
+					telephone: { allowNull: true, type: DataTypes.STRING(15) },
+					email: { allowNull: false, type: DataTypes.STRING(63) },
+					bankName: { allowNull: true, type: DataTypes.STRING(31) },
 					bankAccountNumber: {
 						allowNull: true,
-						type: DataTypes.STRING(32),
+						type: DataTypes.STRING(31),
 					},
-					bankCode: { allowNull: true, type: DataTypes.STRING(32) },
-					bankIBAN: { allowNull: true, type: DataTypes.STRING(32) },
+					bankCode: { allowNull: true, type: DataTypes.STRING(31) },
+					bankIBAN: { allowNull: true, type: DataTypes.STRING(31) },
+					createdAt: {
+						allowNull: false,
+						type: DataTypes.DATE,
+					},
+					updatedAt: {
+						allowNull: false,
+						type: DataTypes.DATE,
+					},
+					deletedAt: {
+						type: DataTypes.DATE,
+					},
 				},
 				{
 					charset: "utf8mb4",

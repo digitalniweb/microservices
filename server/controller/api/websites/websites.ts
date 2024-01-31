@@ -79,7 +79,9 @@ export const getWebsiteByUrl = async function (
 ) {
 	try {
 		let url = req.params.url;
-		if (typeof url !== "string") return res.send(null);
+
+		// if undefined, null, empty or coercible to number
+		if (!url || !isNaN(url as any)) return res.send(null);
 
 		let website = await db.transaction(async (transaction) => {
 			return await getWebsite(url, transaction);
