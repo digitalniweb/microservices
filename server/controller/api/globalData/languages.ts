@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import db from "../../../models/index.js";
 
 import Language from "../../../models/globalData/language.js";
+import { getRequestGlobalDataModelList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 
 export const getLanguagesList = async function (
 	req: Request,
@@ -9,13 +10,9 @@ export const getLanguagesList = async function (
 	next: NextFunction
 ) {
 	try {
-		let languages = await db.transaction(async (transaction) => {
-			return await Language.findAll({
-				transaction,
-			});
-		});
+		let data = getRequestGlobalDataModelList(req, Language);
 
-		return res.send(languages);
+		return res.send(data);
 	} catch (error) {
 		return next({
 			error,
