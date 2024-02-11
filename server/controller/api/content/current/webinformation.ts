@@ -8,19 +8,18 @@ export const webinformation = async function (
 	next: NextFunction
 ) {
 	try {
-		const { id, languageId } = req.query as {
+		const { id } = req.query as {
 			id: string;
 			languageId: string;
 		};
-		if (!id || isNaN(id as any) || !languageId || isNaN(languageId as any))
-			return res.send(null);
+		if (!id || isNaN(id as any)) return res.send(null);
 		let websiteInfo = await db.transaction(async (transaction) => {
 			return await WebInformation.findOne({
 				transaction,
 				where: {
 					websiteId: id,
-					languageId,
 				},
+				include: [{ model: WebInformation }],
 			});
 		});
 
