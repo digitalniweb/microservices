@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../../../../models/index.js";
 import WebInformation from "../../../../models/content/webInformation.js";
+import WebInformationLanguage from "../../../../models/content/webInformationLanguage.js";
 
 export const webinformation = async function (
 	req: Request,
@@ -10,7 +11,6 @@ export const webinformation = async function (
 	try {
 		const { id } = req.query as {
 			id: string;
-			languageId: string;
 		};
 		if (!id || isNaN(id as any)) return res.send(null);
 		let websiteInfo = await db.transaction(async (transaction) => {
@@ -19,7 +19,7 @@ export const webinformation = async function (
 				where: {
 					websiteId: id,
 				},
-				include: [{ model: WebInformation }],
+				include: [{ model: WebInformationLanguage }],
 			});
 		});
 
