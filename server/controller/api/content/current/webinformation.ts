@@ -3,6 +3,31 @@ import db from "../../../../models/index.js";
 import WebInformation from "../../../../models/content/webInformation.js";
 import WebInformationLanguage from "../../../../models/content/webInformationLanguage.js";
 
+export const webinformationPatch = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		let { data, websiteId } = req.body;
+		let success = await db.transaction(async (transaction) => {
+			return await WebInformation.update(data, {
+				transaction,
+				where: {
+					websiteId,
+				},
+			});
+		});
+
+		return res.send(success);
+	} catch (error: any) {
+		return next({
+			error,
+			code: 500,
+			message: "Couldn't patch website information data",
+		});
+	}
+};
 export const webinformation = async function (
 	req: Request,
 	res: Response,
