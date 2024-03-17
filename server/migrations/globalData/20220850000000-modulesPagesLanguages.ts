@@ -35,6 +35,7 @@ export default {
 					},
 					ModuleId: {
 						type: DataTypes.INTEGER,
+						onDelete: "CASCADE",
 						references: {
 							model: Module.tableName,
 							key: "id",
@@ -42,7 +43,7 @@ export default {
 					},
 					url: {
 						type: DataTypes.STRING,
-						allowNull: false,
+						allowNull: true,
 					},
 					title: {
 						type: DataTypes.STRING,

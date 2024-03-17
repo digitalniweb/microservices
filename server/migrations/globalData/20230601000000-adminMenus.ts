@@ -28,7 +28,6 @@ export default {
 					},
 					component: {
 						type: DataTypes.STRING,
-						allowNull: false,
 					},
 					name: {
 						type: DataTypes.STRING,
@@ -63,6 +62,11 @@ export default {
 						type: DataTypes.INTEGER,
 						allowNull: true,
 						defaultValue: null,
+						onDelete: "CASCADE",
+						references: {
+							model: AdminMenu.tableName,
+							key: "id",
+						},
 					},
 					ModuleId: {
 						type: DataTypes.INTEGER,

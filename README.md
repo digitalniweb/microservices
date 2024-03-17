@@ -98,7 +98,7 @@ revert all:
 
 ### Seeders
 
--   [documentation](https://https://sequelize.org/docs/v6/other-topics/migrations/)
+-   [documentation](https://sequelize.org/docs/v6/other-topics/migrations/)
 
 #### Up
 

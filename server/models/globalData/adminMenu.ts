@@ -21,7 +21,6 @@ const AdminMenu = db.define<AdminMenu>(
 		},
 		component: {
 			type: DataTypes.STRING,
-			allowNull: false,
 		},
 		order: {
 			type: DataTypes.INTEGER,
@@ -69,5 +68,10 @@ const AdminMenu = db.define<AdminMenu>(
 AdminMenu.belongsTo(Module);
 Module.hasMany(AdminMenu);
 AdminMenu.belongsTo(AdminMenu, { as: "parent", foreignKey: "parentId" });
+
+AdminMenu.hasMany(AdminMenu, {
+	as: "children",
+	foreignKey: "parentId",
+});
 
 export default AdminMenu;

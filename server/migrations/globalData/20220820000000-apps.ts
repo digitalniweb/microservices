@@ -28,6 +28,11 @@ export default {
 					},
 					parentId: {
 						type: DataTypes.INTEGER,
+						onDelete: "CASCADE",
+						references: {
+							model: App.tableName,
+							key: "id",
+						},
 					},
 					name: {
 						type: DataTypes.STRING(255),

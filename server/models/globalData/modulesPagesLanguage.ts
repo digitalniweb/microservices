@@ -62,6 +62,7 @@ const ModulesPagesLanguage = db.define<ModulesPagesLanguage>(
 	}
 );
 
+Module.hasMany(ModulesPagesLanguage);
 ModulesPagesLanguage.belongsTo(Module);
 ModulesPagesLanguage.belongsTo(Language);
 

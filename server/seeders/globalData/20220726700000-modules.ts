@@ -3,6 +3,8 @@ import { QueryInterface } from "sequelize";
 import { microservices } from "../../../digitalniweb-types/index.js";
 // import Website from "../../models/globalData/website.js";
 import Module from "../../models/globalData/module.js";
+import Language from "../../models/globalData/language.js";
+import ModulesPagesLanguage from "../../models/globalData/modulesPagesLanguage.js";
 // import Url from "../../models/globalData/url.js";
 // import { addDays } from "date-fns";
 const microservice: Array<microservices> = ["globalData"];
@@ -18,21 +20,86 @@ export default {
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				// https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
+				let cs = await Language.findOne({ where: { code: "cs" } });
+				let en = await Language.findOne({ where: { code: "en" } });
 
-				let articles = await Module.create({
-					name: "articles",
-					model: "Article",
+				// articles
+				await Module.create(
+					{
+						name: "articles",
+						model: "Article",
+					},
+					{ transaction }
+				);
+
+				// photoGallery
+				await Module.create(
+					{
+						name: "photoGallery",
+						model: "PhotoGallery",
+						creditsCost: 30,
+						ModulesPagesLanguages: [
+							{
+								LanguageId: cs?.id,
+								url: "fotogalerie",
+								title: "Fotogalerie",
+								description: "Vytvořené fotogalerie",
+								headline: "Fotogalerie",
+							},
+							{
+								LanguageId: en?.id,
+								url: "photogallery",
+								title: "Photo gallery",
+								description: "Photo galleries",
+								headline: "Photo gallery",
+							},
+						],
+					},
+					{ include: [ModulesPagesLanguage], transaction }
+				);
+
+				// news
+				await Module.create(
+					{
+						name: "news",
+						model: "News",
+						creditsCost: 30,
+						ModulesPagesLanguages: [
+							{
+								LanguageId: cs?.id,
+								url: "novinky",
+								title: "Novinky",
+								description: "Nejnovější zprávy a novinky",
+								headline: "Novinky",
+							},
+							{
+								LanguageId: en?.id,
+								url: "news",
+								title: "News",
+								description: "Latest news and updates",
+								headline: "News",
+							},
+						],
+					},
+					{ include: [ModulesPagesLanguage], transaction }
+				);
+
+				// invoices
+				await Module.create({
+					name: "invoices",
+					model: "Invoice",
 				});
 
-				let photoGallery = await Module.create({
-					name: "photoGallery",
-					model: "PhotoGallery",
-					creditsCost: 30,
+				// users
+				await Module.create({
+					name: "users",
+					model: "User",
 				});
 
-				let news = await Module.create({
-					name: "news",
-					model: "News",
+				// tenants
+				await Module.create({
+					name: "tenants",
+					model: "Tenant",
 				});
 
 				/* if (process.env.NODE_ENV === "development") {
