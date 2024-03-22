@@ -22,7 +22,7 @@ const AdminMenuLanguage = db.define<AdminMenuLanguage>(
 		},
 		url: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: true,
 		},
 		LanguageId: {
 			type: DataTypes.INTEGER,

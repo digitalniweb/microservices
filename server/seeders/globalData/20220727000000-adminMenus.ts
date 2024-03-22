@@ -5,7 +5,16 @@ import AdminMenu from "../../models/globalData/adminMenu.js";
 import Module from "../../models/globalData/module.js";
 import Language from "../../models/globalData/language.js";
 import AdminMenuLanguage from "../../models/globalData/adminMenuLanguage.js";
+import Role from "../../models/globalData/role.js";
 const microservice: Array<microservices> = ["globalData"];
+
+/* 
+npm run buildSequelize
+npx sequelize-cli db:migrate:undo --name '20230602000000-adminMenuLanguages.js'
+npx sequelize-cli db:migrate:undo --name '20230601000000-adminMenus.js'
+npm run migrations
+npx sequelize-cli db:seed --seed '20220727000000-adminMenus.js'
+*/
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
@@ -17,6 +26,19 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
+				let roleAdmin = await Role.findOne({
+					where: { name: "admin" },
+					transaction,
+				});
+				// let roleOwner = await Role.findOne({
+				// 	where: { name: "owner" },
+				// 	transaction,
+				// });
+				let roleSuperadmin = await Role.findOne({
+					where: { name: "superadmin" },
+					transaction,
+				});
+
 				let cs = await Language.findOne({
 					where: { code: "cs" },
 					transaction,
@@ -32,14 +54,86 @@ export default {
 					},
 					transaction,
 				});
-				let contentSeparatorAM = await AdminMenu.create({
-					isDefault: true,
-					name: "contentSeparator",
-					openable: true,
-					order: 0,
-					icon: "mdi-text-box-outline",
-					separator: true,
-				});
+				let contentOpener = await AdminMenu.create(
+					{
+						isDefault: true,
+						name: "contentOpener",
+						openable: true,
+						order: 0,
+						icon: "mdi-text-box-outline",
+						separator: true,
+						RoleId: roleAdmin?.id,
+					},
+					{ transaction }
+				);
+
+				let superadminSeparator = await AdminMenu.create(
+					{
+						isDefault: false,
+						name: "superadminSeparator",
+						openable: true,
+						order: 100,
+						icon: "mdi-shield-account-outline",
+						separator: true,
+						RoleId: roleSuperadmin?.id,
+					},
+					{ transaction }
+				);
+
+				let superadminModulesOpener = await AdminMenu.create(
+					{
+						isDefault: false,
+						name: "superadminModulesOpener",
+						openable: true,
+						order: 101,
+						icon: "mdi-view-dashboard-outline",
+						separator: true,
+						RoleId: roleSuperadmin?.id,
+					},
+					{ transaction }
+				);
+
+				if (superadminSeparator)
+					await superadminSeparator.createAdminMenuLanguage(
+						{
+							name: "Superadmin",
+							LanguageId: en?.id,
+						},
+						{ transaction }
+					);
+
+				if (superadminModulesOpener) {
+					let superadminAppModules =
+						await superadminModulesOpener.createChild(
+							{
+								isDefault: false,
+								name: "superadminAppModules",
+								component: "AdminSuperadminAppModules",
+								openable: false,
+								order: 0,
+								icon: "mdi-view-dashboard-edit-outline",
+								RoleId: roleSuperadmin?.id,
+							},
+							{ transaction }
+						);
+
+					await superadminModulesOpener.createAdminMenuLanguage(
+						{
+							name: "Modules",
+							LanguageId: en?.id,
+						},
+						{ transaction }
+					);
+
+					await superadminAppModules.createAdminMenuLanguage(
+						{
+							name: "App modules",
+							url: "superadmin/modules/appmodules",
+							LanguageId: en?.id,
+						},
+						{ transaction }
+					);
+				}
 
 				if (articles) {
 					let adminMenuArticle = await articles.createAdminMenu(
@@ -50,15 +144,33 @@ export default {
 							openable: false,
 							icon: "mdi-card-text-outline",
 							order: 0,
+							RoleId: roleAdmin?.id,
 						},
 						{ transaction }
 					);
-					adminMenuArticle.setParent(contentSeparatorAM);
+					await adminMenuArticle.setParent(contentOpener, {
+						transaction,
+					});
+
+					await contentOpener.createAdminMenuLanguage(
+						{
+							name: "Obsah webu",
+							LanguageId: cs?.id,
+						},
+						{ transaction }
+					);
+					await contentOpener.createAdminMenuLanguage(
+						{
+							name: "Web content",
+							LanguageId: en?.id,
+						},
+						{ transaction }
+					);
 
 					await adminMenuArticle.createAdminMenuLanguage(
 						{
 							name: "Články",
-							url: "clanky",
+							url: "obsah/clanky",
 							LanguageId: cs?.id,
 						},
 						{ transaction }
@@ -66,7 +178,7 @@ export default {
 					await adminMenuArticle.createAdminMenuLanguage(
 						{
 							name: "Articles",
-							url: "articles",
+							url: "content/articles",
 							LanguageId: en?.id,
 						},
 						{ transaction }

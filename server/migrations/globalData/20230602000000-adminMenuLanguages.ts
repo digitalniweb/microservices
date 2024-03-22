@@ -33,7 +33,7 @@ export default {
 					},
 					url: {
 						type: DataTypes.STRING,
-						allowNull: false,
+						allowNull: true,
 					},
 					AdminMenuId: {
 						type: DataTypes.INTEGER,

@@ -5,6 +5,7 @@ import { AdminMenu as AdminMenuType } from "../../../digitalniweb-types/models/g
 import { microservices } from "../../../digitalniweb-types/index.js";
 import AdminMenu from "../../models/globalData/adminMenu.js";
 import Module from "../../models/globalData/module.js";
+import Role from "../../models/globalData/role";
 
 const microservice: Array<microservices> = ["globalData"];
 
@@ -73,6 +74,14 @@ export default {
 						allowNull: true,
 						references: {
 							model: Module.tableName,
+							key: "id",
+						},
+					},
+					RoleId: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: Role.tableName,
 							key: "id",
 						},
 					},

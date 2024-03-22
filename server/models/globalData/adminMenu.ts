@@ -6,6 +6,7 @@ import db from "../index.js";
 
 import { AdminMenu } from "../../../digitalniweb-types/models/globalData.js";
 import Module from "./module.js";
+import Role from "./role.js";
 
 const AdminMenu = db.define<AdminMenu>(
 	"AdminMenu",
@@ -58,6 +59,13 @@ const AdminMenu = db.define<AdminMenu>(
 				key: "id",
 			},
 		},
+		RoleId: {
+			type: DataTypes.INTEGER,
+			references: {
+				model: Role.tableName,
+				key: "id",
+			},
+		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt
@@ -65,10 +73,13 @@ const AdminMenu = db.define<AdminMenu>(
 		// freezeTableName: true,
 	}
 );
+AdminMenu.belongsTo(Role);
+Role.hasMany(AdminMenu);
+
 AdminMenu.belongsTo(Module);
 Module.hasMany(AdminMenu);
-AdminMenu.belongsTo(AdminMenu, { as: "parent", foreignKey: "parentId" });
 
+AdminMenu.belongsTo(AdminMenu, { as: "parent", foreignKey: "parentId" });
 AdminMenu.hasMany(AdminMenu, {
 	as: "children",
 	foreignKey: "parentId",
