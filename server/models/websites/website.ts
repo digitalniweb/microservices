@@ -8,6 +8,7 @@ import { Website } from "../../../digitalniweb-types/models/websites.js";
 
 import Url from "./url.js";
 import WebsiteLanguageMutation from "./websiteLanguageMutation.js";
+import WebsiteModule from "./websiteModule.js";
 
 const Website = db.define<Website>(
 	"Website",
@@ -105,6 +106,9 @@ Website.addHook(
 Website.hasMany(Url, { as: "Aliases" });
 
 Website.hasMany(WebsiteLanguageMutation);
+
+Website.hasMany(WebsiteModule);
+WebsiteModule.belongsTo(Website);
 
 Website.belongsTo(Url, { as: "MainUrl" });
 

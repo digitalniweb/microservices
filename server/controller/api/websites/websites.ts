@@ -8,6 +8,7 @@ import Url from "../../../models/websites/url.js";
 import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
 import { log } from "../../../../digitalniweb-custom/helpers/logger.js";
+import WebsiteModule from "../../../models/websites/websiteModule.js";
 
 export const test = async function (
 	req: Request,
@@ -114,6 +115,12 @@ async function getWebsite(
 					},
 					attributes: [],
 					as: "MainUrl",
+				},
+				{
+					model: WebsiteLanguageMutation,
+				},
+				{
+					model: WebsiteModule,
 				},
 			],
 		});

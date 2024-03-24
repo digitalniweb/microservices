@@ -43,7 +43,7 @@ export default {
 						defaultValue: true,
 					},
 					billingDay: {
-						allowNull: false,
+						allowNull: true,
 						type: DataTypes.INTEGER,
 						validate: {
 							min: 1,
