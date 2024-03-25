@@ -1,6 +1,9 @@
 import express from "express";
 const router = express.Router();
 import * as controller from "../../controller/api/websites/websites.js";
+import currentRoutes from "./current/index.js";
+
+router.use("/current", currentRoutes);
 
 router.get("/websitemutations", controller.getWebsiteLanguageMutations);
 
