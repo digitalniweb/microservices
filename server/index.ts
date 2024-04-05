@@ -1,5 +1,4 @@
 import express, { Express, ErrorRequestHandler } from "express";
-import dotenv from "dotenv";
 
 import languageSetter from "./middleware/language-setter.js";
 
@@ -12,8 +11,6 @@ import { customLogObject } from "../digitalniweb-types/customHelpers/logger.js";
 
 try {
 	await serverInit();
-
-	dotenv.config();
 
 	const app: Express = express();
 
