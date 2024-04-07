@@ -7,12 +7,12 @@ export const getModulesIds = async function (
 	next: NextFunction
 ) {
 	try {
-		let id = req.query.id as string;
+		let websiteId = req.query.websiteId as string;
 		let modulesIds = "modulesIds";
 		let idsStringInstance = await WebsiteModule.findOne({
 			attributes: [[fn("GROUP_CONCAT", col("moduleId")), modulesIds]],
 			where: {
-				[Op.and]: [{ active: true }, { WebsiteId: id }],
+				[Op.and]: [{ active: true }, { WebsiteId: websiteId }],
 			},
 			paranoid: true,
 		});
