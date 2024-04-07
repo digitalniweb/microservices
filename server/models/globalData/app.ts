@@ -80,11 +80,8 @@ App.hasOne(App, {
 	foreignKey: "parentId",
 });
 
-Language.hasMany(App);
+Language.hasOne(App); // default Language
 App.belongsTo(Language);
-
-App.hasMany(Module);
-App.hasMany(Widget);
 
 App.belongsTo(Language);
 

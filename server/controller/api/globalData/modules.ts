@@ -1,28 +1,29 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../../../models/index.js";
 
-import Language from "../../../models/globalData/language.js";
+import Module from "../../../models/globalData/module.js";
 import { getRequestGlobalDataModelList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
+import ModulesPagesLanguage from "../../../models/globalData/modulesPagesLanguage.js";
 
-export const getLanguagesList = async function (
+export const getModulesList = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
 	try {
-		let data = getRequestGlobalDataModelList(req, Language);
+		let data = getRequestGlobalDataModelList(req, Module);
 
 		return res.send(data);
 	} catch (error) {
 		return next({
 			error,
 			code: 500,
-			message: "Couldn't get languages list.",
+			message: "Couldn't get modules list.",
 		});
 	}
 };
 
-export const getLanguagesByIds = async function (
+export const getModulesByIds = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -30,25 +31,26 @@ export const getLanguagesByIds = async function (
 	try {
 		let ids = req.query.ids as string[] | number[];
 
-		if (!Array.isArray(ids)) throw "Language IDs needs to be an array.";
+		if (!Array.isArray(ids)) throw "Module IDs needs to be an array.";
 		ids = ids.map(Number) as number[];
 		if (ids.some((id) => isNaN(id)))
-			throw "Language IDs needs to be numbers.";
-		let languages = await db.transaction(async (transaction) => {
-			return await Language.findAll({
+			throw "Module IDs needs to be numbers.";
+		let modules = await db.transaction(async (transaction) => {
+			return await Module.findAll({
 				where: {
 					id: ids,
 				},
 				transaction,
+				include: [ModulesPagesLanguage],
 			});
 		});
 
-		return res.send(languages);
+		return res.send(modules);
 	} catch (error) {
 		return next({
 			error,
 			code: 500,
-			message: "Couldn't get languages list.",
+			message: "Couldn't get modules list.",
 		});
 	}
 };
