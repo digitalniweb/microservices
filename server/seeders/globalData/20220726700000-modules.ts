@@ -4,7 +4,8 @@ import { microservices } from "../../../digitalniweb-types/index.js";
 // import Website from "../../models/globalData/website.js";
 import Module from "../../models/globalData/module.js";
 import Language from "../../models/globalData/language.js";
-import ModulesPagesLanguage from "../../models/globalData/modulesPagesLanguage.js";
+import ModulePage from "../../models/globalData/modulePage.js";
+import ModulePageLanguage from "../../models/globalData/modulePageLanguage.js";
 // import Url from "../../models/globalData/url.js";
 // import { addDays } from "date-fns";
 const microservice: Array<microservices> = ["globalData"];
@@ -38,24 +39,39 @@ export default {
 						name: "photoGallery",
 						model: "PhotoGallery",
 						creditsCost: 30,
-						ModulesPagesLanguages: [
+						ModulePages: [
 							{
-								LanguageId: cs?.id,
-								url: "fotogalerie",
-								title: "Fotogalerie",
-								description: "Vytvořené fotogalerie",
-								headline: "Fotogalerie",
-							},
-							{
-								LanguageId: en?.id,
+								name: "Photo gallery",
+								component: "WebPagesPhotoGallery",
 								url: "photogallery",
-								title: "Photo gallery",
-								description: "Photo galleries",
-								headline: "Photo gallery",
+								ModulePageLanguages: [
+									{
+										LanguageId: cs?.id,
+										url: "fotogalerie",
+										title: "Fotogalerie",
+										description: "Vytvořené fotogalerie",
+										headline: "Fotogalerie",
+									},
+									{
+										LanguageId: en?.id,
+										url: "photogallery",
+										title: "Photo gallery",
+										description: "Photo galleries",
+										headline: "Photo gallery",
+									},
+								],
 							},
 						],
 					},
-					{ include: [ModulesPagesLanguage], transaction }
+					{
+						include: [
+							{
+								model: ModulePage,
+								include: [{ model: ModulePageLanguage }],
+							},
+						],
+						transaction,
+					}
 				);
 
 				// news
@@ -64,24 +80,40 @@ export default {
 						name: "news",
 						model: "News",
 						creditsCost: 30,
-						ModulesPagesLanguages: [
+						ModulePages: [
 							{
-								LanguageId: cs?.id,
-								url: "novinky",
-								title: "Novinky",
-								description: "Nejnovější zprávy a novinky",
-								headline: "Novinky",
-							},
-							{
-								LanguageId: en?.id,
+								name: "News",
+								component: "WebPagesNews",
 								url: "news",
-								title: "News",
-								description: "Latest news and updates",
-								headline: "News",
+								ModulePageLanguages: [
+									{
+										LanguageId: cs?.id,
+										url: "novinky",
+										title: "Novinky",
+										description:
+											"Nejnovější zprávy a novinky",
+										headline: "Novinky",
+									},
+									{
+										LanguageId: en?.id,
+										url: "news",
+										title: "News",
+										description: "Latest news and updates",
+										headline: "News",
+									},
+								],
 							},
 						],
 					},
-					{ include: [ModulesPagesLanguage], transaction }
+					{
+						include: [
+							{
+								model: ModulePage,
+								include: [{ model: ModulePageLanguage }],
+							},
+						],
+						transaction,
+					}
 				);
 
 				// invoices

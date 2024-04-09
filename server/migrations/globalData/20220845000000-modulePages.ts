@@ -1,11 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import ModulesPagesLanguage from "../../models/globalData/modulesPagesLanguage.js";
-import { ModulesPagesLanguage as ModulesPagesLanguageType } from "../../../digitalniweb-types/models/globalData.js";
+import ModulePage from "../../models/globalData/modulePage.js";
+import { ModulePage as ModulePageType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import Module from "../../models/globalData/module.js";
-import Language from "../../models/globalData/language.js";
+// import Role from "../../models/globalData/role.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {
@@ -17,21 +17,14 @@ export default {
 		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<ModulesPagesLanguageType>(
-				ModulesPagesLanguage.tableName,
+			return await queryInterface.createTable<ModulePageType>(
+				ModulePage.tableName,
 				{
 					id: {
 						allowNull: false,
 						autoIncrement: true,
 						primaryKey: true,
 						type: DataTypes.INTEGER,
-					},
-					LanguageId: {
-						type: DataTypes.INTEGER,
-						references: {
-							model: Language.tableName,
-							key: "id",
-						},
 					},
 					ModuleId: {
 						type: DataTypes.INTEGER,
@@ -41,31 +34,19 @@ export default {
 							key: "id",
 						},
 					},
+					name: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						unique: true,
+					},
 					url: {
 						type: DataTypes.STRING,
-						allowNull: true,
+						allowNull: false,
+						unique: true,
 					},
-					title: {
-						type: DataTypes.STRING,
-						allowNull: true,
-					},
-					description: {
-						type: DataTypes.STRING,
-						allowNull: true,
-					},
-					headline: {
-						type: DataTypes.STRING,
-						allowNull: true,
-					},
-					image: {
-						type: DataTypes.STRING,
-						allowNull: true,
-					},
-					content: {
-						type: DataTypes.TEXT,
-					},
-					options: {
-						type: DataTypes.TEXT,
+					component: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
 					},
 				},
 				{
@@ -85,12 +66,9 @@ export default {
 		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(
-				ModulesPagesLanguage.tableName,
-				{
-					transaction,
-				}
-			);
+			return await queryInterface.dropTable(ModulePage.tableName, {
+				transaction,
+			});
 		});
 	},
 };

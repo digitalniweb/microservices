@@ -4,7 +4,7 @@ import Module from "../../models/globalData/module.js";
 import { Module as ModuleType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-import Role from "../../models/globalData/role.js";
+// import Role from "../../models/globalData/role.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {

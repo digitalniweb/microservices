@@ -74,7 +74,7 @@ export const test = async function (
 	// 				{
 	// 					model: models.Module,
 	// 					transaction,
-	// 					include: [{ model: models.ModulesPagesLanguage }],
+	// 					include: [{ model: models.ModulePageLanguage }],
 	// 				},
 	// 			],
 	// 		});

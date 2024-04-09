@@ -3,7 +3,8 @@ import db from "../../../models/index.js";
 
 import Module from "../../../models/globalData/module.js";
 import { getRequestGlobalDataModelList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
-import ModulesPagesLanguage from "../../../models/globalData/modulesPagesLanguage.js";
+import ModulePageLanguage from "../../../models/globalData/modulePageLanguage.js";
+import ModulePage from "../../../models/globalData/modulePage.js";
 
 export const getModulesList = async function (
 	req: Request,
@@ -41,7 +42,16 @@ export const getModulesByIds = async function (
 					id: ids,
 				},
 				transaction,
-				include: [ModulesPagesLanguage],
+				include: [
+					{
+						model: ModulePage,
+						include: [
+							{
+								model: ModulePageLanguage,
+							},
+						],
+					},
+				],
 			});
 		});
 
