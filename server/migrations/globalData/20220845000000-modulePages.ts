@@ -45,7 +45,7 @@ export default {
 						unique: true,
 					},
 					component: {
-						type: DataTypes.INTEGER,
+						type: DataTypes.STRING,
 						allowNull: false,
 					},
 				},

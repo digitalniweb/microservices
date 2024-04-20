@@ -29,6 +29,7 @@ export default {
 					{
 						name: "articles",
 						model: "Article",
+						component: "WebPagesArticle",
 					},
 					{ transaction }
 				);

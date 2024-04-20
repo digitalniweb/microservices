@@ -6,7 +6,6 @@ import db from "../index.js";
 
 import { ModulePage } from "../../../digitalniweb-types/models/globalData.js";
 import Module from "./module.js";
-import ModulePageLanguage from "./modulePageLanguage.js";
 
 const ModulePage = db.define<ModulePage>(
 	"ModulePage",

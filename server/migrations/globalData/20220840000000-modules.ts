@@ -33,6 +33,9 @@ export default {
 					model: {
 						type: DataTypes.STRING,
 					},
+					component: {
+						type: DataTypes.STRING,
+					},
 					creditsCost: {
 						type: DataTypes.INTEGER,
 						allowNull: true,
