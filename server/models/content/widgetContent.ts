@@ -31,21 +31,17 @@ const WidgetContent = db.define<WidgetContent>(
 			allowNull: false,
 		},
 		content: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: false,
 		},
 		options: {
 			type: DataTypes.JSONB,
-			allowNull: false,
 		},
 		active: {
 			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			defaultValue: false,
 		},
 		order: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
 		},
 	},
 	{

@@ -42,20 +42,18 @@ export default {
 					},
 					content: {
 						allowNull: false,
-						type: DataTypes.STRING,
+						type: DataTypes.TEXT,
 					},
 					options: {
-						allowNull: false,
 						type: DataTypes.JSON,
 					},
 					active: {
-						allowNull: false,
 						type: DataTypes.BOOLEAN,
 						defaultValue: false,
 					},
 					order: {
-						allowNull: false,
 						type: DataTypes.INTEGER,
+						defaultValue: 0,
 					},
 					createdAt: {
 						allowNull: false,
