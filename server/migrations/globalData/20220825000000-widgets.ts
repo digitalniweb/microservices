@@ -34,6 +34,11 @@ export default {
 						allowNull: false,
 						unique: true,
 					},
+					component: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						unique: true,
+					},
 				},
 				{
 					charset: "utf8mb4",

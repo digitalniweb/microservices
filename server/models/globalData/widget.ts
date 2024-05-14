@@ -24,6 +24,11 @@ const Widget = db.define<Widget>(
 			allowNull: false,
 			unique: true,
 		},
+		component: {
+			type: DataTypes.STRING,
+			allowNull: true,
+			unique: true,
+		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt

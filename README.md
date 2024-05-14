@@ -1,4 +1,6 @@
-# How it works
+# Digitalni web - Microservices
+
+## How it works
 
 -   Microservices 'globalData' needs to be started first, then other services
 -   Redis must be installed. "globalData" microservice works as "service registry" and it registers all services and applications via Redis messaging system automatically on service start.

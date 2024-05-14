@@ -17,10 +17,10 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				// https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
 				let text = await Widget.create({
 					name: "text",
 					widgetName: "Text",
+					component: "WebWidgetsText",
 				});
 			} catch (error) {
 				console.log(error);
