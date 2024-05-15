@@ -22,6 +22,9 @@ const Module = db.define<Module>(
 		model: {
 			type: DataTypes.STRING,
 		},
+		component: {
+			type: DataTypes.STRING,
+		},
 		creditsCost: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
