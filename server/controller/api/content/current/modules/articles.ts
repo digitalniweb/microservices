@@ -38,7 +38,7 @@ export const getArticle = async function (
 			});
 		});
 		return res.send({
-			moduleInfo: widgetContents,
+			moduleInfo: article,
 			widgetContents,
 		});
 	} catch (error: any) {
