@@ -4,6 +4,7 @@ import Article from "../../../../../models/content/article.js";
 import WidgetContent from "../../../../../models/content/widgetContent.js";
 import { getArticleQuery } from "../../../../../../digitalniweb-types/apps/communication/modules/articles.js";
 import { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
+import { moduleResponse } from "../../../../../../digitalniweb-types/apps/communication/modules/index.js";
 export const getArticle = async function (
 	req: Request,
 	res: Response,
@@ -37,10 +38,11 @@ export const getArticle = async function (
 				transaction,
 			});
 		});
+
 		return res.send({
 			moduleInfo: article,
 			widgetContents,
-		});
+		} as moduleResponse<Article>);
 	} catch (error: any) {
 		return next({
 			error,
