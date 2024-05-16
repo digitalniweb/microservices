@@ -15,6 +15,8 @@ export const getArticle = async function (
 		if (typeof resourceIds === "string")
 			resourceIds = JSON.parse(resourceIds) as resourceIdsType;
 
+		let response = {} as moduleResponse<Article>;
+
 		let article = await db.transaction(async (transaction) => {
 			return await Article.findOne({
 				where: {
@@ -28,6 +30,7 @@ export const getArticle = async function (
 		});
 
 		if (!article) return res.send(null);
+		response.moduleInfo = article;
 
 		let widgetContents = await db.transaction(async (transaction) => {
 			return await WidgetContent.findAll({
@@ -38,11 +41,9 @@ export const getArticle = async function (
 				transaction,
 			});
 		});
+		response.widgetContents = widgetContents;
 
-		return res.send({
-			moduleInfo: article,
-			widgetContents,
-		} as moduleResponse<Article>);
+		return res.send(response);
 	} catch (error: any) {
 		return next({
 			error,
