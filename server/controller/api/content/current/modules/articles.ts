@@ -37,6 +37,7 @@ export const getArticle = async function (
 				where: {
 					moduleRecordId: article.id,
 					moduleId: resourceIds.moduleId,
+					active: true,
 				},
 				transaction,
 			});

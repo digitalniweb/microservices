@@ -131,3 +131,24 @@ revert specific seed:
 revert all:
 
     npx sequelize-cli db:seed:undo:all
+
+## Communication of microservices
+
+**globalData** is single source of truth!
+
+```mermaid
+    graph LR
+    Microservices <-->|"publish /\nsubscribe"| Redis
+    subgraph Microservices
+        globalData <--> |"microserviceCall()"| blank[" "]
+        direction TB
+        subgraph blank[" "]
+            direction LR
+            microservices["other microservices
+            (websites, users,...)"] <---> |"microserviceCall()"|microservices
+        end
+    end
+    classDef dashed stroke-dasharray: 10;
+    class Microservices,blank dashed;
+
+```
