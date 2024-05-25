@@ -5,6 +5,8 @@ import {
 	resourceIdsType,
 	useApiCallQuery,
 } from "../../../../../digitalniweb-types/apps/communication/index.js";
+import { InferAttributes } from "sequelize";
+import { buildTree } from "../../../../../digitalniweb-custom/helpers/buildTree.js";
 
 export const getMenu = async function (
 	req: Request,
@@ -23,11 +25,13 @@ export const getMenu = async function (
 					websiteId: resourceIds.websiteId,
 					websitesMsId: resourceIds.websitesMsId,
 				},
+				raw: true,
 				transaction,
 			});
 		});
+		const treeMenu = buildTree<InferAttributes<Article>>(menu);
 
-		return res.send(menu);
+		return res.send(treeMenu);
 	} catch (error: any) {
 		return next({
 			error,
