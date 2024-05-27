@@ -24,6 +24,7 @@ export const getMenu = async function (
 					languageId: resourceIds.languageId,
 					websiteId: resourceIds.websiteId,
 					websitesMsId: resourceIds.websitesMsId,
+					active: true,
 				},
 				raw: true,
 				transaction,
