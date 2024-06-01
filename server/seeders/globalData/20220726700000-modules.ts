@@ -140,7 +140,7 @@ export default {
 								ModulePageLanguages: [
 									{
 										LanguageId: cs?.id,
-										url: "prihlaseni",
+										url: "prihlasit",
 										name: "přihlásit",
 										title: "Přihlášení uživatele",
 										description: "Přihlášení uživatele",
@@ -163,7 +163,7 @@ export default {
 								ModulePageLanguages: [
 									{
 										LanguageId: cs?.id,
-										url: "odhlaseni",
+										url: "odhlasit",
 										name: "odhlásit",
 										title: "Odhlášení uživatele",
 										description: "Odhlášení uživatele",
