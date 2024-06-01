@@ -45,6 +45,10 @@ export default {
 						type: DataTypes.STRING,
 						allowNull: true,
 					},
+					name: {
+						type: DataTypes.STRING,
+						allowNull: false,
+					},
 					title: {
 						type: DataTypes.STRING,
 						allowNull: true,

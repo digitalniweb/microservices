@@ -49,6 +49,7 @@ export default {
 									{
 										LanguageId: cs?.id,
 										url: "fotogalerie",
+										name: "fotogalerie",
 										title: "Fotogalerie",
 										description: "Vytvořené fotogalerie",
 										headline: "Fotogalerie",
@@ -56,6 +57,7 @@ export default {
 									{
 										LanguageId: en?.id,
 										url: "photogallery",
+										name: "photo gallery",
 										title: "Photo gallery",
 										description: "Photo galleries",
 										headline: "Photo gallery",
@@ -90,6 +92,7 @@ export default {
 									{
 										LanguageId: cs?.id,
 										url: "novinky",
+										name: "novinky",
 										title: "Novinky",
 										description:
 											"Nejnovější zprávy a novinky",
@@ -98,6 +101,7 @@ export default {
 									{
 										LanguageId: en?.id,
 										url: "news",
+										name: "news",
 										title: "News",
 										description: "Latest news and updates",
 										headline: "News",
@@ -137,6 +141,7 @@ export default {
 									{
 										LanguageId: cs?.id,
 										url: "prihlaseni",
+										name: "přihlásit",
 										title: "Přihlášení uživatele",
 										description: "Přihlášení uživatele",
 										headline: "Přihlášení uživatele",
@@ -144,6 +149,7 @@ export default {
 									{
 										LanguageId: en?.id,
 										url: "login",
+										name: "login",
 										title: "User login",
 										description: "User login",
 										headline: "User login",
@@ -158,6 +164,7 @@ export default {
 									{
 										LanguageId: cs?.id,
 										url: "odhlaseni",
+										name: "odhlášení",
 										title: "Odhlášení uživatele",
 										description: "Odhlášení uživatele",
 										headline: "Odhlášení uživatele",
@@ -165,6 +172,7 @@ export default {
 									{
 										LanguageId: en?.id,
 										url: "logout",
+										name: "logout",
 										title: "User logout",
 										description: "User logout",
 										headline: "User logout",
@@ -179,6 +187,7 @@ export default {
 									{
 										LanguageId: cs?.id,
 										url: "registrace",
+										name: "registrace",
 										title: "Registrace uživatele",
 										description: "Registrace uživatele",
 										headline: "Registrace uživatele",
@@ -186,6 +195,7 @@ export default {
 									{
 										LanguageId: en?.id,
 										url: "register",
+										name: "register",
 										title: "User registration",
 										description: "User registration",
 										headline: "User registration",
@@ -199,17 +209,19 @@ export default {
 								ModulePageLanguages: [
 									{
 										LanguageId: cs?.id,
-										url: "registrace",
-										title: "Registrace uživatele",
-										description: "Registrace uživatele",
-										headline: "Registrace uživatele",
+										url: "profil",
+										name: "profil",
+										title: "Profil uživatele",
+										description: "Profil uživatele",
+										headline: "Profil uživatele",
 									},
 									{
 										LanguageId: en?.id,
-										url: "register",
-										title: "User registration",
-										description: "User registration",
-										headline: "User registration",
+										url: "profile",
+										name: "profile",
+										title: "User profile",
+										description: "User profile",
+										headline: "User profile",
 									},
 								],
 							},

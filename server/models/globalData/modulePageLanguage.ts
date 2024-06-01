@@ -34,6 +34,10 @@ const ModulePageLanguage = db.define<ModulePageLanguage>(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 		title: {
 			type: DataTypes.STRING,
 			allowNull: true,
