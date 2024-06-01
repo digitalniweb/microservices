@@ -124,10 +124,107 @@ export default {
 				});
 
 				// users
-				await Module.create({
-					name: "users",
-					model: "User",
-				});
+				await Module.create(
+					{
+						name: "users",
+						model: "User",
+						ModulePages: [
+							{
+								name: "Login",
+								component: "WebPagesLogin",
+								url: "login",
+								ModulePageLanguages: [
+									{
+										LanguageId: cs?.id,
+										url: "prihlaseni",
+										title: "Přihlášení uživatele",
+										description: "Přihlášení uživatele",
+										headline: "Přihlášení uživatele",
+									},
+									{
+										LanguageId: en?.id,
+										url: "login",
+										title: "User login",
+										description: "User login",
+										headline: "User login",
+									},
+								],
+							},
+							{
+								name: "Logout",
+								component: "WebPagesLogout",
+								url: "logout",
+								ModulePageLanguages: [
+									{
+										LanguageId: cs?.id,
+										url: "odhlaseni",
+										title: "Odhlášení uživatele",
+										description: "Odhlášení uživatele",
+										headline: "Odhlášení uživatele",
+									},
+									{
+										LanguageId: en?.id,
+										url: "logout",
+										title: "User logout",
+										description: "User logout",
+										headline: "User logout",
+									},
+								],
+							},
+							{
+								name: "Register",
+								component: "WebPagesRegister",
+								url: "register",
+								ModulePageLanguages: [
+									{
+										LanguageId: cs?.id,
+										url: "registrace",
+										title: "Registrace uživatele",
+										description: "Registrace uživatele",
+										headline: "Registrace uživatele",
+									},
+									{
+										LanguageId: en?.id,
+										url: "register",
+										title: "User registration",
+										description: "User registration",
+										headline: "User registration",
+									},
+								],
+							},
+							{
+								name: "Profile",
+								component: "WebPagesProfile",
+								url: "profile",
+								ModulePageLanguages: [
+									{
+										LanguageId: cs?.id,
+										url: "registrace",
+										title: "Registrace uživatele",
+										description: "Registrace uživatele",
+										headline: "Registrace uživatele",
+									},
+									{
+										LanguageId: en?.id,
+										url: "register",
+										title: "User registration",
+										description: "User registration",
+										headline: "User registration",
+									},
+								],
+							},
+						],
+					},
+					{
+						include: [
+							{
+								model: ModulePage,
+								include: [{ model: ModulePageLanguage }],
+							},
+						],
+						transaction,
+					}
+				);
 
 				// tenants
 				await Module.create({
