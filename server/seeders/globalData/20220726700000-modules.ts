@@ -164,7 +164,7 @@ export default {
 									{
 										LanguageId: cs?.id,
 										url: "odhlaseni",
-										name: "odhlášení",
+										name: "odhlásit",
 										title: "Odhlášení uživatele",
 										description: "Odhlášení uživatele",
 										headline: "Odhlášení uživatele",

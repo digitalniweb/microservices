@@ -20,7 +20,7 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				// return; // this data is in '20220726700000-modules.ts' already
+				return; // this data is in '20220726700000-modules.ts' already
 
 				// https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
 				let cs = await Language.findOne({ where: { code: "cs" } });
@@ -66,7 +66,7 @@ export default {
 								{
 									LanguageId: cs?.id,
 									url: "odhlaseni",
-									name: "odhlášení",
+									name: "odhlásit",
 									title: "Odhlášení uživatele",
 									description: "Odhlášení uživatele",
 									headline: "Odhlášení uživatele",
@@ -140,6 +140,7 @@ export default {
 		});
 	},
 	down: async (queryInterface: QueryInterface): Promise<void> => {
+		return; // this data is in '20220726700000-modules.ts' already, don't mess with those. Only if using this "up" method then uncomment this.
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
 				await ModulePage.destroy({
