@@ -30,7 +30,9 @@ const loginAntispam = function () {
 				!userAgent.engine.name ||
 				!userAgent.os.name ||
 				!loginInfo.ua ||
-				userAgent.ua != loginInfo.ua
+				userAgent.ua != loginInfo.ua ||
+				req.ip === "" ||
+				req.ip === undefined
 			) {
 				// these are incorrect logins... these shouldn't be possible to execute via normal behaviour. Ignore these
 				// send fake "blocked" message
@@ -121,7 +123,7 @@ const loginAntispam = function () {
 			let loginAttempt: loginAttempt = {
 				userLogin: loginInfo.email,
 				UserId: null,
-				ip: req.ip,
+				ip: req.ip as string,
 				userAgent,
 				successful: true,
 			};
@@ -238,7 +240,7 @@ const loginAntispam = function () {
 				await Blacklist.create({
 					service: "login",
 					type: "IP",
-					value: req.ip,
+					value: req.ip as string,
 					reason,
 					otherData: { userAgent: userAgent.ua },
 					blockedTill,
