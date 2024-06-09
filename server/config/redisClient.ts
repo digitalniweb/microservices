@@ -1,12 +1,8 @@
 import IoRedis from "ioredis";
-import dotenv from "dotenv";
-
-// Load environmental variables
-dotenv.config();
 
 const redis = new IoRedis({
-    host: process.env.REDIS_HOST,
-    port: Number(process.env.REDIS_PORT),
+	host: process.env.REDIS_HOST || "127.0.0.1",
+	port: process.env.REDIS_PORT || 6379,
 });
-//console.log(redis);
+
 export default redis;
