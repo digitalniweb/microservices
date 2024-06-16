@@ -10,7 +10,7 @@ export const getLanguagesList = async function (
 	next: NextFunction
 ) {
 	try {
-		let data = getRequestGlobalDataModelList(req, Language);
+		let data = await getRequestGlobalDataModelList(req, Language);
 
 		return res.send(data);
 	} catch (error) {

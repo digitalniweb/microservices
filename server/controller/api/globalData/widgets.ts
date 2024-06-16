@@ -10,7 +10,7 @@ export const getWidgetsList = async function (
 	next: NextFunction
 ) {
 	try {
-		let data = getRequestGlobalDataModelList(req, Widget);
+		let data = await getRequestGlobalDataModelList(req, Widget);
 
 		return res.send(data);
 	} catch (error) {

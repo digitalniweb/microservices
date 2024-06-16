@@ -12,7 +12,7 @@ export const getModulesList = async function (
 	next: NextFunction
 ) {
 	try {
-		let data = getRequestGlobalDataModelList(req, Module);
+		let data = await getRequestGlobalDataModelList(req, Module);
 
 		return res.send(data);
 	} catch (error) {
