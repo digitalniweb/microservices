@@ -73,10 +73,11 @@ export const serviceRegistryList: serviceRegistryListType = async () => {
 		if (list.length === 0) return {};
 		let serviceRegistry: serviceRegistry = {};
 		list.forEach((microservice) => {
-			serviceRegistry[microservice.name as microservices] = {
+			serviceRegistry[microservice.name] = {
+				name: microservice.name,
 				mainId: microservice.mainServiceRegistryId,
-				services: microservice.ServiceRegistries,
-			} as microserviceRegistryInfo;
+				services: microservice.ServiceRegistries ?? [],
+			};
 		});
 		return serviceRegistry;
 	} catch (error: any) {
