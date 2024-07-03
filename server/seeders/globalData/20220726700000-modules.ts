@@ -127,6 +127,11 @@ export default {
 					model: "Invoice",
 				});
 
+				// superadmin
+				await Module.create({
+					name: "superadmin",
+				});
+
 				// users
 				await Module.create(
 					{

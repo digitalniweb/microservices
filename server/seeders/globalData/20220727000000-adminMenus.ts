@@ -48,143 +48,314 @@ export default {
 					transaction,
 				});
 
-				let articles = await Module.findOne({
+				let articlesModule = await Module.findOne({
 					where: {
-						name: "Articles",
+						name: "articles",
 					},
 					transaction,
 				});
 
-				let contentOpener = await AdminMenu.create(
-					{
-						isDefault: true,
-						name: "contentOpener",
-						openable: true,
-						order: 0,
-						icon: "mdi-text-box-outline",
-						separator: true,
-						RoleId: roleAdmin?.id,
+				let superadminModule = await Module.findOne({
+					where: {
+						name: "superadmin",
 					},
-					{ transaction }
-				);
+					transaction,
+				});
 
-				let superadminSeparator = await AdminMenu.create(
-					{
-						isDefault: false,
-						name: "superadminSeparator",
-						openable: true,
-						order: 100,
-						icon: "mdi-shield-account-outline",
-						separator: true,
-						RoleId: roleSuperadmin?.id,
-					},
-					{ transaction }
-				);
-
-				let superadminModulesOpener = await AdminMenu.create(
-					{
-						isDefault: false,
-						name: "superadminModulesOpener",
-						openable: true,
-						order: 101,
-						icon: "mdi-view-dashboard-outline",
-						separator: true,
-						RoleId: roleSuperadmin?.id,
-					},
-					{ transaction }
-				);
-
-				if (superadminSeparator)
-					await superadminSeparator.createAdminMenuLanguage(
+				if (superadminModule) {
+					let superadminSeparator = await AdminMenu.create(
 						{
-							name: "Superadmin",
-							LanguageId: en?.id,
+							name: "superadminSeparator",
+							openable: true,
+							order: 100,
+							icon: "mdi-shield-account-outline",
+							separator: true,
+							RoleId: roleSuperadmin?.id,
+							ModuleId: superadminModule.id,
 						},
 						{ transaction }
 					);
 
-				if (superadminModulesOpener) {
-					let superadminAppModules =
-						await superadminModulesOpener.createChild(
+					let superadminModulesOpener = await AdminMenu.create(
+						{
+							name: "superadminModulesOpener",
+							openable: true,
+							order: 101,
+							icon: "mdi-view-dashboard-outline",
+							separator: true,
+							RoleId: roleSuperadmin?.id,
+							ModuleId: superadminModule.id,
+						},
+						{ transaction }
+					);
+
+					if (superadminSeparator) {
+						await superadminSeparator.createAdminMenuLanguage(
 							{
-								isDefault: false,
-								name: "superadminAppModules",
-								component: "AdminSuperadminAppModules",
-								openable: false,
-								order: 0,
-								icon: "mdi-view-dashboard-edit-outline",
-								RoleId: roleSuperadmin?.id,
+								name: "Superadmin",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+						await superadminSeparator.createAdminMenuLanguage(
+							{
+								name: "Superadmin",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+					}
+
+					if (superadminModulesOpener) {
+						let superadminAppModules =
+							await superadminModulesOpener.createChild(
+								{
+									name: "superadminAppModules",
+									component: "AdminSuperadminAppModules",
+									openable: false,
+									order: 0,
+									icon: "mdi-view-dashboard-edit-outline",
+									RoleId: roleSuperadmin?.id,
+									ModuleId: superadminModule.id,
+								},
+								{ transaction }
+							);
+
+						await superadminModulesOpener.createAdminMenuLanguage(
+							{
+								name: "Modules",
+								LanguageId: en?.id,
 							},
 							{ transaction }
 						);
 
-					await superadminModulesOpener.createAdminMenuLanguage(
-						{
-							name: "Modules",
-							LanguageId: en?.id,
-						},
-						{ transaction }
-					);
-
-					await superadminAppModules.createAdminMenuLanguage(
-						{
-							name: "App modules",
-							url: "superadmin/modules/appmodules",
-							LanguageId: en?.id,
-						},
-						{ transaction }
-					);
-				}
-
-				let superadminLanguagesOpener = await AdminMenu.create(
-					{
-						isDefault: false,
-						name: "superadminLanguagesOpener",
-						openable: true,
-						order: 102,
-						icon: "mdi-account-voice",
-						separator: true,
-						RoleId: roleSuperadmin?.id,
-					},
-					{ transaction }
-				);
-				if (superadminLanguagesOpener) {
-					let superadminAppLanguages =
-						await superadminModulesOpener.createChild(
+						await superadminModulesOpener.createAdminMenuLanguage(
 							{
-								isDefault: false,
-								name: "superadminAppLanguages",
-								component: "AdminSuperadminAppLanguages",
-								openable: false,
-								order: 0,
-								icon: "mdi-account-voice",
-								RoleId: roleSuperadmin?.id,
+								name: "Moduly",
+								LanguageId: cs?.id,
 							},
 							{ transaction }
 						);
 
-					await superadminLanguagesOpener.createAdminMenuLanguage(
+						await superadminAppModules.createAdminMenuLanguage(
+							{
+								name: "App modules",
+								url: "superadmin/modules/appmodules",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+
+						await superadminAppModules.createAdminMenuLanguage(
+							{
+								name: "Moduly aplikace",
+								url: "superadmin/moduly/moduly-aplikace",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+					}
+
+					let superadminLanguagesOpener = await AdminMenu.create(
 						{
-							name: "Languages",
-							LanguageId: en?.id,
+							name: "superadminLanguagesOpener",
+							openable: true,
+							order: 102,
+							icon: "mdi-account-voice",
+							separator: true,
+							RoleId: roleSuperadmin?.id,
+							ModuleId: superadminModule.id,
 						},
 						{ transaction }
 					);
-					await superadminAppLanguages.createAdminMenuLanguage(
+					if (superadminLanguagesOpener) {
+						let superadminAppLanguages =
+							await superadminModulesOpener.createChild(
+								{
+									name: "superadminAppLanguages",
+									component: "AdminSuperadminAppLanguages",
+									openable: false,
+									order: 0,
+									icon: "mdi-account-voice",
+									RoleId: roleSuperadmin?.id,
+									ModuleId: superadminModule.id,
+								},
+								{ transaction }
+							);
+
+						await superadminLanguagesOpener.createAdminMenuLanguage(
+							{
+								name: "Languages",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+						await superadminLanguagesOpener.createAdminMenuLanguage(
+							{
+								name: "Jazyky",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+
+						await superadminAppLanguages.createAdminMenuLanguage(
+							{
+								name: "App languages",
+								url: "superadmin/languages/applanguages",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+						await superadminAppLanguages.createAdminMenuLanguage(
+							{
+								name: "Jazyky aplikace",
+								url: "superadmin/jazyky/jazyky-aplikace",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+					}
+					let superadminWidgetsOpener = await AdminMenu.create(
 						{
-							name: "App languages",
-							url: "superadmin/languages/applanguages",
-							LanguageId: en?.id,
+							name: "superadminWidgetsOpener",
+							openable: true,
+							order: 103,
+							icon: "mdi-dots-grid",
+							separator: true,
+							RoleId: roleSuperadmin?.id,
+							ModuleId: superadminModule.id,
 						},
 						{ transaction }
 					);
+
+					if (superadminWidgetsOpener) {
+						let superadminAppWidgets =
+							await superadminWidgetsOpener.createChild(
+								{
+									name: "superadminAppWidgets",
+									component: "AdminSuperadminAppWidgets",
+									openable: false,
+									order: 0,
+									icon: "mdi-dots-grid",
+									RoleId: roleSuperadmin?.id,
+									ModuleId: superadminModule.id,
+								},
+								{ transaction }
+							);
+
+						await superadminWidgetsOpener.createAdminMenuLanguage(
+							{
+								name: "Widgets",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+						await superadminWidgetsOpener.createAdminMenuLanguage(
+							{
+								name: "Widgety",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+
+						await superadminAppWidgets.createAdminMenuLanguage(
+							{
+								name: "App widgets",
+								url: "superadmin/widgets/appwidgets",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+
+						await superadminAppWidgets.createAdminMenuLanguage(
+							{
+								name: "Widgety aplikace",
+								url: "superadmin/widgety/widgety-aplikace",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+					}
+
+					let superadminAdminmenusOpener = await AdminMenu.create(
+						{
+							name: "superadminAdminmenusOpener",
+							openable: true,
+							order: 104,
+							icon: "mdi-menu",
+							separator: true,
+							RoleId: roleSuperadmin?.id,
+							ModuleId: superadminModule.id,
+						},
+						{ transaction }
+					);
+
+					if (superadminAdminmenusOpener) {
+						await superadminAdminmenusOpener.createAdminMenuLanguage(
+							{
+								name: "Admin menu",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+						await superadminAdminmenusOpener.createAdminMenuLanguage(
+							{
+								name: "Admin menu",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+
+						let superadminAdminmenus =
+							await superadminAdminmenusOpener.createChild(
+								{
+									name: "superadminAdminmenus",
+									component: "AdminSuperadminAdminmenus",
+									openable: false,
+									order: 0,
+									icon: "mdi-menu",
+									RoleId: roleSuperadmin?.id,
+									ModuleId: superadminModule.id,
+								},
+								{ transaction }
+							);
+
+						await superadminAdminmenus.createAdminMenuLanguage(
+							{
+								name: "Edit",
+								url: "superadmin/adminmenu/edit",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+						await superadminAdminmenus.createAdminMenuLanguage(
+							{
+								name: "Upravit",
+								url: "superadmin/adminmenu/upravit",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+					}
 				}
 
-				if (articles) {
-					let adminMenuArticle = await articles.createAdminMenu(
+				if (articlesModule) {
+					let contentOpener = await AdminMenu.create(
+						{
+							name: "contentOpener",
+							openable: true,
+							order: 0,
+							icon: "mdi-text-box-outline",
+							separator: true,
+							RoleId: roleAdmin?.id,
+							ModuleId: articlesModule.id,
+						},
+						{ transaction }
+					);
+					let adminMenuArticle = await articlesModule.createAdminMenu(
 						{
 							component: "AdminPagesArticles",
-							isDefault: true,
+
 							name: "articles",
 							openable: false,
 							icon: "mdi-card-text-outline",
@@ -224,96 +395,6 @@ export default {
 						{
 							name: "Articles",
 							url: "content/articles",
-							LanguageId: en?.id,
-						},
-						{ transaction }
-					);
-				}
-
-				let superadminWidgetsOpener = await AdminMenu.create(
-					{
-						isDefault: false,
-						name: "superadminWidgetsOpener",
-						openable: true,
-						order: 103,
-						icon: "mdi-dots-grid",
-						separator: true,
-						RoleId: roleSuperadmin?.id,
-					},
-					{ transaction }
-				);
-
-				if (superadminWidgetsOpener) {
-					let superadminAppWidgets =
-						await superadminWidgetsOpener.createChild(
-							{
-								isDefault: false,
-								name: "superadminAppWidgets",
-								component: "AdminSuperadminAppWidgets",
-								openable: false,
-								order: 0,
-								icon: "mdi-dots-grid",
-								RoleId: roleSuperadmin?.id,
-							},
-							{ transaction }
-						);
-
-					await superadminWidgetsOpener.createAdminMenuLanguage(
-						{
-							name: "Widgets",
-							LanguageId: en?.id,
-						},
-						{ transaction }
-					);
-					await superadminAppWidgets.createAdminMenuLanguage(
-						{
-							name: "App widgets",
-							url: "superadmin/widgets/appwidgets",
-							LanguageId: en?.id,
-						},
-						{ transaction }
-					);
-				}
-
-				let superadminAdminmenusOpener = await AdminMenu.create(
-					{
-						isDefault: false,
-						name: "superadminAdminmenusOpener",
-						openable: true,
-						order: 104,
-						icon: "mdi-menu",
-						separator: true,
-						RoleId: roleSuperadmin?.id,
-					},
-					{ transaction }
-				);
-
-				if (superadminAdminmenusOpener) {
-					let superadminAppAdminmenus =
-						await superadminAdminmenusOpener.createChild(
-							{
-								isDefault: false,
-								name: "superadminAppAdminmenus",
-								component: "AdminSuperadminAppAdminmenus",
-								openable: false,
-								order: 0,
-								icon: "mdi-menu",
-								RoleId: roleSuperadmin?.id,
-							},
-							{ transaction }
-						);
-
-					await superadminAdminmenusOpener.createAdminMenuLanguage(
-						{
-							name: "Admin menu",
-							LanguageId: en?.id,
-						},
-						{ transaction }
-					);
-					await superadminAppAdminmenus.createAdminMenuLanguage(
-						{
-							name: "App admin menu",
-							url: "superadmin/adminmenus/appadminmenus",
 							LanguageId: en?.id,
 						},
 						{ transaction }

@@ -4,6 +4,9 @@ import db from "../../../models/index.js";
 import AdminMenu from "../../../models/globalData/adminMenu.js";
 import { getRequestGlobalDataModelList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import AdminMenuPageLanguage from "../../../models/globalData/adminMenuLanguage.js";
+import AdminMenuLanguage from "../../../models/globalData/adminMenuLanguage.js";
+import { buildTree } from "../../../../digitalniweb-custom/helpers/buildTree.js";
+import { InferAttributes } from "sequelize";
 
 export const getAdminMenuList = async function (
 	req: Request,
@@ -11,9 +14,15 @@ export const getAdminMenuList = async function (
 	next: NextFunction
 ) {
 	try {
-		let data = await getRequestGlobalDataModelList(req, AdminMenu);
+		let data = await getRequestGlobalDataModelList(req, AdminMenu, [
+			AdminMenuLanguage,
+		]);
 
-		return res.send(data);
+		// get plain data from Sequelize instance
+		const plainData = data.map((entity) => entity.get({ plain: true }));
+
+		const treeMenu = buildTree<InferAttributes<AdminMenu>>(plainData);
+		return res.send(treeMenu);
 	} catch (error) {
 		return next({
 			error,

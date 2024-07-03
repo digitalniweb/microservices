@@ -42,11 +42,6 @@ const AdminMenu = db.define<AdminMenu>(
 			allowNull: false,
 			defaultValue: false,
 		},
-		isDefault: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			defaultValue: false,
-		},
 		separator: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
@@ -58,6 +53,7 @@ const AdminMenu = db.define<AdminMenu>(
 				model: Module.tableName,
 				key: "id",
 			},
+			allowNull: false,
 		},
 		RoleId: {
 			type: DataTypes.INTEGER,
