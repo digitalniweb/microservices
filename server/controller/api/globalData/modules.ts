@@ -35,8 +35,6 @@ export const getArray = async function (
 ) {
 	try {
 		const responseArray = await getRequestGlobalDataModelArray(req, Module);
-		console.log(responseArray);
-
 		return res.send(responseArray);
 	} catch (error) {
 		return next({
