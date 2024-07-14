@@ -12,6 +12,7 @@ import { User } from "../../../digitalniweb-types/models/users.js";
 import Tenant from "./tenant.js";
 import { hashString } from "../../../digitalniweb-custom/functions/hashString.js";
 import UserPrivilege from "./userPrivilege.js";
+import UserModule from "./userModule.js";
 
 const User = db.define<User>(
 	"User",
@@ -115,5 +116,6 @@ User.addHook("beforeValidate", "createUUID", async (user: User) => {
 Tenant.belongsTo(User);
 User.hasOne(Tenant);
 User.hasMany(UserPrivilege);
+User.hasMany(UserModule);
 
 export default User;

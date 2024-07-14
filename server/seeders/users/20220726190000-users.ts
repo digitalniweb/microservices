@@ -96,6 +96,25 @@ export default {
 					transaction,
 				});
 
+				await admin.createUserModule(
+					{ moduleId: 1 },
+					{
+						transaction,
+					}
+				);
+				await admin.createUserModule(
+					{ moduleId: 2 },
+					{
+						transaction,
+					}
+				);
+				await admin.createUserModule(
+					{ moduleId: 3 },
+					{
+						transaction,
+					}
+				);
+
 				/* await admin.addPrivileges(adminsPrivileges, {
 					transaction,
 				}); */
