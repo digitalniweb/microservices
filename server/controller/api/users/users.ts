@@ -52,7 +52,10 @@ export const authenticate = async function (
 		}
 
 		await LoginLog.create(res.locals?.antispam?.loginAttempt);
-		return res.send(user);
+		let strippedUser: Partial<UserType> = user;
+		delete strippedUser.password;
+		delete strippedUser.refreshTokenSalt;
+		return res.send(strippedUser);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't authenticate user." });
 	}
