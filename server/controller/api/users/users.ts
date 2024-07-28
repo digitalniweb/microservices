@@ -27,7 +27,9 @@ export const getById = async function (req: Request, res: Response) {
 			},
 		],
 	});
-	return res.send(user);
+	if (!user) return res.send(user);
+
+	return res.send(getStrippedUser(user));
 };
 export const authenticate = async function (
 	req: Request,
@@ -52,10 +54,7 @@ export const authenticate = async function (
 		}
 
 		await LoginLog.create(res.locals?.antispam?.loginAttempt);
-		let strippedUser: Partial<UserType> = user;
-		delete strippedUser.password;
-		delete strippedUser.refreshTokenSalt;
-		return res.send(strippedUser);
+		return res.send(getStrippedUser(user));
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't authenticate user." });
 	}
@@ -153,3 +152,12 @@ export const register = async function (
 		next({ error, code: 500, message: errorMessage });
 	}
 };
+
+function getStrippedUser(user: UserType) {
+	let strippedUser: Partial<UserType> = user.dataValues;
+	const modulesIds = strippedUser?.UserModules?.map((module) => module.id);
+	strippedUser.UserModulesIds = modulesIds;
+	delete strippedUser.password;
+	delete strippedUser.UserModules;
+	return strippedUser;
+}
