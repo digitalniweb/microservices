@@ -14,9 +14,13 @@ export const getAdminMenuList = async function (
 	next: NextFunction
 ) {
 	try {
-		let data = await getRequestGlobalDataModelList(req, AdminMenu, [
-			AdminMenuLanguage,
-		]);
+		let data = await getRequestGlobalDataModelList<AdminMenu>(
+			req,
+			AdminMenu,
+			[AdminMenuLanguage],
+			{ ModuleId: req.query.modules },
+			[["order", "ASC"]]
+		);
 
 		// get plain data from Sequelize instance
 		const plainData = data.map((entity) => entity.get({ plain: true }));
