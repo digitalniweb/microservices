@@ -66,7 +66,7 @@ export default {
 					let superadminSeparator = await AdminMenu.create(
 						{
 							name: "superadminSeparator",
-							openable: true,
+							openable: false,
 							order: 100,
 							icon: "mdi-shield-account-outline",
 							separator: true,
@@ -82,7 +82,6 @@ export default {
 							openable: true,
 							order: 101,
 							icon: "mdi-view-dashboard-outline",
-							separator: true,
 							RoleId: roleSuperadmin?.id,
 							ModuleId: superadminModule.id,
 						},
@@ -93,6 +92,7 @@ export default {
 						await superadminSeparator.createAdminMenuLanguage(
 							{
 								name: "Superadmin",
+								url: "superadmin",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -100,6 +100,7 @@ export default {
 						await superadminSeparator.createAdminMenuLanguage(
 							{
 								name: "Superadmin",
+								url: "superadmin",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -112,7 +113,7 @@ export default {
 								{
 									name: "superadminAppModules",
 									component: "AdminSuperadminAppModules",
-									openable: false,
+									openable: true,
 									order: 0,
 									icon: "mdi-view-dashboard-edit-outline",
 									RoleId: roleSuperadmin?.id,
@@ -124,6 +125,7 @@ export default {
 						await superadminModulesOpener.createAdminMenuLanguage(
 							{
 								name: "Modules",
+								url: "modules",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -132,6 +134,7 @@ export default {
 						await superadminModulesOpener.createAdminMenuLanguage(
 							{
 								name: "Moduly",
+								url: "moduly",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -162,7 +165,7 @@ export default {
 							openable: true,
 							order: 102,
 							icon: "mdi-account-voice",
-							separator: true,
+
 							RoleId: roleSuperadmin?.id,
 							ModuleId: superadminModule.id,
 						},
@@ -186,6 +189,7 @@ export default {
 						await superadminLanguagesOpener.createAdminMenuLanguage(
 							{
 								name: "Languages",
+								url: "languages",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -193,6 +197,7 @@ export default {
 						await superadminLanguagesOpener.createAdminMenuLanguage(
 							{
 								name: "Jazyky",
+								url: "jazyky",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -221,7 +226,7 @@ export default {
 							openable: true,
 							order: 103,
 							icon: "mdi-dots-grid",
-							separator: true,
+
 							RoleId: roleSuperadmin?.id,
 							ModuleId: superadminModule.id,
 						},
@@ -234,7 +239,7 @@ export default {
 								{
 									name: "superadminAppWidgets",
 									component: "AdminSuperadminAppWidgets",
-									openable: false,
+									openable: true,
 									order: 0,
 									icon: "mdi-dots-grid",
 									RoleId: roleSuperadmin?.id,
@@ -246,6 +251,7 @@ export default {
 						await superadminWidgetsOpener.createAdminMenuLanguage(
 							{
 								name: "Widgets",
+								url: "widgets",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -253,6 +259,7 @@ export default {
 						await superadminWidgetsOpener.createAdminMenuLanguage(
 							{
 								name: "Widgety",
+								url: "widgety",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -283,7 +290,7 @@ export default {
 							openable: true,
 							order: 104,
 							icon: "mdi-menu",
-							separator: true,
+
 							RoleId: roleSuperadmin?.id,
 							ModuleId: superadminModule.id,
 						},
@@ -294,6 +301,7 @@ export default {
 						await superadminAdminmenusOpener.createAdminMenuLanguage(
 							{
 								name: "Admin menu",
+								url: "adminmenu",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -301,6 +309,7 @@ export default {
 						await superadminAdminmenusOpener.createAdminMenuLanguage(
 							{
 								name: "Admin menu",
+								url: "adminmenu",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -346,7 +355,7 @@ export default {
 							openable: true,
 							order: 0,
 							icon: "mdi-text-box-outline",
-							separator: true,
+
 							RoleId: roleAdmin?.id,
 							ModuleId: articlesModule.id,
 						},
@@ -357,7 +366,7 @@ export default {
 							component: "AdminPagesArticles",
 
 							name: "articles",
-							openable: false,
+							openable: true,
 							icon: "mdi-card-text-outline",
 							order: 0,
 							RoleId: roleAdmin?.id,
@@ -371,6 +380,7 @@ export default {
 					await contentOpener.createAdminMenuLanguage(
 						{
 							name: "Obsah webu",
+							url: "obsah",
 							LanguageId: cs?.id,
 						},
 						{ transaction }
@@ -378,6 +388,7 @@ export default {
 					await contentOpener.createAdminMenuLanguage(
 						{
 							name: "Web content",
+							url: "content",
 							LanguageId: en?.id,
 						},
 						{ transaction }
