@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, query, Request, Response } from "express";
 import db from "../../../models/index.js";
 
 import AdminMenu from "../../../models/globalData/adminMenu.js";
@@ -6,7 +6,9 @@ import { getRequestGlobalDataModelList } from "../../../../digitalniweb-custom/h
 import AdminMenuPageLanguage from "../../../models/globalData/adminMenuLanguage.js";
 import AdminMenuLanguage from "../../../models/globalData/adminMenuLanguage.js";
 import { buildTree } from "../../../../digitalniweb-custom/helpers/buildTree.js";
-import { InferAttributes } from "sequelize";
+import { InferAttributes, Op, WhereAttributeHash } from "sequelize";
+import Role from "../../../models/globalData/role.js";
+import RoleType from "../../../models/globalData/roleType.js";
 
 export const getAdminMenuList = async function (
 	req: Request,
@@ -14,11 +16,42 @@ export const getAdminMenuList = async function (
 	next: NextFunction
 ) {
 	try {
+		let currentRoleId = parseInt(req.query?.roleId as string);
+		if (!currentRoleId) throw "RoleId is mandatory.";
+		let role = await Role.findOne({
+			where: {
+				"$RoleType.name$": "admin",
+				id: currentRoleId,
+			},
+			attributes: ["id", "name"],
+			include: {
+				model: RoleType,
+				attributes: [],
+			},
+		});
+		if (!role) throw "There is no such role with this ID.";
+		let currentRoleName = role.name;
+		let roleNames = ["admin"];
+		if (["owner", "superadmin"].includes(currentRoleName))
+			roleNames.push("owner");
+		if (currentRoleName === "superadmin") roleNames.push("superadmin");
+
+		let where = {
+			"$Role.RoleType.name$": { [Op.or]: roleNames },
+		} as WhereAttributeHash<AdminMenu>;
+
+		// show all admin menus for superadmin
+		if (["admin", "owner"].includes(currentRoleName))
+			where.ModuleId = req.query.modules as [];
+
 		let data = await getRequestGlobalDataModelList<AdminMenu>(
 			req,
 			AdminMenu,
-			[AdminMenuLanguage],
-			{ ModuleId: req.query.modules },
+			[
+				{ model: AdminMenuLanguage },
+				{ model: Role, include: [{ model: RoleType }] },
+			],
+			where,
 			[["order", "ASC"]]
 		);
 
