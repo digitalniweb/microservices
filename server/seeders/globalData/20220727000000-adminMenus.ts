@@ -363,7 +363,7 @@ export default {
 					);
 					let adminMenuArticle = await articlesModule.createAdminMenu(
 						{
-							component: "AdminPagesArticles",
+							component: "AdminPagesContentArticles",
 
 							name: "articles",
 							openable: true,
