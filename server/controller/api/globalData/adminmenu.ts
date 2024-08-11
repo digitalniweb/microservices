@@ -16,21 +16,9 @@ export const getAdminMenuList = async function (
 	next: NextFunction
 ) {
 	try {
-		let currentRoleId = parseInt(req.query?.roleId as string);
-		if (!currentRoleId) throw "RoleId is mandatory.";
-		let role = await Role.findOne({
-			where: {
-				"$RoleType.name$": "admin",
-				id: currentRoleId,
-			},
-			attributes: ["id", "name"],
-			include: {
-				model: RoleType,
-				attributes: [],
-			},
-		});
-		if (!role) throw "There is no such role with this ID.";
-		let currentRoleName = role.name;
+		let currentRoleName = req.query?.roleName as string;
+		if (!["admin", "owner", "superadmin"].includes(currentRoleName))
+			throw "There is no such role '" + currentRoleName + "'.";
 		let roleNames = ["admin"];
 		if (["owner", "superadmin"].includes(currentRoleName))
 			roleNames.push("owner");
