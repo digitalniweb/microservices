@@ -5,6 +5,8 @@ import { DataTypes } from "sequelize";
 import db from "../index.js";
 
 import { Module } from "../../../digitalniweb-types/models/globalData.js";
+import AdminMenu from "./adminMenu.js";
+import AdminMenuModule from "./adminMenuModule.js";
 
 const Module = db.define<Module>(
 	"Module",

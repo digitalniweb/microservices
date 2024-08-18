@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import { Options } from "sequelize";
 
 import configDB from "./../config/config.js";
+import loadModels from "../../digitalniweb-custom/helpers/loadModels.js";
 
 const env: string = process.env.NODE_ENV || "development";
 
@@ -13,5 +14,5 @@ let db: Sequelize = new Sequelize(
 	config.password,
 	config
 );
-
+loadModels();
 export default db;

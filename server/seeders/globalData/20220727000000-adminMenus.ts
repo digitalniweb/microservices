@@ -10,6 +10,7 @@ const microservice: Array<microservices> = ["globalData"];
 
 /* 
 npm run buildSequelize
+npx sequelize-cli db:migrate:undo --name '20230604000000-adminMenuModules.js'
 npx sequelize-cli db:migrate:undo --name '20230602000000-adminMenuLanguages.js'
 npx sequelize-cli db:migrate:undo --name '20230601000000-adminMenus.js'
 npm run migrations
@@ -54,6 +55,12 @@ export default {
 					},
 					transaction,
 				});
+				let webInformationModule = await Module.findOne({
+					where: {
+						name: "webInformation",
+					},
+					transaction,
+				});
 
 				let superadminModule = await Module.findOne({
 					where: {
@@ -71,10 +78,13 @@ export default {
 							icon: "mdi-shield-account-outline",
 							separator: true,
 							RoleId: roleSuperadmin?.id,
-							ModuleId: superadminModule.id,
 						},
 						{ transaction }
 					);
+
+					await superadminSeparator.addModule(superadminModule, {
+						transaction,
+					});
 
 					let superadminModulesOpener = await AdminMenu.create(
 						{
@@ -83,8 +93,11 @@ export default {
 							order: 101,
 							icon: "mdi-view-dashboard-outline",
 							RoleId: roleSuperadmin?.id,
-							ModuleId: superadminModule.id,
 						},
+						{ transaction }
+					);
+					await superadminModulesOpener.addModules(
+						[superadminModule],
 						{ transaction }
 					);
 
@@ -117,15 +130,18 @@ export default {
 									order: 0,
 									icon: "mdi-view-dashboard-edit-outline",
 									RoleId: roleSuperadmin?.id,
-									ModuleId: superadminModule.id,
 								},
 								{ transaction }
 							);
+						await superadminAppModules.addModules(
+							[superadminModule],
+							{ transaction }
+						);
 
 						await superadminModulesOpener.createAdminMenuLanguage(
 							{
 								name: "Modules",
-								url: "modules",
+								url: "superadmin/modules",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -134,7 +150,7 @@ export default {
 						await superadminModulesOpener.createAdminMenuLanguage(
 							{
 								name: "Moduly",
-								url: "moduly",
+								url: "superadmin/moduly",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -167,8 +183,11 @@ export default {
 							icon: "mdi-account-voice",
 
 							RoleId: roleSuperadmin?.id,
-							ModuleId: superadminModule.id,
 						},
+						{ transaction }
+					);
+					await superadminLanguagesOpener.addModules(
+						[superadminModule],
 						{ transaction }
 					);
 					if (superadminLanguagesOpener) {
@@ -181,15 +200,18 @@ export default {
 									order: 0,
 									icon: "mdi-account-voice",
 									RoleId: roleSuperadmin?.id,
-									ModuleId: superadminModule.id,
 								},
 								{ transaction }
 							);
+						await superadminModulesOpener.addModules(
+							[superadminModule],
+							{ transaction }
+						);
 
 						await superadminLanguagesOpener.createAdminMenuLanguage(
 							{
 								name: "Languages",
-								url: "languages",
+								url: "superadmin/languages",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -197,7 +219,7 @@ export default {
 						await superadminLanguagesOpener.createAdminMenuLanguage(
 							{
 								name: "Jazyky",
-								url: "jazyky",
+								url: "superadmin/jazyky",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -228,8 +250,11 @@ export default {
 							icon: "mdi-dots-grid",
 
 							RoleId: roleSuperadmin?.id,
-							ModuleId: superadminModule.id,
 						},
+						{ transaction }
+					);
+					await superadminWidgetsOpener.addModules(
+						[superadminModule],
 						{ transaction }
 					);
 
@@ -243,15 +268,18 @@ export default {
 									order: 0,
 									icon: "mdi-dots-grid",
 									RoleId: roleSuperadmin?.id,
-									ModuleId: superadminModule.id,
 								},
 								{ transaction }
 							);
+						await superadminAppWidgets.addModules(
+							[superadminModule],
+							{ transaction }
+						);
 
 						await superadminWidgetsOpener.createAdminMenuLanguage(
 							{
 								name: "Widgets",
-								url: "widgets",
+								url: "superadmin/widgets",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -259,7 +287,7 @@ export default {
 						await superadminWidgetsOpener.createAdminMenuLanguage(
 							{
 								name: "Widgety",
-								url: "widgety",
+								url: "superadmin/widgety",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -292,8 +320,11 @@ export default {
 							icon: "mdi-menu",
 
 							RoleId: roleSuperadmin?.id,
-							ModuleId: superadminModule.id,
 						},
+						{ transaction }
+					);
+					await superadminAdminmenusOpener.addModules(
+						[superadminModule],
 						{ transaction }
 					);
 
@@ -301,7 +332,7 @@ export default {
 						await superadminAdminmenusOpener.createAdminMenuLanguage(
 							{
 								name: "Admin menu",
-								url: "adminmenu",
+								url: "superadmin/adminmenu",
 								LanguageId: en?.id,
 							},
 							{ transaction }
@@ -309,7 +340,7 @@ export default {
 						await superadminAdminmenusOpener.createAdminMenuLanguage(
 							{
 								name: "Admin menu",
-								url: "adminmenu",
+								url: "superadmin/adminmenu",
 								LanguageId: cs?.id,
 							},
 							{ transaction }
@@ -324,10 +355,13 @@ export default {
 									order: 0,
 									icon: "mdi-menu",
 									RoleId: roleSuperadmin?.id,
-									ModuleId: superadminModule.id,
 								},
 								{ transaction }
 							);
+						await superadminAdminmenus.addModules(
+							[superadminModule],
+							{ transaction }
+						);
 
 						await superadminAdminmenus.createAdminMenuLanguage(
 							{
@@ -355,18 +389,20 @@ export default {
 							openable: true,
 							order: 0,
 							icon: "mdi-text-box-outline",
-
 							RoleId: roleAdmin?.id,
-							ModuleId: articlesModule.id,
 						},
 						{ transaction }
 					);
+					await contentOpener.addModules([articlesModule], {
+						transaction,
+					});
+
 					let adminMenuArticle = await articlesModule.createAdminMenu(
 						{
 							component: "AdminPagesContentArticles",
 
 							name: "articles",
-							openable: true,
+							openable: false,
 							icon: "mdi-card-text-outline",
 							order: 0,
 							RoleId: roleAdmin?.id,
@@ -374,6 +410,9 @@ export default {
 						{ transaction }
 					);
 					await adminMenuArticle.setParent(contentOpener, {
+						transaction,
+					});
+					await adminMenuArticle.addModules([articlesModule], {
 						transaction,
 					});
 
@@ -410,6 +449,44 @@ export default {
 						},
 						{ transaction }
 					);
+					if (webInformationModule) {
+						let adminMenuWebInformation =
+							await webInformationModule.createAdminMenu(
+								{
+									component:
+										"AdminPagesContentWebInformation",
+
+									name: "webInformation",
+									openable: false,
+									icon: "mdi-card-text-outline",
+									order: 0,
+									RoleId: roleAdmin?.id,
+								},
+								{ transaction }
+							);
+						await contentOpener.addModules([webInformationModule], {
+							transaction,
+						});
+						await adminMenuWebInformation.setParent(contentOpener, {
+							transaction,
+						});
+						await adminMenuWebInformation.createAdminMenuLanguage(
+							{
+								name: "Informace o webu",
+								url: "obsah/informace-o-webu",
+								LanguageId: cs?.id,
+							},
+							{ transaction }
+						);
+						await adminMenuWebInformation.createAdminMenuLanguage(
+							{
+								name: "Website information",
+								url: "content/website-information",
+								LanguageId: en?.id,
+							},
+							{ transaction }
+						);
+					}
 				}
 			} catch (error) {
 				console.log(error);

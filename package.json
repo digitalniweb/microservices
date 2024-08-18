@@ -11,7 +11,7 @@
 		"build-watch": "npm run clearDist && npx tsc --watch",
 		"dev": "tsc-watch --onSuccess \"node dist/server/index.js\"",
 		"devNotWatch": "npm run clearDist && npx tsc && npm run start",
-		"buildSequelize": "npx tsc --project tsconfig.sequelize.json && echo ^{\"type\":\"commonjs\"}^ > ./dist-sequelize-cjs/package.json",
+		"buildSequelize": "npx rimraf --glob dist-sequelize-cjs/server/migrations/ && npx tsc --project tsconfig.sequelize.json && echo ^{\"type\":\"commonjs\"}^ > ./dist-sequelize-cjs/package.json",
 		"migrations": "npm run buildSequelize && npx sequelize-cli db:migrate",
 		"migrationsUndoAll": "npm run buildSequelize && npx sequelize-cli db:migrate:undo:all",
 		"seeders": "npm run buildSequelize && npx sequelize-cli db:seed:all"
@@ -20,12 +20,12 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"axios": "^1.7.2",
+		"axios": "^1.7.4",
 		"dotenv": "^16.4.5",
 		"express": "^4.19.2",
 		"ioredis": "^5.4.1",
 		"mariadb": "^3.3.1",
-		"mysql2": "^3.10.1",
+		"mysql2": "^3.11.0",
 		"node-cache": "^5.1.2",
 		"node-cron": "^3.0.3",
 		"sequelize": "^6.37.3",
@@ -35,11 +35,12 @@
 	},
 	"devDependencies": {
 		"@types/express": "^4.17.21",
-		"@types/node": "^20.14.8",
+		"@types/node": "^20.14.15",
 		"@types/node-cron": "^3.0.11",
 		"@types/ua-parser-js": "^0.7.39",
 		"@types/validator": "^13.12.0",
+		"rimraf": "^6.0.1",
 		"tsc-watch": "^6.2.0",
-		"typescript": "^5.5.2"
+		"typescript": "^5.5.4"
 	}
 }

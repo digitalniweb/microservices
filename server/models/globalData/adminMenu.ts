@@ -5,7 +5,6 @@ import { DataTypes } from "sequelize";
 import db from "../index.js";
 
 import { AdminMenu } from "../../../digitalniweb-types/models/globalData.js";
-import Module from "./module.js";
 import Role from "./role.js";
 
 const AdminMenu = db.define<AdminMenu>(
@@ -47,14 +46,6 @@ const AdminMenu = db.define<AdminMenu>(
 			allowNull: false,
 			defaultValue: false,
 		},
-		ModuleId: {
-			type: DataTypes.INTEGER,
-			references: {
-				model: Module.tableName,
-				key: "id",
-			},
-			allowNull: false,
-		},
 		RoleId: {
 			type: DataTypes.INTEGER,
 			references: {
@@ -69,11 +60,9 @@ const AdminMenu = db.define<AdminMenu>(
 		// freezeTableName: true,
 	}
 );
+
 AdminMenu.belongsTo(Role);
 Role.hasMany(AdminMenu);
-
-AdminMenu.belongsTo(Module);
-Module.hasMany(AdminMenu);
 
 AdminMenu.belongsTo(AdminMenu, { as: "parent", foreignKey: "parentId" });
 AdminMenu.hasMany(AdminMenu, {

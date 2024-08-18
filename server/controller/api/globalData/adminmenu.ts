@@ -9,6 +9,7 @@ import { buildTree } from "../../../../digitalniweb-custom/helpers/buildTree.js"
 import { InferAttributes, Op, WhereAttributeHash } from "sequelize";
 import Role from "../../../models/globalData/role.js";
 import RoleType from "../../../models/globalData/roleType.js";
+import Module from "../../../models/globalData/module.js";
 
 export const getAdminMenuList = async function (
 	req: Request,
@@ -28,14 +29,16 @@ export const getAdminMenuList = async function (
 			"$Role.RoleType.name$": { [Op.or]: roleNames },
 		} as WhereAttributeHash<AdminMenu>;
 
+		let moduleWhere = {} as WhereAttributeHash<Module>;
 		// show all admin menus for superadmin
 		if (["admin", "owner"].includes(currentRoleName))
-			where.ModuleId = req.query.modules as [];
+			moduleWhere.id = req.query.modules as [];
 
 		let data = await getRequestGlobalDataModelList<AdminMenu>(
 			req,
 			AdminMenu,
 			[
+				{ model: Module, where: moduleWhere },
 				{ model: AdminMenuLanguage },
 				{ model: Role, include: [{ model: RoleType }] },
 			],

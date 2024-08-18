@@ -4,7 +4,6 @@ import { AdminMenu as AdminMenuType } from "../../../digitalniweb-types/models/g
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 import AdminMenu from "../../models/globalData/adminMenu.js";
-import Module from "../../models/globalData/module.js";
 import Role from "../../models/globalData/role";
 
 const microservice: Array<microservices> = ["globalData"];
@@ -61,14 +60,6 @@ export default {
 						onDelete: "CASCADE",
 						references: {
 							model: AdminMenu.tableName,
-							key: "id",
-						},
-					},
-					ModuleId: {
-						type: DataTypes.INTEGER,
-						allowNull: false,
-						references: {
-							model: Module.tableName,
 							key: "id",
 						},
 					},

@@ -9,8 +9,13 @@ import {
 	requestServiceRegistryInfo,
 } from "../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 
+// import loadModels from "../loadModels.js";
+
 export default async function () {
 	let microservice = process.env.MICROSERVICE_NAME as microservices;
+
+	// load all service's models
+	// await loadModels();
 	try {
 		const msInit = await import("./" + microservice + ".js");
 		log({

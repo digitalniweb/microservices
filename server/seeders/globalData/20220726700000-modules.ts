@@ -249,6 +249,16 @@ export default {
 					model: "Tenant",
 				});
 
+				// webInformation
+				await Module.create({
+					name: "webInformation",
+				});
+
+				// appearance
+				await Module.create({
+					name: "appearance",
+				});
+
 				/* if (process.env.NODE_ENV === "development") {
 					let testWebsite = await Website.findOne({
 						where: {
