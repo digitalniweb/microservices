@@ -5,7 +5,7 @@ import LoginLog from "../../../models/users/loginLog.js";
 
 import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt.js";
 import { Request, Response, NextFunction } from "express";
-import { CreationAttributes } from "sequelize";
+import { CreationAttributes, InferAttributes } from "sequelize";
 
 import { User as UserType } from "../../../../digitalniweb-types/models/users.js";
 
@@ -15,6 +15,8 @@ import {
 	userRoles,
 } from "../../../../digitalniweb-types/authorization/index.js";
 import UserModule from "../../../models/users/userModule.js";
+import { getGlobalDataList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
+import { microserviceCall } from "../../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
 
 export const getById = async function (req: Request, res: Response) {
 	if (!req.params.id) return res.send(null);
@@ -29,7 +31,7 @@ export const getById = async function (req: Request, res: Response) {
 	});
 	if (!user) return res.send(user);
 
-	return res.send(getStrippedUser(user));
+	return res.send(await getStrippedUser(user));
 };
 export const authenticate = async function (
 	req: Request,
@@ -54,7 +56,8 @@ export const authenticate = async function (
 		}
 
 		await LoginLog.create(res.locals?.antispam?.loginAttempt);
-		return res.send(getStrippedUser(user));
+
+		return res.send(await getStrippedUser(user));
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't authenticate user." });
 	}
@@ -153,10 +156,27 @@ export const register = async function (
 	}
 };
 
-function getStrippedUser(user: UserType) {
+async function getStrippedUser(user: UserType) {
 	let strippedUser: Partial<UserType> = user.dataValues;
-	const modulesIds = strippedUser?.UserModules?.map((module) => module.id);
+	let roles = await getGlobalDataList("roles");
+	if (!roles) throw "Couldn't ger roles from globalData.";
+
+	let role = roles.find((r) => r.id === strippedUser.roleId);
+
+	let modulesIds = strippedUser?.UserModules?.map((module) => module.id);
+	if (role?.name === "owner") {
+		modulesIds =
+			(
+				await microserviceCall<number[]>({
+					name: "websites",
+					id: strippedUser.websitesMsId,
+					path: "/api/current/modulesIds",
+					data: { websiteId: strippedUser.websiteId },
+				})
+			).data ?? [];
+	}
 	strippedUser.UserModulesIds = modulesIds;
+	strippedUser.role = role;
 	delete strippedUser.password;
 	delete strippedUser.UserModules;
 	return strippedUser;

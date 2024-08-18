@@ -26,7 +26,7 @@ export const getAdminMenuList = async function (
 		if (currentRoleName === "superadmin") roleNames.push("superadmin");
 
 		let where = {
-			"$Role.RoleType.name$": { [Op.or]: roleNames },
+			"$Role.name$": { [Op.or]: roleNames },
 		} as WhereAttributeHash<AdminMenu>;
 
 		let moduleWhere = {} as WhereAttributeHash<Module>;
