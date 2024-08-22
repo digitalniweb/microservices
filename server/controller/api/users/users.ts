@@ -163,7 +163,7 @@ async function getStrippedUser(user: UserType) {
 	let websiteUuid = microserviceCall<UUID>({
 		name: "websites",
 		id: user.websitesMsId,
-		path: "/api/",
+		path: "/api/getuuid/" + user.websiteId,
 	});
 	let promises = await Promise.all([roles, websiteUuid]);
 
