@@ -13,13 +13,7 @@ export const registerAdmin = async function (
 ) {
 	try {
 		await db.transaction(async (transaction) => {
-			let {
-				email,
-				password,
-				nickname,
-				role,
-				privileges = [],
-			} = req.body.formdata;
+			let { email, password, nickname, role } = req.body.formdata;
 			let insertData = {
 				email,
 				password,

@@ -5,7 +5,7 @@ import LoginLog from "../../../models/users/loginLog.js";
 
 import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt.js";
 import { Request, Response, NextFunction } from "express";
-import { CreationAttributes, InferAttributes } from "sequelize";
+import { CreationAttributes } from "sequelize";
 
 import { User as UserType } from "../../../../digitalniweb-types/models/users.js";
 
@@ -17,6 +17,7 @@ import {
 import UserModule from "../../../models/users/userModule.js";
 import { getGlobalDataList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import { microserviceCall } from "../../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
+import { UUID } from "node:crypto";
 
 export const getById = async function (req: Request, res: Response) {
 	if (!req.params.id) return res.send(null);
@@ -158,10 +159,18 @@ export const register = async function (
 
 async function getStrippedUser(user: UserType) {
 	let strippedUser: Partial<UserType> = user.dataValues;
-	let roles = await getGlobalDataList("roles");
-	if (!roles) throw "Couldn't ger roles from globalData.";
+	let roles = getGlobalDataList("roles");
+	let websiteUuid = microserviceCall<UUID>({
+		name: "websites",
+		id: user.websitesMsId,
+		path: "/api/",
+	});
+	let promises = await Promise.all([roles, websiteUuid]);
 
-	let role = roles.find((r) => r.id === strippedUser.roleId);
+	if (!promises[0]) throw "Couldn't get roles from globalData.";
+	if (!promises[1].data) throw "Couldn't get website's UUID.";
+
+	let role = promises[0].find((r) => r.id === strippedUser.roleId);
 
 	let modulesIds = strippedUser?.UserModules?.map((module) => module.id);
 	if (role?.name === "owner") {
@@ -177,6 +186,7 @@ async function getStrippedUser(user: UserType) {
 	}
 	strippedUser.UserModulesIds = modulesIds;
 	strippedUser.role = role;
+	strippedUser.websiteUuid = promises[1].data;
 	delete strippedUser.password;
 	delete strippedUser.UserModules;
 	return strippedUser;

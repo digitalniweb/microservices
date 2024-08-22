@@ -9,6 +9,7 @@ import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helper
 import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
 import { log } from "../../../../digitalniweb-custom/helpers/logger.js";
 import WebsiteModule from "../../../models/websites/websiteModule.js";
+import { UUID } from "node:crypto";
 
 export const test = async function (
 	req: Request,
@@ -70,6 +71,37 @@ export const test = async function (
 		return res.send("ok");
 	} catch (error) {
 		return next({ error, code: 500, message: "Couldn't get website data" });
+	}
+};
+
+export const getWebsitesUuid = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		let id = req.params.id;
+
+		// if undefined, null, empty or not number
+		if (!id || isNaN(id as any)) return res.send(null);
+
+		let website = await db.transaction(async (transaction) => {
+			return await Website.findOne({
+				paranoid: true,
+				attributes: ["uuid"],
+				transaction,
+				where: {
+					id,
+				},
+			});
+		});
+		return res.send(website?.uuid ?? null);
+	} catch (error) {
+		return next({
+			error,
+			code: 500,
+			message: "Couldn't get current's website data",
+		});
 	}
 };
 

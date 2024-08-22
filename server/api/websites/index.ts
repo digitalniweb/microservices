@@ -7,6 +7,8 @@ router.use("/current", currentRoutes);
 
 router.get("/websitemutations", controller.getWebsiteLanguageMutations);
 
+router.get("/getuuid/:id", controller.getWebsitesUuid);
+
 router.get("/url/:url", controller.getWebsiteByUrl);
 router.get("/testingwebsitescount", controller.testingWebsitesCount);
 router.get("/tenantwebsites", controller.findTenantWebsites);
