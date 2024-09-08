@@ -16,7 +16,8 @@ export default async function () {
 	if (globalDataService) process.env.MICROSERVICE_ID = globalDataService.id;
 
 	await Subscriber.subscribe("serviceRegistry-requestInformation");
-	await Subscriber.on("message", async (channel, message) => {
+	await Publisher.publish("globalDataMessage", "registered");
+	Subscriber.on("message", async (channel, message) => {
 		if (channel === "serviceRegistry-requestInformation") {
 			try {
 				let serviceUniqueName: string = message; // 'app' or 'microservice'

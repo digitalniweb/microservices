@@ -24,7 +24,7 @@ export default async function () {
 			status: "success",
 		});
 		try {
-			msInit.default();
+			await msInit.default();
 			log({
 				message: `ServerInit for ${process.env.MICROSERVICE_NAME} executed.`,
 				type: "consoleLogProduction",
@@ -73,6 +73,22 @@ export default async function () {
 			// app
 			await registerCurrentApp();
 		}
+
+		// register (if not registered already) microservice/app after globalData is registered
+		Subscriber.on("message", async (channel, message) => {
+			if (channel === "globalDataMessage") {
+				if (message === "registered") {
+					if (process.env.MICROSERVICE_NAME) {
+						// microservice
+						if (!process.env.MICROSERVICE_ID)
+							await registerCurrentMicroservice();
+					} else {
+						// app
+						if (!process.env.APP_ID) await registerCurrentApp();
+					}
+				}
+			}
+		});
 	}
 
 	// all microservices

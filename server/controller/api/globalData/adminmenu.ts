@@ -1,4 +1,4 @@
-import { NextFunction, query, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import db from "../../../models/index.js";
 
 import AdminMenu from "../../../models/globalData/adminMenu.js";
