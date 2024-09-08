@@ -83,19 +83,20 @@ export default async function () {
 							// microservice
 							if (!process.env.MICROSERVICE_ID)
 								await registerCurrentMicroservice();
+							log({
+								message: `${process.env.MICROSERVICE_NAME} registered on 'globalData registered'.`,
+								type: "consoleLogProduction",
+								status: "success",
+							});
 						} else {
 							// app
 							if (!process.env.APP_ID) await registerCurrentApp();
+							log({
+								message: `${process.env.APP_NAME} registered on 'globalData registered'.`,
+								type: "consoleLogProduction",
+								status: "success",
+							});
 						}
-						log({
-							message: `${
-								process.env.MICROSERVICE_NAME
-									? process.env.MICROSERVICE_NAME
-									: process.env.APP_NAME
-							} registered on 'globalData registered'.`,
-							type: "consoleLogProduction",
-							status: "success",
-						});
 					} catch (error) {
 						log({
 							type: "consoleLogProduction",
