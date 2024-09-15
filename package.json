@@ -11,7 +11,7 @@
 		"build-watch": "npm run clearDist && npx tsc --watch",
 		"dev": "tsc-watch --onSuccess \"node dist/server/index.js\"",
 		"devNotWatch": "npm run clearDist && npx tsc && npm run start",
-		"buildSequelize": "npx rimraf --glob dist-sequelize-cjs/server/migrations/ && npx tsc --project tsconfig.sequelize.json && echo ^{\"type\":\"commonjs\"}^ > ./dist-sequelize-cjs/package.json",
+		"buildSequelize": "npx rimraf --glob dist-sequelize-cjs/server/migrations/ && npx tsc --project tsconfig.sequelize.json && node -e \"require('fs').writeFileSync('./dist-sequelize-cjs/package.json', JSON.stringify({type: 'commonjs'}))\"",
 		"migrations": "npm run buildSequelize && npx sequelize-cli db:migrate",
 		"migrationsUndoAll": "npm run buildSequelize && npx sequelize-cli db:migrate:undo:all",
 		"seeders": "npm run buildSequelize && npx sequelize-cli db:seed:all"
