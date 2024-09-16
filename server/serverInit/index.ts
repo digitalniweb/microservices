@@ -57,11 +57,22 @@ export default async function () {
 	// all microservices but globalData
 	if (process.env.MICROSERVICE_NAME !== "globalData") {
 		await Subscriber.subscribe("globalDataMessage"); // subscribe to "globalDataMessage" messages from "globalData"
+		await Subscriber.psubscribe("serviceRegistry-responseInformation-*"); // handled in registerCurrentMicroservice()
 
 		// register (if not registered already) microservice/app after globalData is registered
 		Subscriber.on("message", async (channel, message) => {
 			if (channel === "globalDataMessage") {
 				if (message === "registered") {
+					let serviceRegistryInfo =
+						await requestServiceRegistryInfo();
+					if (!serviceRegistryInfo) {
+						log({
+							type: "consoleLogProduction",
+							status: "error",
+							message:
+								"Couldn't get serviceRegistry information.",
+						});
+					}
 					try {
 						if (process.env.MICROSERVICE_NAME) {
 							// microservice
@@ -96,7 +107,6 @@ export default async function () {
 			}
 		});
 
-		await Subscriber.psubscribe("serviceRegistry-responseInformation-*"); // handled in registerCurrentMicroservice()
 		let serviceRegistryInfo = await requestServiceRegistryInfo();
 		if (!serviceRegistryInfo) {
 			log({
@@ -104,14 +114,25 @@ export default async function () {
 				status: "error",
 				message: "Couldn't get serviceRegistry information.",
 			});
-			throw "Couldn't get serviceRegistry information.";
 		}
-		if (process.env.MICROSERVICE_NAME) {
-			// microservice
-			await registerCurrentMicroservice();
-		} else {
-			// app
-			await registerCurrentApp();
+		try {
+			if (process.env.MICROSERVICE_NAME) {
+				// microservice
+				await registerCurrentMicroservice();
+			} else {
+				// app
+				await registerCurrentApp();
+			}
+		} catch (error) {
+			log({
+				type: "consoleLogProduction",
+				status: "error",
+				message: `Couldn't register '${
+					process.env.MICROSERVICE_NAME
+						? process.env.MICROSERVICE_NAME
+						: process.env.APP_NAME
+				}'.`,
+			});
 		}
 	}
 
