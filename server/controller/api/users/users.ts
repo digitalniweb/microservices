@@ -180,7 +180,7 @@ async function getStrippedUser(user: UserType) {
 					name: "websites",
 					id: strippedUser.websitesMsId,
 					path: "/api/current/modulesIds",
-					data: { websiteId: strippedUser.websiteId },
+					params: { websiteId: strippedUser.websiteId },
 				})
 			).data ?? [];
 	}
