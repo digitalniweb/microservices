@@ -12,6 +12,7 @@ export const webinformationPatch = async function (
 		let { data, id } = req.body;
 
 		let success = await db.transaction(async (transaction) => {
+			// even though the sequelize update method describes the returning value differently it returns [1] on changing anything and [0] on changing nothing
 			return await WebInformation.update(data, {
 				transaction,
 				where: {
