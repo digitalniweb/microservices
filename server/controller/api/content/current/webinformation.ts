@@ -9,12 +9,13 @@ export const webinformationPatch = async function (
 	next: NextFunction
 ) {
 	try {
-		let { data, websiteId } = req.body;
+		let { data, id } = req.body;
+
 		let success = await db.transaction(async (transaction) => {
 			return await WebInformation.update(data, {
 				transaction,
 				where: {
-					websiteId,
+					id,
 				},
 			});
 		});
