@@ -74,7 +74,7 @@ Use `git clone  --recurse-submodules https://github.com/digitalniweb/microservic
 
 ## Sequelize CLI
 
-Before running `sequelize-cli` package commannds we need to compile code via:
+Before running `sequelize-cli` package commands we need to compile code via:
 
     npm run buildSequelize
 

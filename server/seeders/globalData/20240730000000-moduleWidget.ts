@@ -18,14 +18,32 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				let text = await Widget.create(
-					{
-						name: "text",
-						widgetName: "Text",
-						component: "WebWidgetsText",
-					},
-					{ transaction }
-				);
+				let textWidget = await Widget.findOne({
+					where: { name: "text" },
+					transaction,
+				});
+
+				let textModules = [] as Module[];
+				let articleModule = await Module.findOne({
+					where: { name: "articles" },
+					transaction,
+				});
+				if (articleModule) textModules.push(articleModule);
+
+				let newsModule = await Module.findOne({
+					where: { name: "news" },
+					transaction,
+				});
+				if (newsModule) textModules.push(newsModule);
+
+				let photoGalleryModule = await Module.findOne({
+					where: { name: "photoGallery" },
+					transaction,
+				});
+				if (photoGalleryModule) textModules.push(photoGalleryModule);
+
+				if (textModules.length > 0 && textWidget)
+					await textWidget.addModules(textModules);
 			} catch (error) {
 				console.log(error);
 			}

@@ -84,6 +84,7 @@ export default async function () {
 								status: "success",
 							});
 						} else {
+							// ? i think thins never happens. Apps has their own separate application
 							// app
 							if (!process.env.APP_ID) await registerCurrentApp();
 							log({
