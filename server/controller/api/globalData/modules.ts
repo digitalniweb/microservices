@@ -8,7 +8,8 @@ import {
 } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import ModulePageLanguage from "../../../models/globalData/modulePageLanguage.js";
 import ModulePage from "../../../models/globalData/modulePage.js";
-import { Includeable, InferAttributes } from "sequelize";
+import { Includeable } from "sequelize";
+import Widget from "../../../models/globalData/widget.js";
 
 export const getModulesList = async function (
 	req: Request,
@@ -148,6 +149,9 @@ export const getModulesByIds = async function (
 								model: ModulePageLanguage,
 							},
 						],
+					},
+					{
+						model: Widget,
 					},
 				],
 			});
