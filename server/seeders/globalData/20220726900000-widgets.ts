@@ -18,11 +18,12 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				let text = await Widget.create(
+				await Widget.create(
 					{
 						name: "text",
 						widgetName: "Text",
 						component: "WebWidgetsText",
+						icon: "mdi-format-text",
 					},
 					{ transaction }
 				);

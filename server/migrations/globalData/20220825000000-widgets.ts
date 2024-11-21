@@ -39,6 +39,10 @@ export default {
 						allowNull: true,
 						unique: true,
 					},
+					icon: {
+						type: DataTypes.STRING,
+						allowNull: true,
+					},
 				},
 				{
 					charset: "utf8mb4",

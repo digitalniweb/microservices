@@ -29,6 +29,10 @@ const Widget = db.define<Widget>(
 			allowNull: true,
 			unique: true,
 		},
+		icon: {
+			type: DataTypes.STRING,
+			allowNull: true,
+		},
 	},
 	{
 		timestamps: false, // createdAt, updatedAt
