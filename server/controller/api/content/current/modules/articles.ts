@@ -40,9 +40,6 @@ export const getArticle = async function (
 					moduleId: resourceIds.moduleId,
 					active: true,
 				},
-				include: {
-					model: Widget,
-				},
 				transaction,
 			});
 		});
