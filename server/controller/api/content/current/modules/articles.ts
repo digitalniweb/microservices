@@ -5,6 +5,7 @@ import WidgetContent from "../../../../../models/content/widgetContent.js";
 import { getArticleQuery } from "../../../../../../digitalniweb-types/apps/communication/modules/articles.js";
 import { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
 import { moduleResponse } from "../../../../../../digitalniweb-types/apps/communication/modules/index.js";
+import Widget from "../../../../../models/globalData/widget.js";
 export const getArticle = async function (
 	req: Request,
 	res: Response,
@@ -38,6 +39,9 @@ export const getArticle = async function (
 					moduleRecordId: article.id,
 					moduleId: resourceIds.moduleId,
 					active: true,
+				},
+				include: {
+					model: Widget,
 				},
 				transaction,
 			});
