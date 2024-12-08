@@ -3,6 +3,39 @@ import db from "../../../models/index.js";
 
 import Widget from "../../../models/globalData/widget.js";
 import { getRequestGlobalDataModelList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
+import { modules } from "../../../../digitalniweb-types/functionality/modules.js";
+import Module from "../../../models/globalData/module.js";
+
+export const getModuleWidgetsIds = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+): Promise<Response<number[]> | void> {
+	try {
+		let moduleName = req.query.module as modules;
+
+		let moduleWidgets = await Module.findOne({
+			where: { name: moduleName },
+			attributes: [],
+			include: {
+				model: Widget,
+				attributes: ["id"], // Only fetch IDs
+				through: { attributes: [] }, // Exclude junction table attributes
+			},
+		});
+
+		const widgetIds =
+			moduleWidgets?.Widgets?.map((widget) => widget.id) || [];
+
+		return res.send(widgetIds);
+	} catch (error) {
+		return next({
+			error,
+			code: 500,
+			message: "Couldn't get module's widgets ids list.",
+		});
+	}
+};
 
 export const getWidgetsList = async function (
 	req: Request,
