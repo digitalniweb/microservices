@@ -58,10 +58,6 @@ export default {
 						allowNull: false,
 						type: DataTypes.INTEGER,
 					},
-					treeLevel: {
-						allowNull: false,
-						type: DataTypes.INTEGER,
-					},
 					parentId: {
 						allowNull: true,
 						type: DataTypes.INTEGER,

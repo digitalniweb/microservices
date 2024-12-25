@@ -61,11 +61,6 @@ const Article = db.define<Article>(
 			allowNull: false,
 			defaultValue: 0,
 		},
-		treeLevel: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			defaultValue: 0,
-		},
 		parentId: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
