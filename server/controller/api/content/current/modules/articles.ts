@@ -41,8 +41,8 @@ export const getArticle = async function (
 				where: {
 					moduleRecordId: article.id,
 					moduleId: resourceIds.moduleId,
-					active: true,
 				},
+				order: [["order", "ASC"]],
 				transaction,
 			});
 		});
@@ -77,7 +77,7 @@ export const createArticle = async function (
 			});
 			let widgetContents = [] as WidgetContent[];
 			if (query.widgetContent?.newWCs?.length) {
-				widgetContents = await WidgetContent.bulkCreate(
+				await WidgetContent.bulkCreate(
 					query.widgetContent?.newWCs.map((wc) => ({
 						...wc,
 						moduleRecordId: article.id,
@@ -85,10 +85,11 @@ export const createArticle = async function (
 					{ transaction }
 				);
 			}
-			// widgetContents = await WidgetContent.findAll({
-			// 	where: { moduleRecordId: article.id },
-			// 	transaction,
-			// });
+			widgetContents = await WidgetContent.findAll({
+				where: { moduleRecordId: article.id },
+				order: [["order", "ASC"]],
+				transaction,
+			});
 
 			if (query.menu.newMenuOrders?.length)
 				await Promise.all(
@@ -116,7 +117,7 @@ export const createArticle = async function (
 		return next({
 			error,
 			code: 500,
-			message: "Couldn't create/edit Article",
+			message: "Couldn't create Article",
 		});
 	}
 };
@@ -171,6 +172,7 @@ export const editArticle = async function (
 			}
 			let widgetContents = await WidgetContent.findAll({
 				where: { moduleRecordId: query.menu.id },
+				order: [["order", "ASC"]],
 				transaction,
 			});
 
@@ -213,7 +215,7 @@ export const editArticle = async function (
 		return next({
 			error,
 			code: 500,
-			message: "Couldn't create/edit Article",
+			message: "Couldn't edit Article",
 		});
 	}
 };

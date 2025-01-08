@@ -26,6 +26,7 @@ export const getMenu = async function (
 					websitesMsId: resourceIds.websitesMsId,
 					active: true,
 				},
+				order: [["order", "ASC"]],
 				transaction,
 			});
 		});
@@ -60,6 +61,7 @@ export const getMenuAll = async function (
 					websiteId: resourceIds.websiteId,
 					websitesMsId: resourceIds.websitesMsId,
 				},
+				order: [["order", "ASC"]],
 				transaction,
 			});
 		});
