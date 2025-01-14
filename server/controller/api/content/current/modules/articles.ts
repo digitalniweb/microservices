@@ -139,12 +139,15 @@ export const editArticle = async function (
 
 		let response = await db.transaction(async (transaction) => {
 			let moduleResponse = {} as moduleResponse<Article>;
-
 			let article = await Article.findOne({
 				where: { id: data.menu.id },
 				transaction,
 			});
 			if (!article) return false;
+			let previousLocation = {
+				parentId: article.parentId,
+				order: article.order,
+			};
 			if (data.menu.data)
 				await article.update(data.menu.data, {
 					transaction,
@@ -184,36 +187,26 @@ export const editArticle = async function (
 				orderDataObject,
 				"order" | "parentId"
 			> = {
-				order:
-					data.menu.data?.order ?? data.menu.previousLocation.order,
-				parentId:
-					data.menu.data?.parentId ??
-					data.menu.previousLocation.parentId,
+				order: data.menu.data?.order ?? previousLocation.order,
+				parentId: data.menu.data?.parentId ?? previousLocation.parentId,
 			};
 
 			// parentId can be null -> root
 			if (data.menu.data?.parentId !== undefined) {
 				if (
-					currentLocationInfo.parentId ===
-					data.menu.previousLocation.parentId
+					currentLocationInfo.parentId === previousLocation.parentId
 				) {
 					// change on same location
-					if (
-						currentLocationInfo.order !==
-						data.menu.previousLocation.order
-					) {
+					if (currentLocationInfo.order !== previousLocation.order) {
 						let order = {} as WhereAttributeHashValue<number>;
-						if (
-							currentLocationInfo.order <
-							data.menu.previousLocation.order
-						)
+						if (currentLocationInfo.order < previousLocation.order)
 							order = {
 								[Op.gte]: currentLocationInfo.order,
-								[Op.lt]: data.menu.previousLocation.order,
+								[Op.lt]: previousLocation.order,
 							};
 						else
 							order = {
-								[Op.gt]: data.menu.previousLocation.order,
+								[Op.gt]: previousLocation.order,
 								[Op.lte]: currentLocationInfo.order,
 							};
 						await Article.increment("order", {
@@ -237,9 +230,9 @@ export const editArticle = async function (
 							languageId: article.languageId,
 							websiteId: article.websiteId,
 							websitesMsId: article.websitesMsId,
-							parentId: data.menu.previousLocation.parentId,
+							parentId: previousLocation.parentId,
 							order: {
-								[Op.gt]: data.menu.previousLocation.order,
+								[Op.gt]: previousLocation.order,
 							},
 							id: {
 								[Op.not]: article.id,
@@ -319,6 +312,7 @@ export const deleteArticle = async function (
 				},
 				transaction,
 			});
+			return true;
 		});
 		return res.send(!!response);
 	} catch (error: any) {
