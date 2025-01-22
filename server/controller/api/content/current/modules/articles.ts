@@ -187,77 +187,89 @@ export const editArticle = async function (
 				orderDataObject,
 				"order" | "parentId"
 			> = {
-				order: data.menu.data?.order ?? previousLocation.order,
-				parentId: data.menu.data?.parentId ?? previousLocation.parentId,
+				order:
+					data.menu.data?.order !== undefined
+						? data.menu.data?.order
+						: previousLocation.order,
+				parentId:
+					data.menu.data?.parentId !== undefined
+						? data.menu.data?.parentId
+						: previousLocation.parentId,
 			};
 
-			// parentId can be null -> root
-			if (data.menu.data?.parentId !== undefined) {
-				if (
-					currentLocationInfo.parentId === previousLocation.parentId
-				) {
-					// change on same location
-					if (currentLocationInfo.order !== previousLocation.order) {
-						let order = {} as WhereAttributeHashValue<number>;
-						if (currentLocationInfo.order < previousLocation.order)
-							order = {
-								[Op.gte]: currentLocationInfo.order,
-								[Op.lt]: previousLocation.order,
-							};
-						else
-							order = {
-								[Op.gt]: previousLocation.order,
-								[Op.lte]: currentLocationInfo.order,
-							};
-						await Article.increment("order", {
+			if (currentLocationInfo.parentId === previousLocation.parentId) {
+				// change on same location
+				if (currentLocationInfo.order !== previousLocation.order) {
+					if (previousLocation.order < currentLocationInfo.order)
+						await Article.decrement("order", {
 							where: {
 								languageId: article.languageId,
 								websiteId: article.websiteId,
 								websitesMsId: article.websitesMsId,
 								parentId: article.parentId,
-								order,
+								order: {
+									[Op.gt]: previousLocation.order,
+									[Op.lte]: currentLocationInfo.order,
+								},
 								id: {
 									[Op.not]: article.id,
 								},
 							},
 							transaction,
 						});
-					}
-				} else {
-					// menu was put into another menu
-					let previousMenu = Article.decrement("order", {
-						where: {
-							languageId: article.languageId,
-							websiteId: article.websiteId,
-							websitesMsId: article.websitesMsId,
-							parentId: previousLocation.parentId,
-							order: {
-								[Op.gt]: previousLocation.order,
+					else
+						await Article.increment("order", {
+							where: {
+								languageId: article.languageId,
+								websiteId: article.websiteId,
+								websitesMsId: article.websitesMsId,
+								parentId: article.parentId,
+								order: {
+									[Op.gte]: currentLocationInfo.order,
+									[Op.lt]: previousLocation.order,
+								},
+								id: {
+									[Op.not]: article.id,
+								},
 							},
-							id: {
-								[Op.not]: article.id,
-							},
-						},
-						transaction,
-					});
-					let currentMenu = Article.increment("order", {
-						where: {
-							languageId: article.languageId,
-							websiteId: article.websiteId,
-							websitesMsId: article.websitesMsId,
-							parentId: article.parentId,
-							order: {
-								[Op.gte]: currentLocationInfo.order,
-							},
-							id: {
-								[Op.not]: article.id,
-							},
-						},
-						transaction,
-					});
-					await Promise.all([previousMenu, currentMenu]);
+							transaction,
+						});
 				}
+			} else {
+				// menu was put into another menu
+				let previousMenu = Article.decrement("order", {
+					where: {
+						languageId: article.languageId,
+						websiteId: article.websiteId,
+						websitesMsId: article.websitesMsId,
+						parentId: previousLocation.parentId,
+						order: {
+							[Op.gt]: previousLocation.order,
+						},
+						id: {
+							[Op.not]: article.id,
+						},
+					},
+					transaction,
+				});
+				let currentMenu = Article.increment("order", {
+					where: {
+						languageId: article.languageId,
+						websiteId: article.websiteId,
+						websitesMsId: article.websitesMsId,
+						parentId: article.parentId,
+						order: {
+							[Op.gte]: currentLocationInfo.order,
+						},
+						id: {
+							[Op.not]: article.id,
+						},
+					},
+					transaction,
+				});
+				await Promise.all([previousMenu, currentMenu]);
 			}
+
 			if (data.menu.newMenuUrls?.length)
 				await Promise.all(
 					data.menu.newMenuUrls.map((newUrl) => {
