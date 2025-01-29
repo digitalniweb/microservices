@@ -43,7 +43,8 @@ export default {
 						allowNull: false,
 					},
 					usersMsId: {
-						type: DataTypes.INTEGER,
+						type: DataTypes.INTEGER.UNSIGNED,
+						allowNull: false,
 					},
 					userId: {
 						type: DataTypes.INTEGER,
@@ -53,7 +54,7 @@ export default {
 						allowNull: false,
 					},
 					mainLanguageId: {
-						type: DataTypes.INTEGER,
+						type: DataTypes.INTEGER.UNSIGNED,
 						allowNull: false,
 					},
 					emailsMsId: {
