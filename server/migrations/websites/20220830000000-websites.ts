@@ -42,6 +42,9 @@ export default {
 						type: DataTypes.INTEGER.UNSIGNED,
 						allowNull: false,
 					},
+					usersMsId: {
+						type: DataTypes.INTEGER,
+					},
 					userId: {
 						type: DataTypes.INTEGER,
 					},

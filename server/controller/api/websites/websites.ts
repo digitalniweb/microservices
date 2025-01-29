@@ -300,19 +300,28 @@ export const createwebsite = async function (
 		let websiteUrl: string = req.body.url;
 
 		if (!websiteData.contentMsId) {
-			let mainServiceRegistryId = await getMainServiceRegistryId(
+			let mainServiceRegistryContentId = await getMainServiceRegistryId(
 				"content"
 			);
-			if (mainServiceRegistryId !== null)
-				websiteData.contentMsId = mainServiceRegistryId;
+			if (mainServiceRegistryContentId !== null)
+				websiteData.contentMsId = mainServiceRegistryContentId;
 		}
+
+		if (!websiteData.usersMsId) {
+			let mainServiceRegistryUsersId = await getMainServiceRegistryId(
+				"users"
+			);
+			if (mainServiceRegistryUsersId !== null)
+				websiteData.usersMsId = mainServiceRegistryUsersId;
+		}
+
 		// I don't want this everytime, only when website should have emails
 		// if (!websiteData.emailsMsId) {
-		// 	let mainServiceRegistryId = await getMainServiceRegistryId(
+		// 	let mainServiceRegistryEmailsId = await getMainServiceRegistryId(
 		// 		"emails"
 		// 	);
-		// 	if (mainServiceRegistryId !== null)
-		// 		websiteData.emailsMsId = mainServiceRegistryId;
+		// 	if (mainServiceRegistryEmailsId !== null)
+		// 		websiteData.emailsMsId = mainServiceRegistryEmailsId;
 		// }
 
 		let result: WebsiteType = await db.transaction(async (transaction) => {
