@@ -26,11 +26,13 @@ export const getMenu = async function (
 					websitesMsId: resourceIds.websitesMsId,
 					active: true,
 				},
-				raw: true,
+				order: [["order", "ASC"]],
 				transaction,
 			});
 		});
-		const treeMenu = buildTree<InferAttributes<Article>>(menu);
+
+		const data = menu.map((instance) => instance.toJSON());
+		const treeMenu = buildTree<InferAttributes<Article>>(data);
 
 		return res.send(treeMenu);
 	} catch (error: any) {
@@ -59,11 +61,12 @@ export const getMenuAll = async function (
 					websiteId: resourceIds.websiteId,
 					websitesMsId: resourceIds.websitesMsId,
 				},
-				raw: true,
+				order: [["order", "ASC"]],
 				transaction,
 			});
 		});
-		const treeMenu = buildTree<InferAttributes<Article>>(menu);
+		const data = menu.map((instance) => instance.toJSON());
+		const treeMenu = buildTree<InferAttributes<Article>>(data);
 
 		return res.send(treeMenu);
 	} catch (error: any) {

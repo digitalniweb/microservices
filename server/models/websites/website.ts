@@ -30,6 +30,9 @@ const Website = db.define<Website>(
 			type: DataTypes.INTEGER,
 			allowNull: true,
 		},
+		usersMsId: {
+			type: DataTypes.INTEGER,
+		},
 		userId: {
 			type: DataTypes.INTEGER,
 		},
