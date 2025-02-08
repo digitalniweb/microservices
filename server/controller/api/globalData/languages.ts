@@ -2,7 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import db from "../../../models/index.js";
 
 import Language from "../../../models/globalData/language.js";
-import { getRequestGlobalDataModelList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
+import {
+	getRequestGlobalDataModelArray,
+	getRequestGlobalDataModelList,
+} from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 
 export const getLanguagesList = async function (
 	req: Request,
@@ -49,6 +52,25 @@ export const getLanguagesByIds = async function (
 			error,
 			code: 500,
 			message: "Couldn't get languages list.",
+		});
+	}
+};
+export const getArray = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		const responseArray = await getRequestGlobalDataModelArray(
+			req,
+			Language
+		);
+		return res.send(responseArray);
+	} catch (error) {
+		return next({
+			error,
+			code: 500,
+			message: "Couldn't get modules list.",
 		});
 	}
 };

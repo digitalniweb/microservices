@@ -2,7 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import db from "../../../models/index.js";
 
 import Widget from "../../../models/globalData/widget.js";
-import { getRequestGlobalDataModelList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
+import {
+	getRequestGlobalDataModelArray,
+	getRequestGlobalDataModelList,
+} from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import { modules } from "../../../../digitalniweb-types/functionality/modules.js";
 import Module from "../../../models/globalData/module.js";
 
@@ -51,6 +54,23 @@ export const getWidgetsList = async function (
 			error,
 			code: 500,
 			message: "Couldn't get widgets list.",
+		});
+	}
+};
+
+export const getArray = async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	try {
+		const responseArray = await getRequestGlobalDataModelArray(req, Widget);
+		return res.send(responseArray);
+	} catch (error) {
+		return next({
+			error,
+			code: 500,
+			message: "Couldn't get modules list.",
 		});
 	}
 };
