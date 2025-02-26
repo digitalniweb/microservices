@@ -27,7 +27,7 @@ export default {
 				if (saasHostModule) {
 					await saasHostModule.createModulePage(
 						{
-							name: "Saas HOST - Tenant's websites list",
+							name: "Tenant's websites list",
 							component: "WebPagesSaasHostTenantsWebsitesList",
 							url: "my-websites",
 							ModulePageLanguages: [
@@ -60,7 +60,7 @@ export default {
 					);
 					await saasHostModule.createModulePage(
 						{
-							name: "Saas HOST - Create tenant's website login",
+							name: "Create tenant's website login",
 							component:
 								"WebPagesSaasHostTenantsCreateWebsiteLogin",
 							url: "create-website-login",
@@ -98,7 +98,7 @@ export default {
 					);
 					await saasHostModule.createModulePage(
 						{
-							name: "Saas HOST - create tenant's website",
+							name: "Create tenant's website",
 							component: "WebPagesSaasHostTenantsCreateWebsite",
 							url: "create-website",
 							ModulePageLanguages: [
@@ -131,7 +131,7 @@ export default {
 					);
 					await saasHostModule.createModulePage(
 						{
-							name: "Saas HOST - Tenant's website info",
+							name: "Tenant's website info",
 							component: "WebPagesTenantsWebsiteInfo",
 							url: "website-info",
 							ModulePageLanguages: [
