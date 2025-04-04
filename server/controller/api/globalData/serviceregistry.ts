@@ -15,11 +15,14 @@ export const getServiceByName = async function (
 ) {
 	try {
 		let microservice = req.params.name as microservices;
-		if (!microservicesArray.includes(microservice)) return res.send(false);
+		if (!microservicesArray.includes(microservice)) {
+			res.send(false);
+			return;
+		}
 		let service = await getServiceRegistryServices(microservice);
-		return res.send(service);
+		res.send(service);
 	} catch (error) {
-		return next({ error });
+		next({ error });
 	}
 };
 
@@ -30,15 +33,17 @@ export const getMainServiceByName = async function (
 ) {
 	try {
 		let name = req.params.name as microservices;
-		if (!name)
-			return next({
+		if (!name) {
+			next({
 				message: "Service by name not found",
 				req,
 			});
+			return;
+		}
 		let service = await getMainServiceRegistry(name);
-		return res.send(service);
+		res.send(service);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			req,
 		});
@@ -52,18 +57,20 @@ export const getServiceById = async function (
 ) {
 	try {
 		let id = parseInt(req.params.id);
-		if (!id)
-			return next({
+		if (!id) {
+			next({
 				status: "warning",
 				message: "Service by id not found",
 				req,
 			});
+			return;
+		}
 		let service = await ServiceRegistry.findOne({
 			where: { id },
 		});
-		return res.send(service);
+		res.send(service);
 	} catch (error) {
-		return next({ error });
+		next({ error });
 	}
 };
 
@@ -75,11 +82,14 @@ export const register = async function (
 	try {
 		let microservice = req.body.name as microservices;
 
-		if (!microservicesArray.includes(microservice)) return res.send(false);
+		if (!microservicesArray.includes(microservice)) {
+			res.send(false);
+			return;
+		}
 		let service = await registerService(req.body);
 
-		return res.send(service);
+		res.send(service);
 	} catch (error) {
-		return next({ error });
+		next({ error });
 	}
 };

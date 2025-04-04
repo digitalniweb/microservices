@@ -28,7 +28,7 @@ export const registerAdmin = async function (
 				...insertData,
 			});
 		});
-		return res.send({ message: "Registration complete" });
+		res.send({ message: "Registration complete" });
 	} catch (error: any) {
 		// when validation or uniqueness in DB is broken
 		// let errors = error.errors.reduce((accumulator, currentObject) => {
@@ -64,7 +64,7 @@ export const allUsers = async function (
 				transaction,
 			});
 		});
-		return res.send(users);
+		res.send(users);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't load users." });
 	}
@@ -85,7 +85,7 @@ export const findUser = async function (
 				transaction,
 			});
 		});
-		return res.send(user);
+		res.send(user);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't get user." });
 	}
@@ -112,7 +112,7 @@ export const findTenant = async function (
 				transaction,
 			});
 		});
-		return res.send(user);
+		res.send(user);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't get user." });
 	}

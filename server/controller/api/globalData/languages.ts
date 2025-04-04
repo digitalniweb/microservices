@@ -15,9 +15,9 @@ export const getLanguagesList = async function (
 	try {
 		let data = await getRequestGlobalDataModelList(req, Language);
 
-		return res.send(data);
+		res.send(data);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get languages list.",
@@ -46,9 +46,9 @@ export const getLanguagesByIds = async function (
 			});
 		});
 
-		return res.send(languages);
+		res.send(languages);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get languages list.",
@@ -65,9 +65,9 @@ export const getArray = async function (
 			req,
 			Language
 		);
-		return res.send(responseArray);
+		res.send(responseArray);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get modules list.",

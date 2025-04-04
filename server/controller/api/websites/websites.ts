@@ -9,7 +9,6 @@ import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helper
 import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
 import { log } from "../../../../digitalniweb-custom/helpers/logger.js";
 import WebsiteModule from "../../../models/websites/websiteModule.js";
-import { UUID } from "node:crypto";
 
 export const test = async function (
 	req: Request,
@@ -60,17 +59,22 @@ export const test = async function (
 				where: { id: 16 },
 				transaction,
 			});
-			if (!website)
-				return next({ code: 404, message: "Website not found." });
+			if (!website) {
+				next({ code: 404, message: "Website not found." });
+				return;
+			}
 
 			let url = await Url.findOne({ where: { id: 3 }, transaction });
 
-			if (!url) return next({ code: 404, message: "Url not found." });
+			if (!url) {
+				next({ code: 404, message: "Url not found." }); 
+				return;
+			}
 			await website.addAliases([url], { transaction });
 		}); */
-		return res.send("ok");
+		res.send("ok");
 	} catch (error) {
-		return next({ error, code: 500, message: "Couldn't get website data" });
+		next({ error, code: 500, message: "Couldn't get website data" });
 	}
 };
 
@@ -83,7 +87,10 @@ export const getWebsitesUuid = async function (
 		let id = req.params.id;
 
 		// if undefined, null, empty or not number
-		if (!id || isNaN(id as any)) return res.send(null);
+		if (!id || isNaN(id as any)) {
+			res.send(null);
+			return;
+		}
 
 		let website = await db.transaction(async (transaction) => {
 			return await Website.findOne({
@@ -95,9 +102,9 @@ export const getWebsitesUuid = async function (
 				},
 			});
 		});
-		return res.send(website?.uuid ?? null);
+		res.send(website?.uuid ?? null);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get current's website data",
@@ -114,15 +121,18 @@ export const getWebsiteByUrl = async function (
 		let url = req.params.url;
 
 		// if undefined, null, empty or coercible to number
-		if (!url || !isNaN(url as any)) return res.send(null);
+		if (!url || !isNaN(url as any)) {
+			res.send(null);
+			return;
+		}
 
 		let website = await db.transaction(async (transaction) => {
 			return await getWebsite(url, transaction);
 		});
 
-		return res.send(website);
+		res.send(website);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get current's website data",
@@ -191,7 +201,7 @@ export const testingWebsitesCount = async function (
 				transaction,
 			});
 		});
-		return res.send(String(count));
+		res.send(String(count));
 	} catch (error) {
 		next({
 			error,
@@ -227,7 +237,7 @@ export const findTenantWebsites = async function (
 				transaction,
 			});
 		});
-		return res.send(result);
+		res.send(result);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't get tenant's websites." });
 	}
@@ -252,8 +262,8 @@ export const registerTenant = async function (
 			});
 		});
 		let maxTestCount = 3;
-		if (testingWebsitesCount >= maxTestCount)
-			return next({
+		if (testingWebsitesCount >= maxTestCount) {
+			next({
 				code: 403,
 				message:
 					"You already have a maximum count of testing websites!",
@@ -261,6 +271,8 @@ export const registerTenant = async function (
 					maxTestCount,
 				},
 			});
+			return;
+		}
 
 		let newTenantWebsite = await db.transaction(async (transaction) => {
 			return await Website.create(
@@ -276,7 +288,7 @@ export const registerTenant = async function (
 			);
 		});
 
-		return res.send({
+		res.send({
 			uuid: newTenantWebsite.uuid,
 			contentMsId: newTenantWebsite.contentMsId,
 			websiteId: newTenantWebsite.id,
@@ -360,7 +372,7 @@ export const createwebsite = async function (
 			return website;
 		});
 
-		return res.send(result);
+		res.send(result);
 	} catch (error) {
 		next({
 			error,
@@ -400,9 +412,9 @@ export const getWebsiteLanguageMutations = async function (
 			}); */
 			}
 		);
-		return res.send(WebsiteLanguageMutations);
+		res.send(WebsiteLanguageMutations);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get app languages list.",

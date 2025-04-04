@@ -50,9 +50,9 @@ export const getAdminMenuList = async function (
 		const plainData = data.map((entity) => entity.get({ plain: true }));
 
 		const treeMenu = buildTree<InferAttributes<AdminMenu>>(plainData);
-		return res.send(treeMenu);
+		res.send(treeMenu);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get adminmenu list.",
@@ -86,9 +86,9 @@ export const getAdminMenuByIds = async function (
 			});
 		});
 
-		return res.send(adminmenu);
+		res.send(adminmenu);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get adminmenu list.",

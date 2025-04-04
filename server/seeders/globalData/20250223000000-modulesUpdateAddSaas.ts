@@ -4,7 +4,6 @@ import { microservices } from "../../../digitalniweb-types/index.js";
 import Module from "../../models/globalData/module.js";
 import Language from "../../models/globalData/language.js";
 import ModulePageLanguage from "../../models/globalData/modulePageLanguage.js";
-import ModulePage from "../../models/globalData/modulePage.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {

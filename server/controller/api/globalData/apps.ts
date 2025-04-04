@@ -10,15 +10,18 @@ export const getApp = async function (
 ) {
 	try {
 		let { name } = req.query as { name?: string };
-		if (!name) return false;
+		if (!name) {
+			res.send(false);
+			return;
+		}
 		let appInfo = await App.findOne({
 			where: {
 				name,
 			},
 		});
-		return res.send(appInfo);
+		res.send(appInfo);
 	} catch (error) {
-		return next({ error });
+		next({ error });
 	}
 };
 
@@ -30,8 +33,8 @@ export const register = async function (
 	try {
 		let app = await registerApp(req.body as newAppOptions, req);
 
-		return res.send(app);
+		res.send(app);
 	} catch (error) {
-		return next({ error });
+		next({ error });
 	}
 };

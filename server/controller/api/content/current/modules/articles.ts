@@ -11,7 +11,7 @@ import {
 } from "../../../../../../digitalniweb-types/apps/communication/modules/articles.js";
 import { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
 import { moduleResponse } from "../../../../../../digitalniweb-types/apps/communication/modules/index.js";
-import { Op, WhereAttributeHashValue } from "sequelize";
+import { Op } from "sequelize";
 export const getArticle = async function (
 	req: Request,
 	res: Response,
@@ -36,7 +36,10 @@ export const getArticle = async function (
 			});
 		});
 
-		if (!article) return res.send(null);
+		if (!article) {
+			res.send(null);
+			return;
+		}
 		response.moduleInfo = article;
 
 		let widgetContents = await db.transaction(async (transaction) => {
@@ -51,9 +54,9 @@ export const getArticle = async function (
 		});
 		response.widgetContents = widgetContents;
 
-		return res.send(response);
+		res.send(response);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get current Article",
@@ -72,7 +75,10 @@ export const createArticle = async function (
 ) {
 	try {
 		let query = req.body;
-		if (!query.menu.data) return res.send(false);
+		if (!query.menu.data) {
+			res.send(false);
+			return;
+		}
 		let response = await db.transaction(async (transaction) => {
 			let moduleResponse = {} as moduleResponse<Article>;
 			let article = await Article.create(query.menu.data, {
@@ -115,9 +121,9 @@ export const createArticle = async function (
 			return moduleResponse;
 		});
 
-		return res.send(response);
+		res.send(response);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't create Article",
@@ -288,9 +294,9 @@ export const editArticle = async function (
 			return moduleResponse;
 		});
 
-		return res.send(response);
+		res.send(response);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't edit Article",
@@ -326,9 +332,9 @@ export const deleteArticle = async function (
 			});
 			return true;
 		});
-		return res.send(!!response);
+		res.send(!!response);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't delete Article",

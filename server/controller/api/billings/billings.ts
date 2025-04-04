@@ -1,13 +1,5 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 
-export const test = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		return res.send({ message: "it works" });
-	} catch (error) {
-		return next({ error });
-	}
+export const test = async (req: Request, res: Response) => {
+	res.send({ message: "it works" });
 };

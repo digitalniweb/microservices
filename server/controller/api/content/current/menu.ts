@@ -34,9 +34,9 @@ export const getMenu = async function (
 		const data = menu.map((instance) => instance.toJSON());
 		const treeMenu = buildTree<InferAttributes<Article>>(data);
 
-		return res.send(treeMenu);
+		res.send(treeMenu);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get website's menu.",
@@ -68,9 +68,9 @@ export const getMenuAll = async function (
 		const data = menu.map((instance) => instance.toJSON());
 		const treeMenu = buildTree<InferAttributes<Article>>(data);
 
-		return res.send(treeMenu);
+		res.send(treeMenu);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get website's menu.",

@@ -13,7 +13,7 @@ export const getModuleWidgetsIds = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
-): Promise<Response<number[]> | void> {
+) {
 	try {
 		let moduleName = req.query.module as modules;
 
@@ -30,9 +30,9 @@ export const getModuleWidgetsIds = async function (
 		const widgetIds =
 			moduleWidgets?.Widgets?.map((widget) => widget.id) || [];
 
-		return res.send(widgetIds);
+		res.send(widgetIds);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get module's widgets ids list.",
@@ -48,9 +48,9 @@ export const getWidgetsList = async function (
 	try {
 		let data = await getRequestGlobalDataModelList(req, Widget);
 
-		return res.send(data);
+		res.send(data);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get widgets list.",
@@ -65,9 +65,9 @@ export const getArray = async function (
 ) {
 	try {
 		const responseArray = await getRequestGlobalDataModelArray(req, Widget);
-		return res.send(responseArray);
+		res.send(responseArray);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get modules list.",
@@ -96,9 +96,9 @@ export const getWidgetsByIds = async function (
 			});
 		});
 
-		return res.send(widgets);
+		res.send(widgets);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get widgets list.",

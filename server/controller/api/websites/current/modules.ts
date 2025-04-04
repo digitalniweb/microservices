@@ -21,9 +21,9 @@ export const getModulesIds = async function (
 		let ids: number[] = [];
 		if (idsString) ids = idsString.split(",").map(Number);
 
-		return res.send(ids);
+		res.send(ids);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get website's modules ids",
@@ -48,9 +48,9 @@ export const getLanguagesIds = async function (
 		let ids: number[] = [];
 		if (idsString) ids = idsString.split(",").map(Number);
 
-		return res.send(ids);
+		res.send(ids);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get website's languages ids",

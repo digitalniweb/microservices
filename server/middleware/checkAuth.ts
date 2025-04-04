@@ -18,12 +18,17 @@ const checkAuthorization = function (
 ) {
 	return async function (req: Request, res: Response, next: NextFunction) {
 		try {
-			if (res.locals?.userVerified?.role === "superadmin") return next();
+			if (res.locals?.userVerified?.role === "superadmin") {
+				next();
+				return;
+			}
 			if (
 				res.locals?.userVerified?.role === "owner" &&
 				requiredRole.includes("admin")
-			)
-				return next();
+			) {
+				next();
+				return;
+			}
 			if (
 				!res.locals?.userVerified ||
 				!requiredRole.includes(
@@ -34,9 +39,10 @@ const checkAuthorization = function (
 			) {
 				throw "";
 			}
-			return next();
+			next();
+			return;
 		} catch (error) {
-			return next({
+			next({
 				error,
 				code: 403,
 				message: "Forbidden",
@@ -69,9 +75,9 @@ const checkRegisterServiceAuth = async function (
 				code: 403,
 				message: "Forbidden",
 			};
-		return next();
+		next();
 	} catch (error) {
-		return next(error);
+		next(error);
 	}
 };
 export { checkAuthorization, checkRegisterServiceAuth };

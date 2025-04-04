@@ -14,7 +14,10 @@ try {
 
 	const app: Express = express();
 
-	//so we can use req.body in POST methods to get posted parameters (e.g. req.body.name)
+	// so query array parameters e.g. 'ids[]' are presented as 'ids' instead
+	app.set("query parser", "extended");
+
+	// so we can use req.body in POST methods to get posted parameters (e.g. req.body.name)
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
 
@@ -36,7 +39,7 @@ try {
 			message: "Internal Server Error",
 		};
 
-		return res.status(responseObject.code).send(responseObject);
+		res.status(responseObject.code).send(responseObject);
 	}));
 
 	const port = process.env.PORT;

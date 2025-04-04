@@ -13,7 +13,7 @@ export const test = async function (
 ) {
 	try {
 		let auth = await userAuthenticate("admin@digitalniweb.cz", "123456789");
-		return res.send(auth);
+		res.send(auth);
 
 		/* let role = await Role.findOne({
 			where: {
@@ -30,22 +30,22 @@ export const test = async function (
 
 		//let tenant = await Tenant.findOne();
 
-		return res.send(role); */
-		// return res.send(await role?.Users[0]?.Tenant?.findUser());
+		 res.send(role); */
+		//  res.send(await role?.Users[0]?.Tenant?.findUser());
 		/* let role = await Role.findOne();
 		let user = await role?.getUsers();
 
-		return res.send(user); */
+		 res.send(user); */
 
 		/* let user = await User.findOne();
 		let userRole = await user?.getRole();
 
-		return res.send(userRole); */
+		 res.send(userRole); */
 	} catch (error) {
-		return next({ error });
+		next({ error });
 	}
 
-	return res.send({ message: "it works" });
+	res.send({ message: "it works" });
 	// try {
 	// 	let website = await models.Website.findOne({
 	// 		include: [
@@ -80,9 +80,9 @@ export const test = async function (
 	// 		});
 	// 	}); */
 
-	// 	return res.send(website);
+	// 	res.send(website);
 	// } catch (error) {
-	// 	return next({ error, code: 500, message: "Couldn't get website data" });
+	// 	next({ error, code: 500, message: "Couldn't get website data" });
 	// }
 };
 export const testPost = async function (
@@ -91,7 +91,7 @@ export const testPost = async function (
 	next: NextFunction
 ) {
 	try {
-		return res.send("a");
+		res.send("a");
 	} catch (error) {
 		next({ error, code: 500, message: "Test error users ms" });
 	}

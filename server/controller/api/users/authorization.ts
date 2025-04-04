@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from "express";
-import Privilege from "../../../models/globalData/action.js";
-import Role from "../../../models/globalData/role.js";
+// import Privilege from "../../../models/globalData/action.js";
+// import Role from "../../../models/globalData/role.js";
 
-import {
-	Role as RoleType,
-	Action as PrivilegeType,
-} from "../../../../digitalniweb-types/models/globalData.js";
+// import {
+// 	Role as RoleType,
+// 	Action as PrivilegeType,
+// } from "../../../../digitalniweb-types/models/globalData.js";
 
-import db from "../../../models/index.js";
-import { WhereOptions } from "sequelize";
-import { authorizationListType } from "../../../../digitalniweb-types/authorization/index.js";
+// import db from "../../../models/index.js";
+// import { WhereOptions } from "sequelize";
+// import { authorizationListType } from "../../../../digitalniweb-types/authorization/index.js";
 
 export const allList = async function (
 	req: Request,
@@ -17,7 +17,7 @@ export const allList = async function (
 	next: NextFunction
 ) {
 	try {
-		return res.send({}); // delete this
+		res.send({}); // delete this
 
 		// !!! FROM HERE DOWN ALL THIS SHOULD BE IN GLOBAL API CONTROLLER I GUESS
 		// select: roles/privileges/(all)
@@ -60,7 +60,7 @@ export const allList = async function (
 
 		// 	return list;
 		// });
-		// return res.send(data);
+		// res.send(data);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't load users." });
 	}

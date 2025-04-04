@@ -19,9 +19,9 @@ export const getModulesList = async function (
 	try {
 		let data = await getRequestGlobalDataModelList(req, Module);
 
-		return res.send(data);
+		res.send(data);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get modules list.",
@@ -36,9 +36,9 @@ export const getArray = async function (
 ) {
 	try {
 		const responseArray = await getRequestGlobalDataModelArray(req, Module);
-		return res.send(responseArray);
+		res.send(responseArray);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get modules list.",
@@ -62,9 +62,9 @@ export const getModulesIdsByNames = async function (
 			});
 		});
 		const modulesIds = modules.map((module) => module.id);
-		return res.send(modulesIds);
+		res.send(modulesIds);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get modules list.",
@@ -113,9 +113,9 @@ export const getModulesByNames = async function (
 			});
 		});
 
-		return res.send(modules);
+		res.send(modules);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get modules list.",
@@ -130,6 +130,8 @@ export const getModulesByIds = async function (
 ) {
 	try {
 		let ids = req.query.ids as string[] | number[];
+		console.log(req.query);
+		console.log(req.query.ids);
 
 		if (!Array.isArray(ids)) throw "Module IDs needs to be an array.";
 		ids = ids.map(Number) as number[];
@@ -157,9 +159,9 @@ export const getModulesByIds = async function (
 			});
 		});
 
-		return res.send(modules);
+		res.send(modules);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get modules list.",

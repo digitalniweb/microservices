@@ -21,9 +21,9 @@ export const webinformationPatch = async function (
 			});
 		});
 
-		return res.send(success);
+		res.send(success);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't patch website information data",
@@ -39,7 +39,10 @@ export const webinformation = async function (
 		const { id } = req.query as {
 			id: string;
 		};
-		if (!id || isNaN(id as any)) return res.send(null);
+		if (!id || isNaN(id as any)) {
+			res.send(null);
+			return;
+		}
 		let websiteInfo = await db.transaction(async (transaction) => {
 			return await WebInformation.findOne({
 				transaction,
@@ -50,9 +53,9 @@ export const webinformation = async function (
 			});
 		});
 
-		return res.send(websiteInfo);
+		res.send(websiteInfo);
 	} catch (error: any) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get website information data",

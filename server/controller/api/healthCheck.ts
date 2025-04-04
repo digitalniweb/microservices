@@ -6,10 +6,10 @@ export const check = async function (
 	next: NextFunction
 ) {
 	try {
-		return res.send({
+		res.send({
 			name: process.env.MICROSERVICE_NAME,
 		});
 	} catch (error) {
-		return next({ error });
+		next({ error });
 	}
 };

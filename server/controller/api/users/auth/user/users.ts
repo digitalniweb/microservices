@@ -26,7 +26,7 @@ export const refreshtoken = async function (
 				transaction,
 			});
 		});
-		return res.send(user);
+		res.send(user);
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't get refresh token user." });
 	}
@@ -60,7 +60,7 @@ export const editUserProfile = async function (
 				);
 			await Promise.all(edits);
 		});
-		return res.send("User data were edited.");
+		res.send("User data were edited.");
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't edit user." });
 	}

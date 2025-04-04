@@ -37,11 +37,12 @@ const loginAntispam = function () {
 				// these are incorrect logins... these shouldn't be possible to execute via normal behaviour. Ignore these
 				// send fake "blocked" message
 				await sleep(); // default 1000ms
-				return next({
+				next({
 					type: "authentication",
 					code: 401,
 					message: "Login authentication has wrong information!",
 				});
+				return;
 			}
 			let order: Order = [
 				literal("`Blacklist`.`blockedTill` IS NULL DESC"),
@@ -64,7 +65,7 @@ const loginAntispam = function () {
 					},
 				});
 			if (blacklistedUser) {
-				return next({
+				next({
 					type: "authentication",
 					code: 401,
 					message: "Your account was blocked.",
@@ -73,6 +74,7 @@ const loginAntispam = function () {
 						reason: blacklistedUser.reason,
 					},
 				});
+				return;
 			}
 			let blacklistedIP: Array<InstanceType<typeof Blacklist>> | null =
 				await Blacklist.findAll({
@@ -95,7 +97,7 @@ const loginAntispam = function () {
 			);
 			if (thisRecord) {
 				// await sleep();
-				return next({
+				next({
 					type: "authentication",
 					code: 401,
 					message: "Your IP address was blocked.",
@@ -104,13 +106,14 @@ const loginAntispam = function () {
 						blockedTill: thisRecord.blockedTill,
 					},
 				});
+				return;
 			}
 			if (blacklistedIP.length >= limit) {
 				// if there is multiple black listed same IP records deny logging in to (unfortunately) all users / accounts on this IP
 				// if there was only 1 intruder on the same IP (and he was stupid enough he wouldn't pass the userAgent test, thus the amount of same IP address in blacklist wouldn't exceed the limit) don't punish all
 				// await sleep();
 
-				return next({
+				next({
 					type: "authentication",
 					code: 401,
 					message: "Your IP address was blocked",
@@ -119,6 +122,7 @@ const loginAntispam = function () {
 						reason: blacklistedIP[0].reason,
 					},
 				});
+				return;
 			}
 			let loginAttempt: loginAttempt = {
 				userLogin: loginInfo.email,
@@ -246,22 +250,25 @@ const loginAntispam = function () {
 					blockedTill,
 				});
 				// await sleep();
-				return next({
+				next({
 					type: "authentication",
 					code: 401,
-					message: `Your IP address was just blocked for ${daysToBanIP} day${
+					message: `IP address was just blocked for ${daysToBanIP} day${
 						daysToBanIP === 1 ? "" : "s"
 					} because of brute forcing logging in.`,
 					data: {
-						message: "IP address was banned",
-						daysToBanIP,
+						message: "Your IP address was banned",
+						messageTranslate: "LoginErrorIPBanned",
+						blockedTill: blockedTill,
 					},
 				});
+				return;
 			}
 			if (loginAttemptsCount >= bruteForceLoginAttempts - 2) {
 				return wrongLoginAttempt(req, next, loginAttempt, {
 					message:
 						"Another login attempts will cause IP address ban!",
+					messageTranslate: "LoginErrorNextAttemptIPBan",
 					loginAttemptsCount,
 					maxLoginAttempts,
 					blockedTill: timeSpanTooManyAttempts,
@@ -281,6 +288,7 @@ const loginAntispam = function () {
 			if (loginAttemptsCount >= maxLoginAttempts) {
 				return wrongLoginAttempt(req, next, loginAttempt, {
 					message: `Too many login attempts!`, //<br> You can't login for next ${timeSpanMinutes} minutes, wait and try to log in again after this time past.
+					messageTranslate: "LoginErrorTooManyAttempts",
 					loginAttemptsCount,
 					maxLoginAttempts,
 					timeSpanMinutes,
@@ -291,6 +299,7 @@ const loginAntispam = function () {
 			if (!existingUserId) {
 				return wrongLoginAttempt(req, next, loginAttempt, {
 					message: "Wrong login",
+					messageTranslate: "LoginErrorWrongLogin",
 					loginAttemptsCount,
 					maxLoginAttempts,
 				});
@@ -301,9 +310,9 @@ const loginAntispam = function () {
 				loginAttemptsCount,
 				maxLoginAttempts,
 			};
-			return next();
+			next();
 		} catch (error) {
-			return next({
+			next({
 				error,
 				code: 500,
 				message: "Error while logging in.",

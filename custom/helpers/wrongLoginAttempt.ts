@@ -3,26 +3,30 @@
 
 import { Request, NextFunction } from "express";
 import LoginLog from "../../server/models/users/loginLog.js";
+import {
+	loginAttempt,
+	wrongLoginError,
+} from "../../digitalniweb-types/index.js";
 
 export default async function wrongLoginAttempt(
 	req: Request,
 	next: NextFunction,
-	loginAttempt: any,
-	errorObject: any
+	loginAttempt: loginAttempt,
+	errorObject: wrongLoginError
 ) {
 	try {
-		loginAttempt.successful = 0;
+		loginAttempt.successful = false;
 
 		await LoginLog.create(loginAttempt);
 		// await sleep();
-		return next({
+		next({
 			type: "authentication",
 			code: 401,
 			message: errorObject.message,
 			data: { ...errorObject },
 		});
 	} catch (error) {
-		return next({
+		next({
 			type: "authentication",
 			error,
 			code: 401,

@@ -20,7 +20,10 @@ import { microserviceCall } from "../../../../digitalniweb-custom/helpers/remote
 import { UUID } from "node:crypto";
 
 export const getById = async function (req: Request, res: Response) {
-	if (!req.params.id) return res.send(null);
+	if (!req.params.id) {
+		res.send(null);
+		return;
+	}
 	const user = await User.findOne({
 		where: { id: req.params.id },
 		paranoid: true,
@@ -30,9 +33,12 @@ export const getById = async function (req: Request, res: Response) {
 			},
 		],
 	});
-	if (!user) return res.send(user);
+	if (!user) {
+		res.send(null);
+		return;
+	}
 
-	return res.send(await getStrippedUser(user));
+	res.send(await getStrippedUser(user));
 };
 export const authenticate = async function (
 	req: Request,
@@ -43,22 +49,18 @@ export const authenticate = async function (
 		const user = await userAuthenticate(req.body.email, req.body.password);
 
 		if (!user) {
-			return wrongLoginAttempt(
-				req,
-				next,
-				res.locals?.antispam?.loginAttempt,
-				{
-					message: "neplatné přihlášení",
-					loginAttemptsCount:
-						res.locals?.antispam?.loginAttemptsCount,
-					maxLoginAttempts: res.locals?.antispam?.maxLoginAttempts,
-				}
-			);
+			wrongLoginAttempt(req, next, res.locals?.antispam?.loginAttempt, {
+				message: "Wrong login",
+				messageTranslate: "LoginErrorWrongLogin",
+				loginAttemptsCount: res.locals?.antispam?.loginAttemptsCount,
+				maxLoginAttempts: res.locals?.antispam?.maxLoginAttempts,
+			});
+			return;
 		}
 
 		await LoginLog.create(res.locals?.antispam?.loginAttempt);
 
-		return res.send(await getStrippedUser(user));
+		res.send(await getStrippedUser(user));
 	} catch (error) {
 		next({ error, code: 500, message: "Couldn't authenticate user." });
 	}
@@ -143,7 +145,7 @@ export const register = async function (
 
 			return result;
 		});
-		return res.send({ message: "Registration complete" });
+		res.send({ message: "Registration complete" });
 	} catch (error: any) {
 		// when validation or uniqueness in DB is broken
 		// let errors = error.errors.reduce((accumulator, currentObject) => {

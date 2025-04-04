@@ -19,9 +19,9 @@ export const getRolesList = async function (
 			});
 		});
 
-		return res.send(roles);
+		res.send(roles);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get roles list.",
@@ -50,9 +50,9 @@ export const getRolesByIds = async function (
 			});
 		});
 
-		return res.send(roles);
+		res.send(roles);
 	} catch (error) {
-		return next({
+		next({
 			error,
 			code: 500,
 			message: "Couldn't get roles list.",

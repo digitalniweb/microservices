@@ -26,9 +26,9 @@ export const test = async function (
 		}
 		returnValue.setV = redisSet;
 
-		return res.send(returnValue); */
-		return res.send("ok");
+		res.send(returnValue); */
+		res.send("ok");
 	} catch (error) {
-		return next({ error });
+		next({ error });
 	}
 };
