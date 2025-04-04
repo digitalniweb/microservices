@@ -4,7 +4,6 @@ import Microservice from "../../models/globalData/microservice.js";
 import { Microservice as MicroserviceType } from "../../../digitalniweb-types/models/globalData.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-import ServiceRegistry from "../../models/globalData/serviceRegistry.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {

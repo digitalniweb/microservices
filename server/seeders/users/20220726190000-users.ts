@@ -1,12 +1,9 @@
-import { QueryInterface, CreationAttributes, IncludeOptions } from "sequelize";
+import { QueryInterface, CreationAttributes } from "sequelize";
 
 // import { Role as RoleType } from "../../digitalniweb-types/server/models/db.js";
 // import Role from "../../models/globalData/role.js";
 
-import {
-	Tenant as TenantType,
-	User as UserType,
-} from "../../../digitalniweb-types/models/users.js";
+import { User as UserType } from "../../../digitalniweb-types/models/users.js";
 
 // import Tenant from "../../models/users/tenant.js";
 import User from "../../models/users/user.js";
@@ -158,10 +155,26 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(Tenant.tableName, {}, {});
-				await queryInterface.bulkDelete(Blacklist.tableName, {}, {});
-				await queryInterface.bulkDelete(LoginLog.tableName, {}, {});
-				await queryInterface.bulkDelete(User.tableName, {}, {});
+				await queryInterface.bulkDelete(
+					Tenant.tableName,
+					{},
+					{ transaction }
+				);
+				await queryInterface.bulkDelete(
+					Blacklist.tableName,
+					{},
+					{ transaction }
+				);
+				await queryInterface.bulkDelete(
+					LoginLog.tableName,
+					{},
+					{ transaction }
+				);
+				await queryInterface.bulkDelete(
+					User.tableName,
+					{},
+					{ transaction }
+				);
 			} catch (error) {
 				console.log(error);
 			}

@@ -40,7 +40,6 @@ const checkAuthorization = function (
 				throw "";
 			}
 			next();
-			return;
 		} catch (error) {
 			next({
 				error,

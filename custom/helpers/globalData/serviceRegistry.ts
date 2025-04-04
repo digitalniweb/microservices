@@ -7,7 +7,6 @@ import {
 	microserviceRegistryInfo,
 } from "../../../digitalniweb-types/customFunctions/globalData.js";
 import ServiceRegistry from "../../../server/models/globalData/serviceRegistry.js";
-import { microservices } from "../../../digitalniweb-types/index.js";
 import { log } from "../../../digitalniweb-custom/helpers/logger.js";
 import { getServiceRegistryServices as getServiceRegistryServicesType } from "../../../digitalniweb-types/custom/helpers/globalData/serviceRegistry.js";
 import {

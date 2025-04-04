@@ -24,9 +24,12 @@ export const registerAdmin = async function (
 			if (nickname !== undefined) insertData.nickname = nickname;
 
 			insertData.role = role;
-			return await User.create({
-				...insertData,
-			});
+			return await User.create(
+				{
+					...insertData,
+				},
+				{ transaction }
+			);
 		});
 		res.send({ message: "Registration complete" });
 	} catch (error: any) {

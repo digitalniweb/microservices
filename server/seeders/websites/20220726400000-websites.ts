@@ -1,8 +1,7 @@
 import { QueryInterface } from "sequelize";
-import { randomString } from "../../../digitalniweb-custom/functions/randomGenerator.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
-import App from "../../models/globalData/app.js";
+// import App from "../../models/globalData/app.js";
 import Website from "../../models/websites/website.js";
 const microservice: Array<microservices> = ["websites"];
 
@@ -14,11 +13,9 @@ export default {
 			)
 		)
 			return;
-		await queryInterface.sequelize.transaction(async (transaction) => {
+		await queryInterface.sequelize.transaction(async () => {
 			try {
-				return;
 				// a lot of this doesn't work
-
 				/* let digitalniwebWebsite = await Website.create({
 					active: true,
 					testingMode: false,

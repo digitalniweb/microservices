@@ -1,5 +1,5 @@
 import User from "../models/users/user.js";
-import UAParser, { IResult } from "ua-parser-js";
+import UAParser from "ua-parser-js";
 import validator from "validator";
 import { Op, literal, Order } from "sequelize";
 import { Response, NextFunction, Request } from "express";

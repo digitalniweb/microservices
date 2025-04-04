@@ -1,18 +1,17 @@
 import { QueryInterface } from "sequelize";
 
-import Language from "../../models/globalData/language.js";
 import AppType from "../../models/globalData/appType.js";
 
 import { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {
-	up: async (queryInterface: QueryInterface): Promise<void> => {
+	up: async (): Promise<void> => {
 		return;
-		let saasHostType = await AppType.create({
+		await AppType.create({
 			name: "saas-host",
 		});
-		let saasTenantType = await AppType.create({
+		await AppType.create({
 			name: "saas-tenant",
 		});
 	},
