@@ -4,11 +4,11 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { AdminMenuLanguage } from "../../../digitalniweb-types/models/globalData.js";
+import type { AdminMenuLanguage as AdminMenuLanguageType } from "../../../digitalniweb-types/models/globalData.js";
 import Language from "./language.js";
 import AdminMenu from "./adminMenu.js";
 
-const AdminMenuLanguage = db.define<AdminMenuLanguage>(
+const AdminMenuLanguage = db.define<AdminMenuLanguageType>(
 	"AdminMenuLanguage",
 	{
 		id: {

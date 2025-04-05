@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { Options } from "sequelize";
+import type { Options } from "sequelize";
 
 import configDB from "./../config/config.js";
 import loadModels from "../../digitalniweb-custom/helpers/loadModels.js";

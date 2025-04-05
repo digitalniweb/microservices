@@ -1,6 +1,6 @@
 import validator from "validator";
-import { Response, NextFunction, Request } from "express";
-// import { CustomRequest } from "./../../digitalniweb-types/express";
+import type { Request, Response, NextFunction } from "express";
+// import type { CustomRequest } from "./../../digitalniweb-types/express";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
 	try {

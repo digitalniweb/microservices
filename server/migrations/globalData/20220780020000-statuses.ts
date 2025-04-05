@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Status from "../../models/globalData/status.js";
-import { Status as StatusType } from "../../../digitalniweb-types/models/globalData.js";
+import type { Status as StatusType } from "../../../digitalniweb-types/models/globalData.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["billings"];
 
 export default {

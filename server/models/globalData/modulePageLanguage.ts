@@ -4,11 +4,11 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { ModulePageLanguage } from "../../../digitalniweb-types/models/globalData.js";
+import type { ModulePageLanguage as ModulePageLanguageType } from "../../../digitalniweb-types/models/globalData.js";
 import Language from "./language.js";
 import ModulePage from "./modulePage.js";
 
-const ModulePageLanguage = db.define<ModulePageLanguage>(
+const ModulePageLanguage = db.define<ModulePageLanguageType>(
 	"ModulePageLanguage",
 	{
 		id: {

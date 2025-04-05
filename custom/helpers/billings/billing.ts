@@ -1,13 +1,14 @@
 import { getDaysInMonth } from "../../../digitalniweb-custom/functions/dateFunctions";
-import { WhereOptions, Op } from "sequelize";
-import Module from "../../../server/models/globalData/module.js";
-import WebsiteModule from "../../../server/models/websites/websiteModule.js";
+import { Op } from "sequelize";
+import type { WhereOptions } from "sequelize";
+// import Module from "../../../server/models/globalData/module.js";
+// import WebsiteModule from "../../../server/models/websites/websiteModule.js";
 
-import { WebsiteModule as WebsiteModuleType } from "../../../digitalniweb-types/models/websites.js";
+import type { WebsiteModule as WebsiteModuleType } from "../../../digitalniweb-types/models/websites.js";
 
 async function billingModules() {
-	let offset = 0;
-	let limit = 50;
+	// let offset = 0;
+	// let limit = 50;
 	let today = new Date();
 	let todayDay = today.getDate();
 	let thisMonthDaysCount = getDaysInMonth(today);

@@ -4,10 +4,10 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { CreditBalanceModule } from "../../../digitalniweb-types/models/billings.js";
+import type { CreditBalanceModule as CreditBalanceModuleType } from "../../../digitalniweb-types/models/billings.js";
 import CreditBalanceLog from "./creditBalanceLog.js";
 
-const CreditBalanceModule = db.define<CreditBalanceModule>(
+const CreditBalanceModule = db.define<CreditBalanceModuleType>(
 	"CreditBalanceModule",
 	{
 		id: {

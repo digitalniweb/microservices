@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import {
 	getMainServiceRegistry,
 	getServiceRegistryServices,
 } from "../../../../custom/helpers/globalData/serviceRegistry.js";
 import { microservicesArray } from "../../../../digitalniweb-custom/variables/microservices.js";
-import { microservices } from "../../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../../digitalniweb-types/index.js";
 import { registerService } from "../../../../custom/helpers/globalData/serviceRegistry.js";
 import ServiceRegistry from "../../../models/globalData/serviceRegistry.js";
 

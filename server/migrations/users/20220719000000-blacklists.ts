@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Blacklist from "./../../models/users/blacklist.js";
-import { Blacklist as BlacklistType } from "./../../../digitalniweb-types/models/users.js";
+import type { Blacklist as BlacklistType } from "./../../../digitalniweb-types/models/users.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];
 
 export default {

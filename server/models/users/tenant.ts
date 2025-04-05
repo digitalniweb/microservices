@@ -5,9 +5,9 @@ import { DataTypes } from "sequelize";
 
 import db from "./../index.js";
 
-import { Tenant } from "../../../digitalniweb-types/models/users.js";
+import type { Tenant as TenantType } from "../../../digitalniweb-types/models/users.js";
 
-const Tenant = db.define<Tenant>(
+const Tenant = db.define<TenantType>(
 	"Tenant",
 	{
 		id: {

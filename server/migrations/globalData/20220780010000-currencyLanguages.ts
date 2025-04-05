@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import CurrencyLanguage from "../../models/globalData/currencyLanguage.js";
-import { CurrencyLanguage as CurrencyLanguageType } from "../../../digitalniweb-types/models/globalData.js";
+import type { CurrencyLanguage as CurrencyLanguageType } from "../../../digitalniweb-types/models/globalData.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 import Currency from "../../models/globalData/currency.js";
 import Language from "../../models/globalData/language.js";
 const microservice: Array<microservices> = ["globalData"];

@@ -1,8 +1,9 @@
 import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
-import { CreationAttributes, Op, Transaction, WhereOperators } from "sequelize";
-import { Request, Response, NextFunction } from "express";
+import { Op, Transaction } from "sequelize";
+import type { CreationAttributes, WhereOperators } from "sequelize";
+import type { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
-import { Website as WebsiteType } from "../../../../digitalniweb-types/models/websites.js";
+import type { Website as WebsiteType } from "../../../../digitalniweb-types/models/websites.js";
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
 import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helpers/serviceRegistryCache.js";

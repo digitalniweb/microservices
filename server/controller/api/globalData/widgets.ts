@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
 
 import Widget from "../../../models/globalData/widget.js";
@@ -6,7 +6,7 @@ import {
 	getRequestGlobalDataModelArray,
 	getRequestGlobalDataModelList,
 } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
-import { modules } from "../../../../digitalniweb-types/functionality/modules.js";
+import type { modules } from "../../../../digitalniweb-types/functionality/modules.js";
 import Module from "../../../models/globalData/module.js";
 
 export const getModuleWidgetsIds = async function (

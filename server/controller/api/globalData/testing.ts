@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { log } from "../../../../digitalniweb-custom/helpers/logger.js";
 
 // https://github.com/luin/ioredis/blob/HEAD/examples/ttl.js

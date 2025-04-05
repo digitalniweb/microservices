@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Language } from "../../../digitalniweb-types/models/globalData.js";
+import type { Language as LanguageType } from "../../../digitalniweb-types/models/globalData.js";
 
-const Language = db.define<Language>(
+const Language = db.define<LanguageType>(
 	"Language",
 	{
 		id: {

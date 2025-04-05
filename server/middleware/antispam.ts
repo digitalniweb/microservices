@@ -1,15 +1,16 @@
 import User from "../models/users/user.js";
-import UAParser, { IResult } from "ua-parser-js";
+import UAParser from "ua-parser-js";
 import validator from "validator";
-import { Op, literal, Order } from "sequelize";
-import { Response, NextFunction, Request } from "express";
+import { Op, literal } from "sequelize";
+import type { Order } from "sequelize";
+import type { Request, Response, NextFunction } from "express";
 
-import {
+import type {
 	loginAttempt,
 	loginInformation,
 } from "../../digitalniweb-types/index.js";
 
-import sleep from "../../digitalniweb-custom/functions/sleep.js";
+// import sleep from "../../digitalniweb-custom/functions/sleep.js";
 import LoginLog from "../models/users/loginLog.js";
 import Blacklist from "../models/users/blacklist.js";
 
@@ -31,18 +32,25 @@ const loginAntispam = function () {
 				!userAgent.os.name ||
 				!loginInfo.ua ||
 				userAgent.ua != loginInfo.ua ||
-				req.ip === "" ||
-				req.ip === undefined
+				!req.ip
 			) {
 				// these are incorrect logins... these shouldn't be possible to execute via normal behaviour. Ignore these
-				// send fake "blocked" message
-				await sleep(); // default 1000ms
+				// await sleep(); // default 1000ms
 				next({
 					type: "authentication",
 					code: 401,
 					message: "Login authentication has wrong information!",
 				});
 				return;
+				// wrongLoginAttempt(req, next, loginAttempt, {
+				// 	message:
+				// 		"Another login attempts will cause IP address ban!",
+				// 	messageTranslate: "LoginErrorNextAttemptIPBan",
+				// 	loginAttemptsCount,
+				// 	maxLoginAttempts,
+				// 	blockedTill: timeSpanTooManyAttempts,
+				// });
+				// return;
 			}
 			let order: Order = [
 				literal("`Blacklist`.`blockedTill` IS NULL DESC"),
@@ -265,7 +273,7 @@ const loginAntispam = function () {
 				return;
 			}
 			if (loginAttemptsCount >= bruteForceLoginAttempts - 2) {
-				return wrongLoginAttempt(req, next, loginAttempt, {
+				wrongLoginAttempt(req, next, loginAttempt, {
 					message:
 						"Another login attempts will cause IP address ban!",
 					messageTranslate: "LoginErrorNextAttemptIPBan",
@@ -273,6 +281,7 @@ const loginAntispam = function () {
 					maxLoginAttempts,
 					blockedTill: timeSpanTooManyAttempts,
 				});
+				return;
 			}
 
 			let existingUserId = await User.findOne({
@@ -286,7 +295,7 @@ const loginAntispam = function () {
 			if (existingUserId) loginAttempt.UserId = existingUserId.id;
 
 			if (loginAttemptsCount >= maxLoginAttempts) {
-				return wrongLoginAttempt(req, next, loginAttempt, {
+				wrongLoginAttempt(req, next, loginAttempt, {
 					message: `Too many login attempts!`, //<br> You can't login for next ${timeSpanMinutes} minutes, wait and try to log in again after this time past.
 					messageTranslate: "LoginErrorTooManyAttempts",
 					loginAttemptsCount,
@@ -294,15 +303,17 @@ const loginAntispam = function () {
 					timeSpanMinutes,
 					blockedTill: timeSpanTooManyAttempts,
 				});
+				return;
 			}
 
 			if (!existingUserId) {
-				return wrongLoginAttempt(req, next, loginAttempt, {
+				wrongLoginAttempt(req, next, loginAttempt, {
 					message: "Wrong login",
 					messageTranslate: "LoginErrorWrongLogin",
 					loginAttemptsCount,
 					maxLoginAttempts,
 				});
+				return;
 			}
 
 			res.locals.antispam = {

@@ -1,10 +1,11 @@
-import { QueryInterface, CreationAttributes } from "sequelize";
+import { QueryInterface } from "sequelize";
+import type { CreationAttributes } from "sequelize";
 
-import { Action as ActionType } from "../../../digitalniweb-types/models/globalData.js";
+import type { Action as ActionType } from "../../../digitalniweb-types/models/globalData.js";
 
 import Action from "../../models/globalData/action.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {

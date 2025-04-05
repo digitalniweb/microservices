@@ -1,8 +1,8 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { AdminMenu as AdminMenuType } from "../../../digitalniweb-types/models/globalData";
+import type { AdminMenu as AdminMenuType } from "../../../digitalniweb-types/models/globalData";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 import AdminMenu from "../../models/globalData/adminMenu.js";
 import Role from "../../models/globalData/role";
 

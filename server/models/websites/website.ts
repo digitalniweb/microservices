@@ -4,13 +4,13 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Website } from "../../../digitalniweb-types/models/websites.js";
+import type { Website as WebsiteType } from "../../../digitalniweb-types/models/websites.js";
 
 import Url from "./url.js";
 import WebsiteLanguageMutation from "./websiteLanguageMutation.js";
 import WebsiteModule from "./websiteModule.js";
 
-const Website = db.define<Website>(
+const Website = db.define<WebsiteType>(
 	"Website",
 	{
 		id: {
@@ -72,18 +72,18 @@ const Website = db.define<Website>(
 /**
  * beforeCreate hooks are applied after model validation, that is why I need to use beforeValidate hook.
  */
-Website.addHook("beforeValidate", "createUUID", (website: Website) => {
+Website.addHook("beforeValidate", "createUUID", (website: WebsiteType) => {
 	if (!website.uuid) website.uuid = crypto.randomUUID();
 });
 
-Website.addHook("afterFind", "addwebsitesMsId", (website: Website) => {
+Website.addHook("afterFind", "addwebsitesMsId", (website: WebsiteType) => {
 	if (website) website.websitesMsId = Number(process.env.MICROSERVICE_ID);
 });
 
 Website.addHook(
 	"afterUpdate",
 	"createUrlAddAlias",
-	async (website: Website, options) => {
+	async (website: WebsiteType, options) => {
 		let changed = website.changed(); // array of changed properties
 
 		if (changed && !changed.includes("MainUrlId")) return;

@@ -1,7 +1,7 @@
 import { QueryInterface } from "sequelize";
 import { randomString } from "../../../digitalniweb-custom/functions/randomGenerator.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 import App from "../../models/globalData/app.js";
 import Website from "../../models/websites/website.js";
 const microservice: Array<microservices> = ["websites"];

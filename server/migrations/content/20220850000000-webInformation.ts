@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import WebInformation from "../../models/content/webInformation.js";
-import { WebInformation as WebInformationType } from "../../../digitalniweb-types/models/content.js";
+import type { WebInformation as WebInformationType } from "../../../digitalniweb-types/models/content.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["content"];
 
 export default {

@@ -2,7 +2,7 @@ import { hashString } from "../../../digitalniweb-custom/functions/hashString.js
 import User from "../../../server/models/users/user.js";
 import UserModule from "../../../server/models/users/userModule.js";
 import { log } from "../../../digitalniweb-custom/helpers/logger.js";
-import { commonError } from "../../../digitalniweb-types/customHelpers/logger.js";
+import type { commonError } from "../../../digitalniweb-types/customHelpers/logger.js";
 
 /**
  * You need to decide in calling method what to do with all the information including password etc.

@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Status } from "../../../digitalniweb-types/models/globalData.js";
+import type { Status as StatusType } from "../../../digitalniweb-types/models/globalData.js";
 
-const Status = db.define<Status>(
+const Status = db.define<StatusType>(
 	"Status",
 	{
 		id: {

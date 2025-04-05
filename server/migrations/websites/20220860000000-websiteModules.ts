@@ -1,8 +1,8 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { WebsiteModule as WebsiteModuleType } from "../../../digitalniweb-types/models/websites.js";
+import type { WebsiteModule as WebsiteModuleType } from "../../../digitalniweb-types/models/websites.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 import Website from "../../models/websites/website.js";
 import WebsiteModule from "../../models/websites/websiteModule.js";
 

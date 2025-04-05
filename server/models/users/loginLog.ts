@@ -8,9 +8,9 @@ import db from "../index.js";
 
 import User from "./user.js";
 
-import { LoginLog } from "../../../digitalniweb-types/models/users.js";
+import type { LoginLog as LoginLogType } from "../../../digitalniweb-types/models/users.js";
 
-const LoginLog = db.define<LoginLog>(
+const LoginLog = db.define<LoginLogType>(
 	"LoginLog",
 	{
 		id: {

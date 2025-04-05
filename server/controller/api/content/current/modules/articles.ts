@@ -1,16 +1,18 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import db from "../../../../../models/index.js";
 import Article from "../../../../../models/content/article.js";
+import type { Article as ArticleType } from "../../../../../../digitalniweb-types/models/content.js";
 import WidgetContent from "../../../../../models/content/widgetContent.js";
-import {
+import type { WidgetContent as WidgetContentType } from "../../../../../../digitalniweb-types/models/content.js";
+import type {
 	deleteArticleRequestBody,
 	editArticleRequestBody,
 	getArticleQuery,
 	orderDataObject,
 	saveNewArticleRequestBody,
 } from "../../../../../../digitalniweb-types/apps/communication/modules/articles.js";
-import { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
-import { moduleResponse } from "../../../../../../digitalniweb-types/apps/communication/modules/index.js";
+import type { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
+import type { moduleResponse } from "../../../../../../digitalniweb-types/apps/communication/modules/index.js";
 import { Op } from "sequelize";
 export const getArticle = async function (
 	req: Request,
@@ -22,7 +24,7 @@ export const getArticle = async function (
 		if (typeof resourceIds === "string")
 			resourceIds = JSON.parse(resourceIds) as resourceIdsType;
 
-		let response = {} as moduleResponse<Article>;
+		let response = {} as moduleResponse<ArticleType>;
 
 		let article = await db.transaction(async (transaction) => {
 			return await Article.findOne({
@@ -80,11 +82,11 @@ export const createArticle = async function (
 			return;
 		}
 		let response = await db.transaction(async (transaction) => {
-			let moduleResponse = {} as moduleResponse<Article>;
+			let moduleResponse = {} as moduleResponse<ArticleType>;
 			let article = await Article.create(query.menu.data, {
 				transaction,
 			});
-			let widgetContents = [] as WidgetContent[];
+			let widgetContents = [] as WidgetContentType[];
 			if (query.widgetContent?.newWCs?.length) {
 				await WidgetContent.bulkCreate(
 					query.widgetContent?.newWCs.map((wc) => ({
@@ -144,7 +146,7 @@ export const editArticle = async function (
 		let data = req.body;
 
 		let response = await db.transaction(async (transaction) => {
-			let moduleResponse = {} as moduleResponse<Article>;
+			let moduleResponse = {} as moduleResponse<ArticleType>;
 			let article = await Article.findOne({
 				where: { id: data.menu.id },
 				transaction,

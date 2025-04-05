@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { RoleType } from "../../../digitalniweb-types/models/globalData.js";
+import type { RoleType as RoleTypeType } from "../../../digitalniweb-types/models/globalData.js";
 
-const RoleType = db.define<RoleType>(
+const RoleType = db.define<RoleTypeType>(
 	"RoleType",
 	{
 		id: {

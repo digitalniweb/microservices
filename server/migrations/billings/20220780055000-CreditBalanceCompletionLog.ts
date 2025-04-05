@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import CreditBalanceCompletionLog from "../../models/billings/creditBalanceCompletionLog.js";
-import { CreditBalanceCompletionLog as CreditBalanceCompletionLogType } from "../../../digitalniweb-types/models/billings.js";
+import type { CreditBalanceCompletionLog as CreditBalanceCompletionLogType } from "../../../digitalniweb-types/models/billings.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["billings"];
 
 export default {

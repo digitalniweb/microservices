@@ -2,7 +2,7 @@ import { QueryInterface } from "sequelize";
 
 import CreditBalanceType from "../../models/billings/creditBalanceType.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["billings"];
 
 export default {

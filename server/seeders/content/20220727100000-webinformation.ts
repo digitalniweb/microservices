@@ -2,8 +2,9 @@ import { QueryInterface } from "sequelize";
 
 import WebInformation from "../../models/content/webInformation.js";
 import WebInformationLanguage from "../../models/content/webInformationLanguage.js";
+import type { WebInformationLanguage as WebInformationLanguageType } from "../../../digitalniweb-types/models/content.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["content"];
 
 export default {
@@ -36,7 +37,7 @@ export default {
 							{
 								languageId: 1,
 								name: "Digitální web",
-							} as WebInformationLanguage,
+							} as WebInformationLanguageType,
 						],
 					},
 					{

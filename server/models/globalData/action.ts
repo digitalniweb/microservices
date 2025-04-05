@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Action } from "../../../digitalniweb-types/models/globalData.js";
+import type { Action as ActionType } from "../../../digitalniweb-types/models/globalData.js";
 
-const Action = db.define<Action>(
+const Action = db.define<ActionType>(
 	"Action",
 	{
 		id: {

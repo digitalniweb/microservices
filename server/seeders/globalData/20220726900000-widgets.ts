@@ -1,6 +1,6 @@
 import { QueryInterface } from "sequelize";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 // import Website from "../../models/globalData/website.js";
 import Widget from "../../models/globalData/widget.js";
 import Module from "../../models/globalData/module.js";

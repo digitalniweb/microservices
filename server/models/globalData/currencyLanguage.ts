@@ -4,11 +4,11 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { CurrencyLanguage } from "../../../digitalniweb-types/models/globalData.js";
+import type { CurrencyLanguage as CurrencyLanguageType } from "../../../digitalniweb-types/models/globalData.js";
 import Currency from "./currency.js";
 import Language from "./language.js";
 
-const CurrencyLanguage = db.define<CurrencyLanguage>(
+const CurrencyLanguage = db.define<CurrencyLanguageType>(
 	"CurrencyLanguage",
 	{
 		id: {

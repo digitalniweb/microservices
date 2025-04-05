@@ -4,10 +4,10 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { WebInformationLanguage } from "../../../digitalniweb-types/models/content.js";
+import type { WebInformationLanguage as WebInformationLanguageType } from "../../../digitalniweb-types/models/content.js";
 import WebInformation from "./webInformation.js";
 
-const WebInformationLanguage = db.define<WebInformationLanguage>(
+const WebInformationLanguage = db.define<WebInformationLanguageType>(
 	"WebInformationLanguage",
 	{
 		id: {

@@ -3,9 +3,9 @@ import { QueryInterface, DataTypes } from "sequelize";
 import UserModule from "./../../models/users/userModule.js";
 import User from "./../../models/users/user.js";
 
-import { UserModule as UserModuleType } from "./../../../digitalniweb-types/models/users.js";
+import type { UserModule as UserModuleType } from "./../../../digitalniweb-types/models/users.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];
 
 export default {

@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { WebsiteLanguageMutation } from "../../../digitalniweb-types/models/websites.js";
+import type { WebsiteLanguageMutation as WebsiteLanguageMutationType } from "../../../digitalniweb-types/models/websites.js";
 
-const WebsiteLanguageMutation = db.define<WebsiteLanguageMutation>(
+const WebsiteLanguageMutation = db.define<WebsiteLanguageMutationType>(
 	"WebsiteLanguageMutation",
 	{
 		id: {

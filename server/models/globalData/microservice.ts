@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Microservice } from "../../../digitalniweb-types/models/globalData.js";
+import type { Microservice as MicroserviceType } from "../../../digitalniweb-types/models/globalData.js";
 
-const Microservice = db.define<Microservice>(
+const Microservice = db.define<MicroserviceType>(
 	"Microservice",
 	{
 		id: {

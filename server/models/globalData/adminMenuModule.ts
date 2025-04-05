@@ -4,11 +4,11 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { AdminMenuModule } from "../../../digitalniweb-types/models/globalData.js";
+import type { AdminMenuModule as AdminMenuModuleType } from "../../../digitalniweb-types/models/globalData.js";
 import Module from "./module.js";
 import AdminMenu from "./adminMenu.js";
 
-const AdminMenuModule = db.define<AdminMenuModule>(
+const AdminMenuModule = db.define<AdminMenuModuleType>(
 	"AdminMenuModule",
 	{
 		id: {

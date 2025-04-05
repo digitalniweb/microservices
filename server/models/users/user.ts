@@ -7,14 +7,14 @@ import { randomString } from "./../../../digitalniweb-custom/functions/randomGen
 
 import db from "./../index.js";
 
-import { User } from "../../../digitalniweb-types/models/users.js";
+import type { User as UserType } from "../../../digitalniweb-types/models/users.js";
 
 import Tenant from "./tenant.js";
 import { hashString } from "../../../digitalniweb-custom/functions/hashString.js";
 import UserPrivilege from "./userPrivilege.js";
 import UserModule from "./userModule.js";
 
-const User = db.define<User>(
+const User = db.define<UserType>(
 	"User",
 	{
 		id: {
@@ -77,11 +77,11 @@ const User = db.define<User>(
 		paranoid: true, // deletedAt
 	}
 );
-User.beforeValidate((user: User) => {
+User.beforeValidate((user: UserType) => {
 	if (!user.refreshTokenSalt) user.refreshTokenSalt = randomString(20);
 });
 
-User.beforeCreate((user: User) => {
+User.beforeCreate((user: UserType) => {
 	user.password = hashUserPassword(user.password + user.email); // add a layer of security so the same passwords are not the same strings
 	user.refreshTokenSalt = createRefreshTokenSalt();
 });
@@ -109,7 +109,7 @@ function createRefreshTokenSalt() {
 /**
  * beforeCreate hooks are applied after model validation, that is why I need to use beforeValidate hook.
  */
-User.addHook("beforeValidate", "createUUID", async (user: User) => {
+User.addHook("beforeValidate", "createUUID", async (user: UserType) => {
 	if (!user.uuid) user.uuid = crypto.randomUUID();
 });
 

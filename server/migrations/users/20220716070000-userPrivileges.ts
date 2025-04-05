@@ -3,9 +3,9 @@ import { QueryInterface, DataTypes } from "sequelize";
 import UserPrivilege from "./../../models/users/userPrivilege.js";
 import User from "./../../models/users/user.js";
 
-import { UserPrivilege as UserPrivilegeType } from "./../../../digitalniweb-types/models/users.js";
+import type { UserPrivilege as UserPrivilegeType } from "./../../../digitalniweb-types/models/users.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];
 
 export default {

@@ -3,9 +3,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { User } from "../../../digitalniweb-types/models/emails.js";
+import type { User as UserType } from "../../../digitalniweb-types/models/emails.js";
 
-const User = db.define<User>(
+const User = db.define<UserType>(
 	"User",
 	{
 		id: {

@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Article } from "../../../digitalniweb-types/models/content.js";
+import type { Article as ArticleType } from "../../../digitalniweb-types/models/content.js";
 
-const Article = db.define<Article>(
+const Article = db.define<ArticleType>(
 	"Article",
 	{
 		id: {

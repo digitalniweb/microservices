@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import ModulePageLanguage from "../../models/globalData/modulePageLanguage.js";
-import { ModulePageLanguage as ModulePageLanguageType } from "../../../digitalniweb-types/models/globalData.js";
+import type { ModulePageLanguage as ModulePageLanguageType } from "../../../digitalniweb-types/models/globalData.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 import Language from "../../models/globalData/language.js";
 import ModulePage from "../../models/globalData/modulePage.js";
 const microservice: Array<microservices> = ["globalData"];

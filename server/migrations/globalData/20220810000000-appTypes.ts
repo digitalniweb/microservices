@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import AppType from "../../models/globalData/appType.js";
-import { AppType as AppTypeType } from "../../../digitalniweb-types/models/globalData.js";
+import type { AppType as AppTypeType } from "../../../digitalniweb-types/models/globalData.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {

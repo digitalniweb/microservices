@@ -1,4 +1,5 @@
-import express, { Express, ErrorRequestHandler } from "express";
+import express from "express";
+import type { Express, ErrorRequestHandler } from "express";
 
 import languageSetter from "./middleware/language-setter.js";
 
@@ -7,7 +8,7 @@ import { log } from "./../digitalniweb-custom/helpers/logger.js";
 import apiRoutes from "./api/index.js";
 
 import serverInit from "./serverInit/index.js";
-import { customLogObject } from "../digitalniweb-types/customHelpers/logger.js";
+import type { customLogObject } from "../digitalniweb-types/customHelpers/logger.js";
 
 try {
 	await serverInit();

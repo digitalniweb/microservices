@@ -4,20 +4,20 @@ import User from "../../../models/users/user.js";
 import LoginLog from "../../../models/users/loginLog.js";
 
 import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt.js";
-import { Request, Response, NextFunction } from "express";
-import { CreationAttributes } from "sequelize";
+import type { Request, Response, NextFunction } from "express";
+import type { CreationAttributes } from "sequelize";
 
-import { User as UserType } from "../../../../digitalniweb-types/models/users.js";
+import type { User as UserType } from "../../../../digitalniweb-types/models/users.js";
 
 import { userAuthenticate } from "../../../../custom/helpers/users/userAuthenticate.js";
-import {
+import type {
 	userAuthorizationNames,
 	userRoles,
 } from "../../../../digitalniweb-types/authorization/index.js";
 import UserModule from "../../../models/users/userModule.js";
 import { getGlobalDataList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import { microserviceCall } from "../../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
-import { UUID } from "node:crypto";
+import type { UUID } from "node:crypto";
 
 export const getById = async function (req: Request, res: Response) {
 	if (!req.params.id) {

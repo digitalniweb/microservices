@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { WebInformation } from "../../../digitalniweb-types/models/content.js";
+import type { WebInformation as WebInformationType } from "../../../digitalniweb-types/models/content.js";
 
-const WebInformation = db.define<WebInformation>(
+const WebInformation = db.define<WebInformationType>(
 	"WebInformation",
 	{
 		id: {

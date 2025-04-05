@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Module } from "../../../digitalniweb-types/models/globalData.js";
+import type { Module as ModuleType } from "../../../digitalniweb-types/models/globalData.js";
 
-const Module = db.define<Module>(
+const Module = db.define<ModuleType>(
 	"Module",
 	{
 		id: {

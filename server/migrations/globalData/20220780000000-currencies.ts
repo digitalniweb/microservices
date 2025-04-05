@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Currency from "../../models/globalData/currency.js";
-import { Currency as CurrencyType } from "../../../digitalniweb-types/models/globalData.js";
+import type { Currency as CurrencyType } from "../../../digitalniweb-types/models/globalData.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {

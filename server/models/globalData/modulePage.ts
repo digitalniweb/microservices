@@ -4,10 +4,10 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { ModulePage } from "../../../digitalniweb-types/models/globalData.js";
+import type { ModulePage as ModulePageType } from "../../../digitalniweb-types/models/globalData.js";
 import Module from "./module.js";
 
-const ModulePage = db.define<ModulePage>(
+const ModulePage = db.define<ModulePageType>(
 	"ModulePage",
 	{
 		id: {

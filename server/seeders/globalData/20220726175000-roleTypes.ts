@@ -1,10 +1,11 @@
-import { QueryInterface, CreationAttributes } from "sequelize";
+import { QueryInterface } from "sequelize";
+import type { CreationAttributes } from "sequelize";
 
-import { RoleType as RoleTypeType } from "../../../digitalniweb-types/models/globalData.js";
+import type { RoleType as RoleTypeType } from "../../../digitalniweb-types/models/globalData.js";
 
 import RoleType from "../../models/globalData/roleType.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {

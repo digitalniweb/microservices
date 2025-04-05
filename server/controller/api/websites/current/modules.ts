@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { Op, col, fn } from "sequelize";
 import WebsiteModule from "../../../../models/websites/websiteModule.js";
 import WebsiteLanguageMutation from "../../../../models/websites/websiteLanguageMutation.js";

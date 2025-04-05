@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 // import Privilege from "../../../models/globalData/action.js";
 // import Role from "../../../models/globalData/role.js";
 
@@ -9,7 +9,7 @@ import { Request, Response, NextFunction } from "express";
 
 // import db from "../../../models/index.js";
 // import { WhereOptions } from "sequelize";
-// import { authorizationListType } from "../../../../digitalniweb-types/authorization/index.js";
+// import type { authorizationListType } from "../../../../digitalniweb-types/authorization/index.js";
 
 export const allList = async function (
 	req: Request,

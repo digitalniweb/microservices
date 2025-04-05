@@ -1,8 +1,8 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { AdminMenuModule as AdminMenuModuleType } from "../../../digitalniweb-types/models/globalData";
+import type { AdminMenuModule as AdminMenuModuleType } from "../../../digitalniweb-types/models/globalData";
 
-import { microservices } from "../../../digitalniweb-types/index";
+import type { microservices } from "../../../digitalniweb-types/index";
 import AdminMenuModule from "../../models/globalData/adminMenuModule";
 import AdminMenu from "../../models/globalData/adminMenu";
 import Module from "../../models/globalData/module";

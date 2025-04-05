@@ -1,4 +1,4 @@
-import { microservices } from "../../digitalniweb-types/index.js";
+import type { microservices } from "../../digitalniweb-types/index.js";
 import { log } from "./../../digitalniweb-custom/helpers/logger.js";
 
 import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";

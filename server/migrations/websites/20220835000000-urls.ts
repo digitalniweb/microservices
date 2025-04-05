@@ -2,9 +2,9 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 import Url from "../../models/websites/url.js";
 import Website from "../../models/websites/website.js";
-import { Url as UrlType } from "../../../digitalniweb-types/models/websites.js";
+import type { Url as UrlType } from "../../../digitalniweb-types/models/websites.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["websites"];
 
 export default {

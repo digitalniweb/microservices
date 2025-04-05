@@ -1,9 +1,9 @@
 // import LoginLog from "./../../server/models/loginLog.js";
 // import sleep from "../../digitalniweb-custom/functions/sleep.js";
 
-import { Request, NextFunction } from "express";
+import type { Request, NextFunction } from "express";
 import LoginLog from "../../server/models/users/loginLog.js";
-import {
+import type {
 	loginAttempt,
 	wrongLoginError,
 } from "../../digitalniweb-types/index.js";

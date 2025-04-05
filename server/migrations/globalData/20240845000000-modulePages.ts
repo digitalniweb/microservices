@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import ModulePage from "../../models/globalData/modulePage.js";
-import { ModulePage as ModulePageType } from "../../../digitalniweb-types/models/globalData.js";
+import type { ModulePage as ModulePageType } from "../../../digitalniweb-types/models/globalData.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 import Module from "../../models/globalData/module.js";
 // import Role from "../../models/globalData/role.js";
 const microservice: Array<microservices> = ["globalData"];

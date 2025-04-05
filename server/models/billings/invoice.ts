@@ -4,12 +4,12 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Invoice } from "../../../digitalniweb-types/models/billings.js";
+import type { Invoice as InvoiceType } from "../../../digitalniweb-types/models/billings.js";
 import Currency from "../globalData/currency.js";
 import Status from "../globalData/status.js";
 import CreditBalanceLog from "./creditBalanceLog.js";
 
-const Invoice = db.define<Invoice>(
+const Invoice = db.define<InvoiceType>(
 	"Invoice",
 	{
 		id: {

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import db from "../../../../models/index.js";
 import WebInformation from "../../../../models/content/webInformation.js";
 import WebInformationLanguage from "../../../../models/content/webInformationLanguage.js";

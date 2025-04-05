@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Widget } from "../../../digitalniweb-types/models/globalData.js";
+import type { Widget as WidgetType } from "../../../digitalniweb-types/models/globalData.js";
 
-const Widget = db.define<Widget>(
+const Widget = db.define<WidgetType>(
 	"Widget",
 	{
 		id: {

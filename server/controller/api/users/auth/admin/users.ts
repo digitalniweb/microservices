@@ -1,10 +1,10 @@
 import db from "../../../../../models/index.js";
 
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import User from "../../../../../models/users/user.js";
 import { requestPagination } from "../../../../../../digitalniweb-custom/helpers/requestPagination.js";
 import Tenant from "../../../../../models/users/tenant.js";
-import { IncludeOptions } from "sequelize";
+import type { IncludeOptions } from "sequelize";
 
 export const registerAdmin = async function (
 	req: Request,

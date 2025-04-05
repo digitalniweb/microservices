@@ -4,13 +4,13 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { App } from "../../../digitalniweb-types/models/globalData.js";
+import type { App as AppTsType } from "../../../digitalniweb-types/models/globalData.js";
 import AppType from "./appType.js";
 import Language from "./language.js";
 import Module from "./module.js";
 import Widget from "./widget.js";
 
-const App = db.define<App>(
+const App = db.define<AppTsType>(
 	"App",
 	{
 		id: {

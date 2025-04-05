@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
 
 import Language from "../../../models/globalData/language.js";

@@ -1,8 +1,8 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import { ModuleWidget as ModuleWidgetType } from "../../../digitalniweb-types/models/globalData";
+import type { ModuleWidget as ModuleWidgetType } from "../../../digitalniweb-types/models/globalData";
 
-import { microservices } from "../../../digitalniweb-types/index";
+import type { microservices } from "../../../digitalniweb-types/index";
 import ModuleWidget from "../../models/globalData/moduleWidget";
 import Widget from "../../models/globalData/widget";
 import Module from "../../models/globalData/module";

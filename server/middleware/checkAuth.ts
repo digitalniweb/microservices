@@ -1,6 +1,6 @@
 // const models = require("../models/index");
-import { Request, Response, NextFunction } from "express";
-import {
+import type { Request, Response, NextFunction } from "express";
+import type {
 	adminAuthorizationNames,
 	userAuthorizationNames,
 } from "../../digitalniweb-types/authorization";

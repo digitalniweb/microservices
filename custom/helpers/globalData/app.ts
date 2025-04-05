@@ -1,19 +1,20 @@
 import db from "../../../server/models/index.js";
 
 import App from "../../../server/models/globalData/app.js";
+import type { App as AppTsType } from "../../../digitalniweb-types/models/globalData.js";
 import AppType from "../../../server/models/globalData/appType.js";
 
 import Language from "../../../server/models/globalData/language.js";
-import { newAppOptions } from "../../../digitalniweb-types/customFunctions/globalData.js";
+import type { newAppOptions } from "../../../digitalniweb-types/customFunctions/globalData.js";
 import { log } from "../../../digitalniweb-custom/helpers/logger.js";
 import axios, { AxiosError } from "axios";
-import { customLogObject } from "../../../digitalniweb-types/customHelpers/logger.js";
-import { Request } from "express";
+import type { customLogObject } from "../../../digitalniweb-types/customHelpers/logger.js";
+import type { Request } from "express";
 
 export async function registerApp(
 	options: newAppOptions,
 	req: Request
-): Promise<App | false> {
+): Promise<AppTsType | false> {
 	try {
 		let info = await db.transaction(async (transaction) => {
 			let app = await App.findOne({

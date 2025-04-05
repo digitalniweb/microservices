@@ -4,11 +4,11 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { ModuleWidget } from "../../../digitalniweb-types/models/globalData.js";
+import type { ModuleWidget as ModuleWidgetType } from "../../../digitalniweb-types/models/globalData.js";
 import Module from "./module.js";
 import Widget from "./widget.js";
 
-const ModuleWidget = db.define<ModuleWidget>(
+const ModuleWidget = db.define<ModuleWidgetType>(
 	"ModuleWidget",
 	{
 		id: {

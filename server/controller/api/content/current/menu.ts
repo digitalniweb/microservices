@@ -1,11 +1,12 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import db from "../../../../models/index.js";
 import Article from "../../../../models/content/article.js";
-import {
+import type { Article as ArticleType } from "../../../../../digitalniweb-types/models/content.js";
+import type {
 	resourceIdsType,
 	useApiCallQuery,
 } from "../../../../../digitalniweb-types/apps/communication/index.js";
-import { InferAttributes } from "sequelize";
+import type { InferAttributes } from "sequelize";
 import { buildTree } from "../../../../../digitalniweb-custom/helpers/buildTree.js";
 
 export const getMenu = async function (
@@ -32,7 +33,7 @@ export const getMenu = async function (
 		});
 
 		const data = menu.map((instance) => instance.toJSON());
-		const treeMenu = buildTree<InferAttributes<Article>>(data);
+		const treeMenu = buildTree<InferAttributes<ArticleType>>(data);
 
 		res.send(treeMenu);
 	} catch (error: any) {
@@ -66,7 +67,7 @@ export const getMenuAll = async function (
 			});
 		});
 		const data = menu.map((instance) => instance.toJSON());
-		const treeMenu = buildTree<InferAttributes<Article>>(data);
+		const treeMenu = buildTree<InferAttributes<ArticleType>>(data);
 
 		res.send(treeMenu);
 	} catch (error: any) {

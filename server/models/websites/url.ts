@@ -4,9 +4,9 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import { Url } from "../../../digitalniweb-types/models/websites.js";
+import type { Url as UrlType } from "../../../digitalniweb-types/models/websites.js";
 
-const Url = db.define<Url>(
+const Url = db.define<UrlType>(
 	"Url",
 	{
 		id: {

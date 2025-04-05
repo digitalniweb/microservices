@@ -1,9 +1,9 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Invoice from "../../models/billings/invoice.js";
-import { Invoice as InvoiceType } from "../../../digitalniweb-types/models/billings.js";
+import type { Invoice as InvoiceType } from "../../../digitalniweb-types/models/billings.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 import CreditBalanceLog from "../../models/billings/creditBalanceLog.js";
 import Currency from "../../models/globalData/currency.js";
 const microservice: Array<microservices> = ["billings"];

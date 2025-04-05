@@ -1,11 +1,11 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 import Tenant from "./../../models/users/tenant.js";
-import { Tenant as TenantType } from "./../../../digitalniweb-types/models/users.js";
+import type { Tenant as TenantType } from "./../../../digitalniweb-types/models/users.js";
 
 import User from "./../../models/users/user.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];
 
 export default {

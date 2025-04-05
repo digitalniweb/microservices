@@ -13,7 +13,8 @@
 		"typeRoots": ["./types", "./digitalniweb-types"],
 		"strictNullChecks": true,
 		"esModuleInterop": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"verbatimModuleSyntax": true
 		// "noImplicitAny": false
 		// "strictPropertyInitialization": false
 		// "strictNullChecks": false,

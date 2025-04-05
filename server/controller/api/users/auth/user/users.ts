@@ -2,7 +2,7 @@ import db from "../../../../../models/index.js";
 import User from "../../../../../models/users/user.js";
 import isObjectEmpty from "../../../../../../digitalniweb-custom/functions/isObjectEmpty.js";
 
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 
 export const refreshtoken = async function (
 	req: Request,

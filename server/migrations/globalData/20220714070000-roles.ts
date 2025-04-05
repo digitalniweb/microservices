@@ -3,9 +3,9 @@ import { QueryInterface, DataTypes } from "sequelize";
 import Role from "../../models/globalData/role.js";
 import RoleType from "../../models/globalData/roleType.js";
 
-import { Role as RoleModelType } from "../../../digitalniweb-types/models/globalData.js";
+import type { Role as RoleModelType } from "../../../digitalniweb-types/models/globalData.js";
 
-import { microservices } from "../../../digitalniweb-types/index.js";
+import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["globalData"];
 
 export default {
