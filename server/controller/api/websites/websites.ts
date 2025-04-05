@@ -10,6 +10,7 @@ import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helper
 import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
 import { log } from "../../../../digitalniweb-custom/helpers/logger.js";
 import WebsiteModule from "../../../models/websites/websiteModule.js";
+// import Language from "../../../models/globalData/language.js";
 
 export const test = async function (
 	req: Request,
@@ -390,10 +391,10 @@ export const getWebsiteLanguageMutations = async function (
 ) {
 	// only mutations of website, without main language (which I get with website information)
 	try {
-		let { url } = req.query;
+		/* let { url } = req.query;
 		let WebsiteLanguageMutations = await db.transaction(
 			async (transaction) => {
-				/* return await Language.findAll({
+				return await Language.findAll({
 				transaction,
 				where: {
 					"$Websites.MainUrl.url$": url,
@@ -410,10 +411,11 @@ export const getWebsiteLanguageMutations = async function (
 						],
 					},
 				],
-			}); */
+			});
 			}
 		);
-		res.send(WebsiteLanguageMutations);
+		res.send(WebsiteLanguageMutations); */
+		res.send("not implemented");
 	} catch (error) {
 		next({
 			error,

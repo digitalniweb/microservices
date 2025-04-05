@@ -45,7 +45,11 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(RoleType.tableName, {}, {});
+				await queryInterface.bulkDelete(
+					RoleType.tableName,
+					{},
+					{ transaction }
+				);
 			} catch (error) {
 				console.log(error);
 			}

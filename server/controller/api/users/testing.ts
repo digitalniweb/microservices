@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 
-import User from "../../../models/users/user.js";
-import Role from "../../../models/globalData/role.js";
-import Tenant from "../../../models/users/tenant.js";
+// import User from "../../../models/users/user.js";
+// import Role from "../../../models/globalData/role.js";
+// import Tenant from "../../../models/users/tenant.js";
 
 import { userAuthenticate } from "../../../../custom/helpers/users/userAuthenticate.js";
 
@@ -91,7 +91,7 @@ export const testPost = async function (
 	next: NextFunction
 ) {
 	try {
-		res.send("a");
+		res.send("test");
 	} catch (error) {
 		next({ error, code: 500, message: "Test error users ms" });
 	}

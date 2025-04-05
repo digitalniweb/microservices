@@ -7,8 +7,6 @@ import db from "../index.js";
 import type { App as AppTsType } from "../../../digitalniweb-types/models/globalData.js";
 import AppType from "./appType.js";
 import Language from "./language.js";
-import Module from "./module.js";
-import Widget from "./widget.js";
 
 const App = db.define<AppTsType>(
 	"App",

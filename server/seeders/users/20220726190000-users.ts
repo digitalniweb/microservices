@@ -8,7 +8,7 @@ import type {
 // import Role from "../../models/globalData/role.js";
 
 import type {
-	Tenant as TenantType,
+	// Tenant as TenantType,
 	User as UserType,
 } from "../../../digitalniweb-types/models/users.js";
 
@@ -162,10 +162,26 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(Tenant.tableName, {}, {});
-				await queryInterface.bulkDelete(Blacklist.tableName, {}, {});
-				await queryInterface.bulkDelete(LoginLog.tableName, {}, {});
-				await queryInterface.bulkDelete(User.tableName, {}, {});
+				await queryInterface.bulkDelete(
+					Tenant.tableName,
+					{},
+					{ transaction }
+				);
+				await queryInterface.bulkDelete(
+					Blacklist.tableName,
+					{},
+					{ transaction }
+				);
+				await queryInterface.bulkDelete(
+					LoginLog.tableName,
+					{},
+					{ transaction }
+				);
+				await queryInterface.bulkDelete(
+					User.tableName,
+					{},
+					{ transaction }
+				);
 			} catch (error) {
 				console.log(error);
 			}

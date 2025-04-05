@@ -18,5 +18,9 @@
 		// "noImplicitAny": false
 		// "strictPropertyInitialization": false
 		// "strictNullChecks": false,
+
+		// if I wanted to check unused variables and imports
+		// "noUnusedLocals": true,
+		// "noUnusedParameters": true
 	}
 }

@@ -1,6 +1,9 @@
-import { QueryInterface } from "sequelize";
-import type { CreationAttributes } from "sequelize";
-import type { Role as RoleTypeType } from "../../../digitalniweb-types/models/globalData.js";
+import {
+	QueryInterface,
+	// CreationAttributes
+} from "sequelize";
+
+// import { Role as RoleTypeType } from "../../../digitalniweb-types/models/globalData.js";
 
 import Role from "../../models/globalData/role.js";
 
@@ -26,7 +29,7 @@ export default {
 				name: "user",
 			},
 		});
-		await queryInterface.sequelize.transaction(async (transaction) => {
+		await queryInterface.sequelize.transaction(async () => {
 			try {
 				/* const rolesObjects: CreationAttributes<RoleTypeType>[] = [
 					{
@@ -75,7 +78,11 @@ export default {
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
 			try {
-				await queryInterface.bulkDelete(Role.tableName, {}, {});
+				await queryInterface.bulkDelete(
+					Role.tableName,
+					{},
+					{ transaction }
+				);
 			} catch (error) {
 				console.log(error);
 			}
