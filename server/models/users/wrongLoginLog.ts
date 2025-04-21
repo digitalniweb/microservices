@@ -6,21 +6,19 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import User from "./user.js";
+import type { WrongLoginLog as WrongLoginLogType } from "../../../digitalniweb-types/models/users.js";
 
-import type { LoginLog as LoginLogType } from "../../../digitalniweb-types/models/users.js";
-
-const LoginLog = db.define<LoginLogType>(
-	"LoginLog",
+const WrongLoginLog = db.define<WrongLoginLogType>(
+	"WrongLoginLog",
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		UserId: {
+		userLogin: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			allowNull: true,
 		},
 		websiteId: {
 			type: DataTypes.INTEGER,
@@ -36,10 +34,6 @@ const LoginLog = db.define<LoginLogType>(
 				isIP: true,
 			},
 		},
-		successful: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-		},
 		unsuccessfulCount: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -52,7 +46,4 @@ const LoginLog = db.define<LoginLogType>(
 	}
 );
 
-LoginLog.belongsTo(User);
-User.hasMany(LoginLog);
-
-export default LoginLog;
+export default WrongLoginLog;

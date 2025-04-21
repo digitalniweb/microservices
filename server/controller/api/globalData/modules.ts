@@ -130,8 +130,6 @@ export const getModulesByIds = async function (
 ) {
 	try {
 		let ids = req.query.ids as string[] | number[];
-		console.log(req.query);
-		console.log(req.query.ids);
 
 		if (!Array.isArray(ids)) throw "Module IDs needs to be an array.";
 		ids = ids.map(Number) as number[];

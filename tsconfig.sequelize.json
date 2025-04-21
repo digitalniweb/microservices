@@ -1,7 +1,7 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"module": "CommonJS",
+		"module": "ESNext",
 		"outDir": "./dist-sequelize-cjs"
 	},
 	"include": ["./server/migrations", "./server/seeders", "./server/config"]

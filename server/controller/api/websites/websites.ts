@@ -1,6 +1,10 @@
 import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
 import { Op, Transaction } from "sequelize";
-import type { CreationAttributes, WhereOperators } from "sequelize";
+import type {
+	CreationAttributes,
+	Includeable,
+	WhereOperators,
+} from "sequelize";
 import type { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
 import type { Website as WebsiteType } from "../../../../digitalniweb-types/models/websites.js";
@@ -355,7 +359,7 @@ export const createwebsite = async function (
 					languageId: websiteData.mainLanguageId,
 				});
 
-			let include: any[] = [];
+			let include: Includeable[] = [];
 			if (websiteData.WebsiteLanguageMutations)
 				include = [WebsiteLanguageMutation];
 			let website = await Website.create(websiteData, {

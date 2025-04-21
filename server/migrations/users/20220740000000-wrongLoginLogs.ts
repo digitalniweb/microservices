@@ -1,8 +1,7 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import LoginLog from "./../../models/users/loginLog.js";
-import User from "./../../models/users/user.js";
-import type { LoginLog as LoginLogType } from "./../../../digitalniweb-types/models/users.js";
+import WrongLoginLog from "../../models/users/wrongLoginLog.js";
+import type { WrongLoginLog as WrongLoginLogType } from "../../../digitalniweb-types/models/users.js";
 
 import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["users"];
@@ -16,8 +15,8 @@ export default {
 		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<LoginLogType>(
-				LoginLog.tableName,
+			return await queryInterface.createTable<WrongLoginLogType>(
+				WrongLoginLog.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -25,14 +24,8 @@ export default {
 						primaryKey: true,
 						type: DataTypes.INTEGER,
 					},
-					UserId: {
-						type: DataTypes.INTEGER,
-						references: {
-							model: User.tableName,
-							key: "id",
-						},
-						onDelete: "CASCADE",
-						allowNull: false,
+					userLogin: {
+						type: DataTypes.STRING,
 					},
 					websiteId: {
 						type: DataTypes.INTEGER,
@@ -45,14 +38,10 @@ export default {
 					ip: {
 						type: DataTypes.STRING,
 					},
-					successful: {
-						type: DataTypes.BOOLEAN,
-						allowNull: false,
-					},
 					unsuccessfulCount: {
 						type: DataTypes.INTEGER.UNSIGNED,
 						allowNull: false,
-						defaultValue: 0,
+						defaultValue: 1,
 					},
 					createdAt: {
 						allowNull: false,
@@ -76,7 +65,7 @@ export default {
 		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(LoginLog.tableName, {
+			return await queryInterface.dropTable(WrongLoginLog.tableName, {
 				transaction,
 			});
 		});
