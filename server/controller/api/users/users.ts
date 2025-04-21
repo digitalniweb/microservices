@@ -3,13 +3,16 @@ import db from "../../../models/index.js";
 import User from "../../../models/users/user.js";
 import LoginLog from "../../../models/users/loginLog.js";
 
-import wrongLoginAttempt from "../../../../custom/helpers/wrongLoginAttempt.js";
 import type { Request, Response, NextFunction } from "express";
-import type { CreationAttributes } from "sequelize";
+import { Op } from "sequelize";
+import type { CreationAttributes, Includeable } from "sequelize";
 
-import type { User as UserType } from "../../../../digitalniweb-types/models/users.js";
+import type {
+	User as UserType,
+	WrongLoginLog as WrongLoginLogType,
+} from "../../../../digitalniweb-types/models/users.js";
+import type { LoginLog as LoginLogType } from "../../../../digitalniweb-types/models/users.js";
 
-import { userAuthenticate } from "../../../../custom/helpers/users/userAuthenticate.js";
 import type {
 	userAuthorizationNames,
 	userRoles,
@@ -18,6 +21,21 @@ import UserModule from "../../../models/users/userModule.js";
 import { getGlobalDataList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import { microserviceCall } from "../../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
 import type { UUID } from "node:crypto";
+import type {
+	loginInformation,
+	wrongLoginError,
+} from "../../../../digitalniweb-types/index.js";
+import type { resourceIdsType } from "../../../../digitalniweb-types/apps/communication/index.js";
+import { UAParser } from "ua-parser-js";
+import validator from "validator";
+import WrongLoginLog from "../../../models/users/wrongLoginLog.js";
+import { hashString } from "../../../../digitalniweb-custom/functions/hashString.js";
+import Tenant from "../../../models/users/tenant.js";
+import { authRules } from "../../../../digitalniweb-custom/variables/authorization.js";
+import {
+	addMinutesToDate,
+	subtractMinutesFromDate,
+} from "../../../../digitalniweb-custom/functions/dateFunctions.js";
 
 export const getById = async function (req: Request, res: Response) {
 	if (!req.params.id) {
@@ -40,31 +58,146 @@ export const getById = async function (req: Request, res: Response) {
 
 	res.send(await getStrippedUser(user));
 };
+type loginInfo = loginInformation & { resourceIds: resourceIdsType };
 export const authenticate = async function (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
-	try {
-		const user = await userAuthenticate(req.body.email, req.body.password);
+	let loginInfo = req.body as loginInfo;
+	let userAgent = UAParser(loginInfo.ua);
+	let timeSpan = subtractMinutesFromDate(
+		new Date(),
+		authRules.timeSpanMinutes
+	);
 
-		if (!user) {
-			wrongLoginAttempt(req, next, res.locals?.antispam?.loginAttempt, {
-				message: "Wrong login",
-				messageTranslate: "LoginErrorWrongLogin",
-				loginAttemptsCount: res.locals?.antispam?.loginAttemptsCount,
-				maxLoginAttempts: res.locals?.antispam?.maxLoginAttempts,
-			});
-			return;
-		}
-
-		await LoginLog.create(res.locals?.antispam?.loginAttempt);
-
-		res.send(await getStrippedUser(user));
-	} catch (error) {
-		next({ error, code: 500, message: "Couldn't authenticate user." });
+	if (
+		!loginInfo.ua ||
+		loginInfo.password.length < authRules.minPasswordLength ||
+		!loginInfo.email ||
+		!validator.isEmail(loginInfo.email) ||
+		!req.ip ||
+		userAgent.ua != loginInfo.ua ||
+		!userAgent.browser.name ||
+		!userAgent.engine.name ||
+		!userAgent.os.name
+	) {
+		let wrongLogin = await createWrongLoginLog(
+			timeSpan,
+			req.ip ?? "",
+			loginInfo
+		);
+		next(sendLoginError(wrongLogin));
+		return;
 	}
+
+	let includeUserInfo = [
+		{
+			model: UserModule,
+		},
+	] as Includeable[];
+	if (loginInfo.type === "tenant")
+		includeUserInfo.push({
+			model: Tenant,
+		});
+
+	const user = await User.findOne({
+		where: { email: loginInfo.email, active: 1 },
+		paranoid: true,
+		include: includeUserInfo,
+	});
+
+	if (user === null) {
+		let wrongLogin = await createWrongLoginLog(
+			timeSpan,
+			req.ip ?? "",
+			loginInfo
+		);
+		next(sendLoginError(wrongLogin));
+		return;
+	}
+
+	let loginLog = await LoginLog.findOne({
+		where: {
+			createdAt: {
+				[Op.gte]: timeSpan,
+			},
+			"$User.email$": loginInfo.email,
+		},
+		include: [User],
+		order: [["createdAt", "DESC"]],
+	});
+
+	loginLog = LoginLog.build({
+		ip: req.ip,
+		successful: false,
+		unsuccessfulCount: 0,
+		websiteId: loginInfo.resourceIds.websiteId,
+		websitesMsId: loginInfo.resourceIds.websitesMsId,
+		UserId: 0,
+	});
+
+	if (!(hashString(loginInfo.password + loginInfo.email) === user.password)) {
+		loginLog.unsuccessfulCount++;
+		await loginLog.save();
+		next(sendLoginError(loginLog));
+		return;
+	}
+	await loginLog.save();
+	res.send(await getStrippedUser(user));
 };
+async function createWrongLoginLog(
+	timeSpan: Date | undefined,
+	ip: string,
+	loginInfo: loginInfo
+) {
+	let wrongLoginLogCurrent = null;
+
+	if (timeSpan !== undefined)
+		wrongLoginLogCurrent = await WrongLoginLog.findOne({
+			where: {
+				createdAt: {
+					[Op.gte]: timeSpan,
+				},
+				websiteId: loginInfo.resourceIds.websiteId,
+				websitesMsId: loginInfo.resourceIds.websitesMsId,
+				ip: ip,
+				userLogin: loginInfo.email,
+			},
+		});
+	if (wrongLoginLogCurrent === null)
+		wrongLoginLogCurrent = WrongLoginLog.build({
+			websiteId: loginInfo.resourceIds.websiteId,
+			websitesMsId: loginInfo.resourceIds.websitesMsId,
+			ip: ip,
+			userLogin: loginInfo.email,
+			unsuccessfulCount: 0,
+		});
+	wrongLoginLogCurrent.unsuccessfulCount++;
+	await wrongLoginLogCurrent.save();
+	return wrongLoginLogCurrent;
+}
+function sendLoginError(loginLog: WrongLoginLogType | LoginLogType) {
+	let errorData = {
+		messageTranslate: "LoginErrorWrongLogin",
+		maxLoginAttempts: authRules.maxAttempts,
+		loginAttemptsCount: loginLog.unsuccessfulCount,
+	} as wrongLoginError;
+	if (loginLog.unsuccessfulCount >= authRules.maxAttempts) {
+		errorData.messageTranslate = "LoginErrorTooManyAttempts";
+		errorData.loginAttemptsCount = authRules.maxAttempts;
+		errorData.blockedTill = addMinutesToDate(
+			loginLog.createdAt!,
+			authRules.timeSpanMinutes
+		);
+	}
+	return {
+		type: "authentication",
+		code: 401,
+		message: "Login wasn't successful!",
+		data: errorData,
+	};
+}
 
 /**
  *

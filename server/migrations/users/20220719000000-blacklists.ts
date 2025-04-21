@@ -8,6 +8,7 @@ const microservice: Array<microservices> = ["users"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
+		return;
 		if (
 			!microservice.includes(
 				process.env.MICROSERVICE_NAME as microservices

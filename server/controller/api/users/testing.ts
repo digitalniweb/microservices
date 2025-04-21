@@ -4,7 +4,7 @@ import type { Request, Response, NextFunction } from "express";
 // import Role from "../../../models/globalData/role.js";
 // import Tenant from "../../../models/users/tenant.js";
 
-import { userAuthenticate } from "../../../../custom/helpers/users/userAuthenticate.js";
+// import { userAuthenticate } from "../../../../custom/helpers/users/userAuthenticate.js";
 
 export const test = async function (
 	req: Request,
@@ -12,9 +12,12 @@ export const test = async function (
 	next: NextFunction
 ) {
 	try {
-		let auth = await userAuthenticate("admin@digitalniweb.cz", "123456789");
-		res.send(auth);
-
+		throw { code: 403 };
+		res.send({ message: "it works" });
+		/* req.body.email = "admin@digitalniweb.cz";
+		req.body.password = "123456789";
+		let auth = await userAuthenticate(req, next);
+		res.send(auth); */
 		/* let role = await Role.findOne({
 			where: {
 				id: 4,
@@ -36,16 +39,14 @@ export const test = async function (
 		let user = await role?.getUsers();
 
 		 res.send(user); */
-
 		/* let user = await User.findOne();
 		let userRole = await user?.getRole();
 
 		 res.send(userRole); */
 	} catch (error) {
-		next({ error });
+		next({ error, message: "aa" });
 	}
 
-	res.send({ message: "it works" });
 	// try {
 	// 	let website = await models.Website.findOne({
 	// 		include: [
