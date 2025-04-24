@@ -36,6 +36,7 @@ import {
 	addMinutesToDate,
 	subtractMinutesFromDate,
 } from "../../../../digitalniweb-custom/functions/dateFunctions.js";
+import type { registerUser } from "../../../../digitalniweb-types/users.js";
 
 export const getById = async function (req: Request, res: Response) {
 	if (!req.params.id) {
@@ -234,37 +235,36 @@ export const register = async function (
 		// let user = await test.save();
 
 		// return res.send(user);
-		await db.transaction(async (transaction) => {
-			let { email, password, nickname, Tenant } = req.body.formdata;
+		let registeredUser = await db.transaction(async (transaction) => {
+			let { resourceIds, user, userRole } = req.body as {
+				resourceIds: resourceIdsType;
+			} & registerUser;
 			let insertData: CreationAttributes<UserType> = {
-				email,
-				password,
-				nickname: undefined,
+				email: user.email,
+				password: user.password,
+				nickname: user.nickname ?? "",
 				Tenant: undefined,
 				active: true,
+				websiteId: resourceIds.websiteId,
+				websitesMsId: resourceIds.websitesMsId,
 			};
 
-			let userRole: userAuthorizationNames = "user";
 			let includeInfo = [];
-			if (nickname !== undefined) insertData.nickname = nickname;
-			if (Tenant !== undefined) {
+			if (userRole === "tenant" && user.Tenant !== undefined) {
 				userRole = "tenant";
-				insertData.Tenant = Tenant;
+				insertData.Tenant = user.Tenant;
 				includeInfo.push({
 					model: Tenant,
 					transaction,
 				});
 			}
 
-			/* 
-				!!! NEED TO BE CHANGED TO load roles from globalData, and get map
-			*/
-			let rolesIDs: userRoles = {
-				user: 1,
-				tenant: 2,
-			};
+			let roles = await getGlobalDataList("roles");
+			if (!roles) return false;
+			let role = roles.find((r) => r.name === userRole);
+			if (!role) return false;
 
-			insertData.roleId = rolesIDs[userRole];
+			insertData.roleId = role.id;
 
 			let result = await User.create(
 				{
@@ -278,6 +278,11 @@ export const register = async function (
 
 			return result;
 		});
+
+		if (registeredUser === false) {
+			next({ code: 500, message: "Registration not complete" });
+			return;
+		}
 		res.send({ message: "Registration complete" });
 	} catch (error: any) {
 		// when validation or uniqueness in DB is broken
@@ -285,6 +290,8 @@ export const register = async function (
 		// 	accumulator[currentObject.path] = currentObject.message;
 		// 	return accumulator;
 		// }, {});
+		console.log(error);
+
 		let errorMessage = "Something went wrong while register";
 		// if (error.errors && error.errors[0]?.path === "email")
 		// 	errorMessage = "This email address is taken.";

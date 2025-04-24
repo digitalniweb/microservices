@@ -5,6 +5,6 @@ import * as controller from "../../controller/api/users/users.js";
 router.get("/id/:id", controller.getById);
 
 router.post("/authenticate", controller.authenticate);
-router.post("/", controller.register);
+router.post("/register", controller.register);
 
 export default router;

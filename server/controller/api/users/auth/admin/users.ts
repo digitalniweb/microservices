@@ -19,9 +19,8 @@ export const registerAdmin = async function (
 				password,
 				role,
 				active: true,
-				nickname: undefined,
+				nickname: nickname ?? "",
 			};
-			if (nickname !== undefined) insertData.nickname = nickname;
 
 			insertData.role = role;
 			return await User.create(
