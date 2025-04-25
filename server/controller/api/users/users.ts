@@ -242,7 +242,7 @@ export const register = async function (
 			let insertData: CreationAttributes<UserType> = {
 				email: user.email,
 				password: user.password,
-				nickname: user.nickname ?? "",
+				nickname: user.nickname,
 				Tenant: undefined,
 				active: true,
 				websiteId: resourceIds.websiteId,
@@ -290,8 +290,6 @@ export const register = async function (
 		// 	accumulator[currentObject.path] = currentObject.message;
 		// 	return accumulator;
 		// }, {});
-		console.log(error);
-
 		let errorMessage = "Something went wrong while register";
 		// if (error.errors && error.errors[0]?.path === "email")
 		// 	errorMessage = "This email address is taken.";

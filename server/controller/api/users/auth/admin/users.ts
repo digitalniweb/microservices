@@ -19,7 +19,7 @@ export const registerAdmin = async function (
 				password,
 				role,
 				active: true,
-				nickname: nickname ?? "",
+				nickname,
 			};
 
 			insertData.role = role;
