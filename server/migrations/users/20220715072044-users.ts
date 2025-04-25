@@ -36,14 +36,11 @@ export default {
 					},
 					nickname: {
 						type: DataTypes.STRING(255),
-						allowNull: false,
-						defaultValue: "",
-						unique: "uniqueUserWebsite",
+						allowNull: true,
 					},
 					email: {
 						type: DataTypes.STRING,
 						allowNull: true,
-						unique: "uniqueUserWebsite",
 					},
 					password: {
 						type: DataTypes.STRING,
@@ -59,11 +56,9 @@ export default {
 					},
 					websiteId: {
 						type: DataTypes.INTEGER,
-						unique: "uniqueUserWebsite",
 					},
 					websitesMsId: {
 						type: DataTypes.INTEGER,
-						unique: "uniqueUserWebsite",
 					},
 					active: {
 						type: DataTypes.BOOLEAN,
@@ -84,14 +79,11 @@ export default {
 				},
 				{
 					uniqueKeys: {
-						uniqueUserWebsite: {
-							customIndex: true,
-							fields: [
-								"email",
-								"nickname",
-								"websiteId",
-								"websitesMsId",
-							],
+						unique_email_per_website: {
+							fields: ["email", "websiteId", "websitesMsId"],
+						},
+						unique_nickname_per_website: {
+							fields: ["nickname", "websiteId", "websitesMsId"],
 						},
 					},
 					charset: "utf8mb4",

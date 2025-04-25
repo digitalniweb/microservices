@@ -33,7 +33,7 @@ const User = db.define<UserType>(
 		},
 		nickname: {
 			type: new DataTypes.STRING(255),
-			allowNull: false,
+			allowNull: true,
 			validate: {
 				len: [0, 255],
 			},
