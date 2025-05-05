@@ -8,88 +8,43 @@ import type { microservices } from "../../../../digitalniweb-types/index.js";
 import { registerService } from "../../../../custom/helpers/globalData/serviceRegistry.js";
 import ServiceRegistry from "../../../models/globalData/serviceRegistry.js";
 
-export const getServiceByName = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		let microservice = req.params.name as microservices;
-		if (!microservicesArray.includes(microservice)) {
-			res.send(false);
-			return;
-		}
-		let service = await getServiceRegistryServices(microservice);
-		res.send(service);
-	} catch (error) {
-		next({ error });
+export const getServiceByName = async function (req: Request, res: Response) {
+	let microservice = req.params.name as microservices;
+	if (!microservicesArray.includes(microservice)) {
+		res.send(false);
+		return;
 	}
+	let service = await getServiceRegistryServices(microservice);
+	res.send(service);
 };
 
 export const getMainServiceByName = async function (
 	req: Request,
-	res: Response,
-	next: NextFunction
+	res: Response
 ) {
-	try {
-		let name = req.params.name as microservices;
-		if (!name) {
-			next({
-				message: "Service by name not found",
-				req,
-			});
-			return;
-		}
-		let service = await getMainServiceRegistry(name);
-		res.send(service);
-	} catch (error) {
-		next({
-			error,
-			req,
-		});
-	}
+	let name = req.params.name as microservices;
+	if (!name) throw new Error("Service by name not found");
+	let service = await getMainServiceRegistry(name);
+	res.send(service);
 };
 
-export const getServiceById = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		let id = parseInt(req.params.id);
-		if (!id) {
-			next({
-				status: "warning",
-				message: "Service by id not found",
-				req,
-			});
-			return;
-		}
-		let service = await ServiceRegistry.findOne({
-			where: { id },
-		});
-		res.send(service);
-	} catch (error) {
-		next({ error });
-	}
+export const getServiceById = async function (req: Request, res: Response) {
+	let id = parseInt(req.params.id);
+	if (!id) throw new Error("Service by id not found");
+	let service = await ServiceRegistry.findOne({
+		where: { id },
+	});
+	res.send(service);
 };
 
-export const register = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		let microservice = req.body.name as microservices;
+export const register = async function (req: Request, res: Response) {
+	let microservice = req.body.name as microservices;
 
-		if (!microservicesArray.includes(microservice)) {
-			res.send(false);
-			return;
-		}
-		let service = await registerService(req.body);
-
-		res.send(service);
-	} catch (error) {
-		next({ error });
+	if (!microservicesArray.includes(microservice)) {
+		res.send(false);
+		return;
 	}
+	let service = await registerService(req.body);
+
+	res.send(service);
 };

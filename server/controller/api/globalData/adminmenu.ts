@@ -14,53 +14,41 @@ import RoleType from "../../../models/globalData/roleType.js";
 import Module from "../../../models/globalData/module.js";
 import type { Module as ModuleType } from "../../../../digitalniweb-types/models/globalData.js";
 
-export const getAdminMenuList = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		let currentRoleName = req.query?.roleName as string;
-		if (!["admin", "owner", "superadmin"].includes(currentRoleName))
-			throw "There is no such role '" + currentRoleName + "'.";
-		let roleNames = ["admin"];
-		if (["owner", "superadmin"].includes(currentRoleName))
-			roleNames.push("owner");
-		if (currentRoleName === "superadmin") roleNames.push("superadmin");
+export const getAdminMenuList = async function (req: Request, res: Response) {
+	let currentRoleName = req.query?.roleName as string;
+	if (!["admin", "owner", "superadmin"].includes(currentRoleName))
+		throw "There is no such role '" + currentRoleName + "'.";
+	let roleNames = ["admin"];
+	if (["owner", "superadmin"].includes(currentRoleName))
+		roleNames.push("owner");
+	if (currentRoleName === "superadmin") roleNames.push("superadmin");
 
-		let where = {
-			"$Role.name$": { [Op.or]: roleNames },
-		} as WhereAttributeHash<AdminMenuType>;
+	let where = {
+		"$Role.name$": { [Op.or]: roleNames },
+	} as WhereAttributeHash<AdminMenuType>;
 
-		let moduleWhere = {} as WhereAttributeHash<ModuleType>;
-		// show all admin menus for superadmin
-		if (["admin", "owner"].includes(currentRoleName))
-			moduleWhere.id = req.query.modules as [];
+	let moduleWhere = {} as WhereAttributeHash<ModuleType>;
+	// show all admin menus for superadmin
+	if (["admin", "owner"].includes(currentRoleName))
+		moduleWhere.id = req.query.modules as [];
 
-		let data = await getRequestGlobalDataModelList<AdminMenuType>(
-			req,
-			AdminMenu,
-			[
-				{ model: Module, where: moduleWhere },
-				{ model: AdminMenuLanguage },
-				{ model: Role, include: [{ model: RoleType }] },
-			],
-			where,
-			[["order", "ASC"]]
-		);
+	let data = await getRequestGlobalDataModelList<AdminMenuType>(
+		req,
+		AdminMenu,
+		[
+			{ model: Module, where: moduleWhere },
+			{ model: AdminMenuLanguage },
+			{ model: Role, include: [{ model: RoleType }] },
+		],
+		where,
+		[["order", "ASC"]]
+	);
 
-		// get plain data from Sequelize instance
-		const plainData = data.map((entity) => entity.get({ plain: true }));
+	// get plain data from Sequelize instance
+	const plainData = data.map((entity) => entity.get({ plain: true }));
 
-		const treeMenu = buildTree<InferAttributes<AdminMenuType>>(plainData);
-		res.send(treeMenu);
-	} catch (error) {
-		next({
-			error,
-			code: 500,
-			message: "Couldn't get adminmenu list.",
-		});
-	}
+	const treeMenu = buildTree<InferAttributes<AdminMenuType>>(plainData);
+	res.send(treeMenu);
 };
 
 export const getAdminMenuByIds = async function (
@@ -68,33 +56,24 @@ export const getAdminMenuByIds = async function (
 	res: Response,
 	next: NextFunction
 ) {
-	try {
-		let ids = req.query.ids as string[] | number[];
+	let ids = req.query.ids as string[] | number[];
 
-		if (!Array.isArray(ids)) throw "AdminMenu IDs needs to be an array.";
-		ids = ids.map(Number) as number[];
-		if (ids.some((id) => isNaN(id)))
-			throw "AdminMenu IDs needs to be numbers.";
-		let adminmenu = await db.transaction(async (transaction) => {
-			return await AdminMenu.findAll({
-				where: {
-					id: ids,
+	if (!Array.isArray(ids)) throw "AdminMenu IDs needs to be an array.";
+	ids = ids.map(Number) as number[];
+	if (ids.some((id) => isNaN(id))) throw "AdminMenu IDs needs to be numbers.";
+	let adminmenu = await db.transaction(async (transaction) => {
+		return await AdminMenu.findAll({
+			where: {
+				id: ids,
+			},
+			transaction,
+			include: [
+				{
+					model: AdminMenuPageLanguage,
 				},
-				transaction,
-				include: [
-					{
-						model: AdminMenuPageLanguage,
-					},
-				],
-			});
+			],
 		});
+	});
 
-		res.send(adminmenu);
-	} catch (error) {
-		next({
-			error,
-			code: 500,
-			message: "Couldn't get adminmenu list.",
-		});
-	}
+	res.send(adminmenu);
 };

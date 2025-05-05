@@ -1,8 +1,8 @@
 import { registerService } from "../../custom/helpers/globalData/serviceRegistry.js";
-import { log } from "../../digitalniweb-custom/helpers/logger.js";
 import Publisher from "./../../digitalniweb-custom/helpers/publisherService.js";
 import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 import { getServiceRegistryInfo } from "./../../custom/helpers/globalData/serviceRegistry.js";
+import { consoleLogProduction } from "../../digitalniweb-custom/helpers/logger.js";
 
 export default async function () {
 	let globalDataService = await registerService({
@@ -23,11 +23,11 @@ export default async function () {
 				let serviceUniqueName: string = message; // 'app' or 'microservice'
 				let serviceRegistryInfo = await getServiceRegistryInfo();
 				if (!serviceRegistryInfo) {
-					log({
-						type: "consoleLogProduction",
-						status: "error",
-						message: `Couldn't get service registry information.`,
-					});
+					consoleLogProduction(
+						"Couldn't get service registry information.",
+						"error"
+					);
+
 					return;
 				}
 
@@ -36,12 +36,11 @@ export default async function () {
 					JSON.stringify(serviceRegistryInfo)
 				);
 			} catch (error: any) {
-				log({
-					type: "consoleLogProduction",
-					status: "error",
-					message: `Couldn't obtain serviceRegistry information via "serviceRegistry-requestInformation" Redis messaging system.`,
+				consoleLogProduction(
 					error,
-				});
+					"error",
+					`Couldn't obtain serviceRegistry information via "serviceRegistry-requestInformation" Redis messaging system.'`
+				);
 			}
 		}
 	});
