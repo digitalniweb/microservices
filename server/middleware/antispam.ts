@@ -136,12 +136,7 @@ const loginAntispam = function () {
 				maxLoginAttempts,
 			};
 			next();
-		} catch (error) {
-			next({
-				error,
-				code: 500,
-				message: "Error while logging in.",
-			});
+
 		}
 	};
 };

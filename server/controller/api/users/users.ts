@@ -13,10 +13,6 @@ import type {
 } from "../../../../digitalniweb-types/models/users.js";
 import type { LoginLog as LoginLogType } from "../../../../digitalniweb-types/models/users.js";
 
-import type {
-	userAuthorizationNames,
-	userRoles,
-} from "../../../../digitalniweb-types/authorization/index.js";
 import UserModule from "../../../models/users/userModule.js";
 import { getGlobalDataList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import { microserviceCall } from "../../../../digitalniweb-custom/helpers/remoteProcedureCall.js";
@@ -209,92 +205,80 @@ export const register = async function (
 	res: Response,
 	next: NextFunction
 ) {
-	try {
-		// this works, but I don't know if transactions work (maybe they do .save({transaction}))
-		// let test = User.build(
-		// 	{
-		// 		email: "testtenant@test.cz",
-		// 		nickname: "testtenant",
-		// 		password: "123456789",
-		// 		roleId: 4,
-		// 		websiteId: 1,
-		// 		Tenant: {
-		// 			firstName: "test2",
-		// 			lastName: "tenant2",
-		// 			telephone: "123456789",
-		// 			city: "Prostějov",
-		// 			zip: "79604",
-		// 			streetAddress: "Václava Špály",
-		// 			houseNumber: 3,
-		// 		},
-		// 	},
-		// 	{
-		// 		include: [{ model: Tenant }],
-		// 	}
-		// );
-		// let user = await test.save();
+	// this works, but I don't know if transactions work (maybe they do .save({transaction}))
+	// let test = User.build(
+	// 	{
+	// 		email: "testtenant@test.cz",
+	// 		nickname: "testtenant",
+	// 		password: "123456789",
+	// 		roleId: 4,
+	// 		websiteId: 1,
+	// 		Tenant: {
+	// 			firstName: "test2",
+	// 			lastName: "tenant2",
+	// 			telephone: "123456789",
+	// 			city: "Prostějov",
+	// 			zip: "79604",
+	// 			streetAddress: "Václava Špály",
+	// 			houseNumber: 3,
+	// 		},
+	// 	},
+	// 	{
+	// 		include: [{ model: Tenant }],
+	// 	}
+	// );
+	// let user = await test.save();
 
-		// return res.send(user);
-		let registeredUser = await db.transaction(async (transaction) => {
-			let { resourceIds, user, userRole } = req.body as {
-				resourceIds: resourceIdsType;
-			} & registerUser;
-			let insertData: CreationAttributes<UserType> = {
-				email: user.email,
-				password: user.password,
-				nickname: user.nickname,
-				Tenant: undefined,
-				active: true,
-				websiteId: resourceIds.websiteId,
-				websitesMsId: resourceIds.websitesMsId,
-			};
+	// return res.send(user);
+	let registeredUser = await db.transaction(async (transaction) => {
+		let { resourceIds, user, userRole } = req.body as {
+			resourceIds: resourceIdsType;
+		} & registerUser;
+		let insertData: CreationAttributes<UserType> = {
+			email: user.email,
+			password: user.password,
+			nickname: user.nickname,
+			Tenant: undefined,
+			active: true,
+			websiteId: resourceIds.websiteId,
+			websitesMsId: resourceIds.websitesMsId,
+		};
 
-			let includeInfo = [];
-			if (userRole === "tenant" && user.Tenant !== undefined) {
-				userRole = "tenant";
-				insertData.Tenant = user.Tenant;
-				includeInfo.push({
-					model: Tenant,
-					transaction,
-				});
-			}
-
-			let roles = await getGlobalDataList("roles");
-			if (!roles) return false;
-			let role = roles.find((r) => r.name === userRole);
-			if (!role) return false;
-
-			insertData.roleId = role.id;
-
-			let result = await User.create(
-				{
-					...insertData,
-				},
-				{
-					include: includeInfo,
-					transaction,
-				}
-			);
-
-			return result;
-		});
-
-		if (registeredUser === false) {
-			next({ code: 500, message: "Registration not complete" });
-			return;
+		let includeInfo = [];
+		if (userRole === "tenant" && user.Tenant !== undefined) {
+			userRole = "tenant";
+			insertData.Tenant = user.Tenant;
+			includeInfo.push({
+				model: Tenant,
+				transaction,
+			});
 		}
-		res.send({ message: "Registration complete" });
-	} catch (error: any) {
-		// when validation or uniqueness in DB is broken
-		// let errors = error.errors.reduce((accumulator, currentObject) => {
-		// 	accumulator[currentObject.path] = currentObject.message;
-		// 	return accumulator;
-		// }, {});
-		let errorMessage = "Something went wrong while register";
-		// if (error.errors && error.errors[0]?.path === "email")
-		// 	errorMessage = "This email address is taken.";
-		next({ error, code: 500, message: errorMessage });
+
+		let roles = await getGlobalDataList("roles");
+		if (!roles) return false;
+		let role = roles.find((r) => r.name === userRole);
+		if (!role) return false;
+
+		insertData.roleId = role.id;
+
+		let result = await User.create(
+			{
+				...insertData,
+			},
+			{
+				include: includeInfo,
+				transaction,
+			}
+		);
+
+		return result;
+	});
+
+	if (registeredUser === false) {
+		throw new Error("Registration not complete");
+		return;
 	}
+	res.send({ message: "Registration complete" });
 };
 
 async function getStrippedUser(user: UserType) {

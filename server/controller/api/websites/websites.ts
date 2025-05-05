@@ -12,17 +12,11 @@ import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
 import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
-import { log } from "../../../../digitalniweb-custom/helpers/logger.js";
 import WebsiteModule from "../../../models/websites/websiteModule.js";
 // import Language from "../../../models/globalData/language.js";
 
-export const test = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		/* let websiteData: CreationAttributes<WebsiteType> = {
+export const test = async function (req: Request, res: Response) {
+	/* let websiteData: CreationAttributes<WebsiteType> = {
 			active: true,
 			testingMode: true,
 			paused: false,
@@ -60,7 +54,7 @@ export const test = async function (
 		});
 
 		return res.send(result); */
-		/* await db.transaction(async (transaction) => {
+	/* await db.transaction(async (transaction) => {
 			let website = await Website.findOne({
 				where: { id: 16 },
 				transaction,
@@ -78,72 +72,45 @@ export const test = async function (
 			}
 			await website.addAliases([url], { transaction });
 		}); */
-		res.send("ok");
-	} catch (error) {
-		next({ error, code: 500, message: "Couldn't get website data" });
-	}
+	res.send("ok");
 };
 
-export const getWebsitesUuid = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		let id = req.params.id;
+export const getWebsitesUuid = async function (req: Request, res: Response) {
+	let id = req.params.id;
 
-		// if undefined, null, empty or not number
-		if (!id || isNaN(id as any)) {
-			res.send(null);
-			return;
-		}
-
-		let website = await db.transaction(async (transaction) => {
-			return await Website.findOne({
-				paranoid: true,
-				attributes: ["uuid"],
-				transaction,
-				where: {
-					id,
-				},
-			});
-		});
-		res.send(website?.uuid ?? null);
-	} catch (error) {
-		next({
-			error,
-			code: 500,
-			message: "Couldn't get current's website data",
-		});
+	// if undefined, null, empty or not number
+	if (!id || isNaN(id as any)) {
+		res.send(null);
+		return;
 	}
+
+	let website = await db.transaction(async (transaction) => {
+		return await Website.findOne({
+			paranoid: true,
+			attributes: ["uuid"],
+			transaction,
+			where: {
+				id,
+			},
+		});
+	});
+	res.send(website?.uuid ?? null);
 };
 
-export const getWebsiteByUrl = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		let url = req.params.url;
+export const getWebsiteByUrl = async function (req: Request, res: Response) {
+	let url = req.params.url;
 
-		// if undefined, null, empty or coercible to number
-		if (!url || !isNaN(url as any)) {
-			res.send(null);
-			return;
-		}
-
-		let website = await db.transaction(async (transaction) => {
-			return await getWebsite(url, transaction);
-		});
-
-		res.send(website);
-	} catch (error) {
-		next({
-			error,
-			code: 500,
-			message: "Couldn't get current's website data",
-		});
+	// if undefined, null, empty or coercible to number
+	if (!url || !isNaN(url as any)) {
+		res.send(null);
+		return;
 	}
+
+	let website = await db.transaction(async (transaction) => {
+		return await getWebsite(url, transaction);
+	});
+
+	res.send(website);
 };
 
 async function getWebsite(
@@ -151,35 +118,26 @@ async function getWebsite(
 	transaction: Transaction,
 	paranoid: boolean = true
 ) {
-	try {
-		return await Website.findOne({
-			paranoid: paranoid as boolean, // items with deletedAt set won't occur in search result
-			transaction,
-			include: [
-				{
-					model: Url,
-					where: {
-						"$MainUrl.url$": url,
-					},
-					attributes: [],
-					as: "MainUrl",
+	return await Website.findOne({
+		paranoid: paranoid as boolean, // items with deletedAt set won't occur in search result
+		transaction,
+		include: [
+			{
+				model: Url,
+				where: {
+					"$MainUrl.url$": url,
 				},
-				{
-					model: WebsiteLanguageMutation,
-				},
-				{
-					model: WebsiteModule,
-				},
-			],
-		});
-	} catch (error: any) {
-		log({
-			type: "functions",
-			status: "error",
-			error,
-		});
-		return false;
-	}
+				attributes: [],
+				as: "MainUrl",
+			},
+			{
+				model: WebsiteLanguageMutation,
+			},
+			{
+				model: WebsiteModule,
+			},
+		],
+	});
 }
 
 /**
@@ -192,61 +150,43 @@ async function getWebsite(
  */
 export const testingWebsitesCount = async function (
 	req: Request,
-	res: Response,
-	next: NextFunction
+	res: Response
 ) {
 	const { userid = undefined } = req.query;
 	let where = {} as {
 		userId?: number;
 	};
 	if (userid) where.userId = parseInt(userid as string);
-	try {
-		let count = await db.transaction(async (transaction) => {
-			return await Website.count({
-				where,
-				transaction,
-			});
+
+	let count = await db.transaction(async (transaction) => {
+		return await Website.count({
+			where,
+			transaction,
 		});
-		res.send(String(count));
-	} catch (error) {
-		next({
-			error,
-			code: 500,
-			message: "Couldn't get testing websites count.",
-		});
-	}
+	});
+	res.send(String(count));
 };
 
-export const findTenantWebsites = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		const { limit, sort, page, sortBy, search } = requestPagination(
-			req.query
-		);
-		let where = {
-			userId: parseInt(req.query.userid as string),
-		} as { userId: number; url: WhereOperators };
-		if (search !== "")
-			where["url"] = {
-				[Op.like]: `%${search}%`,
-			};
-		let result = await db.transaction(async (transaction) => {
-			return await Website.findAndCountAll({
-				where,
-				offset: (page - 1) * limit,
-				limit,
-				order: [[sortBy, sort]],
-				paranoid: false,
-				transaction,
-			});
+export const findTenantWebsites = async function (req: Request, res: Response) {
+	const { limit, sort, page, sortBy, search } = requestPagination(req.query);
+	let where = {
+		userId: parseInt(req.query.userid as string),
+	} as { userId: number; url: WhereOperators };
+	if (search !== "")
+		where["url"] = {
+			[Op.like]: `%${search}%`,
+		};
+	let result = await db.transaction(async (transaction) => {
+		return await Website.findAndCountAll({
+			where,
+			offset: (page - 1) * limit,
+			limit,
+			order: [[sortBy, sort]],
+			paranoid: false,
+			transaction,
 		});
-		res.send(result);
-	} catch (error) {
-		next({ error, code: 500, message: "Couldn't get tenant's websites." });
-	}
+	});
+	res.send(result);
 };
 export const registerTenant = async function (
 	req: Request,
@@ -260,52 +200,44 @@ export const registerTenant = async function (
 	};
 	if (userId) where.userId = userId;
 	if (parentId) where.parentId = parentId;
-	try {
-		let testingWebsitesCount = await db.transaction(async (transaction) => {
-			return await Website.count({
-				where,
-				transaction,
-			});
-		});
-		let maxTestCount = 3;
-		if (testingWebsitesCount >= maxTestCount) {
-			next({
-				code: 403,
-				message:
-					"You already have a maximum count of testing websites!",
-				data: {
-					maxTestCount,
-				},
-			});
-			return;
-		}
 
-		let newTenantWebsite = await db.transaction(async (transaction) => {
-			return await Website.create(
-				{
-					userId: req.body.userId,
-					testingMode: true,
-					active: true,
-					paused: false,
-				},
-				{
-					transaction,
-				}
-			);
+	let testingWebsitesCount = await db.transaction(async (transaction) => {
+		return await Website.count({
+			where,
+			transaction,
 		});
-
-		res.send({
-			uuid: newTenantWebsite.uuid,
-			contentMsId: newTenantWebsite.contentMsId,
-			websiteId: newTenantWebsite.id,
-		});
-	} catch (error) {
+	});
+	let maxTestCount = 3;
+	if (testingWebsitesCount >= maxTestCount) {
 		next({
-			error,
-			code: 500,
-			message: "Couldn't get testing websites count.",
+			code: 403,
+			message: "You already have a maximum count of testing websites!",
+			data: {
+				maxTestCount,
+			},
 		});
+		return;
 	}
+
+	let newTenantWebsite = await db.transaction(async (transaction) => {
+		return await Website.create(
+			{
+				userId: req.body.userId,
+				testingMode: true,
+				active: true,
+				paused: false,
+			},
+			{
+				transaction,
+			}
+		);
+	});
+
+	res.send({
+		uuid: newTenantWebsite.uuid,
+		contentMsId: newTenantWebsite.contentMsId,
+		websiteId: newTenantWebsite.id,
+	});
 };
 
 export const createwebsite = async function (
@@ -313,79 +245,71 @@ export const createwebsite = async function (
 	res: Response,
 	next: NextFunction
 ) {
-	try {
-		let websiteData: CreationAttributes<WebsiteType> = req.body.website;
-		let websiteUrl: string = req.body.url;
+	let websiteData: CreationAttributes<WebsiteType> = req.body.website;
+	let websiteUrl: string = req.body.url;
 
-		if (!websiteData.contentMsId) {
-			let mainServiceRegistryContentId = await getMainServiceRegistryId(
-				"content"
-			);
-			if (mainServiceRegistryContentId !== null)
-				websiteData.contentMsId = mainServiceRegistryContentId;
-		}
-
-		if (!websiteData.usersMsId) {
-			let mainServiceRegistryUsersId = await getMainServiceRegistryId(
-				"users"
-			);
-			if (mainServiceRegistryUsersId !== null)
-				websiteData.usersMsId = mainServiceRegistryUsersId;
-		}
-
-		// I don't want this everytime, only when website should have emails
-		// if (!websiteData.emailsMsId) {
-		// 	let mainServiceRegistryEmailsId = await getMainServiceRegistryId(
-		// 		"emails"
-		// 	);
-		// 	if (mainServiceRegistryEmailsId !== null)
-		// 		websiteData.emailsMsId = mainServiceRegistryEmailsId;
-		// }
-
-		let result: WebsiteType = await db.transaction(async (transaction) => {
-			if (!websiteData.WebsiteLanguageMutations)
-				websiteData.WebsiteLanguageMutations = [];
-			if (websiteData.languages) {
-				websiteData.languages.forEach((lang) => {
-					if (typeof lang === "number")
-						websiteData.WebsiteLanguageMutations?.push({
-							languageId: lang,
-						});
-					// !!! need to add if (typeof lang === "string") // type languages[]
-				});
-			}
-			if (websiteData.mainLanguageId)
-				websiteData.WebsiteLanguageMutations?.push({
-					languageId: websiteData.mainLanguageId,
-				});
-
-			let include: Includeable[] = [];
-			if (websiteData.WebsiteLanguageMutations)
-				include = [WebsiteLanguageMutation];
-			let website = await Website.create(websiteData, {
-				include,
-				transaction,
-			});
-			let [url] = await Url.findOrCreate({
-				where: {
-					url: websiteUrl,
-				},
-				transaction,
-			});
-
-			let mainUrl = await website.setMainUrl(url, { transaction });
-			website.MainUrlId = mainUrl.id;
-			return website;
-		});
-
-		res.send(result);
-	} catch (error) {
-		next({
-			error,
-			code: 500,
-			message: "Couldn't create website.",
-		});
+	if (!websiteData.contentMsId) {
+		let mainServiceRegistryContentId = await getMainServiceRegistryId(
+			"content"
+		);
+		if (mainServiceRegistryContentId !== null)
+			websiteData.contentMsId = mainServiceRegistryContentId;
 	}
+
+	if (!websiteData.usersMsId) {
+		let mainServiceRegistryUsersId = await getMainServiceRegistryId(
+			"users"
+		);
+		if (mainServiceRegistryUsersId !== null)
+			websiteData.usersMsId = mainServiceRegistryUsersId;
+	}
+
+	// I don't want this everytime, only when website should have emails
+	// if (!websiteData.emailsMsId) {
+	// 	let mainServiceRegistryEmailsId = await getMainServiceRegistryId(
+	// 		"emails"
+	// 	);
+	// 	if (mainServiceRegistryEmailsId !== null)
+	// 		websiteData.emailsMsId = mainServiceRegistryEmailsId;
+	// }
+
+	let result: WebsiteType = await db.transaction(async (transaction) => {
+		if (!websiteData.WebsiteLanguageMutations)
+			websiteData.WebsiteLanguageMutations = [];
+		if (websiteData.languages) {
+			websiteData.languages.forEach((lang) => {
+				if (typeof lang === "number")
+					websiteData.WebsiteLanguageMutations?.push({
+						languageId: lang,
+					});
+				// !!! need to add if (typeof lang === "string") // type languages[]
+			});
+		}
+		if (websiteData.mainLanguageId)
+			websiteData.WebsiteLanguageMutations?.push({
+				languageId: websiteData.mainLanguageId,
+			});
+
+		let include: Includeable[] = [];
+		if (websiteData.WebsiteLanguageMutations)
+			include = [WebsiteLanguageMutation];
+		let website = await Website.create(websiteData, {
+			include,
+			transaction,
+		});
+		let [url] = await Url.findOrCreate({
+			where: {
+				url: websiteUrl,
+			},
+			transaction,
+		});
+
+		let mainUrl = await website.setMainUrl(url, { transaction });
+		website.MainUrlId = mainUrl.id;
+		return website;
+	});
+
+	res.send(result);
 };
 
 export const getWebsiteLanguageMutations = async function (
@@ -394,8 +318,8 @@ export const getWebsiteLanguageMutations = async function (
 	next: NextFunction
 ) {
 	// only mutations of website, without main language (which I get with website information)
-	try {
-		/* let { url } = req.query;
+
+	/* let { url } = req.query;
 		let WebsiteLanguageMutations = await db.transaction(
 			async (transaction) => {
 				return await Language.findAll({
@@ -419,12 +343,5 @@ export const getWebsiteLanguageMutations = async function (
 			}
 		);
 		res.send(WebsiteLanguageMutations); */
-		res.send("not implemented");
-	} catch (error) {
-		next({
-			error,
-			code: 500,
-			message: "Couldn't get app languages list.",
-		});
-	}
+	res.send("not implemented");
 };

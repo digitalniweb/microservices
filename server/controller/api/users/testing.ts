@@ -11,14 +11,14 @@ export const test = async function (
 	res: Response,
 	next: NextFunction
 ) {
-	try {
-		throw { code: 403 };
-		res.send({ message: "it works" });
-		/* req.body.email = "admin@digitalniweb.cz";
+	// try {
+	throw { code: 403 };
+	res.send({ message: "it works" });
+	/* req.body.email = "admin@digitalniweb.cz";
 		req.body.password = "123456789";
 		let auth = await userAuthenticate(req, next);
 		res.send(auth); */
-		/* let role = await Role.findOne({
+	/* let role = await Role.findOne({
 			where: {
 				id: 4,
 			},
@@ -34,18 +34,18 @@ export const test = async function (
 		//let tenant = await Tenant.findOne();
 
 		 res.send(role); */
-		//  res.send(await role?.Users[0]?.Tenant?.findUser());
-		/* let role = await Role.findOne();
+	//  res.send(await role?.Users[0]?.Tenant?.findUser());
+	/* let role = await Role.findOne();
 		let user = await role?.getUsers();
 
 		 res.send(user); */
-		/* let user = await User.findOne();
+	/* let user = await User.findOne();
 		let userRole = await user?.getRole();
 
 		 res.send(userRole); */
-	} catch (error) {
-		next({ error, message: "aa" });
-	}
+	// } catch (error) {
+	// 	next({ error, message: "aa" });
+	// }
 
 	// try {
 	// 	let website = await models.Website.findOne({
@@ -83,17 +83,9 @@ export const test = async function (
 
 	// 	res.send(website);
 	// } catch (error) {
-	// 	next({ error, code: 500, message: "Couldn't get website data" });
+	//
 	// }
 };
-export const testPost = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	try {
-		res.send("test");
-	} catch (error) {
-		next({ error, code: 500, message: "Test error users ms" });
-	}
+export const testPost = async function (req: Request, res: Response) {
+	res.send("test");
 };
