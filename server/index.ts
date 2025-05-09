@@ -7,7 +7,9 @@ import {
 	consoleLogProduction,
 	logErrorRoute,
 } from "./../digitalniweb-custom/helpers/logger.js";
-import type { logObject } from "./../digitalniweb-custom/helpers/logger.js";
+
+import type { logObject } from "../digitalniweb-types/logger.js";
+import type { errorResponse } from "../digitalniweb-types/errors.js";
 
 import apiRoutes from "./api/index.js";
 
@@ -122,14 +124,6 @@ try {
 			}
 		}
 
-		type errorResponse = {
-			statusCode: number; // http status code
-			message: string;
-			name?: string;
-			messageTranslate?: string; // used in translate(messageTranslate)
-			data?: any;
-			code?: string | number;
-		};
 		let errorResponse: errorResponse = {
 			message,
 			statusCode,
@@ -143,7 +137,6 @@ try {
 		if (messageTranslate) errorResponse.messageTranslate = messageTranslate;
 
 		logErrorRoute(logObject);
-		console.log(errorResponse);
 
 		res.status(statusCode).send(errorResponse);
 	}));
