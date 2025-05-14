@@ -84,8 +84,7 @@ export const authenticate = async function (
 			req.ip ?? "",
 			loginInfo
 		);
-		next(sendLoginError(wrongLogin));
-		return;
+		sendLoginError(wrongLogin);
 	}
 
 	let includeUserInfo = [
@@ -110,9 +109,9 @@ export const authenticate = async function (
 			req.ip ?? "",
 			loginInfo
 		);
-		next(sendLoginError(wrongLogin));
-		return;
+		sendLoginError(wrongLogin);
 	}
+	console.log(timeSpan);
 
 	let loginLog = await LoginLog.findOne({
 		where: {
@@ -125,20 +124,20 @@ export const authenticate = async function (
 		order: [["createdAt", "DESC"]],
 	});
 
-	loginLog = LoginLog.build({
-		ip: req.ip,
-		successful: false,
-		unsuccessfulCount: 0,
-		websiteId: loginInfo.resourceIds.websiteId,
-		websitesMsId: loginInfo.resourceIds.websitesMsId,
-		UserId: 0,
-	});
+	if (!loginLog)
+		loginLog = LoginLog.build({
+			ip: req.ip,
+			successful: false,
+			unsuccessfulCount: 0,
+			websiteId: loginInfo.resourceIds.websiteId,
+			websitesMsId: loginInfo.resourceIds.websitesMsId,
+			UserId: user.id,
+		});
 
 	if (!(hashString(loginInfo.password + loginInfo.email) === user.password)) {
 		loginLog.unsuccessfulCount++;
 		await loginLog.save();
-		next(sendLoginError(loginLog));
-		return;
+		sendLoginError(loginLog);
 	}
 	await loginLog.save();
 	res.send(await getStrippedUser(user));
@@ -174,7 +173,7 @@ async function createWrongLoginLog(
 	await wrongLoginLogCurrent.save();
 	return wrongLoginLogCurrent;
 }
-function sendLoginError(loginLog: WrongLoginLogType | LoginLogType) {
+function sendLoginError(loginLog: WrongLoginLogType | LoginLogType): never {
 	let errorData = {
 		messageTranslate: "LoginErrorWrongLogin",
 		maxLoginAttempts: authRules.maxAttempts,
@@ -188,9 +187,10 @@ function sendLoginError(loginLog: WrongLoginLogType | LoginLogType) {
 			authRules.timeSpanMinutes
 		);
 	}
-	return {
-		type: "authentication",
-		code: 401,
+	console.log(errorData);
+
+	throw {
+		statusCode: 401,
 		message: "Login wasn't successful!",
 		data: errorData,
 	};
@@ -276,7 +276,6 @@ export const register = async function (
 
 	if (registeredUser === false) {
 		throw new Error("Registration not complete");
-		return;
 	}
 	res.send({ message: "Registration complete" });
 };

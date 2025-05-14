@@ -43,7 +43,6 @@ try {
 	app.use(<ErrorRequestHandler>((error: any, req, res, next) => {
 		// in express middleware throw error in catch block instead of next({}: any});
 
-		let data = {} as any;
 		let messageTranslate: undefined | string;
 
 		if (error?.original?.name == "SqlError") {
@@ -74,7 +73,7 @@ try {
 			(typeof error.statusCode == "number" ? error.statusCode : 500);
 		let message = error.message ?? "Something went wrong";
 		let code;
-		if (error.code || error.original.code)
+		if (error?.code || error?.original?.code)
 			code = error.code ?? error.original.code;
 
 		let logObject = {
@@ -132,7 +131,7 @@ try {
 		if (error?.name) errorResponse.name = error.name;
 		if (code) errorResponse.code = code;
 
-		if (!isObjectEmpty(data)) errorResponse.data = data;
+		if (!isObjectEmpty(error?.data)) errorResponse.data = error?.data;
 
 		if (messageTranslate) errorResponse.messageTranslate = messageTranslate;
 
