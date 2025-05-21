@@ -3,9 +3,9 @@ import { QueryInterface, DataTypes } from "sequelize";
 import type { AdminMenuLanguage as AdminMenuLanguageType } from "../../../digitalniweb-types/models/globalData";
 
 import type { microservices } from "../../../digitalniweb-types/index";
-import AdminMenuLanguage from "../../models/globalData/adminMenuLanguage";
-import AdminMenu from "../../models/globalData/adminMenu";
-import Language from "../../models/globalData/language";
+import AdminMenuLanguage from "../../models/globalData/adminMenuLanguage.js";
+import AdminMenu from "../../models/globalData/adminMenu.js";
+import Language from "../../models/globalData/language.js";
 
 const microservice: Array<microservices> = ["globalData"];
 

@@ -4,7 +4,7 @@ import type { AdminMenu as AdminMenuType } from "../../../digitalniweb-types/mod
 
 import type { microservices } from "../../../digitalniweb-types/index.js";
 import AdminMenu from "../../models/globalData/adminMenu.js";
-import Role from "../../models/globalData/role";
+import Role from "../../models/globalData/role.js";
 
 const microservice: Array<microservices> = ["globalData"];
 

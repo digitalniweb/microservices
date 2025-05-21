@@ -3,7 +3,7 @@ import { QueryInterface } from "sequelize";
 import Status from "../../models/globalData/status.js";
 
 import type { microservices } from "../../../digitalniweb-types/index.js";
-const microservice: Array<microservices> = ["billings"];
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {
