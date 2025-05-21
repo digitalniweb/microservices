@@ -170,7 +170,7 @@ export const testingWebsitesCount = async function (
 export const findTenantWebsites = async function (req: Request, res: Response) {
 	const { limit, sort, page, sortBy, search } = requestPagination(req.query);
 	let where = {
-		userId: parseInt(req.query.userid as string),
+		userId: parseInt(req.params.userId as string),
 	} as { userId: number; url: WhereOperators };
 	if (search !== "")
 		where["url"] = {
