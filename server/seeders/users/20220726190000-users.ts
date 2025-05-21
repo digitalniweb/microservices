@@ -17,7 +17,6 @@ import User from "../../models/users/user.js";
 
 import type { microservices } from "../../../digitalniweb-types/index.js";
 import Tenant from "../../models/users/tenant.js";
-import Blacklist from "../../models/users/blacklist.js";
 import LoginLog from "../../models/users/loginLog.js";
 const microservice: Array<microservices> = ["users"];
 
@@ -164,11 +163,6 @@ export default {
 			try {
 				await queryInterface.bulkDelete(
 					Tenant.tableName,
-					{},
-					{ transaction }
-				);
-				await queryInterface.bulkDelete(
-					Blacklist.tableName,
 					{},
 					{ transaction }
 				);
