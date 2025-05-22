@@ -3,9 +3,9 @@ import { QueryInterface, DataTypes } from "sequelize";
 import type { AdminMenuModule as AdminMenuModuleType } from "../../../digitalniweb-types/models/globalData";
 
 import type { microservices } from "../../../digitalniweb-types/index";
-import AdminMenuModule from "../../models/globalData/adminMenuModule";
-import AdminMenu from "../../models/globalData/adminMenu";
-import Module from "../../models/globalData/module";
+import AdminMenuModule from "../../models/globalData/adminMenuModule.js";
+import AdminMenu from "../../models/globalData/adminMenu.js";
+import Module from "../../models/globalData/module.js";
 
 const microservice: Array<microservices> = ["globalData"];
 

@@ -4,7 +4,7 @@ import Status from "../../models/globalData/status.js";
 import type { Status as StatusType } from "../../../digitalniweb-types/models/globalData.js";
 
 import type { microservices } from "../../../digitalniweb-types/index.js";
-const microservice: Array<microservices> = ["billings"];
+const microservice: Array<microservices> = ["globalData"];
 
 export default {
 	up: async (queryInterface: QueryInterface): Promise<void> => {

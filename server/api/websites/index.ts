@@ -11,7 +11,7 @@ router.get("/getuuid/:id", controller.getWebsitesUuid);
 
 router.get("/url/:url", controller.getWebsiteByUrl);
 router.get("/testingwebsitescount", controller.testingWebsitesCount);
-router.get("/tenantwebsites", controller.findTenantWebsites);
+router.get("/tenantwebsites/:userId", controller.findTenantWebsites);
 
 router.post("/register/tenant", controller.registerTenant);
 router.post("/create", controller.createwebsite);

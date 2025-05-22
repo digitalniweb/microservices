@@ -111,7 +111,6 @@ export const authenticate = async function (
 		);
 		sendLoginError(wrongLogin);
 	}
-	console.log(timeSpan);
 
 	let loginLog = await LoginLog.findOne({
 		where: {
