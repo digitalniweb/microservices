@@ -15,6 +15,14 @@ export default async function () {
 
 	if (globalDataService) process.env.MICROSERVICE_ID = globalDataService.id;
 
+	await pubSubServiceInitGlobalData();
+}
+
+/**
+ * Registers default pubs and subs to globalData ms
+ * @returns void
+ */
+export async function pubSubServiceInitGlobalData() {
 	await Subscriber.subscribe("serviceRegistry-requestInformation");
 	await Publisher.publish("globalDataMessage", "registered");
 	Subscriber.on("message", async (channel, message) => {

@@ -49,80 +49,86 @@ export default async function () {
 	}
 
 	// all microservices but globalData
-	if (process.env.MICROSERVICE_NAME !== "globalData") {
-		await Subscriber.subscribe("globalDataMessage"); // subscribe to "globalDataMessage" messages from "globalData"
-		await Subscriber.psubscribe("serviceRegistry-responseInformation-*"); // handled in registerCurrentMicroservice()
-
-		// register (if not registered already) microservice/app after globalData is registered
-		Subscriber.on("message", async (channel, message) => {
-			if (channel === "globalDataMessage") {
-				if (message === "registered") {
-					let serviceRegistryInfo =
-						await requestServiceRegistryInfo();
-					if (!serviceRegistryInfo) {
-						consoleLogProduction(
-							"Couldn't get serviceRegistry information.",
-							"error"
-						);
-					}
-					try {
-						if (process.env.MICROSERVICE_NAME) {
-							// microservice
-							if (!process.env.MICROSERVICE_ID)
-								await registerCurrentMicroservice();
-							consoleLogProduction(
-								`'${process.env.MICROSERVICE_NAME}' registered on 'globalData registered'.`,
-								"success"
-							);
-						} else {
-							// ? i think thins never happens. Apps has their own separate application
-							// app
-							if (!process.env.APP_ID) await registerCurrentApp();
-							consoleLogProduction(
-								`'${process.env.APP_NAME}' registered on 'globalData registered'.`,
-								"success"
-							);
-						}
-					} catch (error) {
-						consoleLogProduction(
-							`Couldn't register '${
-								process.env.MICROSERVICE_NAME
-									? process.env.MICROSERVICE_NAME
-									: process.env.APP_NAME
-							}' after 'globalData registered'.`,
-							"error"
-						);
-					}
-				}
-			}
-		});
-
-		let serviceRegistryInfo = await requestServiceRegistryInfo();
-		if (!serviceRegistryInfo) {
-			consoleLogProduction(
-				"Couldn't get serviceRegistry information.",
-				"error"
-			);
-		}
-		try {
-			if (process.env.MICROSERVICE_NAME) {
-				// microservice
-				await registerCurrentMicroservice();
-			} else {
-				// app
-				await registerCurrentApp();
-			}
-		} catch (error) {
-			consoleLogProduction(
-				`Couldn't register '${
-					process.env.MICROSERVICE_NAME
-						? process.env.MICROSERVICE_NAME
-						: process.env.APP_NAME
-				}'.`,
-				"error"
-			);
-		}
-	}
+	await pubSubServiceInitMicroservices();
 
 	// all microservices
+}
+
+/**
+ * Registers default pubs and subs to all microservices but globalData
+ * @returns void
+ */
+export async function pubSubServiceInitMicroservices() {
+	if (process.env.MICROSERVICE_NAME === "globalData") return;
+	await Subscriber.subscribe("globalDataMessage"); // subscribe to "globalDataMessage" messages from "globalData"
+	await Subscriber.psubscribe("serviceRegistry-responseInformation-*"); // handled in registerCurrentMicroservice()
+
+	// register (if not registered already) microservice/app after globalData is registered
+	Subscriber.on("message", async (channel, message) => {
+		if (channel === "globalDataMessage") {
+			if (message === "registered") {
+				let serviceRegistryInfo = await requestServiceRegistryInfo();
+				if (!serviceRegistryInfo) {
+					consoleLogProduction(
+						"Couldn't get serviceRegistry information.",
+						"error"
+					);
+				}
+				try {
+					if (process.env.MICROSERVICE_NAME) {
+						// microservice
+						if (!process.env.MICROSERVICE_ID)
+							await registerCurrentMicroservice();
+						consoleLogProduction(
+							`'${process.env.MICROSERVICE_NAME}' registered on 'globalData registered'.`,
+							"success"
+						);
+					} else {
+						// ? i think thins never happens. Apps has their own separate application
+						// app
+						if (!process.env.APP_ID) await registerCurrentApp();
+						consoleLogProduction(
+							`'${process.env.APP_NAME}' registered on 'globalData registered'.`,
+							"success"
+						);
+					}
+				} catch (error) {
+					consoleLogProduction(
+						`Couldn't register '${
+							process.env.MICROSERVICE_NAME
+								? process.env.MICROSERVICE_NAME
+								: process.env.APP_NAME
+						}' after 'globalData registered'.`,
+						"error"
+					);
+				}
+			}
+		}
+	});
+
+	let serviceRegistryInfo = await requestServiceRegistryInfo();
+	if (!serviceRegistryInfo) {
+		consoleLogProduction(
+			"Couldn't get serviceRegistry information.",
+			"error"
+		);
+	}
+	try {
+		if (process.env.MICROSERVICE_NAME) {
+			// microservice
+			await registerCurrentMicroservice();
+		} else {
+			// app
+			await registerCurrentApp();
+		}
+	} catch (error) {
+		consoleLogProduction(
+			`Couldn't register '${
+				process.env.MICROSERVICE_NAME
+					? process.env.MICROSERVICE_NAME
+					: process.env.APP_NAME
+			}'.`,
+			"error"
+		);
+	}
 }
