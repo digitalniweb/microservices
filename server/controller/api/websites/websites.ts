@@ -1,10 +1,6 @@
 import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
 import { Op, Transaction } from "sequelize";
-import type {
-	CreationAttributes,
-	Includeable,
-	WhereOperators,
-} from "sequelize";
+import type { Includeable, WhereOperators } from "sequelize";
 import type { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
 import type { Website as WebsiteType } from "../../../../digitalniweb-types/models/websites.js";
@@ -13,7 +9,8 @@ import Url from "../../../models/websites/url.js";
 import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
 import WebsiteModule from "../../../models/websites/websiteModule.js";
-// import Language from "../../../models/globalData/language.js";
+import { getGlobalDataList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
+import type { createWebsiteRequest } from "../../../../digitalniweb-types/apps/communication/websites/index.js";
 
 export const test = async function (req: Request, res: Response) {
 	/* let websiteData: CreationAttributes<WebsiteType> = {
@@ -110,7 +107,7 @@ export const getWebsiteByUrl = async function (req: Request, res: Response) {
 		return await getWebsite(url, transaction);
 	});
 
-	res.send(website);
+	res.json(website);
 };
 
 async function getWebsite(
@@ -240,13 +237,9 @@ export const registerTenant = async function (
 	});
 };
 
-export const createwebsite = async function (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) {
-	let websiteData: CreationAttributes<WebsiteType> = req.body.website;
-	let websiteUrl: string = req.body.url;
+export const createwebsite = async function (req: Request, res: Response) {
+	let { websiteData, websiteUrl, languages } =
+		req.body as createWebsiteRequest;
 
 	if (!websiteData.contentMsId) {
 		let mainServiceRegistryContentId = await getMainServiceRegistryId(
@@ -276,15 +269,20 @@ export const createwebsite = async function (
 	let result: WebsiteType = await db.transaction(async (transaction) => {
 		if (!websiteData.WebsiteLanguageMutations)
 			websiteData.WebsiteLanguageMutations = [];
-		if (websiteData.languages) {
-			websiteData.languages.forEach((lang) => {
-				if (typeof lang === "number")
-					websiteData.WebsiteLanguageMutations?.push({
-						languageId: lang,
-					});
-				// !!! need to add if (typeof lang === "string") // type languages[]
-			});
-		}
+		let globalDataLanguages = await getGlobalDataList("languages");
+		languages.forEach((lang) => {
+			// if (typeof lang === "number")
+			// 	websiteData.WebsiteLanguageMutations?.push({
+			// 		languageId: lang,
+			// 	});
+			let languageId = globalDataLanguages?.find(
+				(e) => e.code === lang
+			)?.id;
+			if (languageId)
+				websiteData.WebsiteLanguageMutations?.push({
+					languageId,
+				});
+		});
 		if (websiteData.mainLanguageId)
 			websiteData.WebsiteLanguageMutations?.push({
 				languageId: websiteData.mainLanguageId,
@@ -314,11 +312,8 @@ export const createwebsite = async function (
 
 export const getWebsiteLanguageMutations = async function (
 	req: Request,
-	res: Response,
-	next: NextFunction
+	res: Response
 ) {
-	// only mutations of website, without main language (which I get with website information)
-
 	/* let { url } = req.query;
 		let WebsiteLanguageMutations = await db.transaction(
 			async (transaction) => {
