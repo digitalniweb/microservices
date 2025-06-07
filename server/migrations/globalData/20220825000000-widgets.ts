@@ -29,11 +29,6 @@ export default {
 						allowNull: false,
 						unique: true,
 					},
-					widgetName: {
-						type: DataTypes.STRING,
-						allowNull: false,
-						unique: true,
-					},
 					component: {
 						type: DataTypes.STRING,
 						allowNull: true,

@@ -67,7 +67,7 @@ export default async function () {
  * Registers default pubs and subs to all microservices but globalData
  * @returns void
  */
-export async function pubSubServiceInitMicroservices() {
+async function pubSubServiceInitMicroservices() {
 	if (process.env.MICROSERVICE_NAME === "globalData") return;
 	try {
 		await Subscriber.subscribe("globalDataMessage"); // subscribe to "globalDataMessage" messages from "globalData"
@@ -136,7 +136,7 @@ export async function pubSubServiceInitMicroservices() {
  * Registers default pubs and subs to globalData ms
  * @returns void
  */
-export async function pubSubServiceInitGlobalData() {
+async function pubSubServiceInitGlobalData() {
 	await Subscriber.subscribe("serviceRegistry-requestInformation");
 	await Publisher.publish("globalDataMessage", "registered");
 	Subscriber.on("message", async (channel, message) => {

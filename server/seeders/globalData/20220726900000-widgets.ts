@@ -20,7 +20,6 @@ export default {
 				await Widget.create(
 					{
 						name: "text",
-						widgetName: "Text",
 						component: "WebWidgetsText",
 						icon: "mdi-format-text",
 					},
