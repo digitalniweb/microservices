@@ -1,9 +1,10 @@
+// !!! zakomentovane bloky pomoci "//" je potreba predelat!!!
 import type { Request, Response, NextFunction } from "express";
 import db from "../../../../../models/index.js";
 import Article from "../../../../../models/content/article.js";
 import type { Article as ArticleType } from "../../../../../../digitalniweb-types/models/content.js";
-import WidgetContent from "../../../../../models/content/widgetContent.js";
-import type { WidgetContent as WidgetContentType } from "../../../../../../digitalniweb-types/models/content.js";
+import ArticleWidget from "../../../../../models/content/articleWidget.js";
+import type { ArticleWidget as ArticleWidgetType } from "../../../../../../digitalniweb-types/models/content.js";
 import type {
 	deleteArticleRequestBody,
 	editArticleRequestBody,
@@ -40,10 +41,9 @@ export const getArticle = async function (req: Request, res: Response) {
 	response.moduleInfo = article;
 
 	let widgetContents = await db.transaction(async (transaction) => {
-		return await WidgetContent.findAll({
+		return await ArticleWidget.findAll({
 			where: {
-				moduleRecordId: article.id,
-				moduleId: resourceIds.moduleId,
+				ArticleId: article.id,
 			},
 			order: [["order", "ASC"]],
 			transaction,
@@ -63,27 +63,27 @@ export const createArticle = async function (
 	res: Response
 ) {
 	let query = req.body;
-	if (!query.menu.data) {
+	if (!query.menu) {
 		res.send(false);
 		return;
 	}
 	let response = await db.transaction(async (transaction) => {
 		let moduleResponse = {} as moduleResponse<ArticleType>;
-		let article = await Article.create(query.menu.data, {
+		let article = await Article.create(query.menu, {
 			transaction,
 		});
-		let widgetContents = [] as WidgetContentType[];
-		if (query.widgetContent?.newWCs?.length) {
-			await WidgetContent.bulkCreate(
-				query.widgetContent?.newWCs.map((wc) => ({
+		let widgetContents = [] as ArticleWidgetType[];
+		if (query.widgets?.new?.length) {
+			await ArticleWidget.bulkCreate(
+				query.widgets?.new.map((wc) => ({
 					...wc,
-					moduleRecordId: article.id,
+					ArticleId: article.id,
 				})),
 				{ transaction }
 			);
 		}
-		widgetContents = await WidgetContent.findAll({
-			where: { moduleRecordId: article.id },
+		widgetContents = await ArticleWidget.findAll({
+			where: { ArticleId: article.id },
 			order: [["order", "ASC"]],
 			transaction,
 		});
@@ -133,49 +133,49 @@ export const editArticle = async function (
 			parentId: article.parentId,
 			order: article.order,
 		};
-		if (data.menu.data)
-			await article.update(data.menu.data, {
+		if (data.menu)
+			await article.update(data.menu, {
 				transaction,
 			});
-		if (data.widgetContent?.deletedWCs?.length) {
-			await WidgetContent.destroy({
-				where: { id: data.widgetContent?.deletedWCs },
+		if (data.widgets?.deletedWCs?.length) {
+			await ArticleWidget.destroy({
+				where: { id: data.widgets?.deletedWCs },
 				transaction,
 			});
 		}
-		if (data.widgetContent?.editedWCs?.length) {
+		if (data.widgets?.editedWCs?.length) {
 			await Promise.all(
-				data.widgetContent?.editedWCs.map((wc) => {
-					return WidgetContent.update(wc, {
+				data.widgets?.editedWCs.map((wc) => {
+					return ArticleWidget.update(wc, {
 						where: { id: wc.id },
 						transaction,
 					});
 				})
 			);
 		}
-		if (data.widgetContent?.newWCs?.length) {
-			await WidgetContent.bulkCreate(
-				data.widgetContent?.newWCs.map((wc) => ({
+		if (data.widgets?.newWCs?.length) {
+			await ArticleWidget.bulkCreate(
+				data.widgets?.newWCs.map((wc) => ({
 					...wc,
-					moduleRecordId: data.menu.id,
+					ArticleId: data.menu.id,
 				})),
 				{ transaction }
 			);
 		}
-		let widgetContents = await WidgetContent.findAll({
-			where: { moduleRecordId: data.menu.id },
+		let widgetContents = await ArticleWidget.findAll({
+			where: { ArticleId: data.menu.id },
 			order: [["order", "ASC"]],
 			transaction,
 		});
 
 		let currentLocationInfo: Pick<orderDataObject, "order" | "parentId"> = {
 			order:
-				data.menu.data?.order !== undefined
-					? data.menu.data?.order
+				data.menu?.data?.order !== undefined
+					? data.menu.data.order
 					: previousLocation.order,
 			parentId:
-				data.menu.data?.parentId !== undefined
-					? data.menu.data?.parentId
+				data.menu?.data?.parentId !== undefined
+					? data.menu.data.parentId
 					: previousLocation.parentId,
 		};
 

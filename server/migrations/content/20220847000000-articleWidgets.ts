@@ -1,9 +1,10 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-import WidgetContent from "../../models/content/widgetContent.js";
-import type { WidgetContent as WidgetContentType } from "../../../digitalniweb-types/models/content.js";
+import ArticleWidget from "../../models/content/articleWidget.js";
+import type { ArticleWidget as ArticleWidgetType } from "../../../digitalniweb-types/models/content.js";
 
 import type { microservices } from "../../../digitalniweb-types/index.js";
+import Article from "../../models/content/article.js";
 const microservice: Array<microservices> = ["content"];
 
 export default {
@@ -15,8 +16,8 @@ export default {
 		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.createTable<WidgetContentType>(
-				WidgetContent.tableName,
+			return await queryInterface.createTable<ArticleWidgetType>(
+				ArticleWidget.tableName,
 				{
 					id: {
 						allowNull: false,
@@ -28,32 +29,26 @@ export default {
 						allowNull: false,
 						type: DataTypes.INTEGER,
 					},
-					moduleId: {
+					widgetRowId: {
 						allowNull: false,
 						type: DataTypes.INTEGER,
 					},
-					moduleRecordId: {
+					ArticleId: {
 						allowNull: false,
 						type: DataTypes.INTEGER,
-					},
-					name: {
-						allowNull: false,
-						type: DataTypes.STRING,
-					},
-					content: {
-						allowNull: false,
-						type: DataTypes.TEXT,
-					},
-					options: {
-						type: DataTypes.JSON,
-					},
-					active: {
-						type: DataTypes.BOOLEAN,
-						defaultValue: false,
+						references: {
+							model: Article.tableName,
+							key: "id",
+						},
 					},
 					order: {
 						type: DataTypes.INTEGER,
 						defaultValue: 0,
+					},
+					active: {
+						allowNull: false,
+						type: DataTypes.BOOLEAN,
+						defaultValue: false,
 					},
 					createdAt: {
 						allowNull: false,
@@ -84,7 +79,7 @@ export default {
 		)
 			return;
 		await queryInterface.sequelize.transaction(async (transaction) => {
-			return await queryInterface.dropTable(WidgetContent.tableName, {
+			return await queryInterface.dropTable(ArticleWidget.tableName, {
 				transaction,
 			});
 		});
