@@ -12,14 +12,11 @@ export const getWebinformation = async function (req: Request, res: Response) {
 		res.json(null);
 		return;
 	}
-	let websiteInfo = await db.transaction(async (transaction) => {
-		return await WebInformation.findOne({
-			transaction,
-			where: {
-				websiteId: id,
-			},
-			include: [{ model: WebInformationLanguage }],
-		});
+	let websiteInfo = await WebInformation.findOne({
+		where: {
+			websiteId: id,
+		},
+		include: [{ model: WebInformationLanguage }],
 	});
 
 	res.json(websiteInfo);
@@ -33,8 +30,11 @@ export const createWebinformation = async function (
 	let include = undefined as Includeable[] | undefined;
 	if (webInformation.WebInformationLanguages)
 		include = [{ model: WebInformationLanguage }];
-	let webInfo = await WebInformation.create(webInformation, {
-		include,
+	let webInfo = await db.transaction(async (transaction) => {
+		return await WebInformation.create(webInformation, {
+			transaction,
+			include,
+		});
 	});
 
 	res.json(webInfo);

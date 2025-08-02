@@ -104,6 +104,8 @@ dist
 .tern-port
 
 
+package-lock.json
+
 .DS_Store
 
 /work_files
