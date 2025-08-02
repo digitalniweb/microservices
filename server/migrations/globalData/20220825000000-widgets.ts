@@ -29,6 +29,11 @@ export default {
 						allowNull: false,
 						unique: true,
 					},
+					model: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						unique: true,
+					},
 					component: {
 						type: DataTypes.STRING,
 						allowNull: true,
