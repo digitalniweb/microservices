@@ -25,6 +25,7 @@ export const webinformation = async function (req: Request, res: Response) {
 	const { id } = req.query as {
 		id: string;
 	};
+
 	if (!id || isNaN(id as any)) {
 		res.json(null);
 		return;

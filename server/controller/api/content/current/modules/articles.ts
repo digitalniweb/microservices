@@ -15,12 +15,12 @@ import type {
 import type { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
 import type { moduleResponse } from "../../../../../../digitalniweb-types/apps/communication/modules/index.js";
 import { Op } from "sequelize";
+import WidgetText from "../../../../../models/content/widgetText.js";
+import WidgetBanner from "../../../../../models/content/widgetBanner.js";
 export const getArticle = async function (req: Request, res: Response) {
 	let { resourceIds, url } = req.query as getArticleQuery;
 	if (typeof resourceIds === "string")
 		resourceIds = JSON.parse(resourceIds) as resourceIdsType;
-
-	let response = {} as moduleResponse<ArticleType>;
 
 	let article = await db.transaction(async (transaction) => {
 		return await Article.findOne({
@@ -30,28 +30,47 @@ export const getArticle = async function (req: Request, res: Response) {
 				websitesMsId: resourceIds.websitesMsId,
 				url,
 			},
+			include: [
+				// make this automatic for all associations
+				{
+					model: ArticleWidget,
+					where: { active: true },
+					paranoid: true,
+					order: [["order", "ASC"]],
+					include: [
+						{
+							model: WidgetText,
+						},
+						{
+							model: WidgetBanner,
+						},
+					],
+				},
+			],
 			transaction,
 		});
 	});
 
-	if (!article) {
-		res.send(null);
-		return;
-	}
-	response.moduleInfo = article;
+	res.send(article);
 
-	let widgetContents = await db.transaction(async (transaction) => {
+	/* let widgetContents = await db.transaction(async (transaction) => {
 		return await ArticleWidget.findAll({
 			where: {
 				ArticleId: article.id,
 			},
 			order: [["order", "ASC"]],
+			include: [
+				{
+					model: WidgetText,
+				},
+				{
+					model: WidgetBanner,
+				},
+			],
 			transaction,
 		});
 	});
-	response.widgetContents = widgetContents;
-
-	res.send(response);
+	response.widgetContents = widgetContents; */
 };
 
 /**
