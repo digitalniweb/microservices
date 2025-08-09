@@ -14,16 +14,17 @@
 		"buildSequelize": "npx rimraf --glob dist-sequelize-cjs/server/ && npx tsc --project tsconfig.sequelize.json && node -e \"require('fs').writeFileSync('./dist-sequelize-cjs/package.json', JSON.stringify({type: 'module'}))\"",
 		"migrations": "npm run buildSequelize && npx sequelize-cli db:migrate",
 		"migrationsUndoAll": "npm run buildSequelize && npx sequelize-cli db:migrate:undo:all",
-		"seeders": "npm run buildSequelize && npx sequelize-cli db:seed:all"
+		"seeders": "npm run buildSequelize && npx sequelize-cli db:seed:all",
+		"createDb": "node --experimental-strip-types --env-file=.env custom/standAlone/createDb.ts"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "digitalniweb.cz",
 	"license": "ISC",
 	"dependencies": {
 		"axios": "^1.11.0",
 		"dotenv": "^17.2.1",
 		"express": "^5.1.0",
-		"ioredis": "^5.6.1",
+		"ioredis": "^5.7.0",
 		"mariadb": "^3.4.5",
 		"mysql2": "^3.14.3",
 		"node-cache": "^5.1.2",
@@ -43,6 +44,6 @@
 		"@types/yargs": "^17.0.33",
 		"rimraf": "^6.0.1",
 		"tsc-watch": "^7.1.1",
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.2"
 	}
 }
