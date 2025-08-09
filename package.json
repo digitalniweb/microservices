@@ -15,7 +15,7 @@
 		"migrations": "npm run buildSequelize && npx sequelize-cli db:migrate",
 		"migrationsUndoAll": "npm run buildSequelize && npx sequelize-cli db:migrate:undo:all",
 		"seeders": "npm run buildSequelize && npx sequelize-cli db:seed:all",
-		"createDb": "node --experimental-strip-types --env-file=.env custom/standAlone/createDb.ts"
+		"createDb": "node --experimental-strip-types --env-file=.env digitalniweb-custom/helpers/createDb.ts"
 	},
 	"keywords": [],
 	"author": "digitalniweb.cz",
