@@ -49,6 +49,7 @@ export default {
 							min: 1,
 							max: 31,
 						},
+						defaultValue: null,
 					},
 					createdAt: {
 						allowNull: false,

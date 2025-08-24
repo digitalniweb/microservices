@@ -1,16 +1,26 @@
 import { requestPagination } from "../../../../digitalniweb-custom/helpers/requestPagination.js";
 import { Op, Transaction } from "sequelize";
-import type { Includeable, WhereOperators } from "sequelize";
+import type {
+	CreationAttributes,
+	Includeable,
+	WhereOperators,
+} from "sequelize";
 import type { Request, Response, NextFunction } from "express";
 import db from "../../../models/index.js";
-import type { Website as WebsiteType } from "../../../../digitalniweb-types/models/websites.js";
+import type {
+	WebsiteModule as WebsiteModuleType,
+	Website as WebsiteType,
+} from "../../../../digitalniweb-types/models/websites.js";
 import Website from "../../../models/websites/website.js";
 import Url from "../../../models/websites/url.js";
 import { getMainServiceRegistryId } from "../../../../digitalniweb-custom/helpers/serviceRegistryCache.js";
 import WebsiteLanguageMutation from "../../../models/websites/websiteLanguageMutation.js";
 import WebsiteModule from "../../../models/websites/websiteModule.js";
 import { getGlobalDataList } from "../../../../digitalniweb-custom/helpers/getGlobalData.js";
-import type { createWebsiteRequest } from "../../../../digitalniweb-types/apps/communication/websites/index.js";
+import type {
+	addWebsiteModulesRequest,
+	createWebsiteRequest,
+} from "../../../../digitalniweb-types/apps/communication/websites/index.js";
 
 export const test = async function (req: Request, res: Response) {
 	/* let websiteData: CreationAttributes<WebsiteType> = {
@@ -185,6 +195,45 @@ export const findTenantWebsites = async function (req: Request, res: Response) {
 	});
 	res.send(result);
 };
+
+export const addWebsiteModules = async function (req: Request, res: Response) {
+	const { moduleIds, websiteId }: addWebsiteModulesRequest = req.body;
+	if (!Array.isArray(moduleIds) || moduleIds.length === 0) {
+		res.send(false);
+		return;
+	}
+	let website = await Website.findOne({
+		where: { id: websiteId },
+		include: [{ model: WebsiteModule }],
+	});
+	if (!website) {
+		res.send(false);
+		return;
+	}
+
+	let modules = await getGlobalDataList("modules", "id", moduleIds);
+
+	if (!Array.isArray(modules) || modules.length === 0) {
+		res.send(false);
+		return;
+	}
+
+	let websiteModules = [] as CreationAttributes<WebsiteModuleType>[];
+
+	let todaysDate = new Date().getDate();
+	modules.forEach((module) => {
+		websiteModules.push({
+			moduleId: module.id,
+			active: true,
+			WebsiteId: website.id,
+			billingDay: module.creditsCost ? todaysDate : null,
+		});
+	});
+
+	await WebsiteModule.bulkCreate(websiteModules);
+	res.send(true);
+};
+
 export const registerTenant = async function (
 	req: Request,
 	res: Response,

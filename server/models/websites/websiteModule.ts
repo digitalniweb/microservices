@@ -34,6 +34,7 @@ const WebsiteModule = db.define<WebsiteModuleType>(
 				min: 1,
 				max: 31,
 			},
+			defaultValue: null,
 		},
 	},
 	{
