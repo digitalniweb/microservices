@@ -14,7 +14,10 @@
 		"strictNullChecks": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
-		"verbatimModuleSyntax": true
+		"verbatimModuleSyntax": true,
+		"paths": {
+			"~/*": ["./*"]
+		}
 		// "noImplicitAny": false
 		// "strictPropertyInitialization": false
 		// "strictNullChecks": false,
