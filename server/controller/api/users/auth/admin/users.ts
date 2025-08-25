@@ -5,6 +5,8 @@ import User from "../../../../../models/users/user.js";
 import { requestPagination } from "../../../../../../digitalniweb-custom/helpers/requestPagination.js";
 import Tenant from "../../../../../models/users/tenant.js";
 import type { IncludeOptions } from "sequelize";
+import type { User as UserType } from "../../../../../../digitalniweb-types/models/users";
+import Role from "../../../../../../server/models/globalData/role.js";
 
 export const registerAdmin = async function (req: Request, res: Response) {
 	await db.transaction(async (transaction) => {
@@ -15,14 +17,14 @@ export const registerAdmin = async function (req: Request, res: Response) {
 			role,
 			active: true,
 			nickname,
-		};
+		} as UserType;
 
 		insertData.role = role;
 		return await User.create(
 			{
 				...insertData,
 			},
-			{ transaction }
+			{ transaction, include: { model: Role } }
 		);
 	});
 	res.send({ message: "Registration complete" });

@@ -14,10 +14,10 @@
 		"strictNullChecks": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
-		"verbatimModuleSyntax": true,
-		"paths": {
-			"~/*": ["./*"]
-		}
+		"verbatimModuleSyntax": true
+		// "paths": { // this doesn't work for import of modules, just types
+		// 	"~/*": ["./*"]
+		// }
 		// "noImplicitAny": false
 		// "strictPropertyInitialization": false
 		// "strictNullChecks": false,
