@@ -32,8 +32,39 @@ import {
 	addMinutesToDate,
 	subtractMinutesFromDate,
 } from "../../../../digitalniweb-custom/functions/dateFunctions.js";
-import type { registerUser } from "../../../../digitalniweb-types/users.js";
+import type {
+	getWebsiteUserByEmailRequest,
+	registerAdmin as registerAdminType,
+	registerUser,
+} from "../../../../digitalniweb-types/users.js";
 
+export const getWebsiteUserByEmail = async function (
+	req: Request,
+	res: Response
+) {
+	const { websiteId, websitesMsId, email } = req.query as Record<
+		string,
+		string
+	>;
+	if (!websiteId || !websitesMsId || !email) {
+		res.send(false);
+		return;
+	}
+	const user = await User.findOne({
+		where: {
+			websiteId: Number(websiteId),
+			websitesMsId: Number(websitesMsId),
+			email: email,
+		} as getWebsiteUserByEmailRequest,
+		paranoid: true,
+		include: [
+			{
+				model: UserModule,
+			},
+		],
+	});
+	res.send(user);
+};
 export const getById = async function (req: Request, res: Response) {
 	if (!req.params.id) {
 		res.send(null);
@@ -194,6 +225,33 @@ function sendLoginError(loginLog: WrongLoginLogType | LoginLogType): never {
 		data: errorData,
 	};
 }
+
+export const registerAdmin = async function (req: Request, res: Response) {
+	await db.transaction(async (transaction) => {
+		let { user, userRole } = req.body as registerAdminType;
+		let role = await getGlobalDataList("roles", "name", [userRole]);
+		if (!role) {
+			res.send(false);
+			return;
+		}
+		let insertData = {
+			email: user.email,
+			password: user.password,
+			active: true,
+			roleId: role[0].id,
+			websiteId: user.websiteId,
+			websitesMsId: user.websitesMsId,
+		} as UserType;
+		if (user.nickname) insertData.nickname = user.nickname;
+		return await User.create(
+			{
+				...insertData,
+			},
+			{ transaction }
+		);
+	});
+	res.send(true);
+};
 
 /**
  *

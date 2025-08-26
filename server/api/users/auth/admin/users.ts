@@ -6,6 +6,4 @@ router.get("/", controller.allUsers);
 router.get("/user/:id", controller.findUser);
 router.get("/tenant/:id", controller.findTenant);
 
-router.post("/admin/register", controller.registerAdmin);
-
 export default router;
