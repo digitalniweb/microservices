@@ -13,8 +13,7 @@ import type {
 	saveNewArticleRequestBody,
 } from "../../../../../../digitalniweb-types/apps/communication/modules/articles.js";
 import type { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
-import type { moduleResponse } from "../../../../../../digitalniweb-types/apps/communication/modules/index.js";
-import { Op } from "sequelize";
+import { Op, type InferAttributes } from "sequelize";
 import WidgetText from "../../../../../models/content/widgetText.js";
 import WidgetBanner from "../../../../../models/content/widgetBanner.js";
 export const getArticle = async function (req: Request, res: Response) {
@@ -87,11 +86,9 @@ export const createArticle = async function (
 		return;
 	}
 	let response = await db.transaction(async (transaction) => {
-		let moduleResponse = {} as moduleResponse<ArticleType>;
 		let article = await Article.create(query.menu, {
 			transaction,
 		});
-		let widgetContents = [] as ArticleWidgetType[];
 		if (query.widgets?.new?.length) {
 			await ArticleWidget.bulkCreate(
 				query.widgets?.new.map((wc) => ({
@@ -101,11 +98,6 @@ export const createArticle = async function (
 				{ transaction }
 			);
 		}
-		widgetContents = await ArticleWidget.findAll({
-			where: { ArticleId: article.id },
-			order: [["order", "ASC"]],
-			transaction,
-		});
 
 		await Article.increment("order", {
 			where: {
@@ -123,9 +115,7 @@ export const createArticle = async function (
 			transaction,
 		});
 
-		moduleResponse.moduleInfo = article;
-		moduleResponse.widgetContents = widgetContents;
-		return moduleResponse;
+		return article;
 	});
 
 	res.send(response);
@@ -142,7 +132,6 @@ export const editArticle = async function (
 	let data = req.body;
 
 	let response = await db.transaction(async (transaction) => {
-		let moduleResponse = {} as moduleResponse<ArticleType>;
 		let article = await Article.findOne({
 			where: { id: data.menu.id },
 			transaction,
@@ -181,11 +170,6 @@ export const editArticle = async function (
 				{ transaction }
 			);
 		}
-		let widgetContents = await ArticleWidget.findAll({
-			where: { ArticleId: data.menu.id },
-			order: [["order", "ASC"]],
-			transaction,
-		});
 
 		let currentLocationInfo: Pick<orderDataObject, "order" | "parentId"> = {
 			order:
@@ -284,9 +268,7 @@ export const editArticle = async function (
 				})
 			);
 
-		moduleResponse.moduleInfo = article;
-		moduleResponse.widgetContents = widgetContents;
-		return moduleResponse;
+		return article;
 	});
 
 	res.send(response);
