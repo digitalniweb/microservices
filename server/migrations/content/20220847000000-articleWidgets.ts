@@ -36,6 +36,7 @@ export default {
 					ArticleId: {
 						allowNull: false,
 						type: DataTypes.INTEGER,
+						onDelete: "CASCADE",
 						references: {
 							model: Article.tableName,
 							key: "id",

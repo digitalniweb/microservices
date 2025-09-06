@@ -2,9 +2,7 @@
 import type { Request, Response, NextFunction } from "express";
 import db from "../../../../../models/index.js";
 import Article from "../../../../../models/content/article.js";
-import type { Article as ArticleType } from "../../../../../../digitalniweb-types/models/content.js";
 import ArticleWidget from "../../../../../models/content/articleWidget.js";
-import type { ArticleWidget as ArticleWidgetType } from "../../../../../../digitalniweb-types/models/content.js";
 import type {
 	deleteArticleRequestBody,
 	editArticleRequestBody,
@@ -13,13 +11,39 @@ import type {
 	saveNewArticleRequestBody,
 } from "../../../../../../digitalniweb-types/apps/communication/modules/articles.js";
 import type { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
-import { Op, type InferAttributes } from "sequelize";
-import WidgetText from "../../../../../models/content/widgetText.js";
-import WidgetBanner from "../../../../../models/content/widgetBanner.js";
+import { Op } from "sequelize";
+import type { Model, IncludeOptions, ModelStatic } from "sequelize";
+import { widgetsModelsArticle } from "../../../../../../digitalniweb-custom/variables/widgets.js";
+import { getGlobalDataList } from "../../../../../../digitalniweb-custom/helpers/getGlobalData.js";
+import type {
+	modulesWidgetsContent,
+	widgetModels,
+} from "../../../../../../digitalniweb-types/functionality/widgets.js";
+function getArticleWidgetAssociations(): IncludeOptions[] {
+	return Object.values(ArticleWidget.associations).reduce(
+		(
+			result: { model: ModelStatic<Model>; required: false }[],
+			association
+		) => {
+			if (
+				widgetsModelsArticle.includes(
+					association.target
+						?.name as (typeof widgetsModelsArticle)[number]
+				)
+			)
+				result.push({ model: association.target, required: false });
+			return result;
+		},
+		[]
+	);
+}
+
 export const getArticle = async function (req: Request, res: Response) {
 	let { resourceIds, url } = req.query as getArticleQuery;
 	if (typeof resourceIds === "string")
 		resourceIds = JSON.parse(resourceIds) as resourceIdsType;
+
+	const autoIncludes = getArticleWidgetAssociations();
 
 	let article = await db.transaction(async (transaction) => {
 		return await Article.findOne({
@@ -30,46 +54,79 @@ export const getArticle = async function (req: Request, res: Response) {
 				url,
 			},
 			include: [
-				// make this automatic for all associations
 				{
 					model: ArticleWidget,
 					where: { active: true },
+					required: false,
 					paranoid: true,
 					order: [["order", "ASC"]],
-					include: [
-						{
-							model: WidgetText,
-						},
-						{
-							model: WidgetBanner,
-						},
-					],
+					include: autoIncludes,
 				},
 			],
 			transaction,
 		});
 	});
+
+	sanitizeModuleWidgetFromUnusedModelAssociations(
+		article?.ArticleWidgets,
+		widgetsModelsArticle
+	);
 
 	res.send(article);
+};
 
-	/* let widgetContents = await db.transaction(async (transaction) => {
-		return await ArticleWidget.findAll({
+/**
+ * Module widgets (e.g. ArticleWidget) has only one widget - others are null. They are added in the includes when I add the includes automatically through model associations, so remove these.
+ */
+function sanitizeModuleWidgetFromUnusedModelAssociations(
+	widgetContent: modulesWidgetsContent[] | undefined,
+	modelNames: widgetModels[keyof widgetModels][] | undefined
+) {
+	if (!widgetContent || widgetContent.length === 0 || !modelNames) return;
+	widgetContent?.forEach((wc) => {
+		for (const wma of modelNames) {
+			// typeof wma == "string" is because of typescript and how it treats tuples ([] as const)
+			if (typeof wma == "string" && wc.dataValues[wma] === null) {
+				delete wc.dataValues[wma];
+			}
+		}
+	});
+}
+
+export const getArticleAdmin = async function (req: Request, res: Response) {
+	let { resourceIds, url } = req.query as getArticleQuery;
+	if (typeof resourceIds === "string")
+		resourceIds = JSON.parse(resourceIds) as resourceIdsType;
+
+	const autoIncludes = getArticleWidgetAssociations();
+
+	let article = await db.transaction(async (transaction) => {
+		return await Article.findOne({
 			where: {
-				ArticleId: article.id,
+				languageId: resourceIds.languageId,
+				websiteId: resourceIds.websiteId,
+				websitesMsId: resourceIds.websitesMsId,
+				url,
 			},
-			order: [["order", "ASC"]],
 			include: [
 				{
-					model: WidgetText,
-				},
-				{
-					model: WidgetBanner,
+					model: ArticleWidget,
+					required: false,
+					paranoid: false,
+					order: [["order", "ASC"]],
+					include: autoIncludes,
 				},
 			],
 			transaction,
 		});
 	});
-	response.widgetContents = widgetContents; */
+
+	sanitizeModuleWidgetFromUnusedModelAssociations(
+		article?.ArticleWidgets,
+		widgetsModelsArticle
+	);
+
+	res.send(article);
 };
 
 /**
@@ -80,22 +137,24 @@ export const createArticle = async function (
 	req: Request<{}, {}, saveNewArticleRequestBody, {}>,
 	res: Response
 ) {
-	let query = req.body;
-	if (!query.menu) {
+	let data = req.body;
+
+	if (!data.menu) {
 		res.send(false);
 		return;
 	}
 	let response = await db.transaction(async (transaction) => {
-		let article = await Article.create(query.menu, {
+		let article = await Article.create(data.menu, {
 			transaction,
 		});
-		if (query.widgets?.new?.length) {
+		if (data.widgets?.new?.length) {
+			const autoIncludes = getArticleWidgetAssociations();
 			await ArticleWidget.bulkCreate(
-				query.widgets?.new.map((wc) => ({
+				data.widgets?.new.map((wc) => ({
 					...wc,
 					ArticleId: article.id,
 				})),
-				{ transaction }
+				{ transaction, include: autoIncludes }
 			);
 		}
 
@@ -141,8 +200,8 @@ export const editArticle = async function (
 			parentId: article.parentId,
 			order: article.order,
 		};
-		if (data.menu)
-			await article.update(data.menu, {
+		if (data.menu.data)
+			await article.update(data.menu.data, {
 				transaction,
 			});
 		if (data.widgets?.deletedWCs?.length) {
@@ -152,22 +211,66 @@ export const editArticle = async function (
 			});
 		}
 		if (data.widgets?.editedWCs?.length) {
-			await Promise.all(
-				data.widgets?.editedWCs.map((wc) => {
-					return ArticleWidget.update(wc, {
-						where: { id: wc.id },
-						transaction,
-					});
-				})
+			// filter filters data but also creates shallow copy which we can use to update data
+			let editedWCs = data.widgets?.editedWCs.filter(
+				(wc) => typeof wc.id === "number"
 			);
+			let awIds = [] as number[];
+			editedWCs.forEach((wc) => {
+				awIds.push(wc.id as number);
+			});
+			if (awIds.length) {
+				let articleWidgets = await ArticleWidget.findAll({
+					where: {
+						id: awIds,
+					},
+				});
+
+				if (articleWidgets.length) {
+					let widgets = await getGlobalDataList("widgets");
+					for (let i = 0; i < articleWidgets.length; i++) {
+						const aw = articleWidgets[i];
+						const awEdits = editedWCs[i];
+						let widget = widgets?.find((w) => aw.widgetId === w.id);
+
+						const { id: idAw, ...updateFieldsAw } = awEdits;
+
+						if (widget?.model) {
+							let currentWidget = db.models[widget.model];
+							let widgetContentData = awEdits[widget.model];
+							if (widgetContentData) {
+								const { id, ...updateFields } =
+									widgetContentData;
+								await currentWidget.update(updateFields, {
+									where: {
+										id: aw.widgetRowId,
+									},
+									transaction,
+								});
+							}
+
+							if (widgetContentData?.name)
+								delete updateFieldsAw[
+									widgetContentData.name as widgetModels[number]
+								];
+						}
+
+						await ArticleWidget.update(updateFieldsAw, {
+							where: { id: idAw },
+							transaction,
+						});
+					}
+				}
+			}
 		}
 		if (data.widgets?.newWCs?.length) {
+			const autoIncludes = getArticleWidgetAssociations();
 			await ArticleWidget.bulkCreate(
 				data.widgets?.newWCs.map((wc) => ({
 					...wc,
 					ArticleId: data.menu.id,
 				})),
-				{ transaction }
+				{ transaction, include: autoIncludes }
 			);
 		}
 
@@ -285,7 +388,7 @@ export const deleteArticle = async function (
 			transaction,
 		});
 		if (!article) return null;
-		await article.destroy();
+		await article.destroy(); // figure out { force: true }
 		await Article.decrement("order", {
 			where: {
 				languageId: article.languageId,
