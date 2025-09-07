@@ -4,5 +4,10 @@
 		"module": "ESNext",
 		"outDir": "./dist-sequelize-cjs"
 	},
-	"include": ["./server/migrations", "./server/seeders", "./server/config"]
+	"include": [
+		"./server/migrations",
+		"./server/seeders",
+		"./server/config",
+		"./digitalniweb-types"
+	]
 }
