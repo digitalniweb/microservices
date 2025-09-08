@@ -67,7 +67,7 @@ const ArticleWidget = db.define<ArticleWidgetType>(
 ArticleWidget.belongsTo(Article);
 Article.hasMany(ArticleWidget);
 
-ArticleWidget.afterDestroy(async (aw) => {
+ArticleWidget.afterDestroy(async (aw, options) => {
 	let widgets = await getGlobalDataList("widgets");
 	if (!widgets) return;
 	let widget = widgets?.find((w) => aw.widgetId === w.id);
@@ -77,6 +77,7 @@ ArticleWidget.afterDestroy(async (aw) => {
 		where: {
 			id: aw.widgetRowId,
 		},
+		transaction: options.transaction,
 	});
 });
 export default ArticleWidget;

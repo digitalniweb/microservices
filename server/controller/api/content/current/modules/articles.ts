@@ -156,6 +156,14 @@ export const createArticle = async function (
 				})),
 				{ transaction, include: autoIncludes }
 			);
+			let newArticle = await Article.findByPk(article.id, {
+				transaction,
+				include: {
+					model: ArticleWidget,
+					include: autoIncludes,
+				},
+			});
+			if (newArticle) article = newArticle;
 		}
 
 		await Article.increment("order", {
