@@ -5,6 +5,7 @@ import { DataTypes } from "sequelize";
 import db from "../index.js";
 
 import type { Article as ArticleType } from "../../../digitalniweb-types/models/content.js";
+import { getGlobalDataList } from "../../../digitalniweb-custom/helpers/getGlobalData.js";
 
 const Article = db.define<ArticleType>(
 	"Article",
@@ -91,5 +92,22 @@ const Article = db.define<ArticleType>(
 );
 
 Article.belongsTo(Article, { as: "parent", foreignKey: "parentId" });
+Article.beforeDestroy(async (article, options) => {
+	if (!options.force) return;
+	let articleWidgets = await article.getArticleWidgets();
+	let widgets = await getGlobalDataList("widgets");
+	if (!widgets) return;
+	articleWidgets.forEach(async (aw) => {
+		let widget = widgets?.find((w) => aw.widgetId === w.id);
+		if (!widget?.model) return;
+		let currentWidget = db.models[widget.model];
+		await currentWidget?.destroy({
+			where: {
+				id: aw.widgetRowId,
+			},
+			transaction: options.transaction,
+		});
+	});
+});
 
 export default Article;

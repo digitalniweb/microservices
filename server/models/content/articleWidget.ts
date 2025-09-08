@@ -64,6 +64,9 @@ const ArticleWidget = db.define<ArticleWidgetType>(
 // }
 // console.log(getModelAssociation(ArticleWidget, "WidgetText"));
 
+ArticleWidget.belongsTo(Article);
+Article.hasMany(ArticleWidget);
+
 ArticleWidget.afterDestroy(async (aw) => {
 	let widgets = await getGlobalDataList("widgets");
 	if (!widgets) return;

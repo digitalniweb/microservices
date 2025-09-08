@@ -388,7 +388,7 @@ export const deleteArticle = async function (
 			transaction,
 		});
 		if (!article) return null;
-		await article.destroy(); // figure out { force: true }
+		await article.destroy();
 		await Article.decrement("order", {
 			where: {
 				languageId: article.languageId,
