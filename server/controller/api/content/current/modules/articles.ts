@@ -156,6 +156,14 @@ export const createArticle = async function (
 				})),
 				{ transaction, include: autoIncludes }
 			);
+			let newArticle = await Article.findByPk(article.id, {
+				transaction,
+				include: {
+					model: ArticleWidget,
+					include: autoIncludes,
+				},
+			});
+			if (newArticle) article = newArticle;
 		}
 
 		await Article.increment("order", {
@@ -388,7 +396,7 @@ export const deleteArticle = async function (
 			transaction,
 		});
 		if (!article) return null;
-		await article.destroy(); // figure out { force: true }
+		await article.destroy();
 		await Article.decrement("order", {
 			where: {
 				languageId: article.languageId,
