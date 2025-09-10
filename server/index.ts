@@ -91,10 +91,10 @@ try {
 
 		if (process.env.APP_ID) {
 			logObject.callee.serviceType = "app";
-			logObject.callee.serviceId = process.env.APP_ID;
+			logObject.callee.serviceId = Number(process.env.APP_ID);
 		} else if (process.env.MICROSERVICE_ID) {
 			logObject.callee.serviceType = "microservice";
-			logObject.callee.serviceId = process.env.MICROSERVICE_ID;
+			logObject.callee.serviceId = Number(process.env.MICROSERVICE_ID);
 		}
 
 		if (req.query) logObject.req.query = req.query;
