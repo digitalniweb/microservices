@@ -1,7 +1,7 @@
-import { QueryInterface, DataTypes } from "sequelize";
+import { DataTypes, QueryInterface } from "sequelize";
 
-import WidgetText from "../../models/content/widgetText.js";
 import type { WidgetText as WidgetTextType } from "../../../digitalniweb-types/models/content.js";
+import WidgetText from "../../models/content/widgetText.js";
 
 import type { microservices } from "../../../digitalniweb-types/index.js";
 const microservice: Array<microservices> = ["content"];
@@ -34,11 +34,11 @@ export default {
 					},
 					content: {
 						allowNull: false,
-						type: DataTypes.STRING,
+						type: DataTypes.TEXT,
 					},
 					options: {
 						allowNull: true,
-						type: DataTypes.STRING,
+						type: DataTypes.JSON,
 					},
 				},
 				{
