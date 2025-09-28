@@ -1,12 +1,12 @@
 "use strict";
 
-import { DataTypes, type Model, type ModelStatic } from "sequelize";
+import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
+import { getGlobalDataList } from "../../../digitalniweb-custom/helpers/getGlobalData.js";
 import type { ArticleWidget as ArticleWidgetType } from "../../../digitalniweb-types/models/content.js";
 import Article from "./article.js";
-import { getGlobalDataList } from "../../../digitalniweb-custom/helpers/getGlobalData.js";
 
 const ArticleWidget = db.define<ArticleWidgetType>(
 	"ArticleWidget",
@@ -30,7 +30,7 @@ const ArticleWidget = db.define<ArticleWidgetType>(
 		},
 		widgetRowId: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			allowNull: true,
 		},
 		order: {
 			type: DataTypes.INTEGER,

@@ -1,7 +1,7 @@
-import { QueryInterface, DataTypes } from "sequelize";
+import { DataTypes, QueryInterface } from "sequelize";
 
-import ArticleWidget from "../../models/content/articleWidget.js";
 import type { ArticleWidget as ArticleWidgetType } from "../../../digitalniweb-types/models/content.js";
+import ArticleWidget from "../../models/content/articleWidget.js";
 
 import type { microservices } from "../../../digitalniweb-types/index.js";
 import Article from "../../models/content/article.js";
@@ -30,7 +30,7 @@ export default {
 						type: DataTypes.INTEGER,
 					},
 					widgetRowId: {
-						allowNull: false,
+						allowNull: true,
 						type: DataTypes.INTEGER,
 					},
 					ArticleId: {
