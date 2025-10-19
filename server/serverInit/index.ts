@@ -1,15 +1,19 @@
 import type { microservices } from "../../digitalniweb-types/index.js";
 
-import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 import Publisher from "./../../digitalniweb-custom/helpers/publisherService.js";
+import Subscriber from "./../../digitalniweb-custom/helpers/subscriberService.js";
 
+import fs from "fs";
+
+import path from "path";
+import { pathToFileURL } from "url";
+import { getServiceRegistryInfo } from "../../custom/helpers/globalData/serviceRegistry.js";
+import { consoleLogProduction } from "../../digitalniweb-custom/helpers/logger.js";
 import {
-	registerCurrentMicroservice,
 	registerCurrentApp,
+	registerCurrentMicroservice,
 	requestServiceRegistryInfo,
 } from "../../digitalniweb-custom/helpers/serviceRegistryCache.js";
-import { consoleLogProduction } from "../../digitalniweb-custom/helpers/logger.js";
-import { getServiceRegistryInfo } from "../../custom/helpers/globalData/serviceRegistry.js";
 
 // import loadModels from "../loadModels.js";
 
@@ -100,6 +104,31 @@ async function pubSubServiceInitMicroservices() {
 									: process.env.APP_NAME
 							}' after 'globalData registered'.`,
 							"error"
+						);
+					}
+
+					try {
+						let assocFile = path.resolve(
+							process.cwd(),
+							`dist/server/models/${process.env.MICROSERVICE_NAME}/associationsGlobalData.js`
+						);
+
+						if (fs.existsSync(assocFile)) {
+							let assocFileUrl = pathToFileURL(assocFile);
+							let associationsGlobalData = await import(
+								assocFileUrl.href
+							);
+							associationsGlobalData.createAssociationsGlobalData();
+						}
+					} catch (error) {
+						consoleLogProduction(
+							error,
+							"error",
+							`Associations dependent on 'globalData' of '${
+								process.env.MICROSERVICE_NAME
+									? process.env.MICROSERVICE_NAME
+									: process.env.APP_NAME
+							}' after 'Subscriber service connected' failed.`
 						);
 					}
 				}
