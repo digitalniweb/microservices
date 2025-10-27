@@ -42,8 +42,8 @@ const WidgetText = db.define<WidgetTextType>(
 				return options;
 			},
 			set(value) {
-				let options = value;
-				if (typeof value === "string") options = JSON.stringify(value);
+				let options = value as widgetTextOptions | string;
+				if (typeof value !== "string") options = JSON.stringify(value);
 				this.setDataValue("options", options as widgetTextOptions);
 			},
 		},
