@@ -35,16 +35,15 @@ const WidgetText = db.define<WidgetTextType>(
 		options: {
 			type: DataTypes.JSON,
 			allowNull: true,
-			// set() and get() work only on direct manipulation not in includes (associations) so it is useless in here
 			// get() {
 			// 	let options = this.getDataValue("options");
 			// 	if (typeof options === "string") return JSON.parse(options);
 			// 	return options;
 			// },
 			// set(value) {
-			// 	let options = value as serializableJSON<widgetTextOptions> | string;
+			// 	let options = value as widgetTextOptions | string;
 			// 	if (typeof value !== "string") options = JSON.stringify(value);
-			// 	this.setDataValue("options", options);
+			// 	this.setDataValue("options", options as widgetTextOptions);
 			// },
 		},
 	},
