@@ -35,11 +35,11 @@ const WidgetText = db.define<WidgetTextType>(
 		options: {
 			type: DataTypes.JSON,
 			allowNull: true,
-			// get() {
-			// 	let options = this.getDataValue("options");
-			// 	if (typeof options === "string") return JSON.parse(options);
-			// 	return options;
-			// },
+			get() {
+				let options = this.getDataValue("options");
+				if (typeof options === "string") return JSON.parse(options);
+				return options;
+			},
 			// set(value) {
 			// 	let options = value as widgetTextOptions | string;
 			// 	if (typeof value !== "string") options = JSON.stringify(value);
