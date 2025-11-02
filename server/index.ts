@@ -1,5 +1,5 @@
+import type { Express, NextFunction, Request, Response } from "express";
 import express from "express";
-import type { Express, ErrorRequestHandler } from "express";
 
 import languageSetter from "./middleware/language-setter.js";
 
@@ -8,15 +8,15 @@ import {
 	logErrorRoute,
 } from "./../digitalniweb-custom/helpers/logger.js";
 
-import type { logObject } from "../digitalniweb-types/logger.js";
 import type { errorResponse } from "../digitalniweb-types/errors.js";
+import type { logObject } from "../digitalniweb-types/logger.js";
 
 import apiRoutes from "./api/index.js";
 
-import serverInit from "./serverInit/index.js";
 import type { SqlError } from "mariadb";
-import isObjectEmpty from "../digitalniweb-custom/functions/isObjectEmpty.js";
 import { getUTCDateTime } from "../digitalniweb-custom/functions/dateFunctions.js";
+import isObjectEmpty from "../digitalniweb-custom/functions/isObjectEmpty.js";
+import serverInit from "./serverInit/index.js";
 
 try {
 	await serverInit();
@@ -40,7 +40,7 @@ try {
 
 	app.use("/api/", apiRoutes);
 
-	app.use(<ErrorRequestHandler>((error: any, req, res, next) => {
+	app.use((error: any, req: Request, res: Response, _next: NextFunction) => {
 		// in express middleware throw error in catch block instead of next({}: any});
 
 		let messageTranslate: undefined | string;
@@ -138,7 +138,7 @@ try {
 		logErrorRoute(logObject);
 
 		res.status(statusCode).send(errorResponse);
-	}));
+	});
 
 	const port = process.env.PORT;
 	if (port === undefined) throw new Error("You haven't specified port!");
