@@ -4,7 +4,6 @@ import { DataTypes } from "sequelize";
 
 import db from "../index.js";
 
-import type { widgetTextOptions } from "../../../digitalniweb-types/functionality/widgets.js";
 import type { WidgetText as WidgetTextType } from "../../../digitalniweb-types/models/content.js";
 import Article from "./article.js";
 import ArticleWidget from "./articleWidget.js";
@@ -41,11 +40,11 @@ const WidgetText = db.define<WidgetTextType>(
 				if (typeof options === "string") return JSON.parse(options);
 				return options;
 			},
-			set(value) {
-				let options = value;
-				if (typeof value === "string") options = JSON.stringify(value);
-				this.setDataValue("options", options as widgetTextOptions);
-			},
+			// set(value) {
+			// 	let options = value as widgetTextOptions | string;
+			// 	if (typeof value !== "string") options = JSON.stringify(value);
+			// 	this.setDataValue("options", options as widgetTextOptions);
+			// },
 		},
 	},
 	{

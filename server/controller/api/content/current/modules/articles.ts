@@ -1,8 +1,10 @@
 // !!! zakomentovane bloky pomoci "//" je potreba predelat!!!
-import type { Request, Response, NextFunction } from "express";
-import db from "../../../../../models/index.js";
-import Article from "../../../../../models/content/article.js";
-import ArticleWidget from "../../../../../models/content/articleWidget.js";
+import type { Request, Response } from "express";
+import type { IncludeOptions, Model, ModelStatic } from "sequelize";
+import { Op } from "sequelize";
+import { getGlobalDataList } from "../../../../../../digitalniweb-custom/helpers/getGlobalData.js";
+import { widgetsModelsArticle } from "../../../../../../digitalniweb-custom/variables/widgets.js";
+import type { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
 import type {
 	deleteArticleRequestBody,
 	editArticleRequestBody,
@@ -10,15 +12,13 @@ import type {
 	orderDataObject,
 	saveNewArticleRequestBody,
 } from "../../../../../../digitalniweb-types/apps/communication/modules/articles.js";
-import type { resourceIdsType } from "../../../../../../digitalniweb-types/apps/communication/index.js";
-import { Op } from "sequelize";
-import type { Model, IncludeOptions, ModelStatic } from "sequelize";
-import { widgetsModelsArticle } from "../../../../../../digitalniweb-custom/variables/widgets.js";
-import { getGlobalDataList } from "../../../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import type {
 	modulesWidgetsContent,
 	widgetModels,
 } from "../../../../../../digitalniweb-types/functionality/widgets.js";
+import Article from "../../../../../models/content/article.js";
+import ArticleWidget from "../../../../../models/content/articleWidget.js";
+import db from "../../../../../models/index.js";
 function getArticleWidgetAssociations(): IncludeOptions[] {
 	return Object.values(ArticleWidget.associations).reduce(
 		(

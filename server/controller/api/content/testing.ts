@@ -1,9 +1,9 @@
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 import Article from "../../../models/content/article.js";
 import ArticleWidget from "../../../models/content/articleWidget.js";
-import WidgetText from "../../../models/content/widgetText.js";
 import WidgetBanner from "../../../models/content/widgetBanner.js";
+import WidgetText from "../../../models/content/widgetText.js";
 
 export const test = async function (
 	req: Request,
