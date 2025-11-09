@@ -93,7 +93,7 @@ export const getArticleAdmin = async function (req: Request, res: Response) {
 			websitesMsId: resourceIds.websitesMsId,
 			url,
 		},
-		false
+		true
 	);
 
 	res.send(article);
@@ -351,7 +351,7 @@ export const editArticle = async function (
 
 		article = await getArticleWithIncludes(
 			{ id: data.menu.id },
-			false,
+			true,
 			transaction
 		);
 
