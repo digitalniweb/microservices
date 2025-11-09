@@ -17,6 +17,7 @@ export const test = async function (
 				model: ArticleWidget,
 				where: { active: true },
 				paranoid: true,
+				separate: true, // this makes ordering work
 				order: [["order", "ASC"]],
 				include: [
 					{

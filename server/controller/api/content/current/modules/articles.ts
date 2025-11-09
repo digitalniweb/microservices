@@ -59,6 +59,7 @@ export const getArticle = async function (req: Request, res: Response) {
 					where: { active: true },
 					required: false,
 					paranoid: true,
+					separate: true, // this makes ordering work
 					order: [["order", "ASC"]],
 					include: autoIncludes,
 				},
@@ -113,6 +114,7 @@ export const getArticleAdmin = async function (req: Request, res: Response) {
 					model: ArticleWidget,
 					required: false,
 					paranoid: false,
+					separate: true, // this makes ordering work
 					order: [["order", "ASC"]],
 					include: autoIncludes,
 				},
