@@ -1,6 +1,11 @@
-// !!! zakomentovane bloky pomoci "//" je potreba predelat!!!
 import type { Request, Response } from "express";
-import type { IncludeOptions, Model, ModelStatic } from "sequelize";
+import type {
+	IncludeOptions,
+	Model,
+	ModelStatic,
+	Transaction,
+	WhereOptions,
+} from "sequelize";
 import { Op } from "sequelize";
 import { getGlobalDataList } from "../../../../../../digitalniweb-custom/helpers/getGlobalData.js";
 import { widgetsModelsArticle } from "../../../../../../digitalniweb-custom/variables/widgets.js";
@@ -16,7 +21,9 @@ import type {
 	modulesWidgetsContent,
 	widgetModels,
 } from "../../../../../../digitalniweb-types/functionality/widgets.js";
+import type { Article as ArticleType } from "../../../../../../digitalniweb-types/models/content.js";
 import Article from "../../../../../models/content/article.js";
+
 import ArticleWidget from "../../../../../models/content/articleWidget.js";
 import db from "../../../../../models/index.js";
 function getArticleWidgetAssociations(): IncludeOptions[] {
@@ -43,34 +50,14 @@ export const getArticle = async function (req: Request, res: Response) {
 	if (typeof resourceIds === "string")
 		resourceIds = JSON.parse(resourceIds) as resourceIdsType;
 
-	const autoIncludes = getArticleWidgetAssociations();
-
-	let article = await db.transaction(async (transaction) => {
-		return await Article.findOne({
-			where: {
-				languageId: resourceIds.languageId,
-				websiteId: resourceIds.websiteId,
-				websitesMsId: resourceIds.websitesMsId,
-				url,
-			},
-			include: [
-				{
-					model: ArticleWidget,
-					where: { active: true },
-					required: false,
-					paranoid: true,
-					separate: true, // this makes ordering work
-					order: [["order", "ASC"]],
-					include: autoIncludes,
-				},
-			],
-			transaction,
-		});
-	});
-
-	sanitizeModuleWidgetFromUnusedModelAssociations(
-		article?.ArticleWidgets,
-		widgetsModelsArticle
+	let article = await getArticleWithIncludes(
+		{
+			languageId: resourceIds.languageId,
+			websiteId: resourceIds.websiteId,
+			websitesMsId: resourceIds.websitesMsId,
+			url,
+		},
+		true
 	);
 
 	res.send(article);
@@ -99,33 +86,14 @@ export const getArticleAdmin = async function (req: Request, res: Response) {
 	if (typeof resourceIds === "string")
 		resourceIds = JSON.parse(resourceIds) as resourceIdsType;
 
-	const autoIncludes = getArticleWidgetAssociations();
-
-	let article = await db.transaction(async (transaction) => {
-		return await Article.findOne({
-			where: {
-				languageId: resourceIds.languageId,
-				websiteId: resourceIds.websiteId,
-				websitesMsId: resourceIds.websitesMsId,
-				url,
-			},
-			include: [
-				{
-					model: ArticleWidget,
-					required: false,
-					paranoid: false,
-					separate: true, // this makes ordering work
-					order: [["order", "ASC"]],
-					include: autoIncludes,
-				},
-			],
-			transaction,
-		});
-	});
-
-	sanitizeModuleWidgetFromUnusedModelAssociations(
-		article?.ArticleWidgets,
-		widgetsModelsArticle
+	let article = await getArticleWithIncludes(
+		{
+			languageId: resourceIds.languageId,
+			websiteId: resourceIds.websiteId,
+			websitesMsId: resourceIds.websitesMsId,
+			url,
+		},
+		false
 	);
 
 	res.send(article);
@@ -381,11 +349,46 @@ export const editArticle = async function (
 				})
 			);
 
+		article = await getArticleWithIncludes(
+			{ id: data.menu.id },
+			false,
+			transaction
+		);
+
 		return article;
 	});
 
 	res.send(response);
 };
+
+async function getArticleWithIncludes(
+	where: WhereOptions,
+	articleWidgetParanoid: boolean,
+	transaction?: Transaction
+): Promise<ArticleType | null> {
+	const autoIncludes = getArticleWidgetAssociations();
+	let article = await Article.findOne({
+		where,
+		include: [
+			{
+				model: ArticleWidget,
+				required: false,
+				paranoid: articleWidgetParanoid,
+				separate: true, // this makes ordering work
+				order: [["order", "ASC"]],
+				include: autoIncludes,
+			},
+		],
+		transaction,
+	});
+	if (article)
+		sanitizeModuleWidgetFromUnusedModelAssociations(
+			article?.ArticleWidgets,
+			widgetsModelsArticle
+		);
+
+	return article;
+}
 
 export const deleteArticle = async function (
 	req: Request<{}, {}, deleteArticleRequestBody, {}>,
